@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { redirect } from 'next/navigation'
-import { FiUpload, FiFile, FiX } from 'react-icons/fi'
 import { RESEARCH_CATEGORIES } from '@/lib/constants'
 
 type SubmissionStep = 'draft' | 'review' | 'success'

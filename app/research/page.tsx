@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { RESEARCH_CATEGORIES } from '@/lib/constants'
 
 interface ResearchPaper {

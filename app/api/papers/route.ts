@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../auth/[...nextauth]/route'
-import { getPapers, savePaper, Paper } from '@/lib/db'
+import { getPapers, savePaper } from '@/lib/db'
 import { uploadFile } from '@/lib/upload'
 
 export async function POST(req: Request) {
@@ -19,7 +19,6 @@ export async function POST(req: Request) {
     const file = formData.get('file') as File
     const abstract = formData.get('abstract')
 
-    // Upload to Vercel Blob Storage
     const buffer = Buffer.from(await file.arrayBuffer())
     const filename = `papers/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '')}`
     const pdfUrl = await uploadFile(buffer, filename)
@@ -37,7 +36,7 @@ export async function POST(req: Request) {
       imageUrl: '/research-1.jpg'
     }
 
-    const updatedPapers = savePaper(paper)
+    savePaper(paper)
     return NextResponse.json(paper)
   } catch (error) {
     console.error('API Error:', error)
@@ -45,7 +44,7 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET(req: Request) {
+export async function GET() {
   const session = await getServerSession(authOptions)
   const papers = getPapers()
   
