@@ -1,0 +1,157 @@
+'use client'
+import { signIn } from 'next-auth/react'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import Link from 'next/link'
+
+export default function SignIn() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+    
+    const result = await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    })
+
+    if (result?.ok) {
+      router.push('/employee-panel')
+    } else {
+      setError('Invalid credentials')
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex">
+      {/* Left side - Image */}
+      <div className="hidden lg:block relative w-1/2">
+        <Image
+          src="/login-bg.jpg"
+          alt="Think tank interior"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
+        <div className="absolute top-1/3 left-12 right-12">
+          <Link href="/" className="text-white text-2xl font-serif font-bold">PERRIN</Link>
+          <h2 className="mt-8 text-4xl font-serif font-bold text-white leading-tight">
+            Welcome to the <br />Employee Portal
+          </h2>
+          <p className="mt-4 text-gray-300 max-w-md">
+            Access your research dashboard, upload publications, and collaborate with fellow experts.
+          </p>
+        </div>
+      </div>
+
+      {/* Right side - Login Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-8 lg:px-16 bg-gray-50">
+        <div className="w-full max-w-md">
+          <div className="text-center mb-12">
+            <Link href="/" className="text-3xl font-serif font-bold text-gray-900 lg:hidden">
+              PERRIN
+            </Link>
+            <h1 className="mt-6 text-2xl font-bold text-gray-900">
+              Employee Sign In
+            </h1>
+          </div>
+
+          {error && (
+            <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Email Address
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-none
+                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                  text-gray-900 bg-white"
+                placeholder="name@perrin.org"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-none
+                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                  text-gray-900 bg-white"
+                placeholder="Enter your password"
+              />
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                  Remember me
+                </label>
+              </div>
+
+              <Link
+                href="/auth/forgot-password"
+                className="text-sm font-medium text-blue-600 hover:text-blue-500"
+              >
+                Forgot password?
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full flex justify-center py-4 px-4 border border-transparent
+                text-sm font-medium text-white bg-blue-600 hover:bg-blue-700
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+                disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {isLoading ? 'Signing in...' : 'Sign in'}
+            </button>
+          </form>
+
+          <div className="mt-8 text-center">
+            <span className="text-sm text-gray-500">
+              Need help? Contact{' '}
+              <a href="mailto:it@perrin.org" className="text-blue-600 hover:text-blue-500">
+                IT Support
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+} 
