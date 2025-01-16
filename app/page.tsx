@@ -104,7 +104,7 @@ export default function Home() {
                 <div className="p-6">
                   <span className="text-blue-600 font-semibold text-sm">Policy Analysis</span>
                   <h3 className="text-xl font-bold mt-2 mb-3">Understanding Global Economic Trends</h3>
-                  <p className="text-gray-600 mb-4">An in-depth analysis of emerging economic patterns and their implications for policy makers.</p>
+                  <p className="text-gray-600 mb-4">An in-depth analysis of emerging economic patterns and their implications for policy makers</p>
                   <Link href="/research/1" className="text-blue-600 font-semibold hover:text-blue-700">
                     Read More →
                   </Link>
