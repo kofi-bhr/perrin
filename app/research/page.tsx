@@ -3,19 +3,19 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { RESEARCH_CATEGORIES } from '@/lib/constants'
 
-interface ResearchPaper {
+interface Paper {
   id: string
   title: string
   description: string
   category: string
   author: string
   date: string
-  imageUrl: string
-  pdfUrl: string
+  status: string
+  url: string
 }
 
 export default function ResearchPage() {
-  const [papers, setPapers] = useState<ResearchPaper[]>([])
+  const [papers, setPapers] = useState<Paper[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [isLoading, setIsLoading] = useState(true)
@@ -23,11 +23,14 @@ export default function ResearchPage() {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const response = await fetch('/api/papers', {
-          credentials: 'include'
-        })
+        console.log('Fetching papers from server...')
+        const response = await fetch('http://localhost:3001/papers')
+        if (!response.ok) {
+          throw new Error('Failed to fetch papers')
+        }
         const data = await response.json()
-        setPapers(data.filter((paper: ResearchPaper) => paper.status === 'approved'))
+        console.log('Received papers:', data)
+        setPapers(data)
       } catch (error) {
         console.error('Error fetching papers:', error)
       } finally {
@@ -38,12 +41,18 @@ export default function ResearchPage() {
     fetchPapers()
   }, [])
 
+  const handlePdfClick = (url: string) => {
+    window.open(url, '_blank')
+  }
+
   const filteredPapers = papers.filter(paper => {
     const matchesCategory = selectedCategory === 'all' || paper.category === selectedCategory
     const matchesSearch = paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          paper.description.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
   })
+
+  if (isLoading) return <div>Loading...</div>
 
   return (
     <div>
@@ -106,40 +115,26 @@ export default function ResearchPage() {
       </div>
 
       {/* Research Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        {isLoading ? (
-          <div className="text-center py-12">Loading...</div>
-        ) : filteredPapers.length === 0 ? (
-          <div className="text-center py-12 text-gray-500">
-            No research papers found.
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPapers.map(paper => (
-              <Link 
-                key={paper.id}
-                href={`/research/${paper.id}`}
-                className="bg-white shadow-sm hover:shadow-md transition-shadow group"
-              >
-                <div className="p-6">
-                  <span className="text-blue-600 text-sm font-semibold">
-                    {paper.category}
-                  </span>
-                  <h3 className="text-xl font-bold mt-2 mb-3 group-hover:text-blue-600 transition-colors">
-                    {paper.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-4">
-                    {paper.description}
-                  </p>
-                  <div className="flex items-center justify-between text-sm text-gray-500">
-                    <span>{paper.author}</span>
-                    <span>{new Date(paper.date).toLocaleDateString()}</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredPapers.map((paper) => (
+            <Link 
+              key={paper.id} 
+              href={`/research/${paper.id}`}
+              className="bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <h3 className="text-xl font-medium text-gray-900 mb-2">{paper.title}</h3>
+              <p className="text-gray-600 mb-4">{paper.description}</p>
+              <div className="flex justify-between items-center text-sm text-gray-500">
+                <span>{paper.category}</span>
+                <span>{new Date(paper.date).toLocaleDateString()}</span>
+              </div>
+              <div className="mt-4 text-blue-600 hover:text-blue-500">
+                View Details →
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   )

@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { FiCheck, FiX, FiClock } from 'react-icons/fi'
 
 interface Paper {
@@ -12,55 +11,62 @@ interface Paper {
   author: string
   date: string
   status: 'pending' | 'approved' | 'rejected'
+  url: string
 }
 
 export default function AdminPanel() {
-  const { data: session, status } = useSession()
+  const router = useRouter()
   const [papers, setPapers] = useState<Paper[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [selectedStatus, setSelectedStatus] = useState<string>('all')
 
   useEffect(() => {
-    const fetchPapers = async () => {
-      try {
-        const response = await fetch('/api/papers', {
-          credentials: 'include'
-        })
-        const data = await response.json()
-        setPapers(data)
-      } catch (error) {
-        console.error('Error fetching papers:', error)
-      } finally {
-        setIsLoading(false)
-      }
+    // Check if user is admin
+    const token = localStorage.getItem('token')
+    const email = localStorage.getItem('userEmail')
+    
+    if (!token || email !== 'employee@perrin.org') {
+      router.push('/auth/signin')
+      return
     }
 
     fetchPapers()
-  }, [])
+  }, [router])
+
+  const fetchPapers = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch('http://localhost:3001/admin/papers', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      if (!response.ok) throw new Error('Failed to fetch papers')
+      const data = await response.json()
+      console.log('Admin papers:', data) // Debug log
+      setPapers(data)
+    } catch (error) {
+      console.error('Error fetching papers:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleStatusUpdate = async (paperId: string, newStatus: string) => {
     try {
-      const response = await fetch(`/api/papers/${paperId}`, {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`http://localhost:3001/papers/${paperId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
-        credentials: 'include',
-        body: JSON.stringify({ status: newStatus }),
+        body: JSON.stringify({ status: newStatus })
       })
 
       if (response.ok) {
-        const refreshResponse = await fetch('/api/papers', {
-          credentials: 'include',
-          cache: 'no-store'
-        })
-        const refreshedData = await refreshResponse.json()
-        setPapers(refreshedData)
-        
-        localStorage.setItem('papers', JSON.stringify(refreshedData))
+        fetchPapers() // Refresh the papers list
       } else {
-        const errorData = await response.json()
-        console.error('Error updating paper status:', errorData)
         alert('Failed to update paper status. Please try again.')
       }
     } catch (error) {
@@ -68,10 +74,6 @@ export default function AdminPanel() {
       alert('Failed to update paper status. Please try again.')
     }
   }
-
-  if (status === 'loading') return <div>Loading...</div>
-  if (!session) redirect('/api/auth/signin')
-  if (session.user?.email !== 'employee@perrin.org') redirect('/')
 
   const filteredPapers = papers.filter(paper => 
     selectedStatus === 'all' || paper.status === selectedStatus
@@ -87,6 +89,8 @@ export default function AdminPanel() {
         return <FiClock className="text-yellow-500" />
     }
   }
+
+  if (isLoading) return <div>Loading...</div>
 
   return (
     <div className="bg-gray-50">
@@ -137,92 +141,83 @@ export default function AdminPanel() {
         </div>
 
         {/* Submissions Table */}
-        {isLoading ? (
-          <div className="text-center py-12">Loading...</div>
-        ) : (
-          <div className="bg-white shadow-sm">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead>
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Title & Author
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Category
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {filteredPapers.map((paper) => (
-                  <tr key={paper.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">{paper.title}</div>
-                      <div className="text-sm text-gray-500">
-                        {paper.author} • {new Date(paper.date).toLocaleDateString()}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
-                        {paper.category}
+        <div className="bg-white shadow-sm overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Paper
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Category
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Author
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {filteredPapers.map((paper) => (
+                <tr key={paper.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4">
+                    <div className="text-sm font-medium text-gray-900">{paper.title}</div>
+                    <div className="text-sm text-gray-500">{paper.description}</div>
+                    {paper.url && (
+                      <a 
+                        href={paper.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-500 text-sm mt-1 inline-block"
+                      >
+                        View PDF →
+                      </a>
+                    )}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-500">
+                    {paper.category}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-500">
+                    {paper.author}
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center">
+                      {getStatusIcon(paper.status)}
+                      <span className="ml-2 text-sm text-gray-900">
+                        {paper.status.charAt(0).toUpperCase() + paper.status.slice(1)}
                       </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center">
-                        {getStatusIcon(paper.status)}
-                        <span className={`ml-2 px-2 py-1 text-xs rounded-full ${
-                          paper.status === 'approved' 
-                            ? 'bg-green-100 text-green-800'
-                            : paper.status === 'pending'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {paper.status.charAt(0).toUpperCase() + paper.status.slice(1)}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex space-x-2">
-                        {paper.status !== 'approved' && (
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex space-x-2">
+                      {paper.status === 'pending' && (
+                        <>
                           <button
                             onClick={() => handleStatusUpdate(paper.id, 'approved')}
-                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                            className="text-green-600 hover:text-green-900"
                           >
-                            <FiCheck className="mr-1" />
                             Approve
                           </button>
-                        )}
-                        {paper.status !== 'rejected' && (
                           <button
                             onClick={() => handleStatusUpdate(paper.id, 'rejected')}
-                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                            className="text-red-600 hover:text-red-900"
                           >
-                            <FiX className="mr-1" />
                             Reject
                           </button>
-                        )}
-                        {paper.status !== 'pending' && (
-                          <button
-                            onClick={() => handleStatusUpdate(paper.id, 'pending')}
-                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-                          >
-                            <FiClock className="mr-1" />
-                            Reset
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

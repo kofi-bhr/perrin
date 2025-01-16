@@ -2,7 +2,6 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { Providers } from './providers'
 
 const inter = Inter({ subsets: ['latin'] })
 const playfair = Playfair_Display({ 
@@ -23,13 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`h-full ${playfair.variable}`}>
       <body className={`${inter.className} min-h-screen flex flex-col`}>
-        <Providers>
-          <Navbar />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
-        </Providers>
+        <Navbar />
+        <main className="flex-grow">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   )

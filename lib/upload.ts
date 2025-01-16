@@ -2,14 +2,21 @@ import { writeFile } from 'fs/promises'
 import path from 'path'
 
 export async function uploadFile(file: Buffer, filename: string) {
-  try {
-    const publicDir = path.join(process.cwd(), 'public')
-    const papersDir = path.join(publicDir, 'papers')
-    const filePath = path.join(papersDir, filename)
-    await writeFile(filePath, file)
-    return `/papers/${filename}`
-  } catch (error) {
-    console.error('Upload error:', error)
-    throw error
-  }
+  const formData = new FormData()
+  const blob = new Blob([file], { type: 'application/pdf' })
+  formData.append('file', blob, filename)
+
+  // Get token from localStorage
+  const token = localStorage.getItem('token')
+
+  const response = await fetch('http://localhost:3001/upload', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    },
+    body: formData
+  })
+
+  const data = await response.json()
+  return data.url
 } 

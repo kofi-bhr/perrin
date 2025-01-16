@@ -1,7 +1,7 @@
 'use client'
-import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
-import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import { FiDownload, FiCopy, FiCheck, FiArrowLeft } from 'react-icons/fi'
 
 interface Paper {
   id: string
@@ -11,55 +11,107 @@ interface Paper {
   abstract: string
   author: string
   date: string
-  pdfUrl: string
-  imageUrl: string
+  status: string
+  url: string
 }
 
 export default function ResearchPaperPage() {
   const params = useParams()
+  const router = useRouter()
   const [paper, setPaper] = useState<Paper | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     const fetchPaper = async () => {
       try {
-        const response = await fetch('/api/papers', {
-          credentials: 'include'
+        const token = localStorage.getItem('token')
+        const headers: HeadersInit = {
+          'Content-Type': 'application/json'
+        }
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`
+        }
+
+        const response = await fetch(`http://localhost:3001/papers/${params.id}`, {
+          headers
         })
-        const papers = await response.json()
-        const foundPaper = papers.find((p: Paper) => p.id === params.id)
-        setPaper(foundPaper || null)
+        
+        if (!response.ok) {
+          throw new Error('Paper not found')
+        }
+        
+        const data = await response.json()
+        setPaper(data)
       } catch (error) {
         console.error('Error fetching paper:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
-    fetchPaper()
+    if (params.id) {
+      fetchPaper()
+    }
   }, [params.id])
 
-  if (!paper) return <div>Loading...</div>
+  const handleCiteCopy = () => {
+    if (!paper) return
+    
+    const citation = `${paper.author} (${new Date(paper.date).getFullYear()}). ${paper.title}. Perrin Institute.`
+    navigator.clipboard.writeText(citation)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  if (isLoading) return (
+    <div className="min-h-screen bg-gray-50 pt-24 px-4">
+      <div className="max-w-7xl mx-auto">
+        Loading...
+      </div>
+    </div>
+  )
+
+  if (!paper) return (
+    <div className="min-h-screen bg-gray-50 pt-24 flex items-center justify-center">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Paper Not Found</h2>
+        <p className="text-gray-600 mb-4">
+          This paper may not exist or may have been removed.
+        </p>
+        <button
+          onClick={() => router.push('/research')}
+          className="inline-flex items-center text-blue-600 hover:text-blue-500"
+        >
+          <FiArrowLeft className="mr-2" />
+          Back to Research
+        </button>
+      </div>
+    </div>
+  )
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative h-[50vh] bg-gray-900">
-        <Image
-          src={paper.imageUrl || '/research-1.jpg'}
-          alt={paper.title}
-          fill
-          className="object-cover brightness-[0.35]"
-          priority
-        />
+      <div className="relative bg-gray-900 pt-24">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
-        <div className="relative z-10 h-full flex items-end">
-          <div className="max-w-7xl mx-auto px-4 w-full pb-12">
-            <div className="max-w-3xl">
-              <span className="text-blue-400 font-semibold tracking-wider uppercase">
+        <div className="relative z-10">
+          <div className="max-w-7xl mx-auto px-4 py-12">
+            <button
+              onClick={() => router.push('/research')}
+              className="inline-flex items-center text-gray-300 hover:text-white mb-6"
+            >
+              <FiArrowLeft className="mr-2" />
+              Back to Research
+            </button>
+            <div className="space-y-4">
+              <div className="text-blue-400 text-sm font-semibold">
                 {paper.category}
-              </span>
-              <h1 className="mt-4 text-4xl font-serif font-bold text-white leading-tight">
+              </div>
+              <h1 className="text-4xl font-serif font-bold text-white">
                 {paper.title}
               </h1>
-              <div className="mt-4 flex items-center text-gray-300 space-x-4">
+              <div className="flex items-center gap-4 text-sm text-gray-300">
                 <span>{paper.author}</span>
                 <span>•</span>
                 <span>{new Date(paper.date).toLocaleDateString()}</span>
@@ -69,56 +121,50 @@ export default function ResearchPaperPage() {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-3 gap-12">
-          {/* Main Content */}
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* PDF Viewer */}
           <div className="md:col-span-2">
-            <div className="prose max-w-none">
-              <h2 className="text-2xl font-bold mb-4">Abstract</h2>
-              <p className="whitespace-pre-line">{paper.abstract}</p>
-            </div>
-            
-            {/* PDF Viewer */}
-            <div className="mt-8">
-              <h2 className="text-2xl font-bold mb-4">Full Paper</h2>
-              <div className="aspect-[16/9] bg-gray-100">
-                <object
-                  data={paper.pdfUrl}
-                  type="application/pdf"
-                  className="w-full h-full"
-                >
-                  <iframe
-                    src={`${paper.pdfUrl}#toolbar=0`}
-                    className="w-full h-full"
-                    title={paper.title}
-                  />
-                </object>
-              </div>
+            <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+              <iframe
+                src={paper.url}
+                className="w-full h-[800px]"
+                title={paper.title}
+              />
             </div>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
-            <div className="bg-gray-50 p-6">
-              <h3 className="text-lg font-bold mb-4">Download & Share</h3>
-              <div className="space-y-4">
+            {/* Actions */}
+            <div className="bg-white shadow-sm rounded-lg p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Actions</h3>
+              <div className="space-y-3">
                 <a
-                  href={paper.pdfUrl}
+                  href={paper.url}
                   download
-                  className="block w-full bg-blue-600 text-white text-center py-3 hover:bg-blue-700 transition-colors"
+                  className="flex items-center gap-2 text-blue-600 hover:text-blue-500"
                 >
-                  Download PDF
+                  <FiDownload className="text-lg" />
+                  <span>Download PDF</span>
                 </a>
-                <div className="flex space-x-4">
-                  <button className="flex-1 bg-gray-200 py-2 hover:bg-gray-300 transition-colors">
-                    Share
-                  </button>
-                  <button className="flex-1 bg-gray-200 py-2 hover:bg-gray-300 transition-colors">
-                    Cite
-                  </button>
-                </div>
+                <button
+                  onClick={handleCiteCopy}
+                  className="flex items-center gap-2 text-blue-600 hover:text-blue-500"
+                >
+                  {copied ? <FiCheck className="text-lg" /> : <FiCopy className="text-lg" />}
+                  <span>{copied ? 'Copied!' : 'Copy Citation'}</span>
+                </button>
               </div>
+            </div>
+
+            {/* Abstract */}
+            <div className="bg-white shadow-sm rounded-lg p-6">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Abstract</h3>
+              <p className="text-gray-600">
+                {paper.abstract || paper.description}
+              </p>
             </div>
           </div>
         </div>

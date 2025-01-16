@@ -1,5 +1,4 @@
 'use client'
-import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
@@ -17,16 +16,31 @@ export default function SignIn() {
     setIsLoading(true)
     setError('')
     
-    const result = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-    })
+    try {
+      console.log('Attempting login...')
+      const response = await fetch('http://localhost:3001/login', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      })
 
-    if (result?.ok) {
-      router.push('/employee-panel')
-    } else {
-      setError('Invalid credentials')
+      console.log('Response received:', response.status)
+      if (response.ok) {
+        const { token } = await response.json()
+        localStorage.setItem('token', token)
+        localStorage.setItem('userEmail', email)
+        router.push('/employee-panel')
+      } else {
+        console.log('Login failed')
+        setError('Invalid credentials')
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      setError('Connection error')
+    } finally {
       setIsLoading(false)
     }
   }

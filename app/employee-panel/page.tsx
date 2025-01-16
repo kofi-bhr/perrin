@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { useSession } from 'next-auth/react'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { RESEARCH_CATEGORIES } from '@/lib/constants'
 
 type SubmissionStep = 'draft' | 'review' | 'success'
@@ -11,13 +10,15 @@ interface Paper {
   title: string
   description: string
   category: string
+  abstract: string
   author: string
   date: string
   status: 'pending' | 'approved' | 'rejected'
+  url: string
 }
 
 export default function EmployeePanel() {
-  const { data: session, status } = useSession()
+  const router = useRouter()
   const [step, setStep] = useState<SubmissionStep>('draft')
   const [papers, setPapers] = useState<Paper[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -28,31 +29,34 @@ export default function EmployeePanel() {
     abstract: '',
     file: null as File | null,
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-    const fetchPapers = async () => {
-      try {
-        const response = await fetch('/api/papers', {
-          credentials: 'include'
-        })
-        const data = await response.json()
-        // Only show the current user's papers
-        setPapers(data.filter((paper: Paper) => paper.author === session?.user?.name))
-      } catch (error) {
-        console.error('Error fetching papers:', error)
-      } finally {
-        setIsLoading(false)
-      }
+    const token = localStorage.getItem('token')
+    if (!token) {
+      router.push('/auth/signin')
+      return
     }
 
-    if (session) {
-      fetchPapers()
-    }
-  }, [session])
+    fetchPapers()
+  }, [router])
 
-  if (status === 'loading') return <div>Loading...</div>
-  if (!session) redirect('/api/auth/signin')
+  const fetchPapers = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch('http://localhost:3001/admin/papers', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      const data = await response.json()
+      console.log('Fetched papers:', data) // Debug log
+      setPapers(data)
+    } catch (error) {
+      console.error('Error fetching papers:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -62,21 +66,33 @@ export default function EmployeePanel() {
     }
 
     if (step === 'review') {
-      setIsSubmitting(true)
-      const data = new FormData()
+      const formDataToSend = new FormData()
       Object.entries(formData).forEach(([key, value]) => {
-        if (value) data.append(key, value)
+        if (value) {
+          if (key === 'file') {
+            formDataToSend.append('file', value)
+          } else {
+            formDataToSend.append(key, value.toString())
+          }
+        }
       })
 
       try {
-        const response = await fetch('/api/papers', {
+        const token = localStorage.getItem('token')
+        console.log('Uploading with token:', token) // Debug log
+        const response = await fetch('http://localhost:3001/upload', {
           method: 'POST',
-          body: data,
-          credentials: 'include',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: formDataToSend
         })
         
         if (response.ok) {
+          const data = await response.json()
+          console.log('Upload successful:', data) // Debug log
           setStep('success')
+          fetchPapers() // Refresh the papers list
           setFormData({
             title: '',
             description: '',
@@ -84,23 +100,31 @@ export default function EmployeePanel() {
             abstract: '',
             file: null,
           })
+        } else {
+          const error = await response.json()
+          console.error('Upload failed:', error) // Debug log
+          alert('Error uploading research')
         }
       } catch (error) {
         console.error('Error uploading research:', error)
         alert('Error uploading research')
-      } finally {
-        setIsSubmitting(false)
       }
     }
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      setFormData(prev => ({ ...prev, file: e.target.files![0] }))
+    }
+  }
+
+  if (isLoading) return <div>Loading...</div>
+
   return (
     <div className="bg-gray-50">
-      {/* Hero Section with gradient */}
+      {/* Hero Section */}
       <div className="relative h-[30vh] bg-gray-900">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
-        
-        {/* Header Content */}
         <div className="relative z-10 h-full flex items-end">
           <div className="max-w-7xl mx-auto px-4 pb-8 w-full">
             <h1 className="text-4xl font-serif font-bold text-white">Employee Dashboard</h1>
@@ -216,7 +240,7 @@ export default function EmployeePanel() {
                       <input
                         type="file"
                         accept=".pdf"
-                        onChange={(e) => setFormData(prev => ({ ...prev, file: e.target.files?.[0] || null }))}
+                        onChange={handleFileChange}
                         className="w-full"
                         required
                       />
@@ -235,9 +259,7 @@ export default function EmployeePanel() {
                     )}
                     <button
                       type="submit"
-                      disabled={isSubmitting}
-                      className="ml-auto px-6 py-3 bg-blue-600 text-white hover:bg-blue-700 
-                        disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="ml-auto px-6 py-3 bg-blue-600 text-white hover:bg-blue-700"
                     >
                       {step === 'draft' ? 'Review Submission' : 'Submit Research'}
                     </button>
@@ -247,47 +269,15 @@ export default function EmployeePanel() {
             )}
           </div>
 
-          {/* Stats and Quick Links */}
-          <div className="space-y-6">
-            {/* Stats Card */}
-            <div className="bg-white shadow-sm p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Your Statistics</h2>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Total Publications</span>
-                  <span className="text-2xl font-bold text-gray-900">12</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">This Month</span>
-                  <span className="text-2xl font-bold text-gray-900">2</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Downloads</span>
-                  <span className="text-2xl font-bold text-gray-900">1.2k</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Links */}
-            <div className="bg-white shadow-sm p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Links</h2>
-              <nav className="space-y-3">
-                <a href="#" className="block text-blue-600 hover:text-blue-500">View My Publications</a>
-                <a href="#" className="block text-blue-600 hover:text-blue-500">Research Guidelines</a>
-                <a href="#" className="block text-blue-600 hover:text-blue-500">Publication Style Guide</a>
-                <a href="#" className="block text-blue-600 hover:text-blue-500">Help & Support</a>
-              </nav>
-            </div>
-
+          {/* Submissions List */}
+          <div className="space-y-4">
             <div className="bg-white shadow-sm p-6">
               <h2 className="text-lg font-bold text-gray-900 mb-4">Your Submissions</h2>
-              <div className="space-y-4">
-                {isLoading ? (
-                  <div className="text-gray-500">Loading submissions...</div>
-                ) : papers.length === 0 ? (
-                  <div className="text-gray-500">No submissions yet</div>
-                ) : (
-                  papers.map(paper => (
+              {papers.length === 0 ? (
+                <p className="text-gray-500">No submissions yet</p>
+              ) : (
+                <div className="space-y-4">
+                  {papers.map(paper => (
                     <div key={paper.id} className="border-l-4 border-blue-600 pl-4">
                       <h3 className="font-medium">{paper.title}</h3>
                       <div className="flex justify-between items-center mt-1 text-sm">
@@ -304,10 +294,20 @@ export default function EmployeePanel() {
                           {paper.status.charAt(0).toUpperCase() + paper.status.slice(1)}
                         </span>
                       </div>
+                      {paper.url && (
+                        <a 
+                          href={paper.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-500 text-sm mt-2 inline-block"
+                        >
+                          View PDF →
+                        </a>
+                      )}
                     </div>
-                  ))
-                )}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

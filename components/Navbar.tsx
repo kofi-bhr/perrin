@@ -1,18 +1,24 @@
 'use client'
 import Link from 'next/link'
-import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
-  const { data: session } = useSession()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
   const pathname = usePathname()
   
   const isTransparentPage = ['/', '/employee-panel', '/admin'].includes(pathname)
-  const isAdmin = session?.user?.email === 'employee@perrin.org'
 
   useEffect(() => {
+    // Check login status and admin status
+    const token = localStorage.getItem('token')
+    const email = localStorage.getItem('userEmail')
+    setIsLoggedIn(!!token)
+    setIsAdmin(email === 'employee@perrin.org')
+
+    // Scroll handler
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0)
     }
@@ -22,6 +28,13 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isTransparentPage])
+
+  const handleSignOut = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('userEmail')
+    setIsLoggedIn(false)
+    setIsAdmin(false)
+  }
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
@@ -71,7 +84,7 @@ export default function Navbar() {
               >
                 About
               </Link>
-              {session && (
+              {isLoggedIn && (
                 <Link 
                   href="/employee-panel" 
                   className={`font-medium hover:opacity-75 transition-opacity ${
@@ -103,9 +116,9 @@ export default function Navbar() {
             >
               Contact
             </Link>
-            {session ? (
-              <Link
-                href="/api/auth/signout"
+            {isLoggedIn ? (
+              <button
+                onClick={handleSignOut}
                 className={`border-2 px-4 py-2 font-medium transition-colors ${
                   isScrolled 
                     ? 'border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white' 
@@ -113,10 +126,10 @@ export default function Navbar() {
                 }`}
               >
                 Sign Out
-              </Link>
+              </button>
             ) : (
               <Link
-                href="/api/auth/signin"
+                href="/auth/signin"
                 className={`border-2 px-4 py-2 font-medium transition-colors ${
                   isScrolled 
                     ? 'border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white' 
