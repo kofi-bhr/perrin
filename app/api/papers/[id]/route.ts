@@ -3,10 +3,12 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '../../auth/options'
 import { updatePaper } from '@/lib/db'
 
+export const runtime = 'edge'
+
 export async function PATCH(
   request: Request,
   { params }: { params: { id: string } }
-): Promise<Response> {
+) {
   try {
     const session = await getServerSession(authOptions)
     
