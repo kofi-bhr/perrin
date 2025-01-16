@@ -23,7 +23,7 @@ export default function Home() {
                   Policy Research Institute
                 </span>
                 <h1 className="mt-4 text-7xl font-serif font-bold text-white leading-[1.15] tracking-tight drop-shadow-lg">
-                  Shaping Tomorrow's Policy Today
+                  Shaping Tomorrow&apos;s Policy Today
                 </h1>
               </div>
               <p className="text-xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-lg">
