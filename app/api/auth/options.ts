@@ -1,6 +1,5 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
 import type { NextAuthOptions } from 'next-auth'
-import { JWT } from 'next-auth/jwt'
 
 // Extend the built-in session types
 declare module 'next-auth' {
