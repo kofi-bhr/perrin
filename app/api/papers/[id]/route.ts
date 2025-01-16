@@ -2,18 +2,17 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../../auth/options'
 import { updatePaper } from '@/lib/db'
-import type { NextRequest } from 'next/server'
 
-type RouteParams = {
+interface RequestContext {
   params: {
     id: string
   }
 }
 
 export async function PATCH(
-  req: NextRequest,
-  { params }: RouteParams
-) {
+  request: Request,
+  { params }: RequestContext
+): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions)
     
@@ -21,7 +20,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { status } = await req.json()
+    const { status } = await request.json()
     const updatedPaper = updatePaper(params.id, { status })
     
     if (!updatedPaper) {
