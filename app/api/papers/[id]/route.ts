@@ -4,8 +4,8 @@ import { authOptions } from '../../auth/options'
 import { updatePaper } from '@/lib/db'
 
 export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
+  request: Request,
+  context: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -14,13 +14,13 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { status } = await req.json()
-    const updatedPaper = updatePaper(params.id, { status })
+    const { status } = await request.json()
+    const updatedPaper = updatePaper(context.params.id, { status })
     
     if (!updatedPaper) {
       return NextResponse.json({ 
         error: 'Paper not found',
-        requestedId: params.id
+        requestedId: context.params.id
       }, { status: 404 })
     }
     
