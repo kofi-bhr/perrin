@@ -2,10 +2,17 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../../auth/options'
 import { updatePaper } from '@/lib/db'
+import type { NextRequest } from 'next/server'
+
+type RouteParams = {
+  params: {
+    id: string
+  }
+}
 
 export async function PATCH(
-  request: Request,
-  context: { params: { id: string } }
+  req: NextRequest,
+  { params }: RouteParams
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -14,13 +21,13 @@ export async function PATCH(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { status } = await request.json()
-    const updatedPaper = updatePaper(context.params.id, { status })
+    const { status } = await req.json()
+    const updatedPaper = updatePaper(params.id, { status })
     
     if (!updatedPaper) {
       return NextResponse.json({ 
         error: 'Paper not found',
-        requestedId: context.params.id
+        requestedId: params.id
       }, { status: 404 })
     }
     
