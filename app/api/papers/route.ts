@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../auth/auth.config'
-import { getPapers, savePaper } from '@/lib/db'
+import { authOptions } from '../auth/options'
+import { getPapers, savePaper, Paper } from '@/lib/db'
 import { uploadFile } from '@/lib/upload'
 
 export async function POST(req: Request) {
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     const filename = `papers/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '')}`
     const pdfUrl = await uploadFile(buffer, filename)
 
-    const paper = {
+    const paper: Paper = {
       id: Date.now().toString(),
       title: title as string,
       description: description as string,
