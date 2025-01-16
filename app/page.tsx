@@ -27,7 +27,7 @@ export default function Home() {
                 </h1>
               </div>
               <p className="text-xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-lg">
-                Leading research institution dedicated to advancing public policy through rigorous analysis 
+                Leading research institution dedicated to advancing public policy through rigorous analysis
                 and innovative solutions for a more prosperous and equitable society.
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
