@@ -3,16 +3,10 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '../../auth/options'
 import { updatePaper } from '@/lib/db'
 
-interface RequestContext {
-  params: {
-    id: string
-  }
-}
-
 export async function PATCH(
   request: Request,
-  { params }: RequestContext
-): Promise<NextResponse> {
+  { params }: { params: { id: string } }
+): Promise<Response> {
   try {
     const session = await getServerSession(authOptions)
     
