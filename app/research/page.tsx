@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { RESEARCH_CATEGORIES } from '@/lib/constants'
+import LoadingSpinner from '@/components/LoadingSpinner'
 
 interface Paper {
   id: string
@@ -14,6 +15,8 @@ interface Paper {
   url: string
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+
 export default function ResearchPage() {
   const [papers, setPapers] = useState<Paper[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
@@ -24,7 +27,7 @@ export default function ResearchPage() {
     const fetchPapers = async () => {
       try {
         console.log('Fetching papers from server...')
-        const response = await fetch('http://localhost:3001/papers')
+        const response = await fetch(`${API_URL}/papers`)
         if (!response.ok) {
           throw new Error('Failed to fetch papers')
         }
@@ -52,7 +55,23 @@ export default function ResearchPage() {
     return matchesCategory && matchesSearch
   })
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="relative h-[40vh] bg-gray-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        <div className="relative z-10 h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 w-full">
+            <h1 className="text-5xl font-serif font-bold text-white mb-4">
+              Research & Publications
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <LoadingSpinner />
+      </div>
+    </div>
+  )
 
   return (
     <div>

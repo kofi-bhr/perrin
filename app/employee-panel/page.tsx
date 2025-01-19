@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { RESEARCH_CATEGORIES } from '@/lib/constants'
+import LoadingSpinner from '@/components/LoadingSpinner'
 
 type SubmissionStep = 'draft' | 'review' | 'success'
 
@@ -16,6 +17,8 @@ interface Paper {
   status: 'pending' | 'approved' | 'rejected'
   url: string
 }
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
 export default function EmployeePanel() {
   const router = useRouter()
@@ -43,13 +46,13 @@ export default function EmployeePanel() {
   const fetchPapers = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:3001/admin/papers', {
+      const response = await fetch(`${API_URL}/admin/papers`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
       const data = await response.json()
-      console.log('Fetched papers:', data) // Debug log
+      console.log('Fetched papers:', data)
       setPapers(data)
     } catch (error) {
       console.error('Error fetching papers:', error)
@@ -65,34 +68,31 @@ export default function EmployeePanel() {
       return
     }
 
-    if (step === 'review') {
-      const formDataToSend = new FormData()
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value) {
-          if (key === 'file') {
-            formDataToSend.append('file', value)
-          } else {
-            formDataToSend.append(key, value.toString())
-          }
-        }
-      })
+    if (step === 'review' && formData.file) {
+      const form = new FormData()
+      form.append('file', formData.file)
+      form.append('title', formData.title)
+      form.append('description', formData.description)
+      form.append('category', formData.category)
+      form.append('abstract', formData.abstract)
 
       try {
         const token = localStorage.getItem('token')
-        console.log('Uploading with token:', token) // Debug log
-        const response = await fetch('http://localhost:3001/upload', {
+        // Don't set Content-Type header - browser will set it with boundary for FormData
+        const response = await fetch(`${API_URL}/upload`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`
           },
-          body: formDataToSend
+          body: form
         })
-        
+
         if (response.ok) {
-          const data = await response.json()
-          console.log('Upload successful:', data) // Debug log
+          const paper = await response.json()
+          console.log('Upload successful:', paper)
           setStep('success')
-          fetchPapers() // Refresh the papers list
+          fetchPapers()
+          // Reset form
           setFormData({
             title: '',
             description: '',
@@ -102,12 +102,12 @@ export default function EmployeePanel() {
           })
         } else {
           const error = await response.json()
-          console.error('Upload failed:', error) // Debug log
-          alert('Error uploading research')
+          console.error('Upload failed:', error)
+          alert('Error uploading research: ' + (error.message || 'Unknown error'))
         }
       } catch (error) {
-        console.error('Error uploading research:', error)
-        alert('Error uploading research')
+        console.error('Error uploading:', error)
+        alert('Network error while uploading. Please try again.')
       }
     }
   }
@@ -118,7 +118,21 @@ export default function EmployeePanel() {
     }
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return (
+    <div className="bg-gray-50">
+      <div className="relative h-[30vh] bg-gray-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        <div className="relative z-10 h-full flex items-end">
+          <div className="max-w-7xl mx-auto px-4 pb-8 w-full">
+            <h1 className="text-4xl font-serif font-bold text-white">Employee Dashboard</h1>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <LoadingSpinner />
+      </div>
+    </div>
+  )
 
   return (
     <div className="bg-gray-50">

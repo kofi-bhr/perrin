@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { FiDownload, FiCopy, FiCheck, FiArrowLeft } from 'react-icons/fi'
+import LoadingSpinner from '@/components/LoadingSpinner'
 
 interface Paper {
   id: string
@@ -14,6 +15,8 @@ interface Paper {
   status: string
   url: string
 }
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
 export default function ResearchPaperPage() {
   const params = useParams()
@@ -33,7 +36,7 @@ export default function ResearchPaperPage() {
           headers['Authorization'] = `Bearer ${token}`
         }
 
-        const response = await fetch(`http://localhost:3001/papers/${params.id}`, {
+        const response = await fetch(`${API_URL}/papers/${params.id}`, {
           headers
         })
         
@@ -65,9 +68,9 @@ export default function ResearchPaperPage() {
   }
 
   if (isLoading) return (
-    <div className="min-h-screen bg-gray-50 pt-24 px-4">
-      <div className="max-w-7xl mx-auto">
-        Loading...
+    <div className="min-h-screen bg-gray-50 pt-24">
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <LoadingSpinner />
       </div>
     </div>
   )

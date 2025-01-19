@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { FiCheck, FiX, FiClock } from 'react-icons/fi'
+import LoadingSpinner from '@/components/LoadingSpinner'
 
 interface Paper {
   id: string
@@ -13,6 +14,8 @@ interface Paper {
   status: 'pending' | 'approved' | 'rejected'
   url: string
 }
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
 
 export default function AdminPanel() {
   const router = useRouter()
@@ -36,14 +39,14 @@ export default function AdminPanel() {
   const fetchPapers = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:3001/admin/papers', {
+      const response = await fetch(`${API_URL}/admin/papers`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
       if (!response.ok) throw new Error('Failed to fetch papers')
       const data = await response.json()
-      console.log('Admin papers:', data) // Debug log
+      console.log('Admin papers:', data)
       setPapers(data)
     } catch (error) {
       console.error('Error fetching papers:', error)
@@ -55,7 +58,7 @@ export default function AdminPanel() {
   const handleStatusUpdate = async (paperId: string, newStatus: string) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:3001/papers/${paperId}`, {
+      const response = await fetch(`${API_URL}/papers/${paperId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +68,7 @@ export default function AdminPanel() {
       })
 
       if (response.ok) {
-        fetchPapers() // Refresh the papers list
+        fetchPapers()
       } else {
         alert('Failed to update paper status. Please try again.')
       }
@@ -90,7 +93,21 @@ export default function AdminPanel() {
     }
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return (
+    <div className="bg-gray-50">
+      <div className="relative h-[30vh] bg-gray-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        <div className="relative z-10 h-full flex items-end">
+          <div className="max-w-7xl mx-auto px-4 pb-8 w-full">
+            <h1 className="text-4xl font-serif font-bold text-white">Admin Dashboard</h1>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <LoadingSpinner />
+      </div>
+    </div>
+  )
 
   return (
     <div className="bg-gray-50">

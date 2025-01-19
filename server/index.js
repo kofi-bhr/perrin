@@ -7,11 +7,18 @@ const fs = require('fs')
 const app = express()
 app.use(cors())
 app.use(express.json())
-app.use('/uploads', express.static('uploads'))
+app.use('/uploads', express.static(uploadsDir))
+
+// Use Railway Volume if available
+const uploadsDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
+  ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'uploads')
+  : path.join(__dirname, 'uploads')
+
+const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
+  ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data')
+  : path.join(__dirname, 'data')
 
 // Ensure directories exist
-const uploadsDir = path.join(__dirname, 'uploads')
-const dataDir = path.join(__dirname, 'data')
 fs.mkdirSync(uploadsDir, { recursive: true })
 fs.mkdirSync(dataDir, { recursive: true })
 
@@ -119,7 +126,9 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       id: Date.now().toString(),
       ...req.body,
       fileName: req.file.filename,
-      url: `http://localhost:3001/uploads/${req.file.filename}`,
+      url: process.env.RAILWAY_PUBLIC_DOMAIN
+        ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}/uploads/${req.file.filename}`
+        : `http://localhost:3001/uploads/${req.file.filename}`,
       author: 'Employee Name',
       date: new Date().toISOString(),
       status: 'pending'
@@ -221,6 +230,15 @@ app.use(function(req, res, next) {
     body: req.body,
     query: req.query
   })
+  next()
+})
+
+// Add this line to debug file paths
+app.use((req, res, next) => {
+  console.log('Request URL:', req.url)
+  if (req.url.startsWith('/uploads')) {
+    console.log('Serving file from:', path.join(uploadsDir, req.url.replace('/uploads/', '')))
+  }
   next()
 })
 

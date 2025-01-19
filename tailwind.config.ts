@@ -20,6 +20,9 @@ const config: Config = {
       fontFamily: {
         serif: ['var(--font-playfair)'],
       },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      },
     },
   },
   plugins: [],
