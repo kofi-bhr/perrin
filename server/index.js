@@ -38,10 +38,27 @@ app.use(cors({
 }))
 app.use(express.json())
 
-// Use Railway Volume if available
+// At the top after requires
+console.log('=== Storage Configuration ===')
+if (process.env.RAILWAY_VOLUME_MOUNT_PATH) {
+  console.log('Railway Volume detected at:', process.env.RAILWAY_VOLUME_MOUNT_PATH)
+} else {
+  console.log('WARNING: No Railway Volume detected!')
+}
+
+// Update storage paths
 const uploadsDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
   ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'uploads')
   : path.join(__dirname, 'uploads')
+console.log('Using uploads directory:', uploadsDir)
+
+// Verify uploads directory is writable
+try {
+  fs.accessSync(uploadsDir, fs.constants.W_OK)
+  console.log('Uploads directory is writable')
+} catch (error) {
+  console.error('ERROR: Uploads directory is not writable:', error)
+}
 
 // Move this line after uploadsDir is defined
 app.use('/uploads', express.static(uploadsDir))
@@ -350,6 +367,36 @@ app.get('/test-url', (req, res) => {
       PROTOCOL
     }
   })
+})
+
+// Serve static files with proper headers
+app.use('/uploads', (req, res, next) => {
+  console.log('Serving file:', req.url)
+  console.log('From directory:', uploadsDir)
+  express.static(uploadsDir, {
+    setHeaders: (res) => {
+      res.set('Content-Type', 'application/pdf')
+      res.set('Content-Disposition', 'inline')
+    }
+  })(req, res, next)
+})
+
+app.get('/check-file/:filename', (req, res) => {
+  const filePath = path.join(uploadsDir, req.params.filename)
+  try {
+    fs.accessSync(filePath)
+    res.json({
+      exists: true,
+      path: filePath,
+      size: fs.statSync(filePath).size
+    })
+  } catch (error) {
+    res.json({
+      exists: false,
+      error: error.message,
+      path: filePath
+    })
+  }
 })
 
 app.listen(3001, () => {
