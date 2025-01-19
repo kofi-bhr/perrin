@@ -1,5 +1,7 @@
-import { writeFile } from 'fs/promises'
-import path from 'path'
+// If this file isn't being used, we can delete it
+// Otherwise, remove unused imports:
+// import { writeFile } from 'fs/promises'
+// import path from 'path'
 
 export async function uploadFile(file: Buffer, filename: string) {
   const formData = new FormData()

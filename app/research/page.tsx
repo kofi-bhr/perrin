@@ -44,10 +44,6 @@ export default function ResearchPage() {
     fetchPapers()
   }, [])
 
-  const handlePdfClick = (url: string) => {
-    window.open(url, '_blank')
-  }
-
   const filteredPapers = papers.filter(paper => {
     const matchesCategory = selectedCategory === 'all' || paper.category === selectedCategory
     const matchesSearch = paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -157,4 +153,4 @@ export default function ResearchPage() {
       </div>
     </div>
   )
-} 
+}
