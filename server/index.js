@@ -4,6 +4,10 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 
+// Move these to the top, before any functions use them
+const DOMAIN = process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost:3001'
+const PROTOCOL = process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
+
 const app = express()
 app.use(cors({
   origin: [
@@ -89,10 +93,6 @@ function auth(req, res, next) {
   }
 }
 
-// Add at the top with other constants
-const DOMAIN = process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost:3001'
-const PROTOCOL = process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
-
 // Routes
 app.get('/papers', function(req, res) {
   try {
@@ -163,29 +163,27 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       return res.status(400).json({ error: 'No file uploaded' })
     }
 
-    // Store only the filename in the database
     const paper = {
       id: Date.now().toString(),
       ...req.body,
       fileName: req.file.filename,
-      // Just store the filename, not the full URL
-      fileUrl: req.file.filename,
+      fileUrl: req.file.filename,  // Store just the filename
       author: 'Employee Name',
       date: new Date().toISOString(),
       status: 'pending'
     }
 
-    // Generate full URL only when sending response
     const fullPaper = {
       ...paper,
       url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
     }
 
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    db.papers.push(paper)  // Store paper with just filename
+    db.papers.push(paper)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
 
-    res.json(fullPaper)  // Send response with full URL
+    console.log('Saved paper with URL:', fullPaper.url)
+    res.json(fullPaper)
   } catch (error) {
     console.error('Error uploading:', error)
     res.status(500).json({ error: 'Server error' })
