@@ -141,6 +141,7 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       date: new Date().toISOString(),
       status: 'pending'
     }
+    console.log('Generated paper URL:', paper.url)
     console.log('Creating new paper:', paper)
 
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))

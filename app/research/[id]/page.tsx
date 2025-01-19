@@ -45,6 +45,7 @@ export default function ResearchPaperPage() {
         }
         
         const data = await response.json()
+        console.log('Paper URL:', data.url)
         setPaper(data)
       } catch (error) {
         console.error('Error fetching paper:', error)
