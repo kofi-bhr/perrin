@@ -60,6 +60,10 @@ function auth(req, res, next) {
   }
 }
 
+// Add at the top with other constants
+const DOMAIN = process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost:3001'
+const PROTOCOL = process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
+
 // Routes
 app.get('/papers', function(req, res) {
   try {
@@ -99,6 +103,11 @@ app.get('/papers/:id', function(req, res) {
       }
     }
     
+    // Update URL if it's using localhost
+    if (paper.url.includes('localhost')) {
+      paper.url = paper.url.replace('http://localhost:3001', `${PROTOCOL}://${DOMAIN}`)
+    }
+    
     console.log('Successfully returning paper:', paper.id)
     res.json(paper)
   } catch (error) {
@@ -134,9 +143,7 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       id: Date.now().toString(),
       ...req.body,
       fileName: req.file.filename,
-      url: process.env.RAILWAY_PUBLIC_DOMAIN
-        ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}/uploads/${req.file.filename}`
-        : `http://localhost:3001/uploads/${req.file.filename}`,
+      url: `${PROTOCOL}://${DOMAIN}/uploads/${req.file.filename}`,
       author: 'Employee Name',
       date: new Date().toISOString(),
       status: 'pending'
