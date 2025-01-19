@@ -74,40 +74,36 @@ if (!fs.existsSync(DB_FILE)) {
   fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [] }))
 }
 
-// Update the migration function to be more aggressive
+// Add this function at the top level
+function fixPaperUrl(paper) {
+  // Extract just the filename from any URL format
+  const filename = paper.url?.split('/').pop() || paper.fileName || paper.fileUrl
+  
+  return {
+    ...paper,
+    fileName: filename,
+    fileUrl: filename,
+    url: `https://perrin-production.up.railway.app/uploads/${filename}`
+  }
+}
+
+// Update the migration function
 function migratePapers() {
   try {
     console.log('Starting paper migration...')
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     
-    const migratedPapers = db.papers.map(paper => {
-      // Extract filename from any URL format
-      let fileName
-      if (paper.url && paper.url.includes('localhost')) {
-        fileName = paper.url.split('/uploads/')[1]
-      } else {
-        fileName = paper.fileUrl || paper.fileName
-      }
-
-      // Create new paper object with correct structure
-      const migratedPaper = {
-        ...paper,
-        fileUrl: fileName,
-        fileName: fileName,
-        url: `https://perrin-production.up.railway.app/uploads/${fileName}`
-      }
-
-      console.log('Migrated paper:', {
-        oldUrl: paper.url,
-        newUrl: migratedPaper.url,
-        fileName: migratedPaper.fileName
-      })
-
-      return migratedPaper
-    })
+    // Fix all papers
+    const migratedPapers = db.papers.map(fixPaperUrl)
     
+    // Save back to database
     fs.writeFileSync(DB_FILE, JSON.stringify({ papers: migratedPapers }, null, 2))
     console.log('Migration complete:', migratedPapers.length, 'papers updated')
+    
+    // Log the first paper as a sample
+    if (migratedPapers.length > 0) {
+      console.log('Sample paper after migration:', migratedPapers[0])
+    }
   } catch (error) {
     console.error('Migration failed:', error)
   }
@@ -154,10 +150,7 @@ app.get('/papers', function(req, res) {
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     const publicPapers = db.papers
       .filter(paper => paper.status === 'approved')
-      .map(paper => ({
-        ...paper,
-        url: getPaperUrl(paper.fileUrl)
-      }))
+      .map(fixPaperUrl)
     res.json(publicPapers)
   } catch (error) {
     console.error('Error reading papers:', error)
@@ -218,31 +211,23 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       return res.status(400).json({ error: 'No file uploaded' })
     }
 
-    const fileName = req.file.filename
-    const paper = {
+    // Create paper with correct URL format
+    const paper = fixPaperUrl({
       id: Date.now().toString(),
       ...req.body,
-      fileName: fileName,
-      fileUrl: fileName,  // Store just the filename
+      fileName: req.file.filename,
       author: 'Employee Name',
       date: new Date().toISOString(),
       status: 'pending'
-    }
+    })
 
-    // Double check we're using the right URL
-    const fullUrl = `https://perrin-production.up.railway.app/uploads/${fileName}`
-    console.log('Generated URL:', fullUrl)
-
-    const fullPaper = {
-      ...paper,
-      url: fullUrl
-    }
-
+    // Save to database
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    db.papers.push(paper)  // Save paper without URL
+    db.papers.push(paper)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
 
-    res.json(fullPaper)
+    console.log('Saved paper with URL:', paper.url)
+    res.json(paper)
   } catch (error) {
     console.error('Error in upload:', error)
     res.status(500).json({ error: 'Server error' })
