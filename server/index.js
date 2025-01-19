@@ -182,28 +182,61 @@ app.get('/papers', function(req, res) {
   }
 })
 
+// Add this at the top level for debugging
+let debugCounter = 0;
+
+// Add this BEFORE all other routes
+app.use((req, res, next) => {
+  const requestId = ++debugCounter;
+  console.log(`\n=== Request #${requestId} Start ===`);
+  console.log('URL:', req.url);
+  console.log('Method:', req.method);
+  console.log('Headers:', req.headers);
+
+  // Capture the original json method
+  const originalJson = res.json;
+  
+  // Override json method to log what we're sending
+  res.json = function(data) {
+    console.log(`\n=== Response #${requestId} ===`);
+    console.log('Sending data:', JSON.stringify(data, null, 2));
+    return originalJson.call(this, data);
+  };
+
+  next();
+});
+
+// Update the papers/:id endpoint with more logging
 app.get('/papers/:id', function(req, res) {
   try {
-    const { id } = req.params
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    const paper = db.papers.find(p => p.id === id)
+    console.log('\n=== GET /papers/:id ===');
+    const { id } = req.params;
+    console.log('1. Looking for paper:', id);
+
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+    console.log('2. Database loaded');
+    
+    const paper = db.papers.find(p => p.id === id);
+    console.log('3. Found paper:', paper);
     
     if (!paper) {
-      return res.status(404).json({ error: 'Paper not found' })
+      console.log('4a. Paper not found');
+      return res.status(404).json({ error: 'Paper not found' });
     }
 
-    // Add URL only when sending response
+    console.log('4b. Building response');
     const paperWithUrl = {
       ...paper,
       url: `${RAILWAY_URL}/uploads/${paper.fileName}`
-    }
+    };
     
-    res.json(paperWithUrl)
+    console.log('5. Final paper object:', paperWithUrl);
+    res.json(paperWithUrl);
   } catch (error) {
-    console.error('Error:', error)
-    res.status(500).json({ error: 'Server error' })
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Server error' });
   }
-})
+});
 
 app.post('/login', function(req, res) {
   try {
@@ -379,40 +412,46 @@ app.get('/fix-papers', function(req, res) {
   }
 })
 
-// Add this BEFORE any other routes
-app.get('/fix-all', async function(req, res) {
+// Move these to the top, right after app.use(express.json())
+const RAILWAY_URL = 'https://perrin-production.up.railway.app'
+
+// Add nuke endpoint BEFORE other routes
+app.get('/nuke-database', function(req, res) {  // Remove async since we're not using it
   try {
-    console.log('Starting database fix...')
+    console.log('=== NUKING DATABASE ===')
     
     // Read current database
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    console.log('Current papers:', db.papers.length)
+    console.log('Found papers:', db.papers.length)
     
-    // Fix all papers
+    // Strip everything except essential data
     const fixed = db.papers.map(paper => {
-      // Remove any URL properties
-      const { url, fileUrl, ...rest } = paper
-      
-      // Keep only the filename
+      // Keep only essential fields
       return {
-        ...rest,
-        fileName: paper.fileName || paper.fileUrl || paper.url?.split('/').pop(),
+        id: paper.id,
+        title: paper.title,
+        description: paper.description,
+        category: paper.category,
+        abstract: paper.abstract,
+        author: paper.author,
+        date: paper.date,
+        status: paper.status,
+        fileName: paper.fileName.split('/').pop().split('\\').pop()
       }
     })
     
-    // Save fixed papers
+    // Save clean data
     fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixed }, null, 2))
-    console.log('Fixed papers saved:', fixed.length)
+    console.log('Saved clean papers:', fixed.length)
     
-    // Return success
     res.json({ 
-      message: 'Database fixed',
-      count: fixed.length,
+      message: 'Database nuked and rebuilt',
+      paperCount: fixed.length,
       sample: fixed[0]
     })
   } catch (error) {
-    console.error('Fix failed:', error)
-    res.status(500).json({ error: 'Failed to fix database' })
+    console.error('Nuclear launch failed:', error)
+    res.status(500).json({ error: 'Failed to nuke database' })
   }
 })
 
@@ -460,4 +499,27 @@ app.get('/force-fix', function(req, res) {
   } catch (error) {
     res.status(500).json({ error: 'Failed to force fix' })
   }
-}) 
+})
+
+app.get('/test-paper/:id', function(req, res) {
+  try {
+    const { id } = req.params;
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+    const paper = db.papers.find(p => p.id === id);
+    
+    res.json({
+      original: paper,
+      withUrl: {
+        ...paper,
+        url: `${RAILWAY_URL}/uploads/${paper.fileName}`
+      },
+      debug: {
+        RAILWAY_URL,
+        fileName: paper.fileName,
+        constructedUrl: `${RAILWAY_URL}/uploads/${paper.fileName}`
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: 'Debug failed' });
+  }
+}); 
