@@ -30,13 +30,22 @@ console.log('Server configuration:', {
 
 const app = express()
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://perrin-institute.netlify.app'  // Your actual Netlify domain
-  ],
+  origin: ['https://perrin-institute.netlify.app'],
   credentials: true
 }))
 app.use(express.json())
+
+// Add static file serving BEFORE other routes
+app.use('/uploads', express.static(uploadsDir))
+app.use('/uploads', (req, res, next) => {
+  const filePath = path.join(uploadsDir, req.url.replace('/uploads/', ''))
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('File not found')
+  }
+  res.set('Content-Type', 'application/pdf')
+  res.set('Content-Disposition', 'inline')
+  next()
+})
 
 // At the top after requires
 console.log('=== Storage Configuration ===')
@@ -59,9 +68,6 @@ try {
 } catch (error) {
   console.error('ERROR: Uploads directory is not writable:', error)
 }
-
-// Move this line after uploadsDir is defined
-app.use('/uploads', express.static(uploadsDir))
 
 const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
   ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data')
@@ -205,13 +211,7 @@ app.post('/login', function(req, res) {
 
 app.post('/upload', auth, upload.single('file'), function(req, res) {
   try {
-    console.log('=== Upload Request Start ===')
-    console.log('File received:', req.file)
-    console.log('Current DOMAIN:', DOMAIN)
-    console.log('Current PROTOCOL:', PROTOCOL)
-
     if (!req.file) {
-      console.log('No file in request')
       return res.status(400).json({ error: 'No file uploaded' })
     }
 
@@ -224,24 +224,17 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       date: new Date().toISOString(),
       status: 'pending'
     }
-    console.log('Paper object before URL:', paper)
 
     const fullPaper = {
       ...paper,
       url: getPaperUrl(paper.fileUrl)
     }
-    console.log('Paper object with URL:', fullPaper)
 
-    // Read current DB state
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    console.log('Current DB state:', db.papers.length, 'papers')
-
-    // Save to DB
     db.papers.push(paper)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-    console.log('Paper saved to DB. New total:', db.papers.length)
 
-    console.log('=== Upload Request End ===')
+    console.log('Paper saved with URL:', fullPaper.url)
     res.json(fullPaper)
   } catch (error) {
     console.error('Error in upload:', error)
@@ -369,18 +362,6 @@ app.get('/test-url', (req, res) => {
   })
 })
 
-// Serve static files with proper headers
-app.use('/uploads', (req, res, next) => {
-  console.log('Serving file:', req.url)
-  console.log('From directory:', uploadsDir)
-  express.static(uploadsDir, {
-    setHeaders: (res) => {
-      res.set('Content-Type', 'application/pdf')
-      res.set('Content-Disposition', 'inline')
-    }
-  })(req, res, next)
-})
-
 app.get('/check-file/:filename', (req, res) => {
   const filePath = path.join(uploadsDir, req.params.filename)
   try {
@@ -399,6 +380,32 @@ app.get('/check-file/:filename', (req, res) => {
   }
 })
 
+app.get('/fix-papers', function(req, res) {
+  try {
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const fixedPapers = db.papers.map(paper => {
+      // Extract filename from any URL format
+      const fileName = paper.url?.split('/').pop() || paper.fileName || paper.fileUrl
+      return {
+        ...paper,
+        fileUrl: fileName,
+        fileName: fileName
+      }
+    })
+    
+    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixedPapers }, null, 2))
+    res.json({ message: 'Papers fixed', count: fixedPapers.length })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fix papers' })
+  }
+})
+
+// At startup, verify volume
+console.log('=== Volume Check ===')
+console.log('Volume path:', process.env.RAILWAY_VOLUME_MOUNT_PATH)
+console.log('Uploads directory:', uploadsDir)
+console.log('Files in uploads:', fs.readdirSync(uploadsDir))
+
 app.listen(3001, () => {
-  console.log('Server running on http://localhost:3001')
+  console.log(`Server running on ${PROTOCOL}://${DOMAIN}`)
 }) 
