@@ -33,11 +33,6 @@ const storage = multer.diskStorage({
   }
 })
 
-// Helper function for URLs - always use Railway domain
-function getPaperUrl(filename) {
-  return `${PROTOCOL}://${DOMAIN}/uploads/${filename}`
-}
-
 // Environment logging
 console.log('Server configuration:', {
   DOMAIN,
@@ -66,63 +61,78 @@ if (!fs.existsSync(DB_FILE)) {
   fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [] }))
 }
 
-// FORCE RAILWAY CONFIGURATION
-const RAILWAY = {
-  domain: 'perrin-production.up.railway.app',
-  protocol: 'https',
-  baseUrl: 'https://perrin-production.up.railway.app'
-}
+// KILL ALL LOCALHOST REFERENCES
+const RAILWAY_URL = 'https://perrin-production.up.railway.app'
 
-// Force all URLs to use Railway domain
-function forceRailwayUrl(filename) {
-  // Strip any existing URLs or paths, just get the filename
-  const cleanFilename = filename.split('/').pop().split('\\').pop()
-  return `${RAILWAY.baseUrl}/uploads/${cleanFilename}`
-}
+// Override the response before it's sent
+app.use((req, res, next) => {
+  // Store the original json method
+  const originalJson = res.json
 
-// Update the fixPaperUrl function to be more aggressive
-function fixPaperUrl(paper) {
-  // Extract just the filename, ignore any paths or URLs
-  const filename = paper.fileName || 
-                  paper.fileUrl || 
-                  paper.url?.split('/').pop() || 
-                  'unknown.pdf'
-
-  // Force the paper to have Railway URLs
-  return {
-    ...paper,
-    fileName: filename,
-    fileUrl: filename,
-    url: forceRailwayUrl(filename)
-  }
-}
-
-// Update the migration function
-function migratePapers() {
-  try {
-    console.log('Starting paper migration...')
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    
-    // Fix all papers
-    const migratedPapers = db.papers.map(fixPaperUrl)
-    
-    // Save back to database
-    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: migratedPapers }, null, 2))
-    console.log('Migration complete:', migratedPapers.length, 'papers updated')
-    
-    // Log the first paper as a sample
-    if (migratedPapers.length > 0) {
-      console.log('Sample paper after migration:', migratedPapers[0])
+  // Override the json method
+  res.json = function(data) {
+    // If we're sending paper data, force the URLs
+    if (data && (data.papers || data.url || Array.isArray(data))) {
+      // Handle array of papers
+      if (Array.isArray(data)) {
+        data = data.map(paper => ({
+          ...paper,
+          url: `${RAILWAY_URL}/uploads/${paper.fileName}`,
+          fileUrl: paper.fileName
+        }))
+      }
+      // Handle single paper
+      else if (data.url) {
+        data.url = `${RAILWAY_URL}/uploads/${data.fileName}`
+        data.fileUrl = data.fileName
+      }
+      // Handle papers array in object
+      else if (data.papers) {
+        data.papers = data.papers.map(paper => ({
+          ...paper,
+          url: `${RAILWAY_URL}/uploads/${paper.fileName}`,
+          fileUrl: paper.fileName
+        }))
+      }
     }
-  } catch (error) {
-    console.error('Migration failed:', error)
+    
+    // Call the original json method
+    return originalJson.call(this, data)
   }
-}
+  
+  next()
+})
 
-// Run migration immediately
-migratePapers()
+// Remove all other URL generation functions
+// Remove getPaperUrl, forceRailwayUrl, etc.
 
-const upload = multer({ storage })
+// Simplify paper creation
+app.post('/upload', auth, upload.single('file'), function(req, res) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' })
+    }
+
+    const paper = {
+      id: Date.now().toString(),
+      ...req.body,
+      fileName: req.file.filename,
+      author: 'Employee Name',
+      date: new Date().toISOString(),
+      status: 'pending'
+    }
+
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    db.papers.push(paper)
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+
+    // The middleware will handle URL generation
+    res.json(paper)
+  } catch (error) {
+    console.error('Error in upload:', error)
+    res.status(500).json({ error: 'Server error' })
+  }
+})
 
 // Auth middleware
 function auth(req, res, next) {
@@ -154,7 +164,8 @@ app.get('/papers', function(req, res) {
       .filter(paper => paper.status === 'approved')
       .map(paper => ({
         ...paper,
-        url: forceRailwayUrl(paper.fileName)
+        url: `${RAILWAY_URL}/uploads/${paper.fileName}`,
+        fileUrl: paper.fileName
       }))
     res.json(papers)
   } catch (error) {
@@ -183,7 +194,8 @@ app.get('/papers/:id', function(req, res) {
     
     const fullPaper = {
       ...paper,
-      url: getPaperUrl(paper.fileUrl)
+      url: `${RAILWAY_URL}/uploads/${paper.fileUrl}`,
+      fileUrl: paper.fileUrl
     }
     console.log('Returning paper with URL:', fullPaper)
     console.log('=== Get Paper Request End ===')
@@ -206,36 +218,6 @@ app.post('/login', function(req, res) {
       res.status(401).json({ error: 'Invalid credentials' })
     }
   } catch (error) {
-    res.status(500).json({ error: 'Server error' })
-  }
-})
-
-app.post('/upload', auth, upload.single('file'), function(req, res) {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' })
-    }
-
-    // Force Railway URLs from the start
-    const paper = {
-      id: Date.now().toString(),
-      ...req.body,
-      fileName: req.file.filename,
-      fileUrl: req.file.filename,
-      url: forceRailwayUrl(req.file.filename),
-      author: 'Employee Name',
-      date: new Date().toISOString(),
-      status: 'pending'
-    }
-
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    db.papers.push(paper)
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-
-    console.log('Saved paper with FORCED URL:', paper.url)
-    res.json(paper)
-  } catch (error) {
-    console.error('Error in upload:', error)
     res.status(500).json({ error: 'Server error' })
   }
 })
@@ -296,7 +278,8 @@ app.get('/admin/papers', auth, function(req, res) {
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     const papers = db.papers.map(paper => ({
       ...paper,
-      url: getPaperUrl(paper.fileUrl)
+      url: `${RAILWAY_URL}/uploads/${paper.fileUrl}`,
+      fileUrl: paper.fileUrl
     }))
     res.json(papers)
   } catch (error) {
@@ -348,7 +331,7 @@ app.get('/reset-db', function(req, res) {
 
 // Add test endpoint
 app.get('/test-url', (req, res) => {
-  const testUrl = getPaperUrl('test.pdf')
+  const testUrl = `${RAILWAY_URL}/uploads/test.pdf`
   res.json({
     testUrl,
     environment: {
@@ -414,7 +397,7 @@ app.get('/force-fix', function(req, res) {
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     const fixed = db.papers.map(paper => ({
       ...paper,
-      url: forceRailwayUrl(paper.fileName),
+      url: `${RAILWAY_URL}/uploads/${paper.fileName}`,
       fileUrl: paper.fileName
     }))
     fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixed }, null, 2))
