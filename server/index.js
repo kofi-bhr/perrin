@@ -83,32 +83,25 @@ app.get('/papers/:id', function(req, res) {
     console.log('GET /papers/:id - Requested ID:', id)
     
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    console.log('Current papers in DB:', db.papers.map(p => ({ id: p.id, status: p.status })))
-    
     const paper = db.papers.find(p => p.id === id)
-    console.log('Found paper:', paper)
     
     if (!paper) {
-      console.log('Paper not found with ID:', id)
       return res.status(404).json({ error: 'Paper not found' })
     }
 
     // Only return approved papers to public
     if (paper.status !== 'approved') {
       const token = req.headers.authorization?.split(' ')[1]
-      console.log('Paper is not approved, checking auth token:', token)
       if (!token) {
-        console.log('No auth token provided for non-approved paper')
         return res.status(404).json({ error: 'Paper not found' })
       }
     }
     
-    // Update URL if it's using localhost
-    if (paper.url.includes('localhost')) {
-      paper.url = paper.url.replace('http://localhost:3001', `${PROTOCOL}://${DOMAIN}`)
-    }
+    // Always update the URL to use the current domain
+    const fileName = paper.url.split('/').pop() // Get just the filename
+    paper.url = `${PROTOCOL}://${DOMAIN}/uploads/${fileName}`
     
-    console.log('Successfully returning paper:', paper.id)
+    console.log('Returning paper with updated URL:', paper.url)
     res.json(paper)
   } catch (error) {
     console.error('Error in GET /papers/:id:', error)
