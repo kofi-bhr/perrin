@@ -36,6 +36,35 @@ if (!fs.existsSync(DB_FILE)) {
   fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [] }))
 }
 
+// Add this right after your DB_FILE initialization
+function migratePapers() {
+  try {
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const migratedPapers = db.papers.map(paper => {
+      // If paper already has fileUrl, skip it
+      if (paper.fileUrl) return paper
+
+      // Extract filename from the old URL
+      const fileName = paper.url.split('/').pop()
+      return {
+        ...paper,
+        fileUrl: fileName,
+        // Keep the old url field for backward compatibility
+        url: `${PROTOCOL}://${DOMAIN}/uploads/${fileName}`
+      }
+    })
+
+    // Save migrated papers
+    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: migratedPapers }, null, 2))
+    console.log('Papers migrated successfully')
+  } catch (error) {
+    console.error('Error migrating papers:', error)
+  }
+}
+
+// Run migration when server starts
+migratePapers()
+
 // File storage setup
 const storage = multer.diskStorage({
   destination: uploadsDir,
@@ -68,8 +97,12 @@ const PROTOCOL = process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
 app.get('/papers', function(req, res) {
   try {
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    // Return only approved papers for public access
-    const publicPapers = db.papers.filter(paper => paper.status === 'approved')
+    const publicPapers = db.papers
+      .filter(paper => paper.status === 'approved')
+      .map(paper => ({
+        ...paper,
+        url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
+      }))
     res.json(publicPapers)
   } catch (error) {
     console.error('Error reading papers:', error)
@@ -80,8 +113,6 @@ app.get('/papers', function(req, res) {
 app.get('/papers/:id', function(req, res) {
   try {
     const { id } = req.params
-    console.log('GET /papers/:id - Requested ID:', id)
-    
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     const paper = db.papers.find(p => p.id === id)
     
@@ -97,12 +128,14 @@ app.get('/papers/:id', function(req, res) {
       }
     }
     
-    // Always update the URL to use the current domain
-    const fileName = paper.url.split('/').pop() // Get just the filename
-    paper.url = `${PROTOCOL}://${DOMAIN}/uploads/${fileName}`
+    // Always generate the full URL when sending response
+    const fullPaper = {
+      ...paper,
+      url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
+    }
     
-    console.log('Returning paper with updated URL:', paper.url)
-    res.json(paper)
+    console.log('Returning paper with URL:', fullPaper.url)
+    res.json(fullPaper)
   } catch (error) {
     console.error('Error in GET /papers/:id:', error)
     res.status(500).json({ error: 'Server error' })
@@ -126,31 +159,33 @@ app.post('/login', function(req, res) {
 
 app.post('/upload', auth, upload.single('file'), function(req, res) {
   try {
-    console.log('Upload request received:', { body: req.body, file: req.file })
     if (!req.file) {
-      console.log('No file in request')
       return res.status(400).json({ error: 'No file uploaded' })
     }
 
+    // Store only the filename in the database
     const paper = {
       id: Date.now().toString(),
       ...req.body,
       fileName: req.file.filename,
-      url: `${PROTOCOL}://${DOMAIN}/uploads/${req.file.filename}`,
+      // Just store the filename, not the full URL
+      fileUrl: req.file.filename,
       author: 'Employee Name',
       date: new Date().toISOString(),
       status: 'pending'
     }
-    console.log('Generated paper URL:', paper.url)
-    console.log('Creating new paper:', paper)
+
+    // Generate full URL only when sending response
+    const fullPaper = {
+      ...paper,
+      url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
+    }
 
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    console.log('Current DB state:', db)
-    db.papers.push(paper)
+    db.papers.push(paper)  // Store paper with just filename
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-    console.log('Updated DB state:', db)
 
-    res.json(paper)
+    res.json(fullPaper)  // Send response with full URL
   } catch (error) {
     console.error('Error uploading:', error)
     res.status(500).json({ error: 'Server error' })
@@ -211,8 +246,11 @@ app.get('/debug', function(req, res) {
 app.get('/admin/papers', auth, function(req, res) {
   try {
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    console.log('Sending admin papers:', db.papers)
-    res.json(db.papers)
+    const papers = db.papers.map(paper => ({
+      ...paper,
+      url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
+    }))
+    res.json(papers)
   } catch (error) {
     console.error('Error reading papers:', error)
     res.status(500).json({ error: 'Server error' })
