@@ -66,16 +66,34 @@ if (!fs.existsSync(DB_FILE)) {
   fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [] }))
 }
 
-// Add this function at the top level
+// FORCE RAILWAY CONFIGURATION
+const RAILWAY = {
+  domain: 'perrin-production.up.railway.app',
+  protocol: 'https',
+  baseUrl: 'https://perrin-production.up.railway.app'
+}
+
+// Force all URLs to use Railway domain
+function forceRailwayUrl(filename) {
+  // Strip any existing URLs or paths, just get the filename
+  const cleanFilename = filename.split('/').pop().split('\\').pop()
+  return `${RAILWAY.baseUrl}/uploads/${cleanFilename}`
+}
+
+// Update the fixPaperUrl function to be more aggressive
 function fixPaperUrl(paper) {
-  // Extract just the filename from any URL format
-  const filename = paper.url?.split('/').pop() || paper.fileName || paper.fileUrl
-  
+  // Extract just the filename, ignore any paths or URLs
+  const filename = paper.fileName || 
+                  paper.fileUrl || 
+                  paper.url?.split('/').pop() || 
+                  'unknown.pdf'
+
+  // Force the paper to have Railway URLs
   return {
     ...paper,
     fileName: filename,
     fileUrl: filename,
-    url: `https://perrin-production.up.railway.app/uploads/${filename}`
+    url: forceRailwayUrl(filename)
   }
 }
 
@@ -132,12 +150,15 @@ console.log('Environment detection:', {
 app.get('/papers', function(req, res) {
   try {
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    const publicPapers = db.papers
+    const papers = db.papers
       .filter(paper => paper.status === 'approved')
-      .map(fixPaperUrl)
-    res.json(publicPapers)
+      .map(paper => ({
+        ...paper,
+        url: forceRailwayUrl(paper.fileName)
+      }))
+    res.json(papers)
   } catch (error) {
-    console.error('Error reading papers:', error)
+    console.error('Error:', error)
     res.status(500).json({ error: 'Server error' })
   }
 })
@@ -195,22 +216,23 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       return res.status(400).json({ error: 'No file uploaded' })
     }
 
-    // Create paper with correct URL format
-    const paper = fixPaperUrl({
+    // Force Railway URLs from the start
+    const paper = {
       id: Date.now().toString(),
       ...req.body,
       fileName: req.file.filename,
+      fileUrl: req.file.filename,
+      url: forceRailwayUrl(req.file.filename),
       author: 'Employee Name',
       date: new Date().toISOString(),
       status: 'pending'
-    })
+    }
 
-    // Save to database
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     db.papers.push(paper)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
 
-    console.log('Saved paper with URL:', paper.url)
+    console.log('Saved paper with FORCED URL:', paper.url)
     res.json(paper)
   } catch (error) {
     console.error('Error in upload:', error)
@@ -384,4 +406,20 @@ console.log('Files in uploads:', fs.readdirSync(uploadsDir))
 
 app.listen(3001, () => {
   console.log(`Server running on ${PROTOCOL}://${DOMAIN}`)
+})
+
+// Add a force-fix endpoint
+app.get('/force-fix', function(req, res) {
+  try {
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const fixed = db.papers.map(paper => ({
+      ...paper,
+      url: forceRailwayUrl(paper.fileName),
+      fileUrl: paper.fileName
+    }))
+    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixed }, null, 2))
+    res.json({ message: 'All papers forced to Railway URLs', count: fixed.length })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to force fix' })
+  }
 }) 
