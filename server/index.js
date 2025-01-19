@@ -4,21 +4,25 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 
-// Add this at the top after requires
-console.log('Environment check:', {
+// Single, comprehensive environment check at startup
+console.log('=== Railway Environment Check ===')
+console.log({
   NODE_ENV: process.env.NODE_ENV,
-  RAILWAY_PUBLIC_DOMAIN: process.env.RAILWAY_PUBLIC_DOMAIN,
+  PUBLIC_URL: process.env.PUBLIC_URL,
   RAILWAY_STATIC_URL: process.env.RAILWAY_STATIC_URL,
+  RAILWAY_PUBLIC_DOMAIN: process.env.RAILWAY_PUBLIC_DOMAIN,
+  RAILWAY_SERVICE_URL: process.env.RAILWAY_SERVICE_URL,
+  RAILWAY_PROJECT_URL: process.env.RAILWAY_PROJECT_URL,
   PORT: process.env.PORT,
-  PWD: process.env.PWD,  // Add current working directory
-  PATH: process.env.PATH,
-  FINAL_DOMAIN: process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost:3001',
-  FINAL_PROTOCOL: process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
+  PWD: process.env.PWD
 })
 
-// Use explicit Railway domain
-const DOMAIN = process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost:3001'
-const PROTOCOL = process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
+// Use Railway's @web service URL with proper fallbacks
+const DOMAIN = process.env.RAILWAY_SERVICE_URL 
+  || process.env.PUBLIC_URL 
+  || 'perrin-production.up.railway.app'
+const PROTOCOL = 'https'
+
 console.log('Server configuration:', { DOMAIN, PROTOCOL })
 
 const app = express()
@@ -58,20 +62,16 @@ function migratePapers() {
   try {
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     const migratedPapers = db.papers.map(paper => {
-      // If paper already has fileUrl, skip it
       if (paper.fileUrl) return paper
-
-      // Extract filename from the old URL
+      
       const fileName = paper.url.split('/').pop()
       return {
         ...paper,
         fileUrl: fileName,
-        // Keep the old url field for backward compatibility
-        url: `${PROTOCOL}://${DOMAIN}/uploads/${fileName}`
+        url: getPaperUrl(fileName)
       }
     })
-
-    // Save migrated papers
+    
     fs.writeFileSync(DB_FILE, JSON.stringify({ papers: migratedPapers }, null, 2))
     console.log('Papers migrated successfully')
   } catch (error) {
@@ -106,6 +106,16 @@ function auth(req, res, next) {
   }
 }
 
+// Helper function to generate paper URLs
+function getPaperUrl(filename) {
+  // For local development
+  if (process.env.NODE_ENV === 'development') {
+    return `http://localhost:3001/uploads/${filename}`
+  }
+  // For production
+  return `${PROTOCOL}://${DOMAIN}/uploads/${filename}`
+}
+
 // Routes
 app.get('/papers', function(req, res) {
   try {
@@ -114,7 +124,7 @@ app.get('/papers', function(req, res) {
       .filter(paper => paper.status === 'approved')
       .map(paper => ({
         ...paper,
-        url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
+        url: getPaperUrl(paper.fileUrl)
       }))
     res.json(publicPapers)
   } catch (error) {
@@ -143,7 +153,7 @@ app.get('/papers/:id', function(req, res) {
     
     const fullPaper = {
       ...paper,
-      url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
+      url: getPaperUrl(paper.fileUrl)
     }
     console.log('Returning paper with URL:', fullPaper)
     console.log('=== Get Paper Request End ===')
@@ -195,7 +205,7 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
 
     const fullPaper = {
       ...paper,
-      url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
+      url: getPaperUrl(paper.fileUrl)
     }
     console.log('Paper object with URL:', fullPaper)
 
@@ -272,7 +282,7 @@ app.get('/admin/papers', auth, function(req, res) {
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     const papers = db.papers.map(paper => ({
       ...paper,
-      url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
+      url: getPaperUrl(paper.fileUrl)
     }))
     res.json(papers)
   } catch (error) {
