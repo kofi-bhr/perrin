@@ -18,12 +18,15 @@ console.log({
 })
 
 // Use Railway's @web service URL with proper fallbacks
-const DOMAIN = process.env.RAILWAY_SERVICE_URL 
-  || process.env.PUBLIC_URL 
-  || 'perrin-production.up.railway.app'
-const PROTOCOL = 'https'
+const DOMAIN = 'perrin-production.up.railway.app'  // Always use Railway domain
+const PROTOCOL = 'https'  // Always use HTTPS
 
-console.log('Server configuration:', { DOMAIN, PROTOCOL })
+console.log('Server configuration:', {
+  DOMAIN,
+  PROTOCOL,
+  uploadsPath: uploadsDir,
+  dataPath: dataDir
+})
 
 const app = express()
 app.use(cors({
@@ -108,13 +111,16 @@ function auth(req, res, next) {
 
 // Helper function to generate paper URLs
 function getPaperUrl(filename) {
-  // For local development
-  if (process.env.NODE_ENV === 'development') {
-    return `http://localhost:3001/uploads/${filename}`
-  }
-  // For production
   return `${PROTOCOL}://${DOMAIN}/uploads/${filename}`
 }
+
+// Add debug logging
+console.log('Environment detection:', {
+  isRailway: Boolean(process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_SERVICE_URL || process.env.PUBLIC_URL),
+  NODE_ENV: process.env.NODE_ENV,
+  DOMAIN,
+  PROTOCOL
+})
 
 // Routes
 app.get('/papers', function(req, res) {
@@ -330,6 +336,20 @@ app.get('/reset-db', function(req, res) {
   } catch (error) {
     res.status(500).json({ error: 'Failed to reset database' })
   }
+})
+
+// Add test endpoint
+app.get('/test-url', (req, res) => {
+  const testUrl = getPaperUrl('test.pdf')
+  res.json({
+    testUrl,
+    environment: {
+      isRailway: Boolean(process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_SERVICE_URL || process.env.PUBLIC_URL),
+      NODE_ENV: process.env.NODE_ENV,
+      DOMAIN,
+      PROTOCOL
+    }
+  })
 })
 
 app.listen(3001, () => {
