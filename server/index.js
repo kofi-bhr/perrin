@@ -4,9 +4,20 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 
-// Move these to the top, before any functions use them
+// Add this at the top after requires
+console.log('Environment check:', {
+  NODE_ENV: process.env.NODE_ENV,
+  RAILWAY_PUBLIC_DOMAIN: process.env.RAILWAY_PUBLIC_DOMAIN,
+  RAILWAY_STATIC_URL: process.env.RAILWAY_STATIC_URL,
+  PORT: process.env.PORT,
+  PWD: process.env.PWD,  // Add current working directory
+  PATH: process.env.PATH
+})
+
+// Use explicit Railway domain
 const DOMAIN = process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost:3001'
 const PROTOCOL = process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
+console.log('Server configuration:', { DOMAIN, PROTOCOL })
 
 const app = express()
 app.use(cors({
@@ -112,29 +123,29 @@ app.get('/papers', function(req, res) {
 
 app.get('/papers/:id', function(req, res) {
   try {
+    console.log('=== Get Paper Request Start ===')
     const { id } = req.params
+    console.log('Requested paper ID:', id)
+    console.log('Current DOMAIN:', DOMAIN)
+    console.log('Current PROTOCOL:', PROTOCOL)
+
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     const paper = db.papers.find(p => p.id === id)
     
     if (!paper) {
+      console.log('Paper not found:', id)
       return res.status(404).json({ error: 'Paper not found' })
     }
 
-    // Only return approved papers to public
-    if (paper.status !== 'approved') {
-      const token = req.headers.authorization?.split(' ')[1]
-      if (!token) {
-        return res.status(404).json({ error: 'Paper not found' })
-      }
-    }
+    console.log('Found paper in DB:', paper)
     
-    // Always generate the full URL when sending response
     const fullPaper = {
       ...paper,
       url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
     }
+    console.log('Returning paper with URL:', fullPaper)
+    console.log('=== Get Paper Request End ===')
     
-    console.log('Returning paper with URL:', fullPaper.url)
     res.json(fullPaper)
   } catch (error) {
     console.error('Error in GET /papers/:id:', error)
@@ -159,7 +170,13 @@ app.post('/login', function(req, res) {
 
 app.post('/upload', auth, upload.single('file'), function(req, res) {
   try {
+    console.log('=== Upload Request Start ===')
+    console.log('File received:', req.file)
+    console.log('Current DOMAIN:', DOMAIN)
+    console.log('Current PROTOCOL:', PROTOCOL)
+
     if (!req.file) {
+      console.log('No file in request')
       return res.status(400).json({ error: 'No file uploaded' })
     }
 
@@ -167,25 +184,32 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       id: Date.now().toString(),
       ...req.body,
       fileName: req.file.filename,
-      fileUrl: req.file.filename,  // Store just the filename
+      fileUrl: req.file.filename,
       author: 'Employee Name',
       date: new Date().toISOString(),
       status: 'pending'
     }
+    console.log('Paper object before URL:', paper)
 
     const fullPaper = {
       ...paper,
       url: `${PROTOCOL}://${DOMAIN}/uploads/${paper.fileUrl}`
     }
+    console.log('Paper object with URL:', fullPaper)
 
+    // Read current DB state
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    console.log('Current DB state:', db.papers.length, 'papers')
+
+    // Save to DB
     db.papers.push(paper)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    console.log('Paper saved to DB. New total:', db.papers.length)
 
-    console.log('Saved paper with URL:', fullPaper.url)
+    console.log('=== Upload Request End ===')
     res.json(fullPaper)
   } catch (error) {
-    console.error('Error uploading:', error)
+    console.error('Error in upload:', error)
     res.status(500).json({ error: 'Server error' })
   }
 })
@@ -285,6 +309,15 @@ app.use((req, res, next) => {
     console.log('Serving file from:', path.join(uploadsDir, req.url.replace('/uploads/', '')))
   }
   next()
+})
+
+app.get('/reset-db', function(req, res) {
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [] }))
+    res.json({ message: 'Database reset' })
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to reset database' })
+  }
 })
 
 app.listen(3001, () => {
