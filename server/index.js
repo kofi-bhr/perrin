@@ -55,6 +55,20 @@ console.log({
   PWD: process.env.PWD
 })
 
+// At the very top of the file, add debugging
+console.log('=== RAILWAY CONFIGURATION CHECK ===')
+console.log({
+  PORT: process.env.PORT || 3001,  // Railway sets this
+  PROJECT_ID: process.env.RAILWAY_PROJECT_ID,
+  SERVICE_ID: process.env.RAILWAY_SERVICE_ID,
+  ENVIRONMENT: process.env.RAILWAY_ENVIRONMENT,
+  STATIC_URL: process.env.RAILWAY_STATIC_URL,
+  PUBLIC_URL: process.env.PUBLIC_URL
+})
+
+// Use Railway's port
+const PORT = process.env.PORT || 3001
+
 // Simple file-based DB
 const DB_FILE = path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data') : path.join(__dirname, 'data'), 'db.json')
 if (!fs.existsSync(DB_FILE)) {
@@ -64,47 +78,35 @@ if (!fs.existsSync(DB_FILE)) {
 // KILL ALL LOCALHOST REFERENCES
 const RAILWAY_URL = 'https://perrin-production.up.railway.app'
 
-// Override the response before it's sent
+// Add this BEFORE any routes
 app.use((req, res, next) => {
-  // Store the original json method
+  // Force Railway URL in request
+  req.baseUrl = RAILWAY_URL
+  
+  // Override res.json to force Railway URLs
   const originalJson = res.json
-
-  // Override the json method
   res.json = function(data) {
-    // If we're sending paper data, force the URLs
-    if (data && (data.papers || data.url || Array.isArray(data))) {
-      // Handle array of papers
+    if (data) {
+      // Force Railway URLs in all responses
+      const forceUrl = (obj) => {
+        if (obj.url && obj.fileName) {
+          obj.url = `${RAILWAY_URL}/uploads/${obj.fileName}`
+        }
+        return obj
+      }
+
       if (Array.isArray(data)) {
-        data = data.map(paper => ({
-          ...paper,
-          url: `${RAILWAY_URL}/uploads/${paper.fileName}`,
-          fileUrl: paper.fileName
-        }))
-      }
-      // Handle single paper
-      else if (data.url) {
-        data.url = `${RAILWAY_URL}/uploads/${data.fileName}`
-        data.fileUrl = data.fileName
-      }
-      // Handle papers array in object
-      else if (data.papers) {
-        data.papers = data.papers.map(paper => ({
-          ...paper,
-          url: `${RAILWAY_URL}/uploads/${paper.fileName}`,
-          fileUrl: paper.fileName
-        }))
+        data = data.map(forceUrl)
+      } else if (data.papers) {
+        data.papers = data.papers.map(forceUrl)
+      } else {
+        data = forceUrl(data)
       }
     }
-    
-    // Call the original json method
     return originalJson.call(this, data)
   }
-  
   next()
 })
-
-// Remove all other URL generation functions
-// Remove getPaperUrl, forceRailwayUrl, etc.
 
 // Simplify paper creation
 app.post('/upload', auth, upload.single('file'), function(req, res) {
@@ -387,8 +389,28 @@ console.log('Volume path:', process.env.RAILWAY_VOLUME_MOUNT_PATH)
 console.log('Uploads directory:', uploadsDir)
 console.log('Files in uploads:', fs.readdirSync(uploadsDir))
 
-app.listen(3001, () => {
-  console.log(`Server running on ${PROTOCOL}://${DOMAIN}`)
+// Add this after your DB initialization
+function fixDatabaseUrls() {
+  try {
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const fixed = db.papers.map(paper => ({
+      ...paper,
+      url: `${RAILWAY_URL}/uploads/${paper.fileName}`,
+      fileUrl: paper.fileName
+    }))
+    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixed }, null, 2))
+    console.log('Fixed database URLs:', fixed.length, 'papers updated')
+  } catch (error) {
+    console.error('Failed to fix database URLs:', error)
+  }
+}
+
+// Run this at startup
+fixDatabaseUrls()
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`)
+  console.log(`Railway URL: ${RAILWAY_URL}`)
 })
 
 // Add a force-fix endpoint

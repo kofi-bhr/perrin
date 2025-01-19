@@ -15,7 +15,7 @@ interface Paper {
   url: string
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
 export default function ResearchPage() {
   const [papers, setPapers] = useState<Paper[]>([])
