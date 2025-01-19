@@ -4,54 +4,46 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 
-// Constants first
+// Constants
 const DOMAIN = 'perrin-production.up.railway.app'
 const PROTOCOL = 'https'
 
-// Then storage setup
-console.log('=== Storage Configuration ===')
-const uploadsDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
+// Use Railway volume for storage
+const uploadsDir = process.env.RAILWAY_VOLUME_MOUNT_PATH 
   ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'uploads')
   : path.join(__dirname, 'uploads')
-const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
-  ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data')
-  : path.join(__dirname, 'data')
 
-// Ensure directories exist
+// Ensure uploads directory exists
 fs.mkdirSync(uploadsDir, { recursive: true })
-fs.mkdirSync(dataDir, { recursive: true })
 
-// Helper function for URLs
+const app = express()
+
+// Enable CORS
+app.use(cors())
+app.use(express.json())
+
+// Serve files from Railway volume
+app.use('/uploads', express.static(uploadsDir))
+
+// Configure multer to store files in Railway volume
+const storage = multer.diskStorage({
+  destination: uploadsDir,
+  filename: (_req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname)
+  }
+})
+
+// Helper function for URLs - always use Railway domain
 function getPaperUrl(filename) {
   return `${PROTOCOL}://${DOMAIN}/uploads/${filename}`
 }
-
-// Express setup
-const app = express()
-app.use(cors({
-  origin: ['https://perrin-institute.netlify.app'],
-  credentials: true
-}))
-app.use(express.json())
-
-// Static file serving
-app.use('/uploads', express.static(uploadsDir))
-app.use('/uploads', (req, res, next) => {
-  const filePath = path.join(uploadsDir, req.url.replace('/uploads/', ''))
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).send('File not found')
-  }
-  res.set('Content-Type', 'application/pdf')
-  res.set('Content-Disposition', 'inline')
-  next()
-})
 
 // Environment logging
 console.log('Server configuration:', {
   DOMAIN,
   PROTOCOL,
   uploadsPath: uploadsDir,
-  dataPath: dataDir,
+  dataPath: process.env.RAILWAY_VOLUME_MOUNT_PATH ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data') : path.join(__dirname, 'data'),
   railwayVolume: process.env.RAILWAY_VOLUME_MOUNT_PATH
 })
 
@@ -69,7 +61,7 @@ console.log({
 })
 
 // Simple file-based DB
-const DB_FILE = path.join(dataDir, 'db.json')
+const DB_FILE = path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data') : path.join(__dirname, 'data'), 'db.json')
 if (!fs.existsSync(DB_FILE)) {
   fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [] }))
 }
@@ -111,14 +103,6 @@ function migratePapers() {
 
 // Run migration immediately
 migratePapers()
-
-// File storage setup
-const storage = multer.diskStorage({
-  destination: uploadsDir,
-  filename: (_req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname)
-  }
-})
 
 const upload = multer({ storage })
 
