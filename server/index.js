@@ -115,6 +115,7 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       return res.status(400).json({ error: 'No file uploaded' })
     }
 
+    // Only store the filename, not the URL
     const paper = {
       id: Date.now().toString(),
       ...req.body,
@@ -128,8 +129,13 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
     db.papers.push(paper)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
 
-    // The middleware will handle URL generation
-    res.json(paper)
+    // Add URL only in response
+    const paperWithUrl = {
+      ...paper,
+      url: `${RAILWAY_URL}/uploads/${paper.fileName}`
+    }
+
+    res.json(paperWithUrl)
   } catch (error) {
     console.error('Error in upload:', error)
     res.status(500).json({ error: 'Server error' })
@@ -178,33 +184,23 @@ app.get('/papers', function(req, res) {
 
 app.get('/papers/:id', function(req, res) {
   try {
-    console.log('=== Get Paper Request Start ===')
     const { id } = req.params
-    console.log('Requested paper ID:', id)
-    console.log('Current DOMAIN:', DOMAIN)
-    console.log('Current PROTOCOL:', PROTOCOL)
-
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     const paper = db.papers.find(p => p.id === id)
     
     if (!paper) {
-      console.log('Paper not found:', id)
       return res.status(404).json({ error: 'Paper not found' })
     }
 
-    console.log('Found paper in DB:', paper)
-    
-    const fullPaper = {
+    // Add URL only when sending response
+    const paperWithUrl = {
       ...paper,
-      url: `${RAILWAY_URL}/uploads/${paper.fileUrl}`,
-      fileUrl: paper.fileUrl
+      url: `${RAILWAY_URL}/uploads/${paper.fileName}`
     }
-    console.log('Returning paper with URL:', fullPaper)
-    console.log('=== Get Paper Request End ===')
     
-    res.json(fullPaper)
+    res.json(paperWithUrl)
   } catch (error) {
-    console.error('Error in GET /papers/:id:', error)
+    console.error('Error:', error)
     res.status(500).json({ error: 'Server error' })
   }
 })
@@ -380,6 +376,43 @@ app.get('/fix-papers', function(req, res) {
     res.json({ message: 'Papers fixed', count: fixedPapers.length })
   } catch (error) {
     res.status(500).json({ error: 'Failed to fix papers' })
+  }
+})
+
+// Add this BEFORE any other routes
+app.get('/fix-all', async function(req, res) {
+  try {
+    console.log('Starting database fix...')
+    
+    // Read current database
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    console.log('Current papers:', db.papers.length)
+    
+    // Fix all papers
+    const fixed = db.papers.map(paper => {
+      // Remove any URL properties
+      const { url, fileUrl, ...rest } = paper
+      
+      // Keep only the filename
+      return {
+        ...rest,
+        fileName: paper.fileName || paper.fileUrl || paper.url?.split('/').pop(),
+      }
+    })
+    
+    // Save fixed papers
+    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixed }, null, 2))
+    console.log('Fixed papers saved:', fixed.length)
+    
+    // Return success
+    res.json({ 
+      message: 'Database fixed',
+      count: fixed.length,
+      sample: fixed[0]
+    })
+  } catch (error) {
+    console.error('Fix failed:', error)
+    res.status(500).json({ error: 'Failed to fix database' })
   }
 })
 
