@@ -11,12 +11,14 @@ console.log('Environment check:', {
   RAILWAY_STATIC_URL: process.env.RAILWAY_STATIC_URL,
   PORT: process.env.PORT,
   PWD: process.env.PWD,  // Add current working directory
-  PATH: process.env.PATH
+  PATH: process.env.PATH,
+  FINAL_DOMAIN: process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost:3001',
+  FINAL_PROTOCOL: process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
 })
 
 // Use explicit Railway domain
-const DOMAIN = process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost:3001'
-const PROTOCOL = process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
+const DOMAIN = process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN || 'localhost:3001'
+const PROTOCOL = process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_PUBLIC_DOMAIN ? 'https' : 'http'
 console.log('Server configuration:', { DOMAIN, PROTOCOL })
 
 const app = express()
