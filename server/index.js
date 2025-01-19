@@ -5,14 +5,22 @@ const path = require('path')
 const fs = require('fs')
 
 const app = express()
-app.use(cors())
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://perrin-institute.netlify.app'  // Your actual Netlify domain
+  ],
+  credentials: true
+}))
 app.use(express.json())
-app.use('/uploads', express.static(uploadsDir))
 
 // Use Railway Volume if available
 const uploadsDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
   ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'uploads')
   : path.join(__dirname, 'uploads')
+
+// Move this line after uploadsDir is defined
+app.use('/uploads', express.static(uploadsDir))
 
 const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
   ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data')
