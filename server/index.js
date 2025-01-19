@@ -4,6 +4,57 @@ const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
 
+// Constants first
+const DOMAIN = 'perrin-production.up.railway.app'
+const PROTOCOL = 'https'
+
+// Then storage setup
+console.log('=== Storage Configuration ===')
+const uploadsDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
+  ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'uploads')
+  : path.join(__dirname, 'uploads')
+const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
+  ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data')
+  : path.join(__dirname, 'data')
+
+// Ensure directories exist
+fs.mkdirSync(uploadsDir, { recursive: true })
+fs.mkdirSync(dataDir, { recursive: true })
+
+// Helper function for URLs
+function getPaperUrl(filename) {
+  return `${PROTOCOL}://${DOMAIN}/uploads/${filename}`
+}
+
+// Express setup
+const app = express()
+app.use(cors({
+  origin: ['https://perrin-institute.netlify.app'],
+  credentials: true
+}))
+app.use(express.json())
+
+// Static file serving
+app.use('/uploads', express.static(uploadsDir))
+app.use('/uploads', (req, res, next) => {
+  const filePath = path.join(uploadsDir, req.url.replace('/uploads/', ''))
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('File not found')
+  }
+  res.set('Content-Type', 'application/pdf')
+  res.set('Content-Disposition', 'inline')
+  next()
+})
+
+// Environment logging
+console.log('Server configuration:', {
+  DOMAIN,
+  PROTOCOL,
+  uploadsPath: uploadsDir,
+  dataPath: dataDir,
+  railwayVolume: process.env.RAILWAY_VOLUME_MOUNT_PATH
+})
+
 // Single, comprehensive environment check at startup
 console.log('=== Railway Environment Check ===')
 console.log({
@@ -17,95 +68,52 @@ console.log({
   PWD: process.env.PWD
 })
 
-// Use Railway's @web service URL with proper fallbacks
-const DOMAIN = 'perrin-production.up.railway.app'  // Always use Railway domain
-const PROTOCOL = 'https'  // Always use HTTPS
-
-console.log('Server configuration:', {
-  DOMAIN,
-  PROTOCOL,
-  uploadsPath: uploadsDir,
-  dataPath: dataDir
-})
-
-const app = express()
-app.use(cors({
-  origin: ['https://perrin-institute.netlify.app'],
-  credentials: true
-}))
-app.use(express.json())
-
-// Add static file serving BEFORE other routes
-app.use('/uploads', express.static(uploadsDir))
-app.use('/uploads', (req, res, next) => {
-  const filePath = path.join(uploadsDir, req.url.replace('/uploads/', ''))
-  if (!fs.existsSync(filePath)) {
-    return res.status(404).send('File not found')
-  }
-  res.set('Content-Type', 'application/pdf')
-  res.set('Content-Disposition', 'inline')
-  next()
-})
-
-// At the top after requires
-console.log('=== Storage Configuration ===')
-if (process.env.RAILWAY_VOLUME_MOUNT_PATH) {
-  console.log('Railway Volume detected at:', process.env.RAILWAY_VOLUME_MOUNT_PATH)
-} else {
-  console.log('WARNING: No Railway Volume detected!')
-}
-
-// Update storage paths
-const uploadsDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
-  ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'uploads')
-  : path.join(__dirname, 'uploads')
-console.log('Using uploads directory:', uploadsDir)
-
-// Verify uploads directory is writable
-try {
-  fs.accessSync(uploadsDir, fs.constants.W_OK)
-  console.log('Uploads directory is writable')
-} catch (error) {
-  console.error('ERROR: Uploads directory is not writable:', error)
-}
-
-const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH
-  ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data')
-  : path.join(__dirname, 'data')
-
-// Ensure directories exist
-fs.mkdirSync(uploadsDir, { recursive: true })
-fs.mkdirSync(dataDir, { recursive: true })
-
 // Simple file-based DB
 const DB_FILE = path.join(dataDir, 'db.json')
 if (!fs.existsSync(DB_FILE)) {
   fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [] }))
 }
 
-// Add this right after your DB_FILE initialization
+// Update the migration function to be more aggressive
 function migratePapers() {
   try {
+    console.log('Starting paper migration...')
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    
     const migratedPapers = db.papers.map(paper => {
-      if (paper.fileUrl) return paper
-      
-      const fileName = paper.url.split('/').pop()
-      return {
+      // Extract filename from any URL format
+      let fileName
+      if (paper.url && paper.url.includes('localhost')) {
+        fileName = paper.url.split('/uploads/')[1]
+      } else {
+        fileName = paper.fileUrl || paper.fileName
+      }
+
+      // Create new paper object with correct structure
+      const migratedPaper = {
         ...paper,
         fileUrl: fileName,
-        url: getPaperUrl(fileName)
+        fileName: fileName,
+        url: `https://perrin-production.up.railway.app/uploads/${fileName}`
       }
+
+      console.log('Migrated paper:', {
+        oldUrl: paper.url,
+        newUrl: migratedPaper.url,
+        fileName: migratedPaper.fileName
+      })
+
+      return migratedPaper
     })
     
     fs.writeFileSync(DB_FILE, JSON.stringify({ papers: migratedPapers }, null, 2))
-    console.log('Papers migrated successfully')
+    console.log('Migration complete:', migratedPapers.length, 'papers updated')
   } catch (error) {
-    console.error('Error migrating papers:', error)
+    console.error('Migration failed:', error)
   }
 }
 
-// Run migration when server starts
+// Run migration immediately
 migratePapers()
 
 // File storage setup
@@ -130,11 +138,6 @@ function auth(req, res, next) {
   } catch (error) {
     res.status(401).json({ error: 'Unauthorized' })
   }
-}
-
-// Helper function to generate paper URLs
-function getPaperUrl(filename) {
-  return `${PROTOCOL}://${DOMAIN}/uploads/${filename}`
 }
 
 // Add debug logging
@@ -215,26 +218,30 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       return res.status(400).json({ error: 'No file uploaded' })
     }
 
+    const fileName = req.file.filename
     const paper = {
       id: Date.now().toString(),
       ...req.body,
-      fileName: req.file.filename,
-      fileUrl: req.file.filename,
+      fileName: fileName,
+      fileUrl: fileName,  // Store just the filename
       author: 'Employee Name',
       date: new Date().toISOString(),
       status: 'pending'
     }
 
+    // Double check we're using the right URL
+    const fullUrl = `https://perrin-production.up.railway.app/uploads/${fileName}`
+    console.log('Generated URL:', fullUrl)
+
     const fullPaper = {
       ...paper,
-      url: getPaperUrl(paper.fileUrl)
+      url: fullUrl
     }
 
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    db.papers.push(paper)
+    db.papers.push(paper)  // Save paper without URL
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
 
-    console.log('Paper saved with URL:', fullPaper.url)
     res.json(fullPaper)
   } catch (error) {
     console.error('Error in upload:', error)
