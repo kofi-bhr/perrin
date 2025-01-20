@@ -1,11 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { FlipWords } from "../components/ui/flip-words"
+
 
 export default function Home() {
+  const words = ["future", "public policy", "world", "legislation"];
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center">
+      <section className="relative h-screen flex items-center">
         <Image
           src="/hero-image.jpg"
           alt="Think tank hero image"
@@ -17,13 +20,13 @@ export default function Home() {
         
         <div className="absolute w-full z-10">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="max-w-3xl space-y-8">
+            <div className="2xl:max-w-3xl space-y-2 2xl:space-y-8">
               <div>
                 <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2">
                   Policy Research Institute
                 </span>
-                <h1 className="mt-4 text-7xl font-serif font-bold text-white leading-[1.15] tracking-tight drop-shadow-lg">
-                  Shaping Tomorrow&apos;s Policy Today
+                <h1 className="mt-4 text-5xl lg:text-7xl font-serif font-bold text-white leading-[1.15] tracking-tight drop-shadow-lg">
+                  Shaping Tomorrow&apos;s <br/> <FlipWords words={words} />
                 </h1>
               </div>
               <p className="text-xl text-gray-200 leading-relaxed max-w-2xl drop-shadow-lg">
