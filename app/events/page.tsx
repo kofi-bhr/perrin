@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 const FEATURED_EVENTS = [
   {
@@ -40,8 +39,6 @@ const FEATURED_EVENTS = [
 ]
 
 export default function EventsPage() {
-  const [selectedCategory, setSelectedCategory] = useState('all')
-
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section - Updated with new image */}

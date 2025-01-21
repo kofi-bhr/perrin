@@ -18,30 +18,6 @@ interface Paper {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
-const RESEARCH_AREAS = [
-  {
-    id: 1,
-    title: "Public Policy Analysis",
-    description: "Examining the impact and effectiveness of public policies through rigorous empirical research.",
-    image: "/uva-stock-2.webp",
-    category: "Policy"
-  },
-  {
-    id: 2,
-    title: "Economic Development",
-    description: "Studying sustainable economic growth strategies and their implications for communities.",
-    image: "/uva-stock-2.webp",
-    category: "Economics"
-  },
-  {
-    id: 3,
-    title: "Democratic Institutions",
-    description: "Analyzing the evolution and strengthening of democratic systems worldwide.",
-    image: "/uva-stock-2.webp",
-    category: "Governance"
-  }
-]
-
 export default function ResearchPage() {
   const [papers, setPapers] = useState<Paper[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('all')

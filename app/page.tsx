@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FlipWords } from "../components/ui/flip-words"
-import CardsCarousel from "../components/CardsCarousel"
 
 interface Paper {
   id: string
