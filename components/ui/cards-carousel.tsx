@@ -166,7 +166,7 @@ export const Card = ({
   layout?: boolean;
 }) => {
   const [open, setOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useOutsideClick(handleClose);
   const { onCardClose } = useContext(CarouselContext);
 
   const handleClose = useCallback(() => {
@@ -182,8 +182,6 @@ export const Card = ({
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [handleClose]);
-
-  useOutsideClick(containerRef, handleClose);
 
   const handleOpen = () => {
     setOpen(true);
