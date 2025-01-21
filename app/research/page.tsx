@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { RESEARCH_CATEGORIES } from '@/lib/constants'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import Image from 'next/image'
 
 interface Paper {
   id: string
@@ -17,6 +18,30 @@ interface Paper {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
+const RESEARCH_AREAS = [
+  {
+    id: 1,
+    title: "Public Policy Analysis",
+    description: "Examining the impact and effectiveness of public policies through rigorous empirical research.",
+    image: "/uva-stock-2.webp",
+    category: "Policy"
+  },
+  {
+    id: 2,
+    title: "Economic Development",
+    description: "Studying sustainable economic growth strategies and their implications for communities.",
+    image: "/uva-stock-2.webp",
+    category: "Economics"
+  },
+  {
+    id: 3,
+    title: "Democratic Institutions",
+    description: "Analyzing the evolution and strengthening of democratic systems worldwide.",
+    image: "/uva-stock-2.webp",
+    category: "Governance"
+  }
+]
+
 export default function ResearchPage() {
   const [papers, setPapers] = useState<Paper[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
@@ -26,13 +51,9 @@ export default function ResearchPage() {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        console.log('Fetching papers from server...')
         const response = await fetch(`${API_URL}/papers`)
-        if (!response.ok) {
-          throw new Error('Failed to fetch papers')
-        }
+        if (!response.ok) throw new Error('Failed to fetch papers')
         const data = await response.json()
-        console.log('Received papers:', data)
         setPapers(data)
       } catch (error) {
         console.error('Error fetching papers:', error)
@@ -51,53 +72,47 @@ export default function ResearchPage() {
     return matchesCategory && matchesSearch
   })
 
-  if (isLoading) return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="relative h-[40vh] bg-gray-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
-        <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-4 w-full">
-            <h1 className="text-5xl font-serif font-bold text-white mb-4">
-              Research & Publications
-            </h1>
-          </div>
-        </div>
-      </div>
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <LoadingSpinner />
-      </div>
-    </div>
-  )
+  if (isLoading) return <LoadingSpinner />
 
   return (
-    <div>
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative h-[40vh] bg-gray-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
-        <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-4 w-full">
-            <h1 className="text-5xl font-serif font-bold text-white mb-4">
+      <section className="relative h-[50vh] flex items-center">
+        <Image
+          src="/uva-stock-2.webp"
+          alt="UVA Research"
+          fill
+          className="object-cover brightness-[0.75]"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
+        
+        <div className="relative z-10 w-full">
+          <div className="max-w-7xl mx-auto px-4">
+            <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2 backdrop-blur-sm">
               Research & Publications
+            </span>
+            <h1 className="mt-6 text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
+              Our Research
             </h1>
-            <p className="text-xl text-gray-300 max-w-2xl">
-              Explore our comprehensive collection of policy research, analysis, and publications.
+            <p className="mt-6 text-xl text-gray-200 max-w-3xl">
+              Explore our collection of policy research and analysis from UVA scholars.
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Filters and Search */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex flex-wrap gap-2">
+      {/* Filters Section */}
+      <section className="bg-gray-50 border-b">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => setSelectedCategory('all')}
-                className={`px-4 py-2 text-sm font-medium transition-colors ${
-                  selectedCategory === 'all'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                className={`px-6 py-2 text-sm font-medium transition-all duration-300 border-2 
+                  ${selectedCategory === 'all' 
+                    ? 'border-blue-600 text-blue-600 bg-blue-50' 
+                    : 'border-gray-200 text-gray-600 hover:border-blue-600 hover:text-blue-600'}`}
               >
                 All Research
               </button>
@@ -105,11 +120,10 @@ export default function ResearchPage() {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 text-sm font-medium transition-colors ${
-                    selectedCategory === category
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                  className={`px-6 py-2 text-sm font-medium transition-all duration-300 border-2 
+                    ${selectedCategory === category 
+                      ? 'border-blue-600 text-blue-600 bg-blue-50' 
+                      : 'border-gray-200 text-gray-600 hover:border-blue-600 hover:text-blue-600'}`}
                 >
                   {category}
                 </button>
@@ -121,36 +135,52 @@ export default function ResearchPage() {
                 placeholder="Search research..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 focus:ring-2 focus:ring-blue-500 
-                  focus:border-transparent outline-none"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 
+                  focus:ring-blue-500 focus:border-transparent outline-none"
               />
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Research Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredPapers.map((paper) => (
-            <Link 
-              key={paper.id} 
-              href={`/research/${paper.id}`}
-              className="bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <h3 className="text-xl font-medium text-gray-900 mb-2">{paper.title}</h3>
-              <p className="text-gray-600 mb-4">{paper.description}</p>
-              <div className="flex justify-between items-center text-sm text-gray-500">
-                <span>{paper.category}</span>
-                <span>{new Date(paper.date).toLocaleDateString()}</span>
-              </div>
-              <div className="mt-4 text-blue-600 hover:text-blue-500">
-                View Details →
-              </div>
-            </Link>
-          ))}
+      {/* Research Papers Grid - Updated with Links */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredPapers.map((paper) => (
+              <Link 
+                key={paper.id}
+                href={`/research/${paper.id}`}
+                className="group bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-xl 
+                  transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 
+                      transition-colors">
+                      {paper.title}
+                    </h3>
+                  </div>
+                  <p className="text-gray-600 mb-4 line-clamp-2">
+                    {paper.description}
+                  </p>
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                    <span>{paper.category}</span>
+                    <span>{new Date(paper.date).toLocaleDateString()}</span>
+                  </div>
+                  <div className="inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700">
+                    View Details
+                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
+                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

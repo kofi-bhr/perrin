@@ -24,6 +24,7 @@ export default function ResearchPaperPage() {
   const [paper, setPaper] = useState<Paper | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [copied, setCopied] = useState(false)
+  const [pdfUrl, setPdfUrl] = useState('')
 
   useEffect(() => {
     const fetchPaper = async () => {
@@ -58,6 +59,15 @@ export default function ResearchPaperPage() {
       fetchPaper()
     }
   }, [params.id])
+
+  useEffect(() => {
+    if (paper?.url) {
+      // Force Railway URL if needed
+      const url = paper.url.replace(/http:\/\/localhost:\d+/g, API_URL)
+                          .replace(/https?:\/\/localhost:\d+/g, API_URL)
+      setPdfUrl(url)
+    }
+  }, [paper])
 
   const handleCiteCopy = () => {
     if (!paper) return
@@ -131,11 +141,17 @@ export default function ResearchPaperPage() {
           {/* PDF Viewer */}
           <div className="md:col-span-2">
             <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-              <iframe
-                src={paper.url}
-                className="w-full h-[800px]"
-                title={paper.title}
-              />
+              {pdfUrl ? (
+                <iframe
+                  src={pdfUrl}
+                  className="w-full h-[800px]"
+                  title={paper.title}
+                />
+              ) : (
+                <div className="flex items-center justify-center h-[800px]">
+                  <LoadingSpinner />
+                </div>
+              )}
             </div>
           </div>
 

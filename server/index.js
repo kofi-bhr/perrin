@@ -5,8 +5,9 @@ const path = require('path')
 const fs = require('fs')
 
 // Constants
-const DOMAIN = 'perrin-production.up.railway.app'
-const PROTOCOL = 'https'
+const RAILWAY_DOMAIN = process.env.RAILWAY_PUBLIC_DOMAIN || 'perrin-production.up.railway.app'
+const RAILWAY_PUBLIC_DOMAIN = `https://${RAILWAY_DOMAIN}`
+const PORT = process.env.PORT || 3001
 
 // Use Railway volume for storage
 const uploadsDir = process.env.RAILWAY_VOLUME_MOUNT_PATH 
@@ -35,8 +36,8 @@ const storage = multer.diskStorage({
 
 // Environment logging
 console.log('Server configuration:', {
-  DOMAIN,
-  PROTOCOL,
+  DOMAIN: RAILWAY_URL,
+  PROTOCOL: 'https',
   uploadsPath: uploadsDir,
   dataPath: process.env.RAILWAY_VOLUME_MOUNT_PATH ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data') : path.join(__dirname, 'data'),
   railwayVolume: process.env.RAILWAY_VOLUME_MOUNT_PATH
@@ -66,8 +67,22 @@ console.log({
   PUBLIC_URL: process.env.PUBLIC_URL
 })
 
-// Use Railway's port
-const PORT = process.env.PORT || 3001
+// At the top after constants
+console.log('=== URL Configuration ===')
+console.log({
+  RAILWAY_URL,
+  env_RAILWAY_URL: process.env.RAILWAY_URL,
+  NODE_ENV: process.env.NODE_ENV
+})
+
+// Add debug logging for Railway configuration
+console.log('=== Railway Domain Configuration ===')
+console.log({
+  RAILWAY_DOMAIN,
+  RAILWAY_URL,
+  RAILWAY_PUBLIC_DOMAIN: process.env.RAILWAY_PUBLIC_DOMAIN,
+  NODE_ENV: process.env.NODE_ENV
+})
 
 // Simple file-based DB
 const DB_FILE = path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data') : path.join(__dirname, 'data'), 'db.json')
@@ -75,10 +90,10 @@ if (!fs.existsSync(DB_FILE)) {
   fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [] }))
 }
 
-// KILL ALL LOCALHOST REFERENCES
-const RAILWAY_URL = 'https://perrin-production.up.railway.app'
+// Fix missing upload variable declaration
+const upload = multer({ storage: storage })
 
-// Add this BEFORE any routes
+// Update the middleware that handles URL transformations
 app.use((req, res, next) => {
   // Force Railway URL in request
   req.baseUrl = RAILWAY_URL
@@ -89,8 +104,13 @@ app.use((req, res, next) => {
     if (data) {
       // Force Railway URLs in all responses
       const forceUrl = (obj) => {
-        if (obj.url && obj.fileName) {
-          obj.url = `${RAILWAY_URL}/uploads/${obj.fileName}`
+        if (obj.url) {
+          // Replace any localhost URLs with Railway URL
+          obj.url = obj.url.replace(/http:\/\/localhost:\d+/g, RAILWAY_URL)
+                         .replace(/https?:\/\/localhost:\d+/g, RAILWAY_URL)
+          if (obj.fileName) {
+            obj.url = `${RAILWAY_URL}/uploads/${obj.fileName}`
+          }
         }
         return obj
       }
@@ -108,34 +128,28 @@ app.use((req, res, next) => {
   next()
 })
 
-// Simplify paper creation
+// Update the paper creation endpoint
 app.post('/upload', auth, upload.single('file'), function(req, res) {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' })
     }
 
-    // Only store the filename, not the URL
     const paper = {
       id: Date.now().toString(),
       ...req.body,
       fileName: req.file.filename,
       author: 'Employee Name',
       date: new Date().toISOString(),
-      status: 'pending'
+      status: 'pending',
+      url: `${RAILWAY_URL}/uploads/${req.file.filename}` // Add URL here
     }
 
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     db.papers.push(paper)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
 
-    // Add URL only in response
-    const paperWithUrl = {
-      ...paper,
-      url: `${RAILWAY_URL}/uploads/${paper.fileName}`
-    }
-
-    res.json(paperWithUrl)
+    res.json(paper)
   } catch (error) {
     console.error('Error in upload:', error)
     res.status(500).json({ error: 'Server error' })
@@ -160,8 +174,8 @@ function auth(req, res, next) {
 console.log('Environment detection:', {
   isRailway: Boolean(process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_SERVICE_URL || process.env.PUBLIC_URL),
   NODE_ENV: process.env.NODE_ENV,
-  DOMAIN,
-  PROTOCOL
+  DOMAIN: RAILWAY_URL,
+  PROTOCOL: 'https'
 })
 
 // Routes
@@ -206,31 +220,26 @@ app.use((req, res, next) => {
   next();
 });
 
-// Update the papers/:id endpoint with more logging
+// Update the papers/:id endpoint
 app.get('/papers/:id', function(req, res) {
   try {
     console.log('\n=== GET /papers/:id ===');
     const { id } = req.params;
-    console.log('1. Looking for paper:', id);
-
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
-    console.log('2. Database loaded');
     
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
     const paper = db.papers.find(p => p.id === id);
-    console.log('3. Found paper:', paper);
     
     if (!paper) {
-      console.log('4a. Paper not found');
       return res.status(404).json({ error: 'Paper not found' });
     }
 
-    console.log('4b. Building response');
+    // Always construct a fresh URL using RAILWAY_URL
     const paperWithUrl = {
       ...paper,
       url: `${RAILWAY_URL}/uploads/${paper.fileName}`
     };
     
-    console.log('5. Final paper object:', paperWithUrl);
+    console.log('Paper URL:', paperWithUrl.url);
     res.json(paperWithUrl);
   } catch (error) {
     console.error('Error:', error);
@@ -238,6 +247,10 @@ app.get('/papers/:id', function(req, res) {
   }
 });
 
+// Move RAILWAY_URL declaration to top with other constants
+const RAILWAY_URL = `https://${RAILWAY_DOMAIN}`
+
+// Fix missing catch block in login route
 app.post('/login', function(req, res) {
   try {
     const { email, password } = req.body
@@ -249,6 +262,7 @@ app.post('/login', function(req, res) {
       res.status(401).json({ error: 'Invalid credentials' })
     }
   } catch (error) {
+    console.error('Login error:', error)
     res.status(500).json({ error: 'Server error' })
   }
 })
@@ -368,8 +382,8 @@ app.get('/test-url', (req, res) => {
     environment: {
       isRailway: Boolean(process.env.RAILWAY_STATIC_URL || process.env.RAILWAY_SERVICE_URL || process.env.PUBLIC_URL),
       NODE_ENV: process.env.NODE_ENV,
-      DOMAIN,
-      PROTOCOL
+      DOMAIN: RAILWAY_URL,
+      PROTOCOL: 'https'
     }
   })
 })
@@ -413,7 +427,7 @@ app.get('/fix-papers', function(req, res) {
 })
 
 // Move these to the top, right after app.use(express.json())
-const RAILWAY_URL = 'https://perrin-production.up.railway.app'
+// const RAILWAY_URL = 'https://perrin-production.up.railway.app'
 
 // Add nuke endpoint BEFORE other routes
 app.get('/nuke-database', function(req, res) {  // Remove async since we're not using it
@@ -520,6 +534,7 @@ app.get('/test-paper/:id', function(req, res) {
       }
     });
   } catch (error) {
-    res.status(500).json({ error: 'Debug failed' });
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Server error' });
   }
-}); 
+})
