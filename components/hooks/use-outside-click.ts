@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 type Handler = (event: MouseEvent | TouchEvent) => void
 
 export function useOutsideClick(handler: Handler) {
-  const ref = useRef<HTMLElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
