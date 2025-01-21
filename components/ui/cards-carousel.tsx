@@ -165,13 +165,14 @@ export const Card = ({
   layout?: boolean;
 }) => {
   const [open, setOpen] = useState(false);
-  const containerRef = useOutsideClick(handleClose);
   const { onCardClose } = useContext(CarouselContext);
 
   const handleClose = useCallback(() => {
     setOpen(false);
     onCardClose(index);
   }, [onCardClose, index]);
+
+  const containerRef = useOutsideClick(handleClose);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
