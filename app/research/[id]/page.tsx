@@ -14,6 +14,7 @@ interface Paper {
   date: string
   status: string
   url: string
+  fileName: string
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
@@ -161,14 +162,16 @@ export default function ResearchPaperPage() {
             <div className="bg-white shadow-sm rounded-lg p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Actions</h3>
               <div className="space-y-3">
-                <a
-                  href={paper.url}
-                  download
-                  className="flex items-center gap-2 text-blue-600 hover:text-blue-500"
-                >
-                  <FiDownload className="text-lg" />
-                  <span>Download PDF</span>
-                </a>
+                {paper?.url && (
+                  <a
+                    href={`${API_URL}/uploads/${paper.fileName}`}
+                    download
+                    className="flex items-center gap-2 text-blue-600 hover:text-blue-500"
+                  >
+                    <FiDownload className="text-lg" />
+                    <span>Download PDF</span>
+                  </a>
+                )}
                 <button
                   onClick={handleCiteCopy}
                   className="flex items-center gap-2 text-blue-600 hover:text-blue-500"

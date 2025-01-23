@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { images } from '@/lib/images'
 
 const FEATURED_EVENTS = [
   {
@@ -9,7 +10,7 @@ const FEATURED_EVENTS = [
     time: "2:00 PM - 4:00 PM",
     location: "Rotunda Dome Room",
     category: "Leadership",
-    image: "/uva-stock-1.jpg",
+    image: images.heroHome,
     description: "Join distinguished faculty and international leaders for a critical discussion on global governance and democratic institutions.",
     speaker: "Hon. Condoleezza Rice, Former U.S. Secretary of State"
   },
@@ -20,7 +21,7 @@ const FEATURED_EVENTS = [
     time: "10:00 AM - 3:00 PM",
     location: "McIntire School of Commerce",
     category: "Policy",
-    image: "/uva-stock-1.jpg",
+    image: images.heroHome,
     description: "A comprehensive symposium examining the intersection of public policy and economic development in the modern era.",
     speaker: "Dr. James Wilson, Dean of Public Policy"
   },
@@ -31,7 +32,7 @@ const FEATURED_EVENTS = [
     time: "1:00 PM - 5:00 PM",
     location: "Darden School of Business",
     category: "Education",
-    image: "/uva-stock-1.jpg",
+    image: images.heroHome,
     description: "Exploring innovative approaches to higher education in a rapidly evolving global landscape.",
     speaker: "President Jim Ryan, University of Virginia"
   }
@@ -43,8 +44,8 @@ export default function EventsPage() {
       {/* Hero Section - Updated with new image */}
       <section className="relative h-[50vh] flex items-center">
         <Image
-          src="/uva-stock-3.jpg"
-          alt="UVA campus events"
+          src={images.heroEvents}
+          alt="UVA Events"
           fill
           className="object-cover brightness-[0.75]"
           priority
@@ -73,7 +74,7 @@ export default function EventsPage() {
             <div className="grid md:grid-cols-2">
               <div className="relative h-64 md:h-auto">
                 <Image
-                  src="/uva-stock-1.jpg"
+                  src={images.heroHome}
                   alt="Featured event"
                   fill
                   className="object-cover"

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { RESEARCH_CATEGORIES } from '@/lib/constants'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import Image from 'next/image'
+import { images } from '@/lib/images'
 
 interface Paper {
   id: string
@@ -55,7 +56,7 @@ export default function ResearchPage() {
       {/* Hero Section */}
       <section className="relative h-[50vh] flex items-center">
         <Image
-          src="/uva-stock-2.webp"
+          src={images.heroResearch}
           alt="UVA Research"
           fill
           className="object-cover brightness-[0.75]"

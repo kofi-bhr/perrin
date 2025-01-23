@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FlipWords } from "../components/ui/flip-words"
+import { images } from '@/lib/images'
 
 interface Paper {
   id: string
@@ -45,7 +46,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[900px] md:h-screen flex items-center">
         <Image
-          src="/uva-stock-1.jpg"
+          src={images.heroHome}
           alt="UVA campus"
           fill
           className="object-cover brightness-[0.75]"
