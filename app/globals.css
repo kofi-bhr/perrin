@@ -8,13 +8,9 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  @apply bg-bg text-fg w-full h-full flex flex-col;
 }
 
 main {
-  flex: 1;
-} 
+  @apply flex-1;
+}

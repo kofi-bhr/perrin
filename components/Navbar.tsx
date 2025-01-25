@@ -1,154 +1,197 @@
-'use client'
-import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+"use client";
+import Link from "next/link";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
-  const pathname = usePathname()
-  
-  const isTransparentPage = ['/', '/employee-panel', '/admin'].includes(pathname)
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // for hamburger
+  const pathname = usePathname();
+
+  const isTransparentPage = ["/", "/employee-panel", "/admin"].includes(
+    pathname
+  );
 
   useEffect(() => {
     // Check login status and admin status
-    const token = localStorage.getItem('token')
-    const email = localStorage.getItem('userEmail')
-    setIsLoggedIn(!!token)
-    setIsAdmin(email === 'employee@perrin.org')
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("userEmail");
+    setIsLoggedIn(!!token);
+    setIsAdmin(email === "employee@perrin.org");
 
     // Scroll handler
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0)
-    }
-    
-    setIsScrolled(!isTransparentPage && window.scrollY > 0)
-    
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [isTransparentPage])
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    setIsScrolled(!isTransparentPage && window.scrollY > 0);
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isTransparentPage]);
 
   const handleSignOut = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('userEmail')
-    setIsLoggedIn(false)
-    setIsAdmin(false)
-  }
+    localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+  };
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Research', href: '/research' },
-    { name: 'Research Fellows', href: '/experts' },
-    { name: 'Events', href: '/events' },
-  ]
+    { name: "About", href: "/about" },
+    { name: "Research", href: "/research" },
+    { name: "Fellows", href: "/experts" },
+    { name: "Events", href: "/events" },
+  ];
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
-    }`}>
-      <div className="max-w-7xl mx-auto px-4">
+    <nav
+      className={`fixed w-full z-50 transition-all duration-300 bg-bg text-fg py-6 text-xl font-light border-b border-fg`}
+    >
+      <div className="mx-auto px-4 max-w-7xl">
         <div className="flex justify-between items-center">
-          <div className="flex items-center">
+          <div className="flex items-center h-full w-full pr-12">
             <Link href="/" className="flex items-center">
-              <span className={`text-2xl font-serif font-bold ${
-                isScrolled ? 'text-gray-900' : 'text-white'
-              }`}>
-                PERRIN
-              </span>
+              <Image
+                src="/logo.png"
+                width={135}
+                height={48}
+                alt="PERRIN Logo"
+              />
             </Link>
-            
-            <div className="hidden md:flex items-center space-x-8 ml-12">
-              <Link 
-                href="/research" 
-                className={`font-medium hover:opacity-75 transition-opacity ${
-                  isScrolled ? 'text-gray-900' : 'text-white'
-                }`}
-              >
-                Research
-              </Link>
-              <Link 
-                href="/experts" 
-                className={`font-medium hover:opacity-75 transition-opacity ${
-                  isScrolled ? 'text-gray-900' : 'text-white'
-                }`}
-              >
-                Research Fellows
-              </Link>
-              <Link 
-                href="/events" 
-                className={`font-medium hover:opacity-75 transition-opacity ${
-                  isScrolled ? 'text-gray-900' : 'text-white'
-                }`}
-              >
-                Events
-              </Link>
-              <Link 
-                href="/about" 
-                className={`font-medium hover:opacity-75 transition-opacity ${
-                  isScrolled ? 'text-gray-900' : 'text-white'
-                }`}
-              >
-                About
-              </Link>
-              {isLoggedIn && (
-                <Link 
-                  href="/employee-panel" 
-                  className={`font-medium hover:opacity-75 transition-opacity ${
-                    isScrolled ? 'text-gray-900' : 'text-white'
+
+            <div className="hidden lg:flex items-center space-x-24 ml-auto">
+              {navigation.map((item, index) => (
+                <Link
+                  href={item.href}
+                  className={`hover:text-accent transition-all border-b-2 border-bg hover:border-accent ${
+                    item.href === pathname ? "font-medium" : ""
                   }`}
+                  key={index}
+                >
+                  {item.name}
+                </Link>
+              ))}
+
+              {isLoggedIn && (
+                <Link
+                  href="/employee-panel"
+                  className={`font-medium hover:text-accent transition-colors`}
                 >
                   Employee Panel
                 </Link>
               )}
               {isAdmin && (
-                <Link 
-                  href="/admin" 
-                  className={`font-medium hover:opacity-75 transition-opacity ${
-                    isScrolled ? 'text-gray-900' : 'text-white'
-                  } ${pathname === '/admin' ? 'border-b-2 border-blue-500' : ''}`}
+                <Link
+                  href="/admin"
+                  className={`font-medium hover:text-accent transition-colors ${
+                    pathname === "/admin" ? "border-b-2 border-accent" : ""
+                  }`}
                 >
                   Admin Panel
                 </Link>
               )}
+
+              {isLoggedIn ? (
+                <button
+                  onClick={handleSignOut}
+                  className={`px-4 py-2 transition-colors text-nowrap`}
+                >
+                  Sign Out
+                </button>
+              ) : (
+                <Link
+                  href="/auth/signin"
+                  className={`px-4 py-2 text-nowrap bg-accent/75 text-bg hover:bg-accent transition-colors w-fit`}
+                >
+                  Sign In
+                </Link>
+              )}
             </div>
           </div>
-
-          <div className="flex items-center space-x-4">
-            <Link
-              href="/contact"
-              className={`font-medium hover:opacity-75 transition-opacity ${
-                isScrolled ? 'text-gray-900' : 'text-white'
-              }`}
+          <div className="lg:hidden ml-auto">
+            <button
+              className="text-fg focus:outline-none flex justify-center items-center"
+              onClick={() => setIsOpen(!isOpen)}
             >
-              Contact
-            </Link>
-            {isLoggedIn ? (
-              <button
-                onClick={handleSignOut}
-                className={`border-2 px-4 py-2 font-medium transition-colors ${
-                  isScrolled 
-                    ? 'border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white' 
-                    : 'border-white text-white hover:bg-white hover:text-gray-900'
-                }`}
+              <svg
+                className="h-8"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                Sign Out
-              </button>
-            ) : (
-              <Link
-                href="/auth/signin"
-                className={`border-2 px-4 py-2 font-medium transition-colors ${
-                  isScrolled 
-                    ? 'border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white' 
-                    : 'border-white text-white hover:bg-white hover:text-gray-900'
-                }`}
-              >
-                Employee Login
-              </Link>
-            )}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                ></path>
+              </svg>
+            </button>
           </div>
+          {isOpen && (
+            <div className="top-24 absolute xl:hidden bg-bg text-fg py-6 text-xl font-light border-y border-fg w-full left-0">
+              <div className="flex flex-col space-y-4 px-4">
+                {navigation.map((item, index) => (
+                  <Link
+                    href={item.href}
+                    className={`hover:text-accent transition-all ${
+                      item.href === pathname ? "font-medium" : ""
+                    }`}
+                    key={index}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+                {isLoggedIn && (
+                  <Link
+                    href="/employee-panel"
+                    className={`font-medium hover:text-accent transition-colors`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Employee Panel
+                  </Link>
+                )}
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    className={`font-medium hover:text-accent transition-colors ${
+                      pathname === "/admin" ? "border-b-2 border-accent" : ""
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Admin Panel
+                  </Link>
+                )}
+                {isLoggedIn ? (
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      setIsOpen(false);
+                    }}
+                    className={`px-4 py-2 text-nowrap bg-accent/75 text-bg hover:bg-accent transition-colors w-fit`}
+                  >
+                    Sign Out
+                  </button>
+                ) : (
+                  <Link
+                    href="/auth/signin"
+                    className={`px-4 py-2 text-nowrap bg-accent/75 text-bg hover:bg-accent transition-colors w-fit`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </nav>
-  )
-} 
+  );
+}

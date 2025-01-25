@@ -9,23 +9,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        bg: "#FAFAF5",
+        "bg-alt": "#F7F7F2",
+        "bg-alt-2": "#F7F2DE",
+        fg: "#0F120E",
+        accent: "#2C7548",
+        "accent-alt": "#375338",
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
-        serif: ['var(--font-playfair)'],
+        serif: ["var(--font-playfair)"],
       },
       animation: {
-        'spin-slow': 'spin 3s linear infinite',
+        "spin-slow": "spin 3s linear infinite",
       },
     },
   },
   plugins: [],
-}
+};
 
 export default config;
