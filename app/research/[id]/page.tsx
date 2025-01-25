@@ -109,7 +109,7 @@ export default function ResearchPaperPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <div className="relative bg-gray-900 pt-24">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/50" />
         <div className="relative z-10">
           <div className="max-w-7xl mx-auto px-4 py-12">
             <button
@@ -141,7 +141,7 @@ export default function ResearchPaperPage() {
         <div className="grid md:grid-cols-3 gap-8">
           {/* PDF Viewer */}
           <div className="md:col-span-2">
-            <div className="bg-white shadow-sm rounded-lg overflow-hidden">
+            <div className="bg-white shadow-xs rounded-lg overflow-hidden">
               {pdfUrl ? (
                 <iframe
                   src={pdfUrl}
@@ -159,7 +159,7 @@ export default function ResearchPaperPage() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Actions */}
-            <div className="bg-white shadow-sm rounded-lg p-6">
+            <div className="bg-white shadow-xs rounded-lg p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Actions</h3>
               <div className="space-y-3">
                 {paper?.url && (
@@ -183,7 +183,7 @@ export default function ResearchPaperPage() {
             </div>
 
             {/* Abstract */}
-            <div className="bg-white shadow-sm rounded-lg p-6">
+            <div className="bg-white shadow-xs rounded-lg p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Abstract</h3>
               <p className="text-gray-600">
                 {paper.abstract || paper.description}

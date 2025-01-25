@@ -58,7 +58,7 @@ export default function SignIn() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-transparent" />
         <div className="absolute top-1/3 left-12 right-12">
           <Link href="/" className="text-white text-2xl font-serif font-bold">PERRIN</Link>
           <h2 className="mt-8 text-4xl font-serif font-bold text-white leading-tight">
@@ -101,7 +101,7 @@ export default function SignIn() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-none
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                  focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent
                   text-gray-900 bg-white"
                 placeholder="name@perrin.org"
               />
@@ -119,7 +119,7 @@ export default function SignIn() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-none
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                  focus:outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-transparent
                   text-gray-900 bg-white"
                 placeholder="Enter your password"
               />
@@ -151,7 +151,7 @@ export default function SignIn() {
               disabled={isLoading}
               className="w-full flex justify-center py-4 px-4 border border-transparent
                 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700
-                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+                focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
                 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {isLoading ? 'Signing in...' : 'Sign in'}

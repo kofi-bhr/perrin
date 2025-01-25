@@ -114,7 +114,7 @@ export default function Navbar() {
           </div>
           <div className="lg:hidden ml-auto">
             <button
-              className="text-fg focus:outline-none flex justify-center items-center"
+              className="text-fg focus:outline-hidden flex justify-center items-center"
               onClick={() => setIsOpen(!isOpen)}
             >
               <svg

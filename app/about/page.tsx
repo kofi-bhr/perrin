@@ -70,11 +70,11 @@ export default function AboutPage() {
           className="object-cover brightness-[0.75]"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/40 to-black/20" />
         
         <div className="relative z-10 w-full">
           <div className="max-w-7xl mx-auto px-4">
-            <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2 backdrop-blur-sm">
+            <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2 backdrop-blur-xs">
               About Us
             </span>
             <h1 className="mt-6 text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
@@ -221,7 +221,7 @@ export default function AboutPage() {
                 description: "Focusing on practical policy solutions that can create meaningful change in society."
               }
             ].map((value, index) => (
-              <div key={index} className="bg-white p-8 rounded-lg shadow-sm">
+              <div key={index} className="bg-white p-8 rounded-lg shadow-xs">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
                 <p className="text-gray-600">{value.description}</p>
               </div>

@@ -67,13 +67,13 @@ export default function Home() {
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/research"
-                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-accent/10 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring active:bg-accent active:text-bg-alt-2 hover:border-accent outline- transition-colors"
+                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-accent/10 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring-3 active:bg-accent active:text-bg-alt-2 hover:border-accent transition-colors"
                 >
                   View Our Research
                 </Link>
                 <Link
                   href="/experts"
-                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-accent/10 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring active:bg-accent active:text-bg-alt-2 hover:border-accent transition-colors"
+                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-accent/10 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring-3 active:bg-accent active:text-bg-alt-2 hover:border-accent transition-colors"
                 >
                   Meet Our Experts
                 </Link>
@@ -111,7 +111,7 @@ export default function Home() {
             {[1, 2, 3].map((item) => (
               <div
                 key={item}
-                className="shadow-sm hover:shadow-md transition-shadow border-2 border-accent"
+                className="shadow-xs hover:shadow-md transition-shadow border-2 border-accent"
               >
                 <div className="relative h-48">
                   <Image
@@ -214,7 +214,7 @@ export default function Home() {
               <Link
                 key={paper.id}
                 href={`/research/${paper.id}`}
-                className="group backdrop-blur-sm overflow-hidden 
+                className="group backdrop-blur-xs overflow-hidden 
                    transition-all duration-300 transform hover:-translate-y-1 border-2 border-accent"
               >
                 <div className="p-6">

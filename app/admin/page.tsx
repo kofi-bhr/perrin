@@ -96,7 +96,7 @@ export default function AdminPanel() {
   if (isLoading) return (
     <div className="bg-gray-50">
       <div className="relative h-[30vh] bg-gray-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/50" />
         <div className="relative z-10 h-full flex items-end">
           <div className="max-w-7xl mx-auto px-4 pb-8 w-full">
             <h1 className="text-4xl font-serif font-bold text-white">Admin Dashboard</h1>
@@ -113,7 +113,7 @@ export default function AdminPanel() {
     <div className="bg-gray-50">
       {/* Hero Section */}
       <div className="relative h-[30vh] bg-gray-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/50" />
         <div className="relative z-10 h-full flex items-end">
           <div className="max-w-7xl mx-auto px-4 pb-8 w-full">
             <h1 className="text-4xl font-serif font-bold text-white">Admin Dashboard</h1>
@@ -131,7 +131,7 @@ export default function AdminPanel() {
             { label: 'Pending Review', value: papers.filter(p => p.status === 'pending').length },
             { label: 'Approved Papers', value: papers.filter(p => p.status === 'approved').length }
           ].map((stat, index) => (
-            <div key={index} className="bg-white p-6 shadow-sm">
+            <div key={index} className="bg-white p-6 shadow-xs">
               <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
               <div className="text-gray-600">{stat.label}</div>
             </div>
@@ -139,7 +139,7 @@ export default function AdminPanel() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white p-4 shadow-sm mb-6">
+        <div className="bg-white p-4 shadow-xs mb-6">
           <div className="flex gap-2">
             {['all', 'pending', 'approved', 'rejected'].map((status) => (
               <button
@@ -158,7 +158,7 @@ export default function AdminPanel() {
         </div>
 
         {/* Submissions Table */}
-        <div className="bg-white shadow-sm overflow-hidden">
+        <div className="bg-white shadow-xs overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>

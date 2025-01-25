@@ -121,7 +121,7 @@ export default function EmployeePanel() {
   if (isLoading) return (
     <div className="bg-gray-50">
       <div className="relative h-[30vh] bg-gray-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/50" />
         <div className="relative z-10 h-full flex items-end">
           <div className="max-w-7xl mx-auto px-4 pb-8 w-full">
             <h1 className="text-4xl font-serif font-bold text-white">Employee Dashboard</h1>
@@ -138,7 +138,7 @@ export default function EmployeePanel() {
     <div className="bg-gray-50">
       {/* Hero Section */}
       <div className="relative h-[30vh] bg-gray-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/50" />
         <div className="relative z-10 h-full flex items-end">
           <div className="max-w-7xl mx-auto px-4 pb-8 w-full">
             <h1 className="text-4xl font-serif font-bold text-white">Employee Dashboard</h1>
@@ -152,7 +152,7 @@ export default function EmployeePanel() {
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
             {step === 'success' ? (
-              <div className="bg-white shadow-sm p-8 text-center">
+              <div className="bg-white shadow-xs p-8 text-center">
                 <div className="text-green-500 mb-4">
                   <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -170,7 +170,7 @@ export default function EmployeePanel() {
                 </button>
               </div>
             ) : (
-              <div className="bg-white shadow-sm p-6">
+              <div className="bg-white shadow-xs p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold text-gray-900">
                     {step === 'draft' ? 'Submit New Research' : 'Review Submission'}
@@ -193,7 +193,7 @@ export default function EmployeePanel() {
                       onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                       disabled={step === 'review'}
                       className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 
-                        focus:border-transparent outline-none transition-colors disabled:bg-gray-50"
+                        focus:border-transparent outline-hidden transition-colors disabled:bg-gray-50"
                       required
                     />
                   </div>
@@ -207,7 +207,7 @@ export default function EmployeePanel() {
                       onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
                       disabled={step === 'review'}
                       className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 
-                        focus:border-transparent outline-none transition-colors disabled:bg-gray-50"
+                        focus:border-transparent outline-hidden transition-colors disabled:bg-gray-50"
                       required
                     >
                       {RESEARCH_CATEGORIES.map(category => (
@@ -226,7 +226,7 @@ export default function EmployeePanel() {
                       disabled={step === 'review'}
                       rows={3}
                       className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 
-                        focus:border-transparent outline-none transition-colors disabled:bg-gray-50"
+                        focus:border-transparent outline-hidden transition-colors disabled:bg-gray-50"
                       required
                     />
                   </div>
@@ -241,7 +241,7 @@ export default function EmployeePanel() {
                       disabled={step === 'review'}
                       rows={6}
                       className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 
-                        focus:border-transparent outline-none transition-colors disabled:bg-gray-50"
+                        focus:border-transparent outline-hidden transition-colors disabled:bg-gray-50"
                       required
                     />
                   </div>
@@ -285,7 +285,7 @@ export default function EmployeePanel() {
 
           {/* Submissions List */}
           <div className="space-y-4">
-            <div className="bg-white shadow-sm p-6">
+            <div className="bg-white shadow-xs p-6">
               <h2 className="text-lg font-bold text-gray-900 mb-4">Your Submissions</h2>
               {papers.length === 0 ? (
                 <p className="text-gray-500">No submissions yet</p>
