@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isOpen, setIsOpen] = useState(false); // for hamburger
@@ -21,16 +20,6 @@ export default function Navbar() {
     const email = localStorage.getItem("userEmail");
     setIsLoggedIn(!!token);
     setIsAdmin(email === "employee@perrin.org");
-
-    // Scroll handler
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-
-    setIsScrolled(!isTransparentPage && window.scrollY > 0);
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
   }, [isTransparentPage]);
 
   const handleSignOut = () => {

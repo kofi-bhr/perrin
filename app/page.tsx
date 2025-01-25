@@ -49,8 +49,8 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative flex items-center md:mt-24 border-b border-fg py-20">
         <div className="w-full z-10 h-full">
-          <div className="max-w-7xl mx-auto px-4 h-full flex flex-row justify-between items-center">
-            <div className="max-w-3xl space-y-2 2xl:space-y-4">
+          <div className="max-w-7xl mx-auto px-4 h-full flex flex-col md:flex-row justify-between items-center">
+            <div className="max-w-3xl space-y-6 2xl:space-y-8">
               <div>
                 <span className="text-sm font-semibold text-accent bg-accent/25 p-2">
                   In collaboration with the University of Virginia
@@ -80,7 +80,7 @@ export default function Home() {
               </div>
             </div>
             {/* Decorative elements */}
-            <div className="pr-12 h-full ">
+            <div className="pr-12 h-full md:ml-10 pt-10">
               <div className="grid grid-rows-3 gap-8">
                 {[
                   { number: "25+", label: "Years of Excellence" },
@@ -89,7 +89,7 @@ export default function Home() {
                 ].map((stat, index) => (
                   <div
                     key={index}
-                    className="border-r-2 pr-6 border-accent flex flex-col justify-center"
+                    className="border-b-2 md:border-r-2 pb-4 md:pr-6 border-accent flex flex-col justify-center"
                   >
                     <div className="text-4xl font-bold">{stat.number}</div>
                     <div className="mt-1">{stat.label}</div>
@@ -260,7 +260,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               href="/research"
-              className="inline-block border-2 px-8 py-3 font-medium transition-colors hover:text-accent hover:border-accent border-accent/10"
+              className="inline-block border-2 px-8 py-3 font-medium transition-colors hover:text-accent hover:border-accent border-accent/10 bg-accent/10"
             >
               View All Research
             </Link>
