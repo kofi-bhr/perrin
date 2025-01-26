@@ -48,7 +48,39 @@ export default function RootLayout({
           type="image/jpeg"
         />
       </head>
-      <body className={`${inter.className} min-h-screen flex flex-col`}>
+      <body className={`${inter.className}`}>
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="goo">
+              <feGaussianBlur
+                in="SourceGraphic"
+                stdDeviation="10"
+                result="blur"
+              />
+              <feColorMatrix
+                in="blur"
+                mode="matrix"
+                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+                result="goo"
+              />
+              <feBlend in="SourceGraphic" in2="goo" />
+            </filter>
+          </defs>
+        </svg>
+        <div className="w-full h-full absolute overflow-hidden c-container">
+          <div className="c-container-2">
+            <div className="c1"></div>
+            <div className="c2"></div>
+            <div className="c3"></div>
+            <div className="c4"></div>
+            <div className="c5"></div>
+            <div className="c6"></div>
+            <div className="c7"></div>
+            <div className="c8"></div>
+            <div className="c9"></div>
+            <div className="c10"></div>
+          </div>
+        </div>
         <Navbar />
         <main className="grow">{children}</main>
         <Footer />

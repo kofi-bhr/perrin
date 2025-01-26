@@ -45,20 +45,20 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="bg-bg">
+    <main className="">
       {/* Hero Section */}
-      <section className="relative flex items-center md:mt-24 border-b border-fg py-20">
+      <section className="relative flex items-center md:mt-24 border-b border-fg py-20 text-bg-alt-2">
         <div className="w-full z-10 h-full">
           <div className="max-w-7xl mx-auto px-4 h-full flex flex-col md:flex-row justify-between items-center">
             <div className="max-w-3xl space-y-6 2xl:space-y-8">
               <div>
-                <span className="text-sm font-semibold text-accent bg-accent/25 p-2">
+                <span className="text-sm font-semibold text-accent bg-bg-alt-2 p-2">
                   In collaboration with the University of Virginia
                 </span>
-                <h1 className="text-5xl/tight lg:text-7xl/tight font-serif font-bold text-fg leading-[1.15]">
-                  Shaping Tomorrow&apos;s <br /> <FlipWords words={words} />
-                </h1>
               </div>
+              <h1 className="text-5xl/tight lg:text-7xl/tight font-serif font-bold leading-[1.15]">
+                Shaping Tomorrow&apos;s <br /> <FlipWords words={words} />
+              </h1>
               <p className="text-xl md:text-lg leading-relaxed max-w-4xl">
                 Leading research institution dedicated to advancing public
                 policy through rigorous analysis and innovative solutions for a
@@ -67,20 +67,20 @@ export default function Home() {
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/research"
-                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-accent/10 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring-3 active:bg-accent active:text-bg-alt-2 hover:border-accent transition-colors"
+                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-bg-alt-2 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring-3 active:bg-accent active:text-bg-alt-2 hover:border-accent transition-colors"
                 >
                   View Our Research
                 </Link>
                 <Link
                   href="/experts"
-                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-accent/10 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring-3 active:bg-accent active:text-bg-alt-2 hover:border-accent transition-colors"
+                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-bg-alt-2 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring-3 active:bg-accent active:text-bg-alt-2 hover:border-accent transition-colors"
                 >
                   Meet Our Experts
                 </Link>
               </div>
             </div>
             {/* Decorative elements */}
-            <div className="pr-12 h-full md:ml-10 pt-10">
+            <div className="pr-0 lg:pr-12 h-full md:ml-10 pt-10">
               <div className="grid grid-rows-3 gap-8">
                 {[
                   { number: "25+", label: "Years of Excellence" },
@@ -102,7 +102,7 @@ export default function Home() {
       </section>
 
       {/* Featured Research Section */}
-      <section className="relative flex flex-col justify-center border-b border-fg py-20">
+      <section className="relative flex flex-col justify-center border-b border-fg py-20 bg-bg">
         <div className="mx-auto max-w-7xl px-4">
           <h2 className="text-4xl font-serif font-bold mb-12 text-left">
             Featured Research
@@ -160,7 +160,7 @@ export default function Home() {
       </section>
 
       {/* Experts Section */}
-      <section className="relative flex flex-col items-center border-b border-fg py-20">
+      <section className="relative flex flex-col items-center border-b border-fg py-20 bg-bg">
         <div className="max-w-7xl px-4 mx-auto w-full">
           <h2 className="text-4xl font-serif font-bold mb-12 text-left">
             Our Experts
@@ -203,9 +203,9 @@ export default function Home() {
       </section>
 
       {/* Latest Publications - Updated */}
-      <section className="py-20 ">
+      <section className="py-20 bg-bg">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-serif font-bold mb-12 text-center">
+          <h2 className="text-4xl font-serif font-bold mb-12">
             Latest Publications
           </h2>
 

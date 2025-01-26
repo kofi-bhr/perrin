@@ -38,14 +38,14 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 bg-bg text-fg py-6 text-xl font-light border-b border-fg`}
+      className={`fixed w-full z-50 transition-all duration-300 text-fg py-6 text-xl font-light border-b border-fg bg-bg`}
     >
       <div className="mx-auto px-4 max-w-7xl">
         <div className="flex justify-between items-center">
           <div className="flex items-center h-full w-full pr-12">
             <Link href="/" className="flex items-center">
               <Image
-                src="/logo.png"
+                src="/ui/logo.png"
                 width={135}
                 height={48}
                 alt="PERRIN Logo"
@@ -56,7 +56,7 @@ export default function Navbar() {
               {navigation.map((item, index) => (
                 <Link
                   href={item.href}
-                  className={`hover:text-accent transition-all border-b-2 border-bg hover:border-accent ${
+                  className={`hover:text-accent transition-all border-b-2 border-bg/0 hover:border-accent ${
                     item.href === pathname ? "font-medium" : ""
                   }`}
                   key={index}
@@ -123,7 +123,7 @@ export default function Navbar() {
             </button>
           </div>
           {isOpen && (
-            <div className="top-24 absolute xl:hidden bg-bg text-fg py-6 text-xl font-light border-y border-fg w-full left-0">
+            <div className="bg-bg top-24 absolute xl:hidden text-fg py-6 text-xl font-light border-y border-fg w-full left-0">
               <div className="flex flex-col space-y-4 px-4">
                 {navigation.map((item, index) => (
                   <Link
@@ -180,7 +180,7 @@ export default function Navbar() {
             </div>
           )}
         </div>
-      </div>
+      </div>{" "}
     </nav>
   );
 }

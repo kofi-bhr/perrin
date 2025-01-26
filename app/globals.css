@@ -1,18 +1,27 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --color-bg: #fafaf5;
   --color-bg-alt: #f7f7f2;
   --color-bg-alt-2: #f7f2de;
   --color-fg: #0f120e;
-  --color-accent: #2c7548;
-  --color-accent-alt: #375338;
+  --color-accent: #375338;
+  --color-accent-alt: #a597bd;
+  --color-accent-alt-2: #819dbb;
+
+  --circle-size: 1500px;
+  --blending-mode: hard-light;
+  --color-accent-x: 55, 83, 56;
+  --color-accent-alt-x: 165, 151, 189;
+  --color-accent-alt-2-x: 129, 157, 187;
 
   --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
   --background-image-gradient-conic: conic-gradient(
     from 180deg at 50% 50%,
     var(--tw-gradient-stops)
   );
+
+  --noise: url("/ui/noise.svg");
 
   --font-serif: var(--font-playfair);
 
@@ -37,15 +46,187 @@
   }
 }
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
+html {
+  @apply h-full w-full;
 }
 
 body {
-  @apply bg-bg text-fg w-full h-full flex flex-col;
+  @apply text-fg flex flex-col;
 }
 
-main {
-  @apply flex-1;
+.c-container {
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    rgba(var(--color-accent-x), 0.8),
+    rgba(var(--color-accent-alt-x), 0.8),
+    rgba(var(--color-accent-alt-2-x), 0.8)
+  );
+  filter: brightness(0.8);
+  opacity: 1;
+}
+
+.c-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--noise);
+  opacity: 0.5;
+}
+
+.c-container-2 {
+  filter: url(#goo) blur(10px);
+}
+
+@keyframes moveVertical {
+  0% {
+    transform: translateY(-75vh);
+  }
+  50% {
+    transform: translateY(75vh);
+  }
+  100% {
+    transform: translateY(-75vh);
+  }
+}
+
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-75vw);
+  }
+  50% {
+    transform: translateX(75vw);
+  }
+  100% {
+    transform: translateX(-75vw);
+  }
+}
+
+@keyframes moveDiagonal {
+  0% {
+    transform: translate(-50vw, -50vh);
+  }
+  50% {
+    transform: translate(50vw, 50vh);
+  }
+  100% {
+    transform: translate(-50vw, -50vh);
+  }
+}
+
+.c1,
+.c2,
+.c3,
+.c4,
+.c5,
+.c6 {
+  position: absolute;
+  width: var(--circle-size);
+  height: var(--circle-size);
+  opacity: 1;
+  transform-origin: center center;
+}
+
+.c1 {
+  top: 0;
+  left: 0;
+  translate: -40% -30%;
+  background: radial-gradient(
+      circle at center,
+      rgba(var(--color-accent-alt-x), 0.8),
+      rgba(var(--color-accent-alt-x), 0) 50%
+    )
+    no-repeat;
+  animation: moveVertical 10s reverse infinite;
+}
+
+.c2 {
+  top: 0%;
+  left: 0%;
+  background: radial-gradient(
+      circle at center,
+      rgba(var(--color-accent-alt-2-x), 0.8),
+      rgba(var(--color-accent-alt-2-x), 0) 50%
+    )
+    no-repeat;
+  animation: moveHorizontal 12s reverse infinite;
+}
+
+.c3 {
+  top: 0%;
+  left: 30%;
+  translate: -30% -30%;
+  background: radial-gradient(
+      circle at center,
+      rgba(var(--color-accent-x), 0.8),
+      rgba(var(--color-accent-x), 0) 50%
+    )
+    no-repeat;
+  animation: moveDiagonal 15s infinite;
+}
+
+.c4 {
+  left: 0%;
+  translate: 0% -30%;
+  background: radial-gradient(
+      circle at center,
+      rgba(var(--color-accent-alt-2-x), 0.8),
+      rgba(var(--color-accent-alt-2-x), 0) 50%
+    )
+    no-repeat;
+  animation: moveVertical 10s infinite;
+}
+
+.c5 {
+  top: 0;
+  left: 40%;
+  background: radial-gradient(
+      circle at center,
+      rgba(var(--color-accent-alt-x), 0.8),
+      rgba(var(--color-accent-alt-x), 0) 50%
+    )
+    no-repeat;
+  animation: moveVertical 18s infinite;
+}
+
+.c6 {
+  top: 50%;
+  left: 0;
+  translate: 0% -50%;
+  background: radial-gradient(
+      circle at center,
+      rgba(var(--color-accent-x), 0.8),
+      rgba(var(--color-accent-x), 0) 50%
+    )
+    no-repeat;
+  animation: moveHorizontal 14s reverse infinite;
+}
+
+.c7 {
+  left: 0%;
+  translate: 0% -30%;
+  background: radial-gradient(
+      circle at center,
+      rgba(var(--color-accent-alt-2-x), 0.8),
+      rgba(var(--color-accent-alt-2-x), 0) 50%
+    )
+    no-repeat;
+  animation: moveDiagonal 30s infinite;
+}
+
+.c8 {
+  top: 0;
+  left: 0;
+  translate: -40% -30%;
+  background: radial-gradient(
+      circle at center,
+      rgba(var(--color-accent-alt-x), 0.8),
+      rgba(var(--color-accent-alt-x), 0) 50%
+    )
+    no-repeat;
+  animation: moveDiagonal 25s infinite;
 }

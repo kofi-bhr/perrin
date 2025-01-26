@@ -2,11 +2,13 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-bg text-fg/75 border-t border-fg">
+    <footer className="text-fg/75 border-t border-fg bg-bg">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4 text-fg">PERRIN</h3>
+            <h3 className="text-xl font-bold mb-4 text-fg font-serif">
+              PERRIN
+            </h3>
             <p className="">
               Leading research institution dedicated to generating policy
               solutions
