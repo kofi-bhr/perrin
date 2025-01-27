@@ -225,8 +225,11 @@ export default function Home() {
       </section>
 
       {/* Latest Publications - Updated */}
-      <section className="relative flex flex-col items-center py-20 bg-gradient-to-br from-accent to-accent-alt text-bg noise">
-        <div className="max-w-7xl mx-auto px-4">
+      <section
+        className="relative flex flex-col items-center py-20 bg-gradient-to-br from-accent to-accent-alt text-bg noise w-full
+      "
+      >
+        <div className="max-w-7xl mx-auto px-4 w-full">
           <h2 className="text-4xl font-serif font-bold mb-12">
             Latest Publications
           </h2>
@@ -237,7 +240,7 @@ export default function Home() {
                 key={paper.id}
                 href={`/research/${paper.id}`}
                 className={`group backdrop-blur-xs overflow-hidden 
-                   transition-all duration-300 transform hover:-translate-y-1 border-2 border-accent ${gridStyle2[i]}`}
+                   transition-all duration-300 transform hover:-translate-y-1 border-2 border-accent rounded-xl ${gridStyle2[i]}`}
               >
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-2 text-xs">
