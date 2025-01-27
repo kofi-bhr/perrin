@@ -1,6 +1,6 @@
-'use client'
-import Image from 'next/image'
-import { images } from '@/lib/images'
+"use client";
+import Image from "next/image";
+import { images } from "@/lib/images";
 
 const FOUNDERS = [
   {
@@ -12,8 +12,8 @@ const FOUNDERS = [
     name: "Finn B. Jarvi",
     role: "Co-Founder",
     image: images.founders.finn,
-  }
-]
+  },
+];
 
 const UVA_STUDENTS = [
   {
@@ -24,39 +24,39 @@ const UVA_STUDENTS = [
   {
     name: "Lexie Hobbs",
     role: "UVA Student",
-    image: images.defaultProfile
+    image: images.defaultProfile,
   },
   {
     name: "Kiro Moussa",
     role: "UVA Student",
-    image: images.defaultProfile
+    image: images.defaultProfile,
   },
   {
     name: "Neha Nair",
     role: "UVA Student",
-    image: images.defaultProfile
+    image: images.defaultProfile,
   },
   {
     name: "Oyindamola Akintola",
     role: "UVA Student",
-    image: images.defaultProfile
+    image: images.defaultProfile,
   },
   {
     name: "Sabrina Morency",
     role: "UVA Student",
-    image: images.defaultProfile
+    image: images.defaultProfile,
   },
   {
     name: "Christian Wang",
     role: "UVA Student",
-    image: images.defaultProfile
+    image: images.defaultProfile,
   },
   {
     name: "Sophie",
     role: "UVA Student",
-    image: images.defaultProfile
-  }
-]
+    image: images.defaultProfile,
+  },
+];
 
 export default function AboutPage() {
   return (
@@ -71,7 +71,7 @@ export default function AboutPage() {
           priority
         />
         <div className="absolute inset-0 bg-linear-to-r from-black/40 to-black/20" />
-        
+
         <div className="relative z-10 w-full">
           <div className="max-w-7xl mx-auto px-4">
             <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2 backdrop-blur-xs">
@@ -81,7 +81,8 @@ export default function AboutPage() {
               Shaping Policy Through Research
             </h1>
             <p className="mt-6 text-xl text-gray-200 max-w-3xl">
-              A student-led think tank dedicated to advancing public policy through rigorous analysis and innovative solutions.
+              A student-led think tank dedicated to advancing public policy
+              through rigorous analysis and innovative solutions.
             </p>
           </div>
         </div>
@@ -92,17 +93,21 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">What is Perrin?</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                What is Perrin?
+              </h2>
               <p className="text-gray-600 leading-relaxed mb-6">
-                The Perrin Institute is a pioneering student-led think tank established at the 
-                University of Virginia. We serve as a bridge between academic research and practical 
-                policy implementation, focusing on creating innovative solutions for today's most 
+                The Perrin Institute is a pioneering student-led think tank
+                established at the University of Virginia. We serve as a bridge
+                between academic research and practical policy implementation,
+                focusing on creating innovative solutions for today{"'"}s most
                 pressing public policy challenges.
               </p>
               <p className="text-gray-600 leading-relaxed">
-                Our organization uniquely combines the fresh perspectives of student researchers 
-                with academic rigor and real-world policy experience. Through our research fellowship 
-                program, we empower the next generation of policy leaders while producing actionable 
+                Our organization uniquely combines the fresh perspectives of
+                student researchers with academic rigor and real-world policy
+                experience. Through our research fellowship program, we empower
+                the next generation of policy leaders while producing actionable
                 insights for policymakers.
               </p>
             </div>
@@ -121,9 +126,12 @@ export default function AboutPage() {
       {/* UVA Students Section */}
       <section className="bg-gray-50 py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">UVA Students</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+            UVA Students
+          </h2>
           <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
-            Meet our talented team of University of Virginia students working to shape the future of public policy.
+            Meet our talented team of University of Virginia students working to
+            shape the future of public policy.
           </p>
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
             {UVA_STUDENTS.map((student, index) => (
@@ -136,8 +144,12 @@ export default function AboutPage() {
                     className="object-cover"
                   />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">{student.name}</h3>
-                <p className="text-blue-600 font-medium text-sm mb-1">{student.role}</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">
+                  {student.name}
+                </h3>
+                <p className="text-blue-600 font-medium text-sm mb-1">
+                  {student.role}
+                </p>
               </div>
             ))}
           </div>
@@ -147,10 +159,13 @@ export default function AboutPage() {
       {/* Founders Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Our Founders</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+            Our Founders
+          </h2>
           <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
-            Perrin Institute was founded by two visionary UVA students committed to bridging the 
-            gap between academic research and practical policy implementation.
+            Perrin Institute was founded by two visionary UVA students committed
+            to bridging the gap between academic research and practical policy
+            implementation.
           </p>
           <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
             {FOUNDERS.map((founder, index) => (
@@ -163,7 +178,9 @@ export default function AboutPage() {
                     className="object-cover"
                   />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">{founder.name}</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  {founder.name}
+                </h3>
                 <p className="text-blue-600 font-medium">{founder.role}</p>
               </div>
             ))}
@@ -176,18 +193,22 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                Our Mission
+              </h2>
               <p className="text-gray-600 leading-relaxed mb-6">
-                The Perrin Institute is a student-led think tank at the University of Virginia, 
-                dedicated to fostering innovative policy solutions through rigorous research and analysis. 
-                We bring together diverse perspectives and emerging scholars to address pressing challenges 
-                in public policy.
+                The Perrin Institute is a student-led think tank at the
+                University of Virginia, dedicated to fostering innovative policy
+                solutions through rigorous research and analysis. We bring
+                together diverse perspectives and emerging scholars to address
+                pressing challenges in public policy.
               </p>
               <p className="text-gray-600 leading-relaxed">
-                Our work spans multiple policy areas including economic development, environmental 
-                sustainability, education reform, and social justice. Through collaboration with academic 
-                experts and policy practitioners, we aim to bridge the gap between research and practical 
-                policy implementation.
+                Our work spans multiple policy areas including economic
+                development, environmental sustainability, education reform, and
+                social justice. Through collaboration with academic experts and
+                policy practitioners, we aim to bridge the gap between research
+                and practical policy implementation.
               </p>
             </div>
             <div className="relative h-[400px] rounded-lg overflow-hidden">
@@ -205,24 +226,31 @@ export default function AboutPage() {
       {/* Values Section */}
       <section className="bg-gray-50 py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Our Core Values</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
+            Our Core Values
+          </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 title: "Academic Excellence",
-                description: "Commitment to rigorous research methodology and evidence-based analysis in all our work."
+                description:
+                  "Commitment to rigorous research methodology and evidence-based analysis in all our work.",
               },
               {
                 title: "Innovation",
-                description: "Fostering creative solutions and fresh perspectives on complex policy challenges."
+                description:
+                  "Fostering creative solutions and fresh perspectives on complex policy challenges.",
               },
               {
                 title: "Impact",
-                description: "Focusing on practical policy solutions that can create meaningful change in society."
-              }
+                description:
+                  "Focusing on practical policy solutions that can create meaningful change in society.",
+              },
             ].map((value, index) => (
               <div key={index} className="bg-white p-8 rounded-lg shadow-xs">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                  {value.title}
+                </h3>
                 <p className="text-gray-600">{value.description}</p>
               </div>
             ))}
@@ -233,10 +261,13 @@ export default function AboutPage() {
       {/* Join Us Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Join Our Mission</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            Join Our Mission
+          </h2>
           <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-            We're always looking for passionate individuals who want to contribute to meaningful 
-            policy research and make a difference in public policy.
+            We{"'"}re always looking for passionate individuals who want to
+            contribute to meaningful policy research and make a difference in
+            public policy.
           </p>
           <a
             href="/contact"
@@ -248,5 +279,5 @@ export default function AboutPage() {
         </div>
       </section>
     </div>
-  )
-} 
+  );
+}
