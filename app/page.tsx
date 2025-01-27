@@ -25,6 +25,13 @@ const gridStyle1 = [
   "md:col-span-4 md:row-span-4 md:col-start-5 md:row-start-5",
 ];
 
+const gridStyle2 = [
+  "md:col-span-4 md:row-span-6",
+  "md:col-span-3 md:row-span-2 md:col-start-5",
+  "md:col-span-3 md:row-span-2 md:col-start-5 md:row-start-3",
+  "md:col-span-3 md:row-span-2 md:col-start-5 md:row-start-5",
+];
+
 export default function Home() {
   const [latestPapers, setLatestPapers] = useState<Paper[]>([]);
   const words = ["Future", "Public Policy", "World", "Legislation"];
@@ -41,7 +48,8 @@ export default function Home() {
             (a: Paper, b: Paper) =>
               new Date(b.date).getTime() - new Date(a.date).getTime()
           )
-          .slice(0, 3);
+          .slice(0, 4);
+
         setLatestPapers(sorted);
       } catch (error) {
         console.error("Error fetching papers:", error);
@@ -119,11 +127,11 @@ export default function Home() {
               <Link
                 href="/research/1"
                 key={item}
-                className={`group justify-between h-full rounded-xl overflow-clip ${
+                className={`group justify-between h-96 md:h-full rounded-xl overflow-clip ${
                   gridStyle1[item - 1]
                 }`}
               >
-                <div className="relative top-0 left-0 h-64 md:h-full rounded-xl overflow-clip">
+                <div className="relative top-0 left-0 h-full rounded-xl overflow-clip">
                   <Image
                     src={`/uva-stock-1.jpg`}
                     alt="Research thumbnail"
@@ -173,9 +181,9 @@ export default function Home() {
               <Link
                 href="/experts/1"
                 key={item}
-                className="group overflow-clip h-full rounded-xl"
+                className="group overflow-clip md:h-full h-96 rounded-xl"
               >
-                <div className="relative top-0 left-0 h-64 md:h-full rounded-xl overflow-clip">
+                <div className="relative top-0 left-0 h-full rounded-xl overflow-clip">
                   <Image
                     src={`/experts.jpg`}
                     alt="Expert portrait"
@@ -223,13 +231,13 @@ export default function Home() {
             Latest Publications
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {latestPapers.map((paper) => (
+          <div className="grid md:grid-cols-7 md:grid-rows-6 gap-8">
+            {latestPapers.map((paper, i) => (
               <Link
                 key={paper.id}
                 href={`/research/${paper.id}`}
-                className="group backdrop-blur-xs overflow-hidden 
-                   transition-all duration-300 transform hover:-translate-y-1 border-2 border-accent"
+                className={`group backdrop-blur-xs overflow-hidden 
+                   transition-all duration-300 transform hover:-translate-y-1 border-2 border-accent ${gridStyle2[i]}`}
               >
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-2 text-xs">
