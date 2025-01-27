@@ -1,55 +1,58 @@
-'use client'
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { RESEARCH_CATEGORIES } from '@/lib/constants'
-import LoadingSpinner from '@/components/LoadingSpinner'
-import Image from 'next/image'
-import { images } from '@/lib/images'
+"use client";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { RESEARCH_CATEGORIES } from "@/lib/constants";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import Image from "next/image";
+import { images } from "@/lib/images";
 
 interface Paper {
-  id: string
-  title: string
-  description: string
-  category: string
-  author: string
-  date: string
-  status: string
-  url: string
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  author: string;
+  date: string;
+  status: string;
+  url: string;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://perrin-production.up.railway.app";
 
 export default function ResearchPage() {
-  const [papers, setPapers] = useState<Paper[]>([])
-  const [selectedCategory, setSelectedCategory] = useState<string>('all')
-  const [searchQuery, setSearchQuery] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
+  const [papers, setPapers] = useState<Paper[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const response = await fetch(`${API_URL}/papers`)
-        if (!response.ok) throw new Error('Failed to fetch papers')
-        const data = await response.json()
-        setPapers(data)
+        const response = await fetch(`${API_URL}/papers`);
+        if (!response.ok) throw new Error("Failed to fetch papers");
+        const data = await response.json();
+        setPapers(data);
       } catch (error) {
-        console.error('Error fetching papers:', error)
+        console.error("Error fetching papers:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchPapers()
-  }, [])
+    fetchPapers();
+  }, []);
 
-  const filteredPapers = papers.filter(paper => {
-    const matchesCategory = selectedCategory === 'all' || paper.category === selectedCategory
-    const matchesSearch = paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         paper.description.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
-  })
+  const filteredPapers = papers.filter((paper) => {
+    const matchesCategory =
+      selectedCategory === "all" || paper.category === selectedCategory;
+    const matchesSearch =
+      paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      paper.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
-  if (isLoading) return <LoadingSpinner />
+  if (isLoading) return <LoadingSpinner />;
 
   return (
     <div className="min-h-screen bg-white">
@@ -63,7 +66,7 @@ export default function ResearchPage() {
           priority
         />
         <div className="absolute inset-0 bg-linear-to-r from-black/40 to-black/20" />
-        
+
         <div className="relative z-10 w-full">
           <div className="max-w-7xl mx-auto px-4">
             <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2 backdrop-blur-xs">
@@ -73,7 +76,8 @@ export default function ResearchPage() {
               Our Research
             </h1>
             <p className="mt-6 text-xl text-gray-200 max-w-3xl">
-              Explore our collection of policy research and analysis from UVA scholars.
+              Explore our collection of policy research and analysis from UVA
+              scholars.
             </p>
           </div>
         </div>
@@ -85,22 +89,26 @@ export default function ResearchPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex flex-wrap gap-3">
               <button
-                onClick={() => setSelectedCategory('all')}
+                onClick={() => setSelectedCategory("all")}
                 className={`px-6 py-2 text-sm font-medium transition-all duration-300 border-2 
-                  ${selectedCategory === 'all' 
-                    ? 'border-blue-600 text-blue-600 bg-blue-50' 
-                    : 'border-gray-200 text-gray-600 hover:border-blue-600 hover:text-blue-600'}`}
+                  ${
+                    selectedCategory === "all"
+                      ? "border-blue-600 text-blue-600 bg-blue-50"
+                      : "border-gray-200 text-gray-600 hover:border-blue-600 hover:text-blue-600"
+                  }`}
               >
                 All Research
               </button>
-              {RESEARCH_CATEGORIES.map(category => (
+              {RESEARCH_CATEGORIES.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
                   className={`px-6 py-2 text-sm font-medium transition-all duration-300 border-2 
-                    ${selectedCategory === category 
-                      ? 'border-blue-600 text-blue-600 bg-blue-50' 
-                      : 'border-gray-200 text-gray-600 hover:border-blue-600 hover:text-blue-600'}`}
+                    ${
+                      selectedCategory === category
+                        ? "border-blue-600 text-blue-600 bg-blue-50"
+                        : "border-gray-200 text-gray-600 hover:border-blue-600 hover:text-blue-600"
+                    }`}
                 >
                   {category}
                 </button>
@@ -125,7 +133,7 @@ export default function ResearchPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPapers.map((paper) => (
-              <Link 
+              <Link
                 key={paper.id}
                 href={`/research/${paper.id}`}
                 className="group bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-xl 
@@ -133,8 +141,10 @@ export default function ResearchPage() {
               >
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 
-                      transition-colors">
+                    <h3
+                      className="text-xl font-bold text-gray-900 group-hover:text-blue-600 
+                      transition-colors"
+                    >
                       {paper.title}
                     </h3>
                   </div>
@@ -147,9 +157,18 @@ export default function ResearchPage() {
                   </div>
                   <div className="inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700">
                     View Details
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    <svg
+                      className="w-4 h-4 ml-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -159,5 +178,5 @@ export default function ResearchPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

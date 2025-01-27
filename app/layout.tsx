@@ -67,7 +67,18 @@ export default function RootLayout({
             </filter>
           </defs>
         </svg>
-        <div className="w-full h-full absolute overflow-hidden c-container">
+        <svg xmlns="http://www.w3.org/2000/svg">
+          <filter id="noise" x="0" y="0">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.65"
+              numOctaves="3"
+              stitchTiles="stitch"
+            />
+            <feBlend mode="screen" />
+          </filter>
+        </svg>
+        <div className="w-full h-full absolute c-container -z-10">
           <div className="c-container-2">
             <div className="c1"></div>
             <div className="c2"></div>

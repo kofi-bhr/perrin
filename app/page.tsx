@@ -18,6 +18,13 @@ interface Paper {
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "https://perrin-production.up.railway.app";
 
+const gridStyle1 = [
+  "md:col-span-5 md:row-span-4",
+  "md:col-span-3 md:row-span-4 md:col-start-6",
+  "md:col-span-4 md:row-span-4 md:row-start-5",
+  "md:col-span-4 md:row-span-4 md:col-start-5 md:row-start-5",
+];
+
 export default function Home() {
   const [latestPapers, setLatestPapers] = useState<Paper[]>([]);
   const words = ["Future", "Public Policy", "World", "Legislation"];
@@ -47,12 +54,12 @@ export default function Home() {
   return (
     <main className="">
       {/* Hero Section */}
-      <section className="relative flex items-center md:mt-24 border-b border-fg py-20 text-bg-alt-2">
+      <section className="relative flex items-center md:mt-24 border-b border-bg py-20 text-bg">
         <div className="w-full z-10 h-full">
           <div className="max-w-7xl mx-auto px-4 h-full flex flex-col md:flex-row justify-between items-center">
             <div className="max-w-3xl space-y-6 2xl:space-y-8">
               <div>
-                <span className="text-sm font-semibold text-accent bg-bg-alt-2 p-2">
+                <span className="text-sm font-semibold text-accent-alt bg-bg py-2 px-3 rounded-sm">
                   In collaboration with the University of Virginia
                 </span>
               </div>
@@ -67,13 +74,13 @@ export default function Home() {
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/research"
-                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-bg-alt-2 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring-3 active:bg-accent active:text-bg-alt-2 hover:border-accent transition-colors"
+                  className="relative inline-block overflow-hidden bg-bg px-8 py-4 text-sm font-medium text-fg transform hover:-translate-y-1 hover:translate-x-1 hover:bg-bg active:bg-accent active:border-bg active:text-bg transition-all hover:shadow-bg hover:shadow-[-3px_3px_0_0] hover:border-accent border-2 border-bg rounded-md"
                 >
                   View Our Research
                 </Link>
                 <Link
                   href="/experts"
-                  className="relative inline-block overflow-hidden border-2 border-accent/10 bg-bg-alt-2 px-8 py-4 text-sm font-medium text-fg hover:text-accent focus:ring-3 active:bg-accent active:text-bg-alt-2 hover:border-accent transition-colors"
+                  className="relative inline-block overflow-hidden bg-bg px-8 py-4 text-sm font-medium text-fg transform hover:-translate-y-1 hover:translate-x-1 hover:bg-bg active:bg-accent active:border-bg active:text-bg transition-all hover:shadow-bg hover:shadow-[-3px_3px_0_0] hover:border-accent border-2 border-bg rounded-md"
                 >
                   Meet Our Experts
                 </Link>
@@ -81,7 +88,7 @@ export default function Home() {
             </div>
             {/* Decorative elements */}
             <div className="pr-0 lg:pr-12 h-full md:ml-10 pt-10">
-              <div className="grid grid-rows-3 gap-8">
+              <div className="grid grid-cols-3 md:grid-cols-1 md:grid-rows-3 gap-8">
                 {[
                   { number: "25+", label: "Years of Excellence" },
                   { number: "200+", label: "Research Publications" },
@@ -89,10 +96,10 @@ export default function Home() {
                 ].map((stat, index) => (
                   <div
                     key={index}
-                    className="border-b-2 md:border-r-2 pb-4 md:pr-6 border-accent flex flex-col justify-center"
+                    className="border-b-2 md:border-r-2 pb-4 md:pr-6 border-bg flex flex-col justify-center rounded-br-lg"
                   >
-                    <div className="text-4xl font-bold">{stat.number}</div>
-                    <div className="mt-1">{stat.label}</div>
+                    <span className="text-4xl">{stat.number}</span>
+                    <span className="mt-1">{stat.label}</span>
                   </div>
                 ))}
               </div>
@@ -102,108 +109,115 @@ export default function Home() {
       </section>
 
       {/* Featured Research Section */}
-      <section className="relative flex flex-col justify-center border-b border-fg py-20 bg-bg">
-        <div className="mx-auto max-w-7xl px-4">
-          <h2 className="text-4xl font-serif font-bold mb-12 text-left">
+      <section className="relative flex flex-col justify-center border-b border-bg py-20 bg-gradient-to-br from-accent-alt to-accent-alt-2 w-full text-bg noise">
+        <div className="mx-auto max-w-7xl px-4 w-full">
+          <h2 className="text-4xl font-serif font-bold mb-12 text-le00">
             Featured Research
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((item) => (
-              <div
+          <div className="grid md:grid-cols-8 md:grid-rows-8 gap-4 w-full md:h-[69rem]">
+            {[1, 2, 3, 4].map((item) => (
+              <Link
+                href="/research/1"
                 key={item}
-                className="shadow-xs hover:shadow-md transition-shadow border-2 border-accent"
+                className={`group justify-between h-full rounded-xl overflow-clip ${
+                  gridStyle1[item - 1]
+                }`}
               >
-                <div className="relative h-48">
+                <div className="relative top-0 left-0 h-64 md:h-full rounded-xl overflow-clip">
                   <Image
-                    src={`/research-${item}.jpg`}
+                    src={`/uva-stock-1.jpg`}
                     alt="Research thumbnail"
                     fill
-                    className="object-cover"
-                  />
-                  <Image
-                    src={`/research-1.jpg`}
-                    alt="Research thumbnail"
-                    fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div className="p-6">
-                  <span className=" font-semibold text-sm">
-                    Policy Analysis
-                  </span>
-                  <h3 className="text-xl font-bold mt-2 mb-3">
-                    Understanding Global Economic Trends
-                  </h3>
-                  <p className="mb-4">
-                    An in-depth analysis of emerging economic patterns and their
-                    implications for policy makers
-                  </p>
-                  <Link
-                    href="/research/1"
-                    className="group font-semibold flex items-center"
-                  >
-                    <span>Read More</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="ml-1 group-hover:translate-x-2 transition-transform w-4 stroke-2"
-                    >
-                      <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
-                    </svg>
-                  </Link>
+                <div className="relative -translate-y-full left-0 pt-7 bg-gradient-to-b from-transparent to-fg/75 rounded-b-xl">
+                  <div className="p-6">
+                    <span className=" font-semibold text-sm">
+                      Policy Analysis
+                    </span>
+                    <h3 className="text-xl font-bold mt-2 mb-3">
+                      Understanding Global Economic Trends
+                    </h3>
+                    <p className="mb-4">
+                      An in-depth analysis of emerging economic patterns and
+                      their implications for policy makers
+                    </p>
+                    <div className="group font-semibold flex items-center">
+                      <span>Read More</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="ml-1 group-hover:translate-x-2 transition-transform w-4 stroke-2"
+                      >
+                        <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                      </svg>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* Experts Section */}
-      <section className="relative flex flex-col items-center border-b border-fg py-20 bg-bg">
+      <section className="relative flex flex-col items-center border-b border-bg py-20 bg-gradient-to-bl from-accent-alt-2 to-accent text-bg noise">
         <div className="max-w-7xl px-4 mx-auto w-full">
           <h2 className="text-4xl font-serif font-bold mb-12 text-left">
             Our Experts
           </h2>
-          <div className="grid md:grid-cols-4 gap-8 w-full">
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="group border-2 border-accent">
-                <div className="relative h-64 mb-4 overflow-hidden">
+          <div className="grid md:grid-cols-3 gap-8 w-full md:h-[42rem]">
+            {[1, 2, 3].map((item) => (
+              <Link
+                href="/experts/1"
+                key={item}
+                className="group overflow-clip h-full rounded-xl"
+              >
+                <div className="relative top-0 left-0 h-64 md:h-full rounded-xl overflow-clip">
                   <Image
-                    src={`/expert-${item}.jpg`}
+                    src={`/experts.jpg`}
                     alt="Expert portrait"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
+                  {/* <Image
+                    src={`/expert-${item}.jpg`}
+                    alt="Expert portrait"
+                    fill
+                    className="object-fill group-hover:scale-105 transition-transform duration-300"
+                  /> */}
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-1">Dr. Sarah Johnson</h3>
-                  <p className="text-fg/75 text-sm mb-2">
-                    Senior Fellow, Economic Policy
-                  </p>
-                  <Link
-                    href="/experts/1"
-                    className="group/link font-semibold flex items-center text-sm"
-                  >
-                    <span>View Profile</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      className="ml-1 group-hover/link:translate-x-2 transition-transform w-4 stroke-2"
-                    >
-                      <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
-                    </svg>
-                  </Link>
+                <div className="relative -translate-y-full left-0 pt-7 bg-gradient-to-b from-transparent to-fg/75 rounded-b-xl">
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-1">
+                      Dr. Sarah Johnson
+                    </h3>
+                    <p className="text-sm mb-2">
+                      Senior Fellow, Economic Policy
+                    </p>
+                    <div className="font-semibold flex items-center text-sm">
+                      <span>View Profile</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="ml-1 group-hover:translate-x-2 transition-transform w-4 stroke-2"
+                      >
+                        <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+                      </svg>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* Latest Publications - Updated */}
-      <section className="py-20 bg-bg">
+      <section className="relative flex flex-col items-center py-20 bg-gradient-to-br from-accent to-accent-alt text-bg noise">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-serif font-bold mb-12">
             Latest Publications
