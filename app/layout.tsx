@@ -49,36 +49,38 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className}`}>
-        <svg xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <filter id="goo">
-              <feGaussianBlur
-                in="SourceGraphic"
-                stdDeviation="10"
-                result="blur"
+        <div className="hidden">
+          <svg xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="goo">
+                <feGaussianBlur
+                  in="SourceGraphic"
+                  stdDeviation="10"
+                  result="blur"
+                />
+                <feColorMatrix
+                  in="blur"
+                  mode="matrix"
+                  values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+                  result="goo"
+                />
+                <feBlend in="SourceGraphic" in2="goo" />
+              </filter>
+            </defs>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg">
+            <filter id="noise" x="0" y="0">
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.65"
+                numOctaves="3"
+                stitchTiles="stitch"
               />
-              <feColorMatrix
-                in="blur"
-                mode="matrix"
-                values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
-                result="goo"
-              />
-              <feBlend in="SourceGraphic" in2="goo" />
+              <feBlend mode="screen" />
             </filter>
-          </defs>
-        </svg>
-        <svg xmlns="http://www.w3.org/2000/svg">
-          <filter id="noise" x="0" y="0">
-            <feTurbulence
-              type="fractalNoise"
-              baseFrequency="0.65"
-              numOctaves="3"
-              stitchTiles="stitch"
-            />
-            <feBlend mode="screen" />
-          </filter>
-        </svg>
-        <div className="w-full h-full absolute c-container -z-10">
+          </svg>
+        </div>
+        <div className="c-container">
           <div className="c-container-2">
             <div className="c1"></div>
             <div className="c2"></div>
@@ -93,7 +95,7 @@ export default function RootLayout({
           </div>
         </div>
         <Navbar />
-        <main className="grow">{children}</main>
+        <main className="w-full">{children}</main>
         <Footer />
       </body>
     </html>

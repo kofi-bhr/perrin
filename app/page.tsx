@@ -52,9 +52,9 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="">
+    <main className="mt-24">
       {/* Hero Section */}
-      <section className="relative flex items-center md:mt-24 border-b border-bg py-20 text-bg">
+      <section className="relative top-0 flex items-center border-b border-bg py-20 text-bg">
         <div className="w-full z-10 h-full">
           <div className="max-w-7xl mx-auto px-4 h-full flex flex-col md:flex-row justify-between items-center">
             <div className="max-w-3xl space-y-6 2xl:space-y-8">
