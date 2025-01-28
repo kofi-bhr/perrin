@@ -95,7 +95,7 @@ export default function RootLayout({
             <div className="c9"></div>
             <div className="c10"></div>
           </div>
-          {children}
+          <div className="w-full z-10">{children}</div>
         </main>
         <Footer />
       </body>

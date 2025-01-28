@@ -60,27 +60,20 @@ const UVA_STUDENTS = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="mt-24">
       {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center">
-        <Image
-          src={images.heroHome} // We can use heroHome as a placeholder or add a new about hero image
-          alt="About Perrin Institute"
-          fill
-          className="object-cover brightness-[0.75]"
-          priority
-        />
-        <div className="absolute inset-0 bg-linear-to-r from-black/40 to-black/20" />
+      <section className="relative top-0 flex items-center border-b border-fg py-20 text-bg">
+        <div className="absolute inset-0 " />
 
         <div className="relative z-10 w-full">
           <div className="max-w-7xl mx-auto px-4">
-            <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2 backdrop-blur-xs">
+            <span className="text-sm font-semibold text-accent-alt bg-bg py-2 px-3 rounded-sm">
               About Us
             </span>
-            <h1 className="mt-6 text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
+            <h1 className="mt-6 text-5xl lg:text-7xl font-serif font-bold text-bg leading-tight">
               Shaping Policy Through Research
             </h1>
-            <p className="mt-6 text-xl text-gray-200 max-w-3xl">
+            <p className="mt-6 text-xl text-bg max-w-3xl">
               A student-led think tank dedicated to advancing public policy
               through rigorous analysis and innovative solutions.
             </p>
@@ -89,21 +82,21 @@ export default function AboutPage() {
       </section>
 
       {/* Overview Section */}
-      <section className="py-20">
+      <section className="relative py-20 z-10 bg-bg border-b border-fg">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              <h2 className="text-3xl font-bold text-fg mb-6">
                 What is Perrin?
               </h2>
-              <p className="text-gray-600 leading-relaxed mb-6">
+              <p className="text-fg/75 leading-relaxed mb-6">
                 The Perrin Institute is a pioneering student-led think tank
                 established at the University of Virginia. We serve as a bridge
                 between academic research and practical policy implementation,
                 focusing on creating innovative solutions for today{"'"}s most
                 pressing public policy challenges.
               </p>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-fg/75 leading-relaxed">
                 Our organization uniquely combines the fresh perspectives of
                 student researchers with academic rigor and real-world policy
                 experience. Through our research fellowship program, we empower
@@ -124,12 +117,12 @@ export default function AboutPage() {
       </section>
 
       {/* UVA Students Section */}
-      <section className="bg-gray-50 py-20">
+      <section className="relative bg-bg py-20 border-b border-fg">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+          <h2 className="text-3xl font-bold text-fg mb-6 text-center">
             UVA Students
           </h2>
-          <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
+          <p className="text-fg/75 text-center max-w-3xl mx-auto mb-12">
             Meet our talented team of University of Virginia students working to
             shape the future of public policy.
           </p>
@@ -144,10 +137,10 @@ export default function AboutPage() {
                     className="object-cover"
                   />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">
+                <h3 className="text-lg font-bold text-fg mb-1">
                   {student.name}
                 </h3>
-                <p className="text-blue-600 font-medium text-sm mb-1">
+                <p className="text-accent-alt-2 font-medium text-sm mb-1">
                   {student.role}
                 </p>
               </div>
@@ -157,12 +150,12 @@ export default function AboutPage() {
       </section>
 
       {/* Founders Section */}
-      <section className="py-20">
+      <section className="relative bg-bg py-20 border-b border-fg">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+          <h2 className="text-3xl font-bold text-fg mb-6 text-center">
             Our Founders
           </h2>
-          <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
+          <p className="text-fg/75 text-center max-w-3xl mx-auto mb-12">
             Perrin Institute was founded by two visionary UVA students committed
             to bridging the gap between academic research and practical policy
             implementation.
@@ -178,10 +171,10 @@ export default function AboutPage() {
                     className="object-cover"
                   />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                <h3 className="text-2xl font-bold text-fg mb-2">
                   {founder.name}
                 </h3>
-                <p className="text-blue-600 font-medium">{founder.role}</p>
+                <p className="text-accent-alt-2 font-medium">{founder.role}</p>
               </div>
             ))}
           </div>
@@ -189,21 +182,19 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-20">
+      <section className="relative bg-bg py-20 border-b border-fg">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                Our Mission
-              </h2>
-              <p className="text-gray-600 leading-relaxed mb-6">
+              <h2 className="text-3xl font-bold text-fg mb-6">Our Mission</h2>
+              <p className="text-fg/75 leading-relaxed mb-6">
                 The Perrin Institute is a student-led think tank at the
                 University of Virginia, dedicated to fostering innovative policy
                 solutions through rigorous research and analysis. We bring
                 together diverse perspectives and emerging scholars to address
                 pressing challenges in public policy.
               </p>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-fg/75 leading-relaxed">
                 Our work spans multiple policy areas including economic
                 development, environmental sustainability, education reform, and
                 social justice. Through collaboration with academic experts and
@@ -224,9 +215,9 @@ export default function AboutPage() {
       </section>
 
       {/* Values Section */}
-      <section className="bg-gray-50 py-20">
+      <section className="relative bg-bg py-20 border-b border-fg">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">
+          <h2 className="text-3xl font-bold text-fg mb-12 text-center">
             Our Core Values
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -247,11 +238,11 @@ export default function AboutPage() {
                   "Focusing on practical policy solutions that can create meaningful change in society.",
               },
             ].map((value, index) => (
-              <div key={index} className="bg-white p-8 rounded-lg shadow-xs">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+              <div key={index} className="bg-bg p-8 rounded-lg shadow-xs">
+                <h3 className="text-xl font-bold text-fg mb-4">
                   {value.title}
                 </h3>
-                <p className="text-gray-600">{value.description}</p>
+                <p className="text-fg/75">{value.description}</p>
               </div>
             ))}
           </div>
@@ -259,20 +250,18 @@ export default function AboutPage() {
       </section>
 
       {/* Join Us Section */}
-      <section className="py-20">
+      <section className="relative bg-bg py-20 border-b border-fg">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
-            Join Our Mission
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-8">
+          <h2 className="text-3xl font-bold text-fg mb-6">Join Our Mission</h2>
+          <p className="text-fg/75 max-w-2xl mx-auto mb-8">
             We{"'"}re always looking for passionate individuals who want to
             contribute to meaningful policy research and make a difference in
             public policy.
           </p>
           <a
             href="/contact"
-            className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg 
-              hover:bg-blue-700 transition-colors"
+            className="inline-block bg-accent-alt-2 text-bg px-8 py-3 rounded-lg 
+              hover:bg-accent-alt-2 transition-colors"
           >
             Get Involved
           </a>

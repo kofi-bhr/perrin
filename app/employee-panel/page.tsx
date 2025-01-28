@@ -122,12 +122,12 @@ export default function EmployeePanel() {
 
   if (isLoading)
     return (
-      <div className="bg-gray-50">
-        <div className="relative h-[30vh] bg-gray-900">
-          <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/50" />
+      <div className="bg-fg/10">
+        <div className="relative h-[30vh] bg-fg">
+          <div className="absolute inset-0 bg-linear-to-r from-fg/70 to-fg/50" />
           <div className="relative z-10 h-full flex items-end">
             <div className="max-w-7xl mx-auto px-4 pb-8 w-full">
-              <h1 className="text-4xl font-serif font-bold text-white">
+              <h1 className="text-4xl font-serif font-bold text-bg">
                 Employee Dashboard
               </h1>
             </div>
@@ -140,16 +140,16 @@ export default function EmployeePanel() {
     );
 
   return (
-    <div className="bg-gray-50 ">
+    <div className="bg-fg/10 ">
       {/* Hero Section */}
-      <div className="relative h-[30vh] bg-gray-900">
-        <div className="absolute inset-0 bg-linear-to-r from-black/70 to-black/50" />
+      <div className="relative h-[30vh] bg-fg">
+        <div className="absolute inset-0 bg-linear-to-r from-fg/70 to-fg/50" />
         <div className="relative z-10 h-full flex items-end">
           <div className="max-w-7xl mx-auto px-4 pb-8 w-full">
-            <h1 className="text-4xl font-serif font-bold text-white">
+            <h1 className="text-4xl font-serif font-bold text-bg">
               Employee Dashboard
             </h1>
-            <p className="mt-2 text-gray-300">
+            <p className="mt-2 text-fg/50">
               Upload and manage your research publications
             </p>
           </div>
@@ -161,7 +161,7 @@ export default function EmployeePanel() {
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
             {step === "success" ? (
-              <div className="bg-white shadow-xs p-8 text-center">
+              <div className="bg-bg shadow-xs p-8 text-center">
                 <div className="text-green-500 mb-4">
                   <svg
                     className="w-16 h-16 mx-auto"
@@ -180,28 +180,28 @@ export default function EmployeePanel() {
                 <h2 className="text-2xl font-bold mb-4">
                   Research Submitted Successfully!
                 </h2>
-                <p className="text-gray-600 mb-6">
+                <p className="text-fg/75 mb-6">
                   Your research paper has been submitted and is pending review.
                 </p>
                 <button
                   onClick={() => setStep("draft")}
-                  className="bg-blue-600 text-white px-6 py-3 hover:bg-blue-700"
+                  className="bg-accent-alt-2 text-bg px-6 py-3 hover:bg-accent-alt-2"
                 >
                   Submit Another Paper
                 </button>
               </div>
             ) : (
-              <div className="bg-white shadow-xs p-6">
+              <div className="bg-bg shadow-xs p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-bold text-gray-900">
+                  <h2 className="text-xl font-bold text-fg">
                     {step === "draft"
                       ? "Submit New Research"
                       : "Review Submission"}
                   </h2>
-                  <div className="flex items-center space-x-2 text-sm text-gray-500">
+                  <div className="flex items-center space-x-2 text-sm text-fg/100">
                     <span
                       className={
-                        step === "draft" ? "text-blue-600 font-bold" : ""
+                        step === "draft" ? "text-accent-alt-2 font-bold" : ""
                       }
                     >
                       Draft
@@ -209,7 +209,7 @@ export default function EmployeePanel() {
                     <span>→</span>
                     <span
                       className={
-                        step === "review" ? "text-blue-600 font-bold" : ""
+                        step === "review" ? "text-accent-alt-2 font-bold" : ""
                       }
                     >
                       Review
@@ -219,7 +219,7 @@ export default function EmployeePanel() {
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-fg/75 mb-2">
                       Research Title
                     </label>
                     <input
@@ -232,14 +232,14 @@ export default function EmployeePanel() {
                         }))
                       }
                       disabled={step === "review"}
-                      className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 
-                        focus:border-transparent outline-hidden transition-colors disabled:bg-gray-50"
+                      className="w-full px-4 py-3 border border-fg/50 focus:ring-2 focus:ring-accent-alt 
+                        focus:border-transparent outline-hidden transition-colors disabled:bg-fg/10"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-fg/75 mb-2">
                       Category
                     </label>
                     <select
@@ -251,8 +251,8 @@ export default function EmployeePanel() {
                         }))
                       }
                       disabled={step === "review"}
-                      className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 
-                        focus:border-transparent outline-hidden transition-colors disabled:bg-gray-50"
+                      className="w-full px-4 py-3 border border-fg/50 focus:ring-2 focus:ring-accent-alt 
+                        focus:border-transparent outline-hidden transition-colors disabled:bg-fg/10"
                       required
                     >
                       {RESEARCH_CATEGORIES.map((category) => (
@@ -264,7 +264,7 @@ export default function EmployeePanel() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-fg/75 mb-2">
                       Brief Description
                     </label>
                     <textarea
@@ -277,14 +277,14 @@ export default function EmployeePanel() {
                       }
                       disabled={step === "review"}
                       rows={3}
-                      className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 
-                        focus:border-transparent outline-hidden transition-colors disabled:bg-gray-50"
+                      className="w-full px-4 py-3 border border-fg/50 focus:ring-2 focus:ring-accent-alt 
+                        focus:border-transparent outline-hidden transition-colors disabled:bg-fg/10"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-fg/75 mb-2">
                       Abstract
                     </label>
                     <textarea
@@ -297,15 +297,15 @@ export default function EmployeePanel() {
                       }
                       disabled={step === "review"}
                       rows={6}
-                      className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 
-                        focus:border-transparent outline-hidden transition-colors disabled:bg-gray-50"
+                      className="w-full px-4 py-3 border border-fg/50 focus:ring-2 focus:ring-accent-alt 
+                        focus:border-transparent outline-hidden transition-colors disabled:bg-fg/10"
                       required
                     />
                   </div>
 
                   {step === "draft" && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-fg/75 mb-2">
                         PDF File
                       </label>
                       <input
@@ -323,14 +323,14 @@ export default function EmployeePanel() {
                       <button
                         type="button"
                         onClick={() => setStep("draft")}
-                        className="px-6 py-3 border border-gray-300 text-gray-700 hover:bg-gray-50"
+                        className="px-6 py-3 border border-fg/50 text-fg/75 hover:bg-fg/10"
                       >
                         Back to Edit
                       </button>
                     )}
                     <button
                       type="submit"
-                      className="ml-auto px-6 py-3 bg-blue-600 text-white hover:bg-blue-700"
+                      className="ml-auto px-6 py-3 bg-accent-alt-2 text-bg hover:bg-accent-alt-2"
                     >
                       {step === "draft"
                         ? "Review Submission"
@@ -344,22 +344,22 @@ export default function EmployeePanel() {
 
           {/* Submissions List */}
           <div className="space-y-4">
-            <div className="bg-white shadow-xs p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">
+            <div className="bg-bg shadow-xs p-6">
+              <h2 className="text-lg font-bold text-fg mb-4">
                 Your Submissions
               </h2>
               {papers.length === 0 ? (
-                <p className="text-gray-500">No submissions yet</p>
+                <p className="text-fg/100">No submissions yet</p>
               ) : (
                 <div className="space-y-4">
                   {papers.map((paper) => (
                     <div
                       key={paper.id}
-                      className="border-l-4 border-blue-600 pl-4"
+                      className="border-l-4 border-accent-alt-2 pl-4"
                     >
                       <h3 className="font-medium">{paper.title}</h3>
                       <div className="flex justify-between items-center mt-1 text-sm">
-                        <span className="text-gray-600">
+                        <span className="text-fg/75">
                           {new Date(paper.date).toLocaleDateString()}
                         </span>
                         <span
@@ -380,7 +380,7 @@ export default function EmployeePanel() {
                           href={paper.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-500 text-sm mt-2 inline-block"
+                          className="text-accent-alt-2 hover:text-accent-alt text-sm mt-2 inline-block"
                         >
                           View PDF →
                         </a>

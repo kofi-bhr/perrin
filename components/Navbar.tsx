@@ -37,7 +37,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className={`fixed z-50 w-full`}>
+    <nav className={`fixed z-[999] w-full`}>
       <div className="relative top-0 w-full z-50 transition-all duration-300 text-bg text-xl font-light border-b border-bg bg-fg overflow-clip">
         <div className="py-6 w-full h-full noise before:-z-10">
           <div className="mx-auto px-4 max-w-7xl z-30">

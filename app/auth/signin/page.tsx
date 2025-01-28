@@ -60,14 +60,14 @@ export default function SignIn() {
         />
         <div className="absolute inset-0 bg-linear-to-r from-fg/70 to-transparent" />
         <div className="absolute top-1/3 left-12 right-12">
-          <Link href="/" className="text-white text-2xl font-serif font-bold">
+          <Link href="/" className="text-bg text-2xl font-serif font-bold">
             PERRIN
           </Link>
-          <h2 className="mt-8 text-4xl font-serif font-bold text-white leading-tight">
+          <h2 className="mt-8 text-4xl font-serif font-bold text-bg leading-tight">
             Welcome to the <br />
             Employee Portal
           </h2>
-          <p className="mt-4 text-gray-300 max-w-md">
+          <p className="mt-4 text-fg/50 max-w-md">
             Access your research dashboard, upload publications, and collaborate
             with fellow experts.
           </p>
@@ -99,7 +99,7 @@ export default function SignIn() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-fg/75"
               >
                 Email Address
               </label>
@@ -110,9 +110,9 @@ export default function SignIn() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-none
+                className="mt-1 block w-full px-4 py-3 border border-fg/50 rounded-none
                   focus:outline-hidden focus:ring-2 focus:ring-accent focus:border-transparent
-                  text-gray-900 bg-white"
+                  text-fg bg-bg"
                 placeholder="name@perrin.org"
               />
             </div>
@@ -120,7 +120,7 @@ export default function SignIn() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-fg/75"
               >
                 Password
               </label>
@@ -131,9 +131,9 @@ export default function SignIn() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-none
+                className="mt-1 block w-full px-4 py-3 border border-fg/50 rounded-none
                   focus:outline-hidden focus:ring-2 focus:ring-accent-alt focus:border-transparent
-                  text-gray-900 bg-white"
+                  text-fg bg-bg"
                 placeholder="Enter your password"
               />
             </div>
@@ -144,11 +144,11 @@ export default function SignIn() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 border-gray-300 text-accent focus:ring-accent-alt"
+                  className="h-4 w-4 border-fg/50 text-accent focus:ring-accent-alt"
                 />
                 <label
                   htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-700"
+                  className="ml-2 block text-sm text-fg/75"
                 >
                   Remember me
                 </label>
@@ -166,7 +166,7 @@ export default function SignIn() {
               type="submit"
               disabled={isLoading}
               className="w-full flex justify-center py-4 px-4 border border-transparent
-                text-sm font-medium text-white bg-accent hover:bg-accent-alt
+                text-sm font-medium text-bg bg-accent hover:bg-accent-alt
                 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-accent-alt
                 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >

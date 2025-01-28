@@ -55,9 +55,9 @@ export default function ResearchPage() {
   if (isLoading) return <LoadingSpinner />;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="mt-24">
       {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center">
+      <section className="relative flex flex-col justify-center border-b border-bg py-20 bg-gradient-to-br from-accent-alt to-accent-alt-2 w-full text-bg">
         <Image
           src={images.heroResearch}
           alt="UVA Research"
@@ -65,17 +65,17 @@ export default function ResearchPage() {
           className="object-cover brightness-[0.75]"
           priority
         />
-        <div className="absolute inset-0 bg-linear-to-r from-black/40 to-black/20" />
+        <div className="absolute inset-0 bg-linear-to-r from-fg/40 to-fg/20" />
 
         <div className="relative z-10 w-full">
           <div className="max-w-7xl mx-auto px-4">
-            <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2 backdrop-blur-xs">
+            <span className="text-sm font-semibold text-accent-alt bg-bg py-2 px-3 rounded-sm">
               Research & Publications
             </span>
-            <h1 className="mt-6 text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
+            <h1 className="mt-6 text-5xl lg:text-7xl font-serif font-bold text-bg leading-tight">
               Our Research
             </h1>
-            <p className="mt-6 text-xl text-gray-200 max-w-3xl">
+            <p className="mt-6 text-xl text-fg/25 max-w-3xl">
               Explore our collection of policy research and analysis from UVA
               scholars.
             </p>
@@ -84,7 +84,7 @@ export default function ResearchPage() {
       </section>
 
       {/* Filters Section */}
-      <section className="bg-gray-50 border-b">
+      <section className="relative bg-bg border-b z-50">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex flex-wrap gap-3">
@@ -93,8 +93,8 @@ export default function ResearchPage() {
                 className={`px-6 py-2 text-sm font-medium transition-all duration-300 border-2 
                   ${
                     selectedCategory === "all"
-                      ? "border-blue-600 text-blue-600 bg-blue-50"
-                      : "border-gray-200 text-gray-600 hover:border-blue-600 hover:text-blue-600"
+                      ? "border-accent-alt-2 text-bg bg-accent-alt"
+                      : "bg-bg border-fg text-fg hover:bg-accent hover:border-accent-alt-2 hover:text-bg"
                   }`}
               >
                 All Research
@@ -106,8 +106,8 @@ export default function ResearchPage() {
                   className={`px-6 py-2 text-sm font-medium transition-all duration-300 border-2 
                     ${
                       selectedCategory === category
-                        ? "border-blue-600 text-blue-600 bg-blue-50"
-                        : "border-gray-200 text-gray-600 hover:border-blue-600 hover:text-blue-600"
+                        ? "border-accent-alt-2 text-bg bg-accent-alt"
+                        : "bg-bg border-fg text-fg hover:bg-accent hover:border-accent-alt-2 hover:text-bg"
                     }`}
                 >
                   {category}
@@ -120,8 +120,8 @@ export default function ResearchPage() {
                 placeholder="Search research..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 
-                  focus:ring-blue-500 focus:border-transparent outline-hidden"
+                className="w-full px-4 py-2 border border-fg rounded-md focus:ring-2 
+                  focus:ring-accent-alt focus:border-transparent outline-hidden"
               />
             </div>
           </div>
@@ -136,26 +136,26 @@ export default function ResearchPage() {
               <Link
                 key={paper.id}
                 href={`/research/${paper.id}`}
-                className="group bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-xl 
+                className="group bg-bg border border-accent rounded-lg shadow-sm hover:shadow-xl 
                   transition-all duration-300 transform hover:-translate-y-1"
               >
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <h3
-                      className="text-xl font-bold text-gray-900 group-hover:text-blue-600 
+                      className="text-xl font-bold text-fg group-hover:text-accent-alt-2 
                       transition-colors"
                     >
                       {paper.title}
                     </h3>
                   </div>
-                  <p className="text-gray-600 mb-4 line-clamp-2">
+                  <p className="text-fg/75 mb-4 line-clamp-2">
                     {paper.description}
                   </p>
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                  <div className="flex items-center justify-between text-sm text-fg/100 mb-4">
                     <span>{paper.category}</span>
                     <span>{new Date(paper.date).toLocaleDateString()}</span>
                   </div>
-                  <div className="inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700">
+                  <div className="inline-flex items-center text-accent-alt-2 font-medium group-hover:text-accent-alt-2">
                     View Details
                     <svg
                       className="w-4 h-4 ml-2"
