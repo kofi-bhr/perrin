@@ -67,7 +67,7 @@ export default function SignIn() {
             Welcome to the <br />
             Employee Portal
           </h2>
-          <p className="mt-4 text-fg/50 max-w-md">
+          <p className="mt-4 text-bg/75 max-w-md">
             Access your research dashboard, upload publications, and collaborate
             with fellow experts.
           </p>
