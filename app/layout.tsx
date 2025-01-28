@@ -80,7 +80,9 @@ export default function RootLayout({
             </filter>
           </svg>
         </div>
-        <div className="c-container">
+        <div className="c-container"></div>
+        <Navbar />
+        <main className="w-full c-container">
           <div className="c-container-2">
             <div className="c1"></div>
             <div className="c2"></div>
@@ -93,9 +95,8 @@ export default function RootLayout({
             <div className="c9"></div>
             <div className="c10"></div>
           </div>
-        </div>
-        <Navbar />
-        <main className="w-full">{children}</main>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

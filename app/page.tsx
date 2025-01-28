@@ -118,11 +118,12 @@ export default function Home() {
 
       {/* Featured Research Section */}
       <section className="relative flex flex-col justify-center border-b border-bg py-20 bg-gradient-to-br from-accent-alt to-accent-alt-2 w-full text-bg noise">
-        <div className="mx-auto max-w-7xl px-4 w-full">
-          <h2 className="text-4xl font-serif font-bold mb-12 text-le00">
+        <div className="mx-auto max-w-7xl px-4 w-full z-10">
+          <h2 className="text-4xl font-serif font-bold mb-12 text-bg">
             Featured Research
           </h2>
-          <div className="grid md:grid-cols-8 md:grid-rows-8 gap-4 w-full md:h-[69rem]">
+          Coming soon...
+          {/* <div className="grid md:grid-cols-8 md:grid-rows-8 gap-4 w-full md:h-[69rem]">
             {[1, 2, 3, 4].map((item) => (
               <Link
                 href="/research/1"
@@ -166,17 +167,18 @@ export default function Home() {
                 </div>
               </Link>
             ))}
-          </div>
+          </div> */}
         </div>
       </section>
 
       {/* Experts Section */}
       <section className="relative flex flex-col items-center border-b border-bg py-20 bg-gradient-to-bl from-accent-alt-2 to-accent text-bg noise">
-        <div className="max-w-7xl px-4 mx-auto w-full">
+        <div className="max-w-7xl px-4 mx-auto w-full z-10">
           <h2 className="text-4xl font-serif font-bold mb-12 text-left">
             Our Experts
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 w-full md:h-[42rem]">
+          Coming soon...
+          {/* <div className="grid md:grid-cols-3 gap-8 w-full md:h-[42rem]">
             {[1, 2, 3].map((item) => (
               <Link
                 href="/experts/1"
@@ -185,17 +187,11 @@ export default function Home() {
               >
                 <div className="relative top-0 left-0 h-full rounded-xl overflow-clip">
                   <Image
-                    src={`/experts.jpg`}
-                    alt="Expert portrait"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  {/* <Image
                     src={`/expert-${item}.jpg`}
                     alt="Expert portrait"
                     fill
                     className="object-fill group-hover:scale-105 transition-transform duration-300"
-                  /> */}
+                  />
                 </div>
                 <div className="relative -translate-y-full left-0 pt-7 bg-gradient-to-b from-transparent to-fg/75 rounded-b-xl">
                   <div className="p-6">
@@ -219,8 +215,8 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-            ))}
-          </div>
+            ))} */}
+          {/* </div> */}
         </div>
       </section>
 
@@ -229,12 +225,14 @@ export default function Home() {
         className="relative flex flex-col items-center py-20 bg-gradient-to-br from-accent to-accent-alt text-bg noise w-full
       "
       >
-        <div className="max-w-7xl mx-auto px-4 w-full">
+        <div className="max-w-7xl mx-auto px-4 w-full z-10">
           <h2 className="text-4xl font-serif font-bold mb-12">
             Latest Publications
           </h2>
 
-          <div className="grid md:grid-cols-7 md:grid-rows-6 gap-8">
+          <div>Coming soon...</div>
+
+          {/* <div className="grid md:grid-cols-7 md:grid-rows-6 gap-8">
             {latestPapers.map((paper, i) => (
               <Link
                 key={paper.id}
@@ -289,7 +287,7 @@ export default function Home() {
             >
               View All Research
             </Link>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>
