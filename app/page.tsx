@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FlipWords } from "../components/ui/flip-words"
 import { images } from '@/lib/images'
+import nasa from '@/public/nasa.png'
 
 interface Paper {
   id: string
@@ -130,27 +131,43 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-serif font-bold mb-12 text-center">Featured Research</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((item) => (
-              <div key={item} className="bg-white shadow-sm hover:shadow-md transition-shadow">
+            {[
+              {
+                image: nasa,
+                category: 'Technology',
+                title: 'NASA Research Journal: CHAPEA Operation Dynamics and Performance Utility Delta',
+                description: 'A comprehensive analysis of Mars analog missions and recommendations for enhanced data collection',
+                link: '/research/1738121086204'
+              },
+              {
+                image: '/research-2.jpg',
+                category: 'Economic Policy',
+                title: 'Economic Impact of Green Energy Transition',
+                description: 'Analyzing the economic implications of transitioning to renewable energy sources across different sectors',
+                link: '/research/2'
+              },
+              {
+                image: '/research-3.jpg',
+                category: 'Social Policy',
+                title: 'Digital Inclusion in Rural Communities',
+                description: 'Examining barriers to digital access and proposing solutions for rural development',
+                link: '/research/3'
+              }
+            ].map((item) => (
+              <div key={item.title} className="bg-white shadow-sm hover:shadow-md transition-shadow">
                 <div className="relative h-48">
-                  {/* <Image
-                    src={`/research-${item}.jpg`}
-                    alt="Research thumbnail"
-                    fill
-                    className="object-cover"
-                  /> */}
                   <Image
-                    src={`/research-1.jpg`}
-                    alt="Research thumbnail"
+                    src={item.image}
+                    alt={`${item.title} thumbnail`}
                     fill
                     className="object-cover"
                   />
                 </div>
                 <div className="p-6">
-                  <span className="text-blue-600 font-semibold text-sm">Policy Analysis</span>
-                  <h3 className="text-xl font-bold mt-2 mb-3">Understanding Global Economic Trends</h3>
-                  <p className="text-gray-600 mb-4">An in-depth analysis of emerging economic patterns and their implications for policy makers</p>
-                  <Link href="/research/1" className="text-blue-600 font-semibold hover:text-blue-700">
+                  <span className="text-blue-600 font-semibold text-sm">{item.category}</span>
+                  <h3 className="text-xl font-bold mt-2 mb-3">{item.title}</h3>
+                  <p className="text-gray-600 mb-4">{item.description}</p>
+                  <Link href={item.link} className="text-blue-600 font-semibold hover:text-blue-700">
                     Read More →
                   </Link>
                 </div>
