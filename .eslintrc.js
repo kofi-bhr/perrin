@@ -3,6 +3,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-unused-vars': 'error',
     'react/no-unescaped-entities': 0,
-    '@next/next/no-unescaped-entities': 0
+    '@next/next/no-unescaped-entities': 0,
+    "quotes": ["warn", "single", { "avoidEscape": true }] 
   }
 } 
