@@ -96,7 +96,7 @@ export default function AboutPage() {
               <p className="text-gray-600 leading-relaxed mb-6">
                 The Perrin Institute is a pioneering student-led think tank established at the 
                 University of Virginia. We serve as a bridge between academic research and practical 
-                policy implementation, focusing on creating innovative solutions for today's most 
+                policy implementation, focusing on creating innovative solutions for today&apos;s most 
                 pressing public policy challenges.
               </p>
               <p className="text-gray-600 leading-relaxed">
@@ -235,7 +235,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Join Our Mission</h2>
           <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-            We're always looking for passionate individuals who want to contribute to meaningful 
+            We&apos;re always looking for passionate individuals who want to contribute to meaningful 
             policy research and make a difference in public policy.
           </p>
           <a
