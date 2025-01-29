@@ -22,7 +22,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up
 
 export default function Home() {
   const [latestPapers, setLatestPapers] = useState<Paper[]>([])
-  const words = ["future", "public policy", "world", "legislation"]
+  const words = ["Future", "Public Policy", "World", "Legislation"]
 
   useEffect(() => {
     async function fetchLatestPapers() {
@@ -80,7 +80,7 @@ export default function Home() {
             >
               <div>
                 <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2">
-                  An Institution of The University of Virginia
+                  An Institution at The University of Virginia
                 </span>
                 <h1 className="mt-4 text-5xl lg:text-7xl font-serif font-bold text-white leading-[1.15] tracking-tight drop-shadow-lg">
                   Shaping Tomorrow&apos;s <br/> <FlipWords words={words} />
@@ -120,7 +120,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 pb-20">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               {[
-                { number: '250+', label: 'Research Fellows' },
+                { number: '250+', label: 'Policy Researchers' },
                 { number: '$3.7M+', label: 'Alumni Scholarships Secured' },
                 { number: '200+', label: 'Research Publications' }
               ].map((stat, index) => (

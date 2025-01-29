@@ -25,8 +25,8 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-gray-400">
-              <li>123 Think Tank Street</li>
-              <li>City, State 12345</li>
+              <li>1827 University Avenue</li>
+              <li>Charlottesville, Virginia</li>
               <li>contact@perrin.org</li>
               <li>(555) 123-4567</li>
             </ul>
