@@ -36,13 +36,6 @@ export default function Navbar() {
     setIsAdmin(false)
   }
 
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Research', href: '/research' },
-    { name: 'Research Fellows', href: '/experts' },
-    { name: 'Events', href: '/events' },
-  ]
-
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
       isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
