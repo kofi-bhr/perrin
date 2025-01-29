@@ -137,7 +137,7 @@ export default function Home() {
                 category: 'Technology',
                 title: 'NASA Research Journal: CHAPEA Operation Dynamics and Performance Utility Delta',
                 description: 'A comprehensive analysis of Mars analog missions and recommendations for enhanced data collection',
-                link: '/research/1'
+                link: '/research/1738121086204'
               },
               {
                 image: '/research-2.jpg',
