@@ -13,6 +13,12 @@ export default function SignIn() {
   const [error, setError] = useState('')
   const router = useRouter()
 
+  const handleDebugLogin = () => {
+    localStorage.setItem('userEmail', 'employee@perrin.org')
+    localStorage.setItem('token', 'test-token')
+    router.push('/admin')
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -166,6 +172,18 @@ export default function SignIn() {
               </a>
             </span>
           </div>
+
+          {/* Add Debug Login Button - only in development */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mt-6 text-center">
+              <button
+                onClick={handleDebugLogin}
+                className="text-sm text-gray-500 hover:text-gray-700"
+              >
+                Debug Admin Login
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

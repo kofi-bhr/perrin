@@ -15,7 +15,7 @@ interface Paper {
   url: string
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
 export default function AdminPanel() {
   const router = useRouter()
@@ -75,6 +75,31 @@ export default function AdminPanel() {
     } catch (error) {
       console.error('Error updating paper status:', error)
       alert('Failed to update paper status. Please try again.')
+    }
+  }
+
+  const handleDelete = async (paperId: string) => {
+    if (!confirm('Are you sure you want to delete this paper? This action cannot be undone.')) {
+      return
+    }
+
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_URL}/papers/${paperId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (response.ok) {
+        fetchPapers() // Refresh the list
+      } else {
+        alert('Failed to delete paper. Please try again.')
+      }
+    } catch (error) {
+      console.error('Error deleting paper:', error)
+      alert('Failed to delete paper. Please try again.')
     }
   }
 
@@ -228,6 +253,12 @@ export default function AdminPanel() {
                           </button>
                         </>
                       )}
+                      <button
+                        onClick={() => handleDelete(paper.id)}
+                        className="text-gray-600 hover:text-gray-900"
+                      >
+                        Delete
+                      </button>
                     </div>
                   </td>
                 </tr>
