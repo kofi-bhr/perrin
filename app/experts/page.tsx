@@ -8,7 +8,7 @@ interface Expert {
   role: string
   bio: string
   image: string
-  mentor?: string
+  affiliatedCollege?: string
   interests?: string[]
 }
 
@@ -19,7 +19,6 @@ const EXPERTS: Expert[] = [
     role: "Research Fellow",
     bio: "Kaylee is a local journalist and aspiring politician from Jim Thorpe, Pennsylvania. She is a Leukemia & Lymphoma Society SVOY candidate as well as alumni of National History Academy and PSJP.",
     image: "/experts/kaylee.jpg",
-    mentor: "Princeton University (Simran)",
     interests: ["Journalism", "Politics", "Public Policy"]
   },
   {
@@ -36,6 +35,7 @@ const EXPERTS: Expert[] = [
     role: "Research Fellow",
     bio: "Hello! I'm Kiro Moussa. I've lived in Alexandria, Egypt for the first seven years of my life. Seeing extraordinary events such as the Egyptian Revolution of 2011 has allowed me to develop a passion to fight for social justice and equality. I will be studying Electrical Engineering & Computer Science with a minor in Political Science at MIT.",
     image: "/experts/kiro.jpg",
+    affiliatedCollege: "MIT",
     interests: ["Social Justice", "Technology", "Political Science"]
   },
   {
@@ -43,7 +43,7 @@ const EXPERTS: Expert[] = [
     name: "Neha Nair",
     role: "Research Fellow",
     bio: "As a passionate environmental researcher and technology innovator, I thrive on bridging the gap between sustainability science and real-world solutions. My drive to make supply chains more transparent led me to found my startup, and my enthusiasm for transformative tech has opened doors to meaningful work with companies like TikTok and Google.",
-    image: "/experts/neha.jpg",
+    image: "/girl1.png",
     interests: ["Environmental Policy", "Technology", "Sustainability"]
   },
   {
@@ -68,7 +68,7 @@ const EXPERTS: Expert[] = [
     role: "Research Fellow",
     bio: "Oxford PPE Commit",
     image: "/experts/default-profile.jpg",
-    mentor: "Oxford",
+    affiliatedCollege: "Oxford",
     interests: ["Philosophy", "Politics", "Economics"]
   },
   {
@@ -76,8 +76,7 @@ const EXPERTS: Expert[] = [
     name: "Sophie",
     role: "Research Fellow",
     bio: "Sophie is a Coca-Cola Scholar Semifinalist and student rights advocate who speaks for fair educational legislation in her community. She also founded a program assisting Title 1 Students with attending Ivy League and top institutions.",
-    image: "/experts/sophie.jpg",
-    mentor: "Oxford",
+    image: "/girl2.png",
     interests: ["Educational Policy", "Environmental Policy"]
   }
 ]
@@ -139,9 +138,9 @@ export default function ExpertsPage() {
                     {expert.role}
                   </p>
                   
-                  {expert.mentor && (
+                  {expert.affiliatedCollege && (
                     <p className="text-gray-600 text-sm mt-2">
-                      Mentor: {expert.mentor}
+                      Affiliated College: {expert.affiliatedCollege}
                     </p>
                   )}
                   
