@@ -3,13 +3,6 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 
-const MENU_ITEMS = [
-  { name: 'Research', href: '/research' },
-  { name: 'Experts', href: '/experts' },
-  { name: 'Events', href: '/events' },
-  { name: 'About', href: '/about' }
-]
-
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -143,4 +136,4 @@ export default function Navbar() {
       </div>
     </nav>
   )
-} 
+}
