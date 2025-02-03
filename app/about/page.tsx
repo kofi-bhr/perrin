@@ -64,7 +64,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="relative h-[50vh] flex items-center">
         <Image
-          src={images.heroHome} // We can use heroHome as a placeholder or add a new about hero image
+          src="/aboutpageimg.jpg"  // Updated from images.heroHome to the new image
           alt="About Perrin Institute"
           fill
           className="object-cover brightness-[0.75]"
@@ -99,17 +99,11 @@ export default function AboutPage() {
                 policy implementation, focusing on creating innovative solutions for today&apos;s most 
                 pressing public policy challenges.
               </p>
-              <p className="text-gray-600 leading-relaxed">
-                Our organization uniquely combines the fresh perspectives of student researchers 
-                with academic rigor and real-world policy experience. Through our research fellowship 
-                program, we empower the next generation of policy leaders while producing actionable 
-                insights for policymakers.
-              </p>
             </div>
             <div className="relative h-[400px] rounded-lg overflow-hidden">
               <Image
-                src={images.heroResearch}
-                alt="Research at Perrin"
+                src="/aboutpageimg2.jpg"
+                alt="Perrin Institute Overview"
                 fill
                 className="object-cover"
               />
@@ -175,6 +169,14 @@ export default function AboutPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="relative h-[400px] rounded-lg overflow-hidden">
+              <Image
+                src="/abtpageimg3.jpg"
+                alt="Research at Perrin"
+                fill
+                className="object-cover"
+              />
+            </div>
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
               <p className="text-gray-600 leading-relaxed mb-6">
@@ -189,14 +191,6 @@ export default function AboutPage() {
                 experts and policy practitioners, we aim to bridge the gap between research and practical 
                 policy implementation.
               </p>
-            </div>
-            <div className="relative h-[400px] rounded-lg overflow-hidden">
-              <Image
-                src={images.heroResearch}
-                alt="Research at Perrin"
-                fill
-                className="object-cover"
-              />
             </div>
           </div>
         </div>

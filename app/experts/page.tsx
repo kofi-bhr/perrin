@@ -8,7 +8,7 @@ interface Expert {
   role: string
   bio: string
   image: string
-  affiliatedCollege?: string
+  mentor?: string
   interests?: string[]
 }
 
@@ -19,6 +19,7 @@ const EXPERTS: Expert[] = [
     role: "Research Fellow",
     bio: "Kaylee is a local journalist and aspiring politician from Jim Thorpe, Pennsylvania. She is a Leukemia & Lymphoma Society SVOY candidate as well as alumni of National History Academy and PSJP.",
     image: "/experts/kaylee.jpg",
+    mentor: "Princeton University (Simran)",
     interests: ["Journalism", "Politics", "Public Policy"]
   },
   {
@@ -35,7 +36,6 @@ const EXPERTS: Expert[] = [
     role: "Research Fellow",
     bio: "Hello! I'm Kiro Moussa. I've lived in Alexandria, Egypt for the first seven years of my life. Seeing extraordinary events such as the Egyptian Revolution of 2011 has allowed me to develop a passion to fight for social justice and equality. I will be studying Electrical Engineering & Computer Science with a minor in Political Science at MIT.",
     image: "/experts/kiro.jpg",
-    affiliatedCollege: "MIT",
     interests: ["Social Justice", "Technology", "Political Science"]
   },
   {
@@ -68,7 +68,7 @@ const EXPERTS: Expert[] = [
     role: "Research Fellow",
     bio: "Oxford PPE Commit",
     image: "/experts/default-profile.jpg",
-    affiliatedCollege: "Oxford",
+    mentor: "Oxford",
     interests: ["Philosophy", "Politics", "Economics"]
   },
   {
@@ -76,7 +76,8 @@ const EXPERTS: Expert[] = [
     name: "Sophie",
     role: "Research Fellow",
     bio: "Sophie is a Coca-Cola Scholar Semifinalist and student rights advocate who speaks for fair educational legislation in her community. She also founded a program assisting Title 1 Students with attending Ivy League and top institutions.",
-    image: "/girl2.png",
+    image: "/experts/sophie.jpg",
+    mentor: "Oxford",
     interests: ["Educational Policy", "Environmental Policy"]
   }
 ]
@@ -138,9 +139,9 @@ export default function ExpertsPage() {
                     {expert.role}
                   </p>
                   
-                  {expert.affiliatedCollege && (
+                  {expert.mentor && (
                     <p className="text-gray-600 text-sm mt-2">
-                      Affiliated College: {expert.affiliatedCollege}
+                      Mentor: {expert.mentor}
                     </p>
                   )}
                   

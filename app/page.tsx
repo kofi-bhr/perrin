@@ -323,56 +323,26 @@ export default function Home() {
             Our Experts
           </motion.h2>
           <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                name: "Kiro Moussa",
-                role: "Research Fellow",
-                affiliatedCollege: "MIT",
-                image: "/expert-1.jpg"
-              },
-              {
-                name: "Christian Wang",
-                role: "Research Fellow",
-                affiliatedCollege: "Oxford",
-                image: "/expert-2.jpg"
-              },
-              {
-                name: "Dr. Sarah Johnson",
-                role: "Senior Fellow, Economic Policy",
-                affiliatedCollege: "University of Virginia",
-                image: "/expert-3.jpg"
-              },
-              {
-                name: "Dr. Emily Davis",
-                role: "Senior Fellow, Social Policy",
-                affiliatedCollege: "Harvard University",
-                image: "/expert-4.jpg"
-              }
-            ].map((expert, index) => (
+            {[1, 2, 3, 4].map((item, index) => (
               <motion.div
-                key={expert.name}
+                key={item}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2 }}
                 className="group"
               >
-                <div className="relative h-64 mb-4 overflow-hidden rounded-lg">
+                <div className="relative h-64 mb-4 overflow-hidden">
                   <Image
-                    src={expert.image}
-                    alt={`${expert.name} portrait`}
+                    src={`/expert-${item}.jpg`}
+                    alt="Expert portrait"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <h3 className="text-xl font-bold mb-1">{expert.name}</h3>
-                <p className="text-gray-600 text-sm mb-1">{expert.role}</p>
-                {expert.affiliatedCollege && (
-                  <p className="text-blue-600 text-sm mb-2">
-                    {expert.affiliatedCollege}
-                  </p>
-                )}
-                <Link href={`/experts/${expert.name.toLowerCase().replace(' ', '-')}`} className="text-blue-600 text-sm font-semibold hover:text-blue-700">
+                <h3 className="text-xl font-bold mb-1">Dr. Sarah Johnson</h3>
+                <p className="text-gray-600 text-sm mb-2">Senior Fellow, Economic Policy</p>
+                <Link href="/experts/1" className="text-blue-600 text-sm font-semibold hover:text-blue-700">
                   View Profile →
                 </Link>
               </motion.div>

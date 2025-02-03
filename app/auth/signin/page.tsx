@@ -48,18 +48,20 @@ export default function SignIn() {
   }
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left side - Image */}
-      <div className="hidden lg:block relative w-1/2">
+    <div className="min-h-screen flex relative overflow-hidden">
+      {/* Left side - Image with extremely minimal gradient fade */}
+      <div className="hidden lg:block relative w-[60%]">
         <Image
-          src="/login-bg.jpg"
-          alt="Think tank interior"
+          src="/uvasignin.jpg"
+          alt="UVA campus"
           fill
-          className="object-cover"
+          className="object-cover brightness-[0.95]"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent" />
-        <div className="absolute top-1/3 left-12 right-12">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
+        {/* Barely visible fade to white */}
+        <div className="absolute inset-y-0 right-0 w-[4%] bg-gradient-to-r from-transparent via-white/5 to-white" />
+        <div className="absolute top-1/3 left-12 right-24">
           <Link href="/" className="text-white text-2xl font-serif font-bold">PERRIN</Link>
           <h2 className="mt-8 text-4xl font-serif font-bold text-white leading-tight">
             Welcome to the <br />Employee Portal
@@ -71,7 +73,7 @@ export default function SignIn() {
       </div>
 
       {/* Right side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-8 lg:px-16 bg-gray-50">
+      <div className="w-full lg:w-[40%] flex items-center justify-center px-8 lg:px-16 bg-white relative z-10">
         <div className="w-full max-w-md">
           <div className="text-center mb-12">
             <Link href="/" className="text-3xl font-serif font-bold text-gray-900 lg:hidden">
