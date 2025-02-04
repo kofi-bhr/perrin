@@ -539,7 +539,7 @@ app.get('/test-paper/:id', function(req, res) {
   }
 })
 
-// Add this after your GET /papers and PATCH /papers/:id routes
+// Add this with your other routes (near GET /papers and PATCH /papers/:id)
 app.delete('/papers/:id', auth, async function(req, res) {
   try {
     const { id } = req.params
