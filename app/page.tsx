@@ -22,7 +22,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up
 
 export default function Home() {
   const [latestPapers, setLatestPapers] = useState<Paper[]>([])
-  const words = ["Future", "Public Policy", "World", "Legislation"]
+  const words = ["Future", "Policy", "World", "Legislation"]
 
   useEffect(() => {
     async function fetchLatestPapers() {
@@ -93,14 +93,14 @@ export default function Home() {
               <div className="flex flex-wrap gap-2 md:gap-4 pt-4">
                 <Link
                   href="/research"
-                  className="bg-white text-gray-900 px-6 py-2 text-md md:text-lg font-semibold 
+                  className="bg-white text-gray-900 px-2 md:px-6 py-2 text-md md:text-lg font-semibold 
                     hover:bg-gray-100 transition-colors border-2 border-white"
                 >
                   View Our Research
                 </Link>
                 <Link
                   href="/experts"
-                  className="border-2 border-white text-white px-6 py-2 text-md md:text-lg font-semibold 
+                  className="border-2 border-white text-white px-2 md:px-6 py-2 text-md md:text-lg font-semibold 
                     hover:bg-white hover:text-gray-900 transition-colors"
                 >
                   Meet Our Experts
@@ -115,7 +115,7 @@ export default function Home() {
           variants={staggerChildren}
           initial="initial"
           animate="animate"
-          className="absolute bottom-0 left-0 right-0 z-10"
+          className="absolute -bottom-14 md:bottom-0 left-0 right-0 z-10"
         >
           <div className="max-w-7xl mx-auto px-4 pb-20">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
