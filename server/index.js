@@ -7,7 +7,7 @@ const fs = require('fs')
 const RAILWAY_DOMAIN = process.env.NODE_ENV === 'production' 
   ? (process.env.RAILWAY_PUBLIC_DOMAIN || 'perrin-production.up.railway.app')
   : 'http://localhost:3001'  // Use localhost for development
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3001  // Railway will provide PORT env variable
 
 // Add this near the top, after the constants
 const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH 
@@ -39,8 +39,43 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// Remove ALL CORS middleware
-// Just start with express.json()
+// CORS middleware - put this before any other middleware
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    'https://perrininstitution.org',
+    'https://www.perrininstitution.org',
+    'http://localhost:3000'
+  ]
+  
+  const origin = req.headers.origin
+  
+  // Log request details
+  console.log('\n=== Incoming Request ===')
+  console.log({
+    url: req.url,
+    method: req.method,
+    origin,
+    host: req.headers.host
+  })
+
+  // Set CORS headers if origin is allowed
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin)
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    res.setHeader('Access-Control-Allow-Credentials', 'true')
+  }
+
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    console.log('👉 Handling OPTIONS preflight request')
+    return res.status(200).end()
+  }
+
+  next()
+})
+
+// Remove any other CORS-related middleware
 app.use(express.json())
 
 // Serve files from Railway volume
