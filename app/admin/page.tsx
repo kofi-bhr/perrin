@@ -39,17 +39,31 @@ export default function AdminPanel() {
   const fetchPapers = async () => {
     try {
       const token = localStorage.getItem('token')
+      console.log('Attempting to fetch papers with token:', token?.substring(0, 10) + '...')
+      
       const response = await fetch(`${API_URL}/admin/papers`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        // Remove credentials if not needed for local development
+        // credentials: 'include'
       })
-      if (!response.ok) throw new Error('Failed to fetch papers')
+
+      console.log('Response status:', response.status)
+      
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('Server error response:', errorText)
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
       const data = await response.json()
-      console.log('Admin papers:', data)
-      setPapers(data)
+      console.log('Received papers:', data?.length || 0)
+      setPapers(data || [])
     } catch (error) {
       console.error('Error fetching papers:', error)
+      setPapers([]) // Set empty array on error
     } finally {
       setIsLoading(false)
     }
