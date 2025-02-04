@@ -40,34 +40,27 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// Disable CORS completely
+// Most permissive CORS possible
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', '*');
-  res.header('Access-Control-Allow-Headers', '*');
+  // Allow any origin
+  res.setHeader('Access-Control-Allow-Origin', '*');
   
+  // Allow any method
+  res.setHeader('Access-Control-Allow-Methods', '*');
+  
+  // Allow any header
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  
+  // Allow credentials
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
+  // Handle preflight
   if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
+    res.status(200).end();
+    return;
   }
-  next();
-});
-
-// Add global error handler
-app.use((err, req, res, next) => {
-  console.error('\n=== Error Handler ===');
-  console.error('Error:', err);
-  console.error('Request details:', {
-    method: req.method,
-    url: req.url,
-    headers: req.headers,
-    body: req.body
-  });
   
-  res.status(500).json({
-    error: 'Server error',
-    message: err.message,
-    path: req.path
-  });
+  next();
 });
 
 app.use(express.json())
