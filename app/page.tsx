@@ -45,8 +45,12 @@ export default function Home() {
 
   const fadeIn: Variants = {
     initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, ease: "easeOut" }
+    animate: { opacity: 1, y: 0 }
+  }
+
+  const fadeInTransition = {
+    duration: 0.6,
+    ease: "easeOut"
   }
 
   const staggerChildren: Variants = {
@@ -127,6 +131,7 @@ export default function Home() {
                 <motion.div
                   key={index}
                   variants={fadeIn}
+                  transition={fadeInTransition}
                   className="text-white border-l-2 border-blue-400 pl-6"
                 >
                   <div className="text-4xl font-bold font-serif">{stat.number}</div>
