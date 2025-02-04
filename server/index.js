@@ -40,36 +40,72 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// CORS middleware
+// CORS middleware with detailed error tracking
 app.use((req, res, next) => {
-  const origin = req.headers.origin;
   const allowedOrigins = [
     'https://perrininstitution.org',
     'https://www.perrininstitution.org',
-    'https://perrinbeta.netlify.app',
-    'https://perrininstitution.netlify.app',
     'http://localhost:3000'
   ];
-
-  // Log incoming requests for debugging
-  console.log('Request:', {
+  
+  const origin = req.headers.origin;
+  
+  // Detailed request logging
+  console.log('\n=== Incoming Request Details ===');
+  console.log({
+    timestamp: new Date().toISOString(),
     origin,
     method: req.method,
-    path: req.path
+    path: req.path,
+    headers: req.headers,
+    allowedOrigins,
+    isOriginAllowed: allowedOrigins.includes(origin),
+    NODE_ENV: process.env.NODE_ENV
   });
 
+  // Track CORS decision
   if (allowedOrigins.includes(origin)) {
+    console.log('✅ Origin allowed:', origin);
     res.header('Access-Control-Allow-Origin', origin);
     res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
+  } else {
+    console.log('❌ Origin rejected:', origin);
+    console.log('Allowed origins:', allowedOrigins);
   }
 
+  // Log response headers for debugging
+  res.on('finish', () => {
+    console.log('\n=== Response Headers ===');
+    console.log(res.getHeaders());
+  });
+
+  // Handle preflight with logging
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    console.log('👉 Handling OPTIONS preflight request');
+    return res.sendStatus(200);
   }
 
   next();
+});
+
+// Add global error handler
+app.use((err, req, res, next) => {
+  console.error('\n=== Error Handler ===');
+  console.error('Error:', err);
+  console.error('Request details:', {
+    method: req.method,
+    url: req.url,
+    headers: req.headers,
+    body: req.body
+  });
+  
+  res.status(500).json({
+    error: 'Server error',
+    message: err.message,
+    path: req.path
+  });
 });
 
 app.use(express.json())
