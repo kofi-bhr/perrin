@@ -40,24 +40,25 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// At the very top, after your requires
+// At the very top, right after your requires
 app.use((req, res, next) => {
-  // Log every request for debugging
+  // Log the request for debugging
   console.log('Incoming request:', {
     url: req.url,
     method: req.method,
-    origin: req.headers.origin,
-    host: req.headers.host
+    origin: req.headers.origin
   });
 
-  // Set CORS headers for all responses
-  res.header('Access-Control-Allow-Origin', '*');  // Allow all origins temporarily
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
+  // Allow all origins for now to debug
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Origin, X-Requested-With, Accept');
+  
   // Handle preflight
   if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+    res.status(200).end();
+    return;
   }
 
   next();
