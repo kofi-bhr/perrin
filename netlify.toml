@@ -1,5 +1,5 @@
 [build]
-  command = "npm install --legacy-peer-deps && npm run build"
+  command = "npm run build"
   publish = ".next"
 
 [build.environment]
@@ -9,7 +9,8 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200 
+# Remove the redirects section as Next.js handles routing
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200 
