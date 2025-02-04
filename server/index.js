@@ -46,23 +46,34 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN ?
   ['https://perrininstitution.org', 'http://localhost:3000'];
 
 // Update the CORS config to handle all your production domains
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? [
-        'https://perrininstitution.org',
-        'https://www.perrininstitution.org',
-        'https://perrinbeta.netlify.app',
-        'https://perrininstitution.netlify.app',
-        'https://perrin-production.up.railway.app'
-      ]
-    : 'http://localhost:3000',
-  credentials: false, // Change this to false since we're not using cookies
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use((req, res, next) => {
+  // Get the origin from the request headers
+  const origin = req.headers.origin;
+  
+  // List of allowed origins
+  const allowedOrigins = [
+    'https://perrininstitution.org',
+    'https://www.perrininstitution.org',
+    'https://perrinbeta.netlify.app',
+    'https://perrininstitution.netlify.app',
+    'https://perrin-production.up.railway.app',
+    'http://localhost:3000'
+  ];
 
-// Add CORS preflight
-app.options('*', cors());
+  // Check if the origin is in our list of allowed origins
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  }
+
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  next();
+});
 
 app.use(express.json())
 
