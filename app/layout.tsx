@@ -1,27 +1,27 @@
-import { Inter, Playfair_Display } from 'next/font/google'
-import './globals.css'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import { Inter, Playfair_Display } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter'
-})
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
-const playfair = Playfair_Display({ 
-  subsets: ['latin'],
-  variable: '--font-playfair'
-})
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+});
 
 export const metadata = {
-  title: 'Perrin Think Tank',
-  description: 'Leading research and policy analysis institution',
-}
+  title: "Perrin Think Tank",
+  description: "Leading research and policy analysis institution",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" className={`h-full ${playfair.variable}`}>
@@ -52,13 +52,11 @@ export default function RootLayout({
           type="image/jpeg"
         />
       </head>
-      <body className={`${inter.variable} ${playfair.variable} font-sans min-h-screen flex flex-col`}>
+      <body className={`${inter.variable} ${playfair.variable} font-sans`}>
         <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
+        <main className="w-full">{children}</main>
         <Footer />
       </body>
     </html>
-  )
-} 
+  );
+}
