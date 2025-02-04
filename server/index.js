@@ -52,7 +52,9 @@ app.use(cors({
         'https://perrininstitution.org', 
         'https://www.perrininstitution.org', 
         'https://perrininstitution.vercel.app',
-        'https://perrin-production.up.railway.app'  // Add Railway URL
+        'https://perrin-production.up.railway.app',
+        'https://perrin.netlify.app',     // Add your Netlify domain
+        'https://perrininstitution.netlify.app'  // Add potential Netlify domain
       ]
     : 'http://localhost:3000',
   credentials: true,
