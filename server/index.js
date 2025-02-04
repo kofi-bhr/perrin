@@ -539,42 +539,41 @@ app.get('/test-paper/:id', function(req, res) {
   }
 })
 
-// Add this with your other routes
-app.delete('/papers/:id', auth, function(req, res) {
+// Add this after your GET /papers and PATCH /papers/:id routes
+app.delete('/papers/:id', auth, async function(req, res) {
   try {
     const { id } = req.params
-    console.log('Attempting to delete paper:', id)
+    console.log('Delete request for paper:', id)
     
-    // Read current database
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    
-    // Find paper
     const paperIndex = db.papers.findIndex(p => p.id === id)
+    
     if (paperIndex === -1) {
+      console.log('Paper not found:', id)
       return res.status(404).json({ error: 'Paper not found' })
     }
 
-    // Get filename to delete the actual file
-    const fileName = db.papers[paperIndex].fileName
-    console.log('Found paper to delete:', { fileName, paperIndex })
+    const paper = db.papers[paperIndex]
+    console.log('Found paper:', paper)
 
-    // Remove paper from database
+    // Remove from database
     db.papers.splice(paperIndex, 1)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
 
-    // Try to delete the actual file
-    try {
-      const filePath = path.join(uploadsDir, fileName)
+    // Try to delete file
+    if (paper.fileName) {
+      const filePath = path.join(uploadsDir, paper.fileName)
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath)
       }
-    } catch (fileError) {
-      console.error('Error deleting file:', fileError)
     }
 
-    res.json({ message: 'Paper deleted successfully' })
+    res.json({ success: true, message: 'Paper deleted' })
   } catch (error) {
-    console.error('Error deleting paper:', error)
-    res.status(500).json({ error: 'Server error' })
+    console.error('Delete error:', error)
+    res.status(500).json({ error: 'Failed to delete paper' })
   }
 })
+
+// Add this near the top of the file
+console.log('Server starting...', new Date().toISOString())

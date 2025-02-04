@@ -85,19 +85,21 @@ export default function AdminPanel() {
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`${API_URL}/papers/${paperId}`, {
+      const response = await fetch(`https://perrin-production.up.railway.app/papers/${paperId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       })
 
       if (response.ok) {
-        // Remove paper from local state
         setPapers(papers.filter(paper => paper.id !== paperId))
         alert('Paper deleted successfully')
+        fetchPapers()
       } else {
-        throw new Error('Failed to delete paper')
+        const errorData = await response.json().catch(() => ({ error: 'Failed to delete paper' }))
+        throw new Error(errorData.error || 'Failed to delete paper')
       }
     } catch (error) {
       console.error('Error deleting paper:', error)
