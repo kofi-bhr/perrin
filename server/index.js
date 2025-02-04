@@ -1,5 +1,4 @@
 const express = require('express')
-const cors = require('cors')
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
@@ -40,29 +39,8 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// Most permissive CORS possible
-app.use((req, res, next) => {
-  // Allow any origin
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  
-  // Allow any method
-  res.setHeader('Access-Control-Allow-Methods', '*');
-  
-  // Allow any header
-  res.setHeader('Access-Control-Allow-Headers', '*');
-  
-  // Allow credentials
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  
-  // Handle preflight
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-  
-  next();
-});
-
+// Remove ALL CORS middleware
+// Just start with express.json()
 app.use(express.json())
 
 // Serve files from Railway volume
