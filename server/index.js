@@ -45,24 +45,23 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN ?
   process.env.CORS_ORIGIN.split(',') : 
   ['https://perrininstitution.org', 'http://localhost:3000'];
 
-// Update the CORS config to handle both environments
+// Update the CORS config to handle all your production domains
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
     ? [
-        'https://perrininstitution.org', 
-        'https://www.perrininstitution.org', 
-        'https://perrininstitution.vercel.app',
-        'https://perrin-production.up.railway.app',
-        'https://perrin.netlify.app',     // Add your Netlify domain
-        'https://perrininstitution.netlify.app'  // Add potential Netlify domain
+        'https://perrininstitution.org',
+        'https://www.perrininstitution.org',
+        'https://perrinbeta.netlify.app',
+        'https://perrininstitution.netlify.app',
+        'https://perrin-production.up.railway.app'
       ]
     : 'http://localhost:3000',
-  credentials: true,
+  credentials: false, // Change this to false since we're not using cookies
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Keep this line after the CORS config
+// Add CORS preflight
 app.options('*', cors());
 
 app.use(express.json())

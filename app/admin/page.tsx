@@ -45,9 +45,7 @@ export default function AdminPanel() {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        },
-        // Remove credentials if not needed for local development
-        // credentials: 'include'
+        }
       })
 
       console.log('Response status:', response.status)

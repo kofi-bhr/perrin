@@ -21,7 +21,7 @@
     "react-icons": "^5.4.0",
     "rss-parser": "^3.13.0",
     "tailwind-merge": "^2.6.0",
-    "@netlify/plugin-nextjs": "latest"
+    "@netlify/plugin-nextjs": "^5.9.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
