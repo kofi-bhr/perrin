@@ -78,6 +78,33 @@ export default function AdminPanel() {
     }
   }
 
+  const handleDelete = async (paperId: string) => {
+    if (!confirm('Are you sure you want to delete this paper? This action cannot be undone.')) {
+      return
+    }
+
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_URL}/papers/${paperId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (response.ok) {
+        // Remove paper from local state
+        setPapers(papers.filter(paper => paper.id !== paperId))
+        alert('Paper deleted successfully')
+      } else {
+        throw new Error('Failed to delete paper')
+      }
+    } catch (error) {
+      console.error('Error deleting paper:', error)
+      alert('Failed to delete paper')
+    }
+  }
+
   const filteredPapers = papers.filter(paper => 
     selectedStatus === 'all' || paper.status === selectedStatus
   )
@@ -228,6 +255,12 @@ export default function AdminPanel() {
                           </button>
                         </>
                       )}
+                      <button
+                        onClick={() => handleDelete(paper.id)}
+                        className="text-red-600 hover:text-red-900 ml-2"
+                      >
+                        Delete
+                      </button>
                     </div>
                   </td>
                 </tr>

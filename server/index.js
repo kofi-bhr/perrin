@@ -538,3 +538,43 @@ app.get('/test-paper/:id', function(req, res) {
     res.status(500).json({ error: 'Server error' });
   }
 })
+
+// Add this with your other routes
+app.delete('/papers/:id', auth, function(req, res) {
+  try {
+    const { id } = req.params
+    console.log('Attempting to delete paper:', id)
+    
+    // Read current database
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    
+    // Find paper
+    const paperIndex = db.papers.findIndex(p => p.id === id)
+    if (paperIndex === -1) {
+      return res.status(404).json({ error: 'Paper not found' })
+    }
+
+    // Get filename to delete the actual file
+    const fileName = db.papers[paperIndex].fileName
+    console.log('Found paper to delete:', { fileName, paperIndex })
+
+    // Remove paper from database
+    db.papers.splice(paperIndex, 1)
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+
+    // Try to delete the actual file
+    try {
+      const filePath = path.join(uploadsDir, fileName)
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath)
+      }
+    } catch (fileError) {
+      console.error('Error deleting file:', fileError)
+    }
+
+    res.json({ message: 'Paper deleted successfully' })
+  } catch (error) {
+    console.error('Error deleting paper:', error)
+    res.status(500).json({ error: 'Server error' })
+  }
+})
