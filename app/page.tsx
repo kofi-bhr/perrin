@@ -60,7 +60,7 @@ export default function Home() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="relative h-[900px] md:h-screen flex items-center">
+      <section className="relative h-screen md:h-[900px] md:h-screen flex items-center">
         <Image
           src={images.heroHome}
           alt="UVA campus"
@@ -79,28 +79,28 @@ export default function Home() {
               className="2xl:max-w-3xl space-y-2 2xl:space-y-8"
             >
               <div>
-                <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2">
+                <span className="text-xs md:text-md text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2">
                   An Institution at The University of Virginia
                 </span>
                 <h1 className="mt-4 text-5xl lg:text-7xl font-serif font-bold text-white leading-[1.15] tracking-tight drop-shadow-lg">
                   Shaping Tomorrow&apos;s <br/> <FlipWords words={words} />
                 </h1>
               </div>
-              <p className="text-xl text-gray-200 text-sm md:text-lg leading-relaxed max-w-4xl drop-shadow-lg">
+              <p className="text-gray-200 text-sm md:text-lg leading-relaxed max-w-4xl drop-shadow-lg">
                 Leading research institution dedicated to advancing public policy through rigorous analysis
                 and innovative solutions for a more prosperous and equitable society.
               </p>
-              <div className="flex flex-wrap gap-4 pt-4">
+              <div className="flex flex-wrap gap-2 md:gap-4 pt-4">
                 <Link
                   href="/research"
-                  className="bg-white text-gray-900 px-6 py-2 text-lg font-semibold 
+                  className="bg-white text-gray-900 px-6 py-2 text-md md:text-lg font-semibold 
                     hover:bg-gray-100 transition-colors border-2 border-white"
                 >
                   View Our Research
                 </Link>
                 <Link
                   href="/experts"
-                  className="border-2 border-white text-white px-6 py-2 text-lg font-semibold 
+                  className="border-2 border-white text-white px-6 py-2 text-md md:text-lg font-semibold 
                     hover:bg-white hover:text-gray-900 transition-colors"
                 >
                   Meet Our Experts
