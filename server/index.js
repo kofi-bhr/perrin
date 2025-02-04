@@ -40,34 +40,22 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// Near the top of the file
-const CORS_ORIGIN = process.env.CORS_ORIGIN ? 
-  process.env.CORS_ORIGIN.split(',') : 
-  ['https://perrininstitution.org', 'http://localhost:3000'];
-
-// Update the CORS config to handle all your production domains
+// At the very top, after your requires
 app.use((req, res, next) => {
-  // Get the origin from the request headers
-  const origin = req.headers.origin;
-  
-  // List of allowed origins
-  const allowedOrigins = [
-    'https://perrininstitution.org',
-    'https://www.perrininstitution.org',
-    'https://perrinbeta.netlify.app',
-    'https://perrininstitution.netlify.app',
-    'https://perrin-production.up.railway.app',
-    'http://localhost:3000'
-  ];
+  // Log every request for debugging
+  console.log('Incoming request:', {
+    url: req.url,
+    method: req.method,
+    origin: req.headers.origin,
+    host: req.headers.host
+  });
 
-  // Check if the origin is in our list of allowed origins
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  }
+  // Set CORS headers for all responses
+  res.header('Access-Control-Allow-Origin', '*');  // Allow all origins temporarily
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
-  // Handle preflight requests
+  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -632,13 +620,3 @@ app.delete('/papers/:id', auth, async function(req, res) {
     res.status(500).json({ error: 'Failed to delete paper' })
   }
 })
-
-// Add CORS debugging
-app.use((req, res, next) => {
-  console.log('Request origin:', req.headers.origin);
-  console.log('CORS settings:', {
-    allowedOrigins: CORS_ORIGIN,
-    nodeEnv: process.env.NODE_ENV
-  });
-  next();
-});
