@@ -20,7 +20,10 @@ fs.mkdirSync(uploadsDir, { recursive: true })
 const app = express()
 
 // Enable CORS
-app.use(cors())
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+}))
 app.use(express.json())
 
 // Serve files from Railway volume
