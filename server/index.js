@@ -40,25 +40,33 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// At the very top, right after your requires
+// CORS middleware
 app.use((req, res, next) => {
-  // Log the request for debugging
-  console.log('Incoming request:', {
-    url: req.url,
+  const origin = req.headers.origin;
+  const allowedOrigins = [
+    'https://perrininstitution.org',
+    'https://www.perrininstitution.org',
+    'https://perrinbeta.netlify.app',
+    'https://perrininstitution.netlify.app',
+    'http://localhost:3000'
+  ];
+
+  // Log incoming requests for debugging
+  console.log('Request:', {
+    origin,
     method: req.method,
-    origin: req.headers.origin
+    path: req.path
   });
 
-  // Allow all origins for now to debug
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Origin, X-Requested-With, Accept');
-  
-  // Handle preflight
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+  }
+
   if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+    return res.status(200).end();
   }
 
   next();
