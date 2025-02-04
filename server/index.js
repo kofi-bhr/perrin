@@ -45,7 +45,10 @@ app.use((req, res, next) => {
   const allowedOrigins = [
     'https://perrininstitution.org',
     'https://www.perrininstitution.org',
-    'http://localhost:3000'
+    'https://perrinbeta.netlify.app',     // Your Netlify domain
+    'https://perrininstitution.netlify.app',
+    'http://localhost:3000',
+    'https://perrin-production.up.railway.app'
   ];
   
   const origin = req.headers.origin;
@@ -67,7 +70,7 @@ app.use((req, res, next) => {
   if (allowedOrigins.includes(origin)) {
     console.log('✅ Origin allowed:', origin);
     res.header('Access-Control-Allow-Origin', origin);
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
   } else {
