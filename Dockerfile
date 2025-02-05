@@ -10,6 +10,7 @@ COPY .eslintrc.js ./
 RUN npm install
 
 # Copy project files
+COPY api/ ./api/
 COPY app/ ./app/
 COPY components/ ./components/
 COPY lib/ ./lib/
