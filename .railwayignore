@@ -1,4 +1,5 @@
 .git
 .env*
 node_modules
-.next 
+.next
+# Make sure index.js is NOT listed here 
