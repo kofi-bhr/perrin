@@ -1,3 +1,5 @@
+require('dotenv').config({ path: '.env.local' })
+
 const express = require('express')
 const multer = require('multer')
 const path = require('path')
@@ -6,7 +8,7 @@ const fs = require('fs')
 // First, declare all constants
 const RAILWAY_DOMAIN = process.env.NODE_ENV === 'production' 
   ? (process.env.RAILWAY_PUBLIC_DOMAIN || 'perrin-production.up.railway.app')
-  : 'http://localhost:3001'  // Use localhost for development
+  : 'https://perrin-production.up.railway.app'  // Change this from localhost:3001
 const PORT = process.env.PORT || 3001  // Railway will provide PORT env variable
 
 // Add this near the top, after the constants
