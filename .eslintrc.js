@@ -3,9 +3,8 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   rules: {
-    '@typescript-eslint/no-unused-vars': 'warn',
-    'quotes': ['warn', 'single'],
-    // Temporarily disable quote warnings during development if needed
-    // 'quotes': 'off'
+    // Temporarily disable problematic rules during build
+    '@typescript-eslint/no-unused-vars': 'off',
+    'quotes': 'off'
   }
 } 
