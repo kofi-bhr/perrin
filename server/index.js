@@ -41,57 +41,22 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// CORS middleware
+// Super permissive CORS - allow everything
 app.use((req, res, next) => {
-  const allowedOrigins = [
-    'https://perrininstitution.org',
-    'https://www.perrininstitution.org',
-    'https://perrin-production.up.railway.app',
-    'https://perrinsite.netlify.app',
-    'http://localhost:3000',
-    'http://localhost:3001'
-  ]
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', '*')
+  res.header('Access-Control-Allow-Headers', '*')
+  res.header('Access-Control-Allow-Credentials', 'true')
   
-  const origin = req.headers.origin
-  
-  // Log request details
-  console.log('\n=== Incoming Request ===')
-  console.log({
-    url: req.url,
-    method: req.method,
-    origin,
-    host: req.headers.host
-  })
-
-  // Set CORS headers for all requests
-  res.setHeader('Access-Control-Allow-Origin', origin || '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept')
-  res.setHeader('Access-Control-Allow-Credentials', 'true')
-  res.setHeader('Access-Control-Max-Age', '86400') // 24 hours
-
-  // Handle preflight requests
+  // Handle preflight
   if (req.method === 'OPTIONS') {
-    console.log('👉 Handling OPTIONS preflight request')
-    return res.status(204).end()
+    return res.status(200).end()
   }
-
+  
   next()
 })
 
-// Add CORS debug middleware
-app.use((req, res, next) => {
-  console.log('=== CORS Headers Set ===', {
-    origin: req.headers.origin,
-    allowedOrigin: res.getHeader('Access-Control-Allow-Origin'),
-    allowedMethods: res.getHeader('Access-Control-Allow-Methods'),
-    allowedHeaders: res.getHeader('Access-Control-Allow-Headers'),
-    credentials: res.getHeader('Access-Control-Allow-Credentials')
-  })
-  next()
-})
-
-// Remove any other CORS-related middleware
+// Remove all other CORS middleware
 app.use(express.json())
 
 // Serve files from Railway volume

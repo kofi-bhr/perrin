@@ -32,7 +32,6 @@ export default function SignIn() {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        credentials: 'include',
         body: JSON.stringify({ email, password })
       })
 
