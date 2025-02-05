@@ -6,7 +6,6 @@ import { motion, Variants } from "framer-motion";
 import { FlipWords } from "../components/ui/flip-words";
 import { images } from "@/lib/images";
 import nasa from "@/public/nasa.png";
-import { getImageUrl } from '@/lib/utils'
 
 interface Paper {
   id: string;
@@ -205,7 +204,7 @@ export default function Home() {
                 link: "/research/1738121086204",
               },
               {
-                image: getImageUrl('/research-2.jpg'),
+                image: "/research-2.jpg",
                 category: "Economic Policy",
                 title: "Economic Impact of Green Energy Transition",
                 description:
@@ -213,7 +212,7 @@ export default function Home() {
                 link: "/research/2",
               },
               {
-                image: getImageUrl('/research-3.jpg'),
+                image: "/research-3.jpg",
                 category: "Social Policy",
                 title: "Digital Inclusion in Rural Communities",
                 description:
@@ -379,7 +378,7 @@ export default function Home() {
               >
                 <div className="relative h-64 mb-4 overflow-hidden">
                   <Image
-                    src={getImageUrl(`/expert-${item}.jpg`)}
+                    src={`/expert-${item}.jpg`}
                     alt="Expert portrait"
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
