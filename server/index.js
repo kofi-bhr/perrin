@@ -41,7 +41,7 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// CORS middleware - update with more permissive settings for debugging
+// CORS middleware
 app.use((req, res, next) => {
   const allowedOrigins = [
     'https://perrininstitution.org',
@@ -49,11 +49,7 @@ app.use((req, res, next) => {
     'https://perrin-production.up.railway.app',
     'https://perrinsite.netlify.app',
     'http://localhost:3000',
-    'http://localhost:3001',
-    'https://perrinsite.netlify.app/auth/signin',
-    'https://perrinsite.netlify.app/employee-panel',
-    'https://perrinsite.netlify.app/admin',
-    'https://perrinsite.netlify.app/research',
+    'http://localhost:3001'
   ]
   
   const origin = req.headers.origin
@@ -64,22 +60,13 @@ app.use((req, res, next) => {
     url: req.url,
     method: req.method,
     origin,
-    host: req.headers.host,
-    allowedOrigins
+    host: req.headers.host
   })
 
-  // Always set CORS headers
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin)
-  } else {
-    // For development/debugging - allow any origin temporarily
-    // Remove this in production if needed
-    res.setHeader('Access-Control-Allow-Origin', origin || '*')
-  }
-  
-  // Essential CORS headers
+  // Set CORS headers for all requests
+  res.setHeader('Access-Control-Allow-Origin', origin || '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', '*')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept')
   res.setHeader('Access-Control-Allow-Credentials', 'true')
   res.setHeader('Access-Control-Max-Age', '86400') // 24 hours
 
@@ -92,7 +79,7 @@ app.use((req, res, next) => {
   next()
 })
 
-// Add this immediately after for debugging CORS issues
+// Add CORS debug middleware
 app.use((req, res, next) => {
   console.log('=== CORS Headers Set ===', {
     origin: req.headers.origin,

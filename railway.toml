@@ -3,6 +3,6 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "npm run start"
+startCommand = "node .next/standalone/server.js"
 healthcheckPath = "/"
 healthcheckTimeout = 100 
