@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "npm install && ls -la"
+buildCommand = "npm install && ls -la && pwd && echo 'Contents of root:' && ls -R"
 
 [deploy]
 startCommand = "node index.js"

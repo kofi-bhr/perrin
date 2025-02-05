@@ -1,3 +1,14 @@
+console.log('=== STARTUP DEBUG ===')
+console.log('Current directory:', __dirname)
+console.log('Process working directory:', process.cwd())
+console.log('Files in current directory:', require('fs').readdirSync('.'))
+console.log('Environment variables:', {
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
+  PWD: process.env.PWD,
+  PATH: process.env.PATH
+})
+
 require('dotenv').config({ path: '.env.local' })
 
 const express = require('express')
