@@ -1,0 +1,17 @@
+[build]
+  command = "npm install && npm run build"
+  publish = ".next"
+
+[build.environment]
+  NEXT_PUBLIC_API_URL = "https://perrin-production.up.railway.app"
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Remove the redirects section as Next.js handles routing
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200 

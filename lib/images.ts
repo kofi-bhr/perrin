@@ -16,6 +16,6 @@ export const images = {
   },
   defaultProfile: heroResearch,
   events: {
-    featured: heroHome, // You might want a specific image for featured events
+    featured: heroHome,
   }
 } 

@@ -15,7 +15,7 @@ interface Paper {
   url: string
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
 export default function AdminPanel() {
   const router = useRouter()
@@ -39,17 +39,29 @@ export default function AdminPanel() {
   const fetchPapers = async () => {
     try {
       const token = localStorage.getItem('token')
+      console.log('Attempting to fetch papers with token:', token?.substring(0, 10) + '...')
+      
       const response = await fetch(`${API_URL}/admin/papers`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       })
-      if (!response.ok) throw new Error('Failed to fetch papers')
+
+      console.log('Response status:', response.status)
+      
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('Server error response:', errorText)
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
       const data = await response.json()
-      console.log('Admin papers:', data)
-      setPapers(data)
+      console.log('Received papers:', data?.length || 0)
+      setPapers(data || [])
     } catch (error) {
       console.error('Error fetching papers:', error)
+      setPapers([]) // Set empty array on error
     } finally {
       setIsLoading(false)
     }
@@ -85,21 +97,27 @@ export default function AdminPanel() {
 
     try {
       const token = localStorage.getItem('token')
+      console.log('Attempting to delete:', paperId) // Debug log
+      
       const response = await fetch(`${API_URL}/papers/${paperId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       })
 
       if (response.ok) {
+        setPapers(papers.filter(paper => paper.id !== paperId))
+        alert('Paper deleted successfully')
         fetchPapers() // Refresh the list
       } else {
-        alert('Failed to delete paper. Please try again.')
+        const errorData = await response.json().catch(() => ({ error: 'Failed to delete paper' }))
+        throw new Error(errorData.error || 'Failed to delete paper')
       }
     } catch (error) {
       console.error('Error deleting paper:', error)
-      alert('Failed to delete paper. Please try again.')
+      alert('Failed to delete paper')
     }
   }
 
@@ -255,7 +273,7 @@ export default function AdminPanel() {
                       )}
                       <button
                         onClick={() => handleDelete(paper.id)}
-                        className="text-gray-600 hover:text-gray-900"
+                        className="text-red-600 hover:text-red-900 ml-2"
                       >
                         Delete
                       </button>

@@ -43,7 +43,7 @@ const EXPERTS: Expert[] = [
     name: "Neha Nair",
     role: "Research Fellow",
     bio: "As a passionate environmental researcher and technology innovator, I thrive on bridging the gap between sustainability science and real-world solutions. My drive to make supply chains more transparent led me to found my startup, and my enthusiasm for transformative tech has opened doors to meaningful work with companies like TikTok and Google.",
-    image: "/experts/neha.jpg",
+    image: "/girl1.png",
     interests: ["Environmental Policy", "Technology", "Sustainability"]
   },
   {
