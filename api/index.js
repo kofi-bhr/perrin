@@ -64,8 +64,40 @@ app.use((req, res, next) => {
 // Remove all other CORS middleware
 app.use(express.json())
 
-// Serve files from Railway volume
-app.use('/uploads', express.static(uploadsDir))
+// Update the static file serving middleware
+app.use('/uploads', (req, res, next) => {
+  // Set correct content type headers
+  const filePath = path.join(uploadsDir, req.url)
+  const ext = path.extname(filePath).toLowerCase()
+  
+  switch (ext) {
+    case '.pdf':
+      res.set('Content-Type', 'application/pdf')
+      break
+    case '.jpg':
+    case '.jpeg':
+      res.set('Content-Type', 'image/jpeg')
+      break
+    case '.png':
+      res.set('Content-Type', 'image/png')
+      break
+    case '.gif':
+      res.set('Content-Type', 'image/gif')
+      break
+  }
+
+  // Enable CORS for file serving
+  res.set('Access-Control-Allow-Origin', '*')
+  res.set('Access-Control-Allow-Methods', 'GET, OPTIONS')
+  res.set('Access-Control-Allow-Headers', '*')
+
+  next()
+}, express.static(uploadsDir, {
+  setHeaders: (res, path) => {
+    // Set cache control for better performance
+    res.set('Cache-Control', 'public, max-age=31536000')
+  }
+}))
 
 // Configure multer to store files in Railway volume
 const storage = multer.diskStorage({
