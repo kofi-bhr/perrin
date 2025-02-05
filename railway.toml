@@ -4,6 +4,8 @@ buildCommand = "npm install"
 
 [deploy]
 startCommand = "node api/index.js"
+healthcheckPath = "/health"
+healthcheckTimeout = 10
 
 [[services]]
 name = "api"
