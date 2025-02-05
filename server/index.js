@@ -48,7 +48,12 @@ app.use((req, res, next) => {
     'https://www.perrininstitution.org',
     'https://perrin-production.up.railway.app',
     'http://localhost:3000',
-    'http://localhost:3001'
+    'http://localhost:3001',
+    'https://perrinsite.netlify.app/',
+    'https://perrinsite.netlify.app/auth/signin',
+    'https://perrinsite.netlify.app/employee-panel',
+    'https://perrinsite.netlify.app/admin',
+    'https://perrinsite.netlify.app/research',
   ]
   
   const origin = req.headers.origin
