@@ -1,8 +1,6 @@
 {
-  "/not-found": "app/not-found.js",
-<<<<<<< HEAD
-  "/research/page": "app/research/page.js"
-=======
-  "/page": "app/page.js"
->>>>>>> 004637698b35ab03e3dcb84d8ee4ba232f2d127b
+  "/page": "app/page.js",
+  "/research/[id]/page": "app/research/[id]/page.js",
+  "/research/page": "app/research/page.js",
+  "/employee-panel/page": "app/employee-panel/page.js"
 }

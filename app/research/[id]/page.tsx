@@ -73,7 +73,19 @@ export default function ResearchPaperPage() {
   const handleCiteCopy = () => {
     if (!paper) return
     
-    const citation = `${paper.author} (${new Date(paper.date).getFullYear()}). ${paper.title}. Perrin Institute.`
+    // Format date components
+    const date = new Date(paper.date)
+    const month = date.toLocaleString('default', { month: 'long' })
+    const day = date.getDate()
+    const year = date.getFullYear()
+    
+    // Chicago style format:
+    // Author's Last Name, First Name. "Title of Paper." Perrin Institute, Month Day, Year.
+    // Note: This assumes author name is in "First Last" format - you might need to adjust if format differs
+    const [firstName, ...lastNames] = paper.author.split(' ')
+    const lastName = lastNames.join(' ')
+    const citation = `${lastName}, ${firstName}. "${paper.title}." Perrin Institute, ${month} ${day}, ${year}.`
+    
     navigator.clipboard.writeText(citation)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
