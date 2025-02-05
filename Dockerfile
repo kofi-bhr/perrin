@@ -2,11 +2,10 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files first
 COPY package*.json ./
-COPY .eslintrc.js ./
 
-# Install dependencies
+# Install ALL dependencies (including devDependencies)
 RUN npm install
 
 # Copy project files
@@ -20,9 +19,13 @@ COPY next.config.js ./
 COPY tsconfig.json ./
 COPY postcss.config.js ./
 COPY tailwind.config.js ./
+COPY .env* ./
 
 # Build the application
 RUN npm run build
+
+# Debug - List all files
+RUN ls -la /app
 
 # Remove specific port exposure since Railway will handle this
 # EXPOSE 3001

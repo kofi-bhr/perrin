@@ -518,6 +518,8 @@ app.get('/nuke-database', function(req, res) {  // Remove async since we're not 
 console.log('=== Volume Check ===')
 console.log('Volume path:', process.env.RAILWAY_VOLUME_MOUNT_PATH)
 console.log('Uploads directory:', uploadsDir)
+console.log('Current directory contents:', fs.readdirSync('.'))
+console.log('Volume directory contents:', fs.readdirSync(VOLUME_PATH))
 console.log('Files in uploads:', fs.readdirSync(uploadsDir))
 
 // Add this after your DB initialization
