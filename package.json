@@ -1,15 +1,15 @@
 {
-  "name": "perrin2",
+  "name": "perrin",
   "version": "0.1.0",
   "private": true,
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node api/index.js",
     "dev": "next dev",
     "build": "next build",
     "lint": "next lint",
-    "server": "node index.js",
-    "server:dev": "nodemon index.js"
+    "server": "node api/index.js",
+    "server:dev": "nodemon api/index.js"
   },
   "dependencies": {
     "@next/font": "^14.2.15",
