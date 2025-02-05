@@ -19,7 +19,7 @@ const fs = require('fs')
 // First, declare all constants
 const RAILWAY_DOMAIN = process.env.NODE_ENV === 'production' 
   ? (process.env.RAILWAY_PUBLIC_DOMAIN || 'perrin-production.up.railway.app')
-  : 'https://perrin-production.up.railway.app'  // Change this from localhost:3001
+  : 'http://localhost:3001'  // Change this to use http locally
 const PORT = process.env.PORT || 3001  // Railway will provide PORT env variable
 
 // Update volume mount path configuration
@@ -144,11 +144,12 @@ app.use((req, res, next) => {
       // Force Railway URLs in all responses
       const forceUrl = (obj) => {
         if (obj.url) {
-          // Replace any localhost URLs with Railway URL
-          obj.url = obj.url.replace(/http:\/\/localhost:\d+/g, RAILWAY_DOMAIN)
-                         .replace(/https?:\/\/localhost:\d+/g, RAILWAY_DOMAIN)
+          // Ensure URL has correct protocol
+          const protocol = process.env.NODE_ENV === 'production' ? 'https://' : 'http://'
+          const domain = RAILWAY_DOMAIN.replace(/^https?:\/\//, '')
+          
           if (obj.fileName) {
-            obj.url = `${RAILWAY_DOMAIN}/uploads/${obj.fileName}`
+            obj.url = `${protocol}${domain}/uploads/${obj.fileName}`
           }
         }
         return obj

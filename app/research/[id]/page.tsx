@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { FiDownload, FiCopy, FiCheck, FiArrowLeft } from 'react-icons/fi'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import PDFViewer from '@/components/PDFViewer'
 
 interface Paper {
   id: string
@@ -154,16 +155,8 @@ export default function ResearchPaperPage() {
           {/* PDF Viewer */}
           <div className="md:col-span-2">
             <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-              {pdfUrl ? (
-                <iframe
-                  src={pdfUrl}
-                  className="w-full h-[800px]"
-                  title={paper.title}
-                />
-              ) : (
-                <div className="flex items-center justify-center h-[800px]">
-                  <LoadingSpinner />
-                </div>
+              {paper?.url && (
+                <PDFViewer url={paper.url} />
               )}
             </div>
           </div>
