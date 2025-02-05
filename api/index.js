@@ -62,7 +62,7 @@ const io = new Server(server, {
       'https://perrinsite.netlify.app',
       'http://localhost:3000'
     ],
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
     transports: ['websocket', 'polling']
   },
@@ -106,10 +106,10 @@ io.on('connection', (socket) => {
   })
 })
 
-// Update CORS middleware to allow Socket.IO
+// Update CORS middleware to allow Socket.IO and PATCH requests
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
   res.header('Access-Control-Allow-Headers', '*')
   res.header('Access-Control-Allow-Credentials', 'true')
   
