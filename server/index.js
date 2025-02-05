@@ -39,12 +39,14 @@ const DB_FILE = path.join(dataDir, 'db.json')
 
 const app = express()
 
-// CORS middleware - put this before any other middleware
+// CORS middleware - update with more permissive settings for debugging
 app.use((req, res, next) => {
   const allowedOrigins = [
     'https://perrininstitution.org',
     'https://www.perrininstitution.org',
-    'http://localhost:3000'
+    'https://perrin-production.up.railway.app',
+    'http://localhost:3000',
+    'http://localhost:3001'
   ]
   
   const origin = req.headers.origin
@@ -55,23 +57,43 @@ app.use((req, res, next) => {
     url: req.url,
     method: req.method,
     origin,
-    host: req.headers.host
+    host: req.headers.host,
+    allowedOrigins
   })
 
-  // Set CORS headers if origin is allowed
+  // Always set CORS headers
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin)
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-    res.setHeader('Access-Control-Allow-Credentials', 'true')
+  } else {
+    // For development/debugging - allow any origin temporarily
+    // Remove this in production if needed
+    res.setHeader('Access-Control-Allow-Origin', origin || '*')
   }
+  
+  // Essential CORS headers
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', '*')
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  res.setHeader('Access-Control-Max-Age', '86400') // 24 hours
 
   // Handle preflight requests
   if (req.method === 'OPTIONS') {
     console.log('👉 Handling OPTIONS preflight request')
-    return res.status(200).end()
+    return res.status(204).end()
   }
 
+  next()
+})
+
+// Add this immediately after for debugging CORS issues
+app.use((req, res, next) => {
+  console.log('=== CORS Headers Set ===', {
+    origin: req.headers.origin,
+    allowedOrigin: res.getHeader('Access-Control-Allow-Origin'),
+    allowedMethods: res.getHeader('Access-Control-Allow-Methods'),
+    allowedHeaders: res.getHeader('Access-Control-Allow-Headers'),
+    credentials: res.getHeader('Access-Control-Allow-Credentials')
+  })
   next()
 })
 
