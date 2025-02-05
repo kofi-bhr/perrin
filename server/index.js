@@ -11,33 +11,27 @@ const RAILWAY_DOMAIN = process.env.NODE_ENV === 'production'
   : 'https://perrin-production.up.railway.app'  // Change this from localhost:3001
 const PORT = process.env.PORT || 3001  // Railway will provide PORT env variable
 
-// Add this near the top, after the constants
-const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH 
-  ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'data')
-  : path.join(__dirname, 'data')
+// Update volume mount path configuration
+const VOLUME_PATH = process.env.RAILWAY_VOLUME_MOUNT_PATH || '/data'
 
-// Then use them in logging
-console.log('Server starting...', new Date().toISOString())
-console.log('Server configuration:', {
-  DOMAIN: RAILWAY_DOMAIN,
-  PROTOCOL: 'https',
-  uploadsPath: process.env.RAILWAY_VOLUME_MOUNT_PATH 
-    ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'uploads')
-    : path.join(__dirname, 'uploads'),
-  railwayVolume: process.env.RAILWAY_VOLUME_MOUNT_PATH
-})
+// Update data and uploads directories
+const dataDir = path.join(VOLUME_PATH, 'data')
+const uploadsDir = path.join(VOLUME_PATH, 'uploads')
 
-// Use Railway volume for storage
-const uploadsDir = process.env.RAILWAY_VOLUME_MOUNT_PATH 
-  ? path.join(process.env.RAILWAY_VOLUME_MOUNT_PATH, 'uploads')
-  : path.join(__dirname, 'uploads')
-
-// Create both directories if they don't exist
-fs.mkdirSync(uploadsDir, { recursive: true })
+// Create directories if they don't exist
 fs.mkdirSync(dataDir, { recursive: true })
+fs.mkdirSync(uploadsDir, { recursive: true })
 
-// Then update the DB_FILE path
+// Update DB_FILE path
 const DB_FILE = path.join(dataDir, 'db.json')
+
+// Add debug logging for paths
+console.log('=== Path Configuration ===', {
+  VOLUME_PATH,
+  dataDir,
+  uploadsDir,
+  DB_FILE
+})
 
 const app = express()
 
@@ -612,5 +606,45 @@ app.delete('/papers/:id', auth, async function(req, res) {
   } catch (error) {
     console.error('Delete error:', error)
     res.status(500).json({ error: 'Failed to delete paper' })
+  }
+})
+
+// Add comprehensive health check
+app.get('/health', (req, res) => {
+  try {
+    // Check if directories exist
+    const dirs = {
+      dataDir: fs.existsSync(dataDir),
+      uploadsDir: fs.existsSync(uploadsDir),
+      dbFile: fs.existsSync(DB_FILE)
+    }
+
+    // Check if we can write to directories
+    try {
+      fs.accessSync(dataDir, fs.constants.W_OK)
+      fs.accessSync(uploadsDir, fs.constants.W_OK)
+      dirs.writeable = true
+    } catch (e) {
+      dirs.writeable = false
+    }
+
+    res.json({
+      status: 'ok',
+      time: new Date().toISOString(),
+      environment: {
+        NODE_ENV: process.env.NODE_ENV,
+        PORT: process.env.PORT,
+        RAILWAY_DOMAIN,
+        VOLUME_PATH
+      },
+      directories: dirs,
+      headers: req.headers
+    })
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      error: error.message,
+      stack: error.stack
+    })
   }
 })
