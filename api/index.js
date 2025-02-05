@@ -15,11 +15,13 @@ const express = require('express')
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
+const { Server } = require('socket.io')
+const http = require('http')
 
 // First, declare all constants
 const RAILWAY_DOMAIN = process.env.NODE_ENV === 'production' 
   ? (process.env.RAILWAY_PUBLIC_DOMAIN || 'perrin-production.up.railway.app')
-  : 'http://localhost:3001'  // Change this to use http locally
+  : 'http://localhost:3001'
 const PORT = process.env.PORT || 3001  // Railway will provide PORT env variable
 
 // Update volume mount path configuration
@@ -36,28 +38,84 @@ fs.mkdirSync(uploadsDir, { recursive: true })
 // Update DB_FILE path
 const DB_FILE = path.join(dataDir, 'db.json')
 
-// Add debug logging for paths
-console.log('=== Path Configuration ===', {
-  VOLUME_PATH,
-  dataDir,
-  uploadsDir,
-  DB_FILE
-})
+// Add this near your other constants
+const CHAT_FILE = path.join(dataDir, 'chat.json')
+
+// Initialize chat file if it doesn't exist
+if (!fs.existsSync(CHAT_FILE)) {
+  fs.writeFileSync(CHAT_FILE, JSON.stringify({ messages: [], users: [] }))
+}
+
+// Track connected users and messages
+const connectedUsers = new Map()
+let chatHistory = JSON.parse(fs.readFileSync(CHAT_FILE, 'utf-8')).messages || []
 
 const app = express()
+const server = http.createServer(app)
 
-// Super permissive CORS - allow everything
+// Configure Socket.IO with proper CORS
+const io = new Server(server, {
+  cors: {
+    origin: [
+      'https://perrin-production.up.railway.app',
+      'https://perrininstitution.org',
+      'https://perrinsite.netlify.app',
+      'http://localhost:3000'
+    ],
+    methods: ['GET', 'POST'],
+    credentials: true,
+    transports: ['websocket', 'polling']
+  },
+  allowEIO3: true // Allow Engine.IO version 3 clients
+})
+
+io.on('connection', (socket) => {
+  console.log('New client connected')
+  
+  // Send chat history to new connections
+  socket.emit('chatHistory', chatHistory)
+  
+  socket.on('join', (userData) => {
+    console.log('User joined:', userData)
+    connectedUsers.set(socket.id, userData.email)
+    io.emit('userList', Array.from(connectedUsers.values()))
+  })
+
+  socket.on('message', (message) => {
+    console.log('Message received:', message)
+    const newMessage = {
+      user: connectedUsers.get(socket.id),
+      text: message,
+      time: new Date().toISOString()
+    }
+    
+    // Save to memory and file
+    chatHistory.push(newMessage)
+    fs.writeFileSync(CHAT_FILE, JSON.stringify({ 
+      messages: chatHistory,
+      users: Array.from(connectedUsers.values())
+    }, null, 2))
+    
+    io.emit('message', newMessage)
+  })
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected')
+    connectedUsers.delete(socket.id)
+    io.emit('userList', Array.from(connectedUsers.values()))
+  })
+})
+
+// Update CORS middleware to allow Socket.IO
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', '*')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
   res.header('Access-Control-Allow-Headers', '*')
   res.header('Access-Control-Allow-Credentials', 'true')
   
-  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end()
   }
-  
   next()
 })
 
@@ -574,7 +632,8 @@ function fixDatabaseUrls() {
 // Run this at startup
 fixDatabaseUrls()
 
-app.listen(PORT, '0.0.0.0', () => {
+// Make sure to use server.listen instead of app.listen
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`)
   console.log(`Railway URL: ${RAILWAY_DOMAIN}`)
 })
