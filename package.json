@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "server": "node server/index.js",
-    "server:dev": "nodemon server/index.js",
-    "postinstall": "next build"
+    "server:dev": "nodemon server/index.js"
   },
   "dependencies": {
     "@next/font": "^14.2.15",

@@ -4,12 +4,21 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
+COPY .eslintrc.js ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application
-COPY . .
+# Copy project files
+COPY app/ ./app/
+COPY components/ ./components/
+COPY lib/ ./lib/
+COPY public/ ./public/
+COPY types/ ./types/
+COPY next.config.js ./
+COPY tsconfig.json ./
+COPY postcss.config.js ./
+COPY tailwind.config.js ./
 
 # Build the application
 RUN npm run build
