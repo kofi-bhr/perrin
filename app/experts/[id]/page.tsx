@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { EXPERTS, type Expert } from '@/lib/constants'
 import { FiArrowLeft } from 'react-icons/fi'
 import { images } from '@/lib/images'
+import { motion } from 'framer-motion'
 
 export default function ExpertPage() {
   const params = useParams()
@@ -31,17 +32,24 @@ export default function ExpertPage() {
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 -mt-32 relative z-10">
         {/* Back Button */}
-        <button
+        <motion.button
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
           onClick={() => router.back()}
           className="flex items-center gap-2 text-white hover:text-blue-400 mb-6 group 
             bg-black/20 backdrop-blur-sm px-4 py-2 rounded-lg"
         >
           <FiArrowLeft className="group-hover:-translate-x-1 transition-transform" />
           Back to Research Fellows
-        </button>
+        </motion.button>
 
         {/* Expert Card */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white rounded-2xl shadow-xl overflow-hidden"
+        >
           <div className="p-8 md:p-12">
             <div className="grid md:grid-cols-3 gap-8">
               {/* Profile Image */}
@@ -98,17 +106,22 @@ export default function ExpertPage() {
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Publications or Additional Content */}
-        <div className="mt-8 bg-white rounded-2xl shadow-xl p-8 md:p-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mt-8 bg-white rounded-2xl shadow-xl p-8 md:p-12"
+        >
           <h2 className="text-xl font-bold text-gray-900 mb-6">
             Current Research Focus
           </h2>
           <p className="text-gray-600 leading-relaxed">
             Working on cutting-edge policy research and analysis in their areas of expertise.
           </p>
-        </div>
+        </motion.div>
       </div>
 
       {/* Spacer */}

@@ -346,10 +346,11 @@ export default function Home() {
             >
               <iframe
                 className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/xS_3pUX3Qvg?autoplay=1&mute=1&loop=1&playlist=xS_3pUX3Qvg"
+                src="https://www.youtube.com/embed/xS_3pUX3Qvg?autoplay=1&mute=1&loop=1&playlist=xS_3pUX3Qvg&rel=0&modestbranding=1&controls=1&enablejsapi=0&origin=perrin.institute"
                 title="Kashaf Alvi BBC Feature"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
             </motion.div>

@@ -58,11 +58,12 @@ export default function EventsPage() {
                   UVA Events Calendar
                 </h2>
                 <p className="text-gray-600 mb-8 leading-relaxed">
-                  Access the comprehensive University of Virginia events calendar. Find academic talks, 
-                  policy discussions, student activities, and more.
+                  Access the official University of Virginia events calendar. Find academic talks, 
+                  policy discussions, student activities, and more. All events are hosted by UVA, 
+                  its schools, departments, units and approved programs.
                 </p>
                 <a
-                  href="https://calendar.virginia.edu"
+                  href="https://www.virginia.edu/calendar/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-xl
