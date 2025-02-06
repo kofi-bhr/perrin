@@ -15,49 +15,6 @@ const FOUNDERS = [
   }
 ]
 
-const UVA_STUDENTS = [
-  {
-    name: "Kaylee Tate",
-    role: "UVA Student",
-    image: images.defaultProfile,
-  },
-  {
-    name: "Lexie Hobbs",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Kiro Moussa",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Neha Nair",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Oyindamola Akintola",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Sabrina Morency",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Christian Wang",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Sophie",
-    role: "UVA Student",
-    image: images.defaultProfile
-  }
-]
-
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
@@ -112,38 +69,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* UVA Students Section */}
-      <section className="bg-gray-50 py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">UVA Students</h2>
-          <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
-            Meet our talented team of University of Virginia students working to shape the future of public policy.
-          </p>
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {UVA_STUDENTS.map((student, index) => (
-              <div key={index} className="text-center">
-                <div className="relative w-40 h-40 mx-auto mb-4 rounded-full overflow-hidden">
-                  <Image
-                    src={student.image}
-                    alt={student.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">{student.name}</h3>
-                <p className="text-blue-600 font-medium text-sm mb-1">{student.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Founders Section */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Our Founders</h2>
           <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
-            Perrin Institute was founded by two visionary UVA students committed to bridging the 
+            Perrin Institute was founded by two visionaries committed to bridging the 
             gap between academic research and practical policy implementation.
           </p>
           <div className="grid md:grid-cols-2 gap-12 max-w-4xl mx-auto">
@@ -229,15 +160,17 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Join Our Mission</h2>
           <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-            We&apos;re always looking for passionate individuals who want to contribute to meaningful 
-            policy research and make a difference in public policy.
+            We&apos;re affiliated with the University of Virginia, one of the nation&apos;s leading public institutions 
+            of higher education.
           </p>
           <a
-            href="/contact"
+            href="https://www.virginia.edu"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg 
               hover:bg-blue-700 transition-colors"
           >
-            Get Involved
+            Visit UVA
           </a>
         </div>
       </section>

@@ -73,10 +73,10 @@ export default function Home() {
           src={images.heroHome}
           alt="UVA campus"
           fill
-          className="object-cover brightness-[0.75]"
+          className="object-cover brightness-[0.75] transform scale-[1.02] transition-transform duration-[2s]"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-black/20" />
 
         <div className="absolute w-full z-10">
           <div className="max-w-7xl mx-auto px-4">
@@ -87,11 +87,16 @@ export default function Home() {
               className="2xl:max-w-3xl space-y-2 2xl:space-y-8"
             >
               <div>
-                <span className="text-xs md:text-md text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2">
+                <span className="text-xs md:text-md text-blue-400 font-semibold tracking-wider uppercase 
+                  bg-black/30 px-4 py-2 backdrop-blur-sm border border-white/10">
                   An Institution at The University of Virginia
                 </span>
-                <h1 className="mt-4 text-5xl lg:text-7xl font-serif font-bold text-white leading-[1.15] tracking-tight drop-shadow-lg">
-                  Shaping Tomorrow&apos;s <br /> <FlipWords words={words} />
+                <h1 className="mt-4 text-5xl lg:text-7xl font-serif font-bold text-white leading-[1.15] 
+                  tracking-tight drop-shadow-lg">
+                  Shaping Tomorrow&apos;s <br /> 
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-400">
+                    <FlipWords words={words} />
+                  </span>
                 </h1>
               </div>
               <p className="text-gray-200 text-sm md:text-lg leading-relaxed max-w-4xl drop-shadow-lg">
@@ -103,14 +108,16 @@ export default function Home() {
                 <Link
                   href="/research"
                   className="bg-white text-gray-900 px-2 md:px-6 py-2 text-md md:text-lg font-semibold 
-                    hover:bg-gray-100 transition-colors border-2 border-white"
+                    hover:bg-gray-100 transition-all duration-300 border-2 border-white hover:shadow-lg 
+                    hover:shadow-white/20"
                 >
                   View Our Research
                 </Link>
                 <Link
                   href="/experts"
-                  className="border-2 border-white text-white px-2 md:px-6 py-2 text-md md:text-lg font-semibold 
-                    hover:bg-white hover:text-gray-900 transition-colors"
+                  className="border-2 border-white text-white px-2 md:px-6 py-2 text-md md:text-lg 
+                    font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 
+                    hover:shadow-lg hover:shadow-white/20"
                 >
                   Meet Our Experts
                 </Link>
@@ -133,20 +140,22 @@ export default function Home() {
                 { number: "$3.7M+", label: "Alumni Scholarships Secured" },
                 { number: "200+", label: "Research Publications" },
               ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeIn}
-                  transition={fadeInTransition}
-                  className="text-white border-l-2 border-blue-400 pl-6"
-                >
-                  <div className="text-4xl font-bold font-serif">
-                    {stat.number}
-                  </div>
-                  <div className="text-gray-300 mt-1 text-sm md:text-base">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
+              <motion.div
+                key={index}
+                variants={fadeIn}
+                transition={fadeInTransition}
+                className="text-white border-l-2 border-blue-400 pl-6 hover:border-blue-300 
+                  transition-colors group"
+              >
+                <div className="text-4xl font-bold font-serif group-hover:text-blue-300 
+                  transition-colors">
+                  {stat.number}
+                </div>
+                <div className="text-gray-300 mt-1 text-sm md:text-base">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
             </div>
           </div>
         </motion.div>
@@ -160,7 +169,7 @@ export default function Home() {
         >
           <div className="animate-bounce">
             <svg
-              className="w-6 h-6 text-white"
+              className="w-6 h-6 text-white/70 hover:text-white transition-colors"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"

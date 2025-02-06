@@ -65,7 +65,7 @@ export default function Navbar() {
                 className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
                   }`}
               >
-                Research Fellows
+                Fellows
               </Link>
               <Link
                 href="/events"

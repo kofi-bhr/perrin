@@ -148,35 +148,47 @@ export default function ChatRoom() {
               ref={chatContainerRef}
               className="flex-1 p-6 overflow-y-auto scroll-smooth space-y-4 custom-scrollbar"
             >
-              {messages.map((msg, i) => (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  key={i}
-                  className={`flex ${msg.user === userEmail ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div className={`max-w-[70%] ${
-                    msg.user === userEmail 
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white' 
-                      : 'bg-white/10 text-gray-100'
-                  } rounded-2xl px-6 py-4 shadow-xl hover:shadow-2xl transition-shadow`}
+              {messages.map((msg, i) => {
+                // Check if this is a new sender or first message
+                const isNewSender = i === 0 || messages[i - 1].user !== msg.user
+                // Or if there's a time gap of more than 5 minutes
+                const timeGap = i > 0 && new Date(msg.time).getTime() - new Date(messages[i - 1].time).getTime() > 300000
+
+                return (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    key={i}
+                    className={`flex flex-col ${msg.user === userEmail ? 'items-end' : 'items-start'}`}
                   >
-                    {msg.user !== userEmail && (
-                      <div className="text-xs font-medium text-blue-400 mb-1">{msg.user}</div>
+                    {/* Only show name if it's a new sender or there's a time gap */}
+                    {(isNewSender || timeGap) && (
+                      <div className="text-xs font-medium text-gray-400 mb-1 px-2">
+                        {msg.user === userEmail ? 'You' : msg.user.split('@')[0]}
+                      </div>
                     )}
-                    <p className="text-sm leading-relaxed">{msg.text}</p>
-                    <div className={`text-xs mt-2 ${
-                      msg.user === userEmail ? 'text-blue-200/80' : 'text-gray-400'
-                    }`}>
-                      {new Date(msg.time).toLocaleTimeString([], { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                      })}
+
+                    {/* Message bubble */}
+                    <div className={`max-w-[70%] ${
+                      msg.user === userEmail 
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white' 
+                        : 'bg-white/10 text-gray-100'
+                    } rounded-2xl px-6 py-4 shadow-xl hover:shadow-2xl transition-shadow`}
+                    >
+                      <p className="text-sm leading-relaxed">{msg.text}</p>
+                      <div className={`text-xs mt-2 ${
+                        msg.user === userEmail ? 'text-blue-200/80' : 'text-gray-400'
+                      }`}>
+                        {new Date(msg.time).toLocaleTimeString([], { 
+                          hour: '2-digit', 
+                          minute: '2-digit' 
+                        })}
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                )
+              })}
               <div ref={messagesEndRef} />
             </div>
 

@@ -27,7 +27,7 @@ const EXPERTS: Expert[] = [
     name: "Lexie Hobbs",
     role: "Research Fellow",
     bio: "Lexie Hobbs is a current senior at Ringgold High School and admitted to Smith College through Questbridge National College Match. She intends to major in government and molecular biology. She is currently a fellow at Grassroots Democrats HQ and an emergency technician at Hamilton Medical Center as well.",
-    image: "/experts/anonymous.jpg",
+    image: "/default-avatar-photo-placeholder-profile-picture-vector.jpg",
     interests: ["Government", "Molecular Biology", "Healthcare"]
   },
   {
@@ -35,7 +35,7 @@ const EXPERTS: Expert[] = [
     name: "Kiro Moussa",
     role: "Research Fellow",
     bio: "Hello! I'm Kiro Moussa. I've lived in Alexandria, Egypt for the first seven years of my life. Seeing extraordinary events such as the Egyptian Revolution of 2011 has allowed me to develop a passion to fight for social justice and equality. I will be studying Electrical Engineering & Computer Science with a minor in Political Science at MIT.",
-    image: "/experts/kiro.jpg",
+    image: "/guypng1.png",
     interests: ["Social Justice", "Technology", "Political Science"]
   },
   {
@@ -51,7 +51,7 @@ const EXPERTS: Expert[] = [
     name: "Oyindamola Akintola",
     role: "Research Fellow",
     bio: "Hello!. I am Oyindamola Akintola. I currently focus on advocacy efforts, especially with book bans in Texas. I run a podcast on the topic where I interview student leaders, politicians, authors, librarians, etc, all who have been impacted by book bans. I also work on & run a lot of community initiatives i.e. food drives.",
-    image: "/experts/default-profile.jpg",
+    image: "/default-avatar-photo-placeholder-profile-picture-vector.jpg",
     interests: ["Advocacy", "Education Policy", "Community Initiatives"]
   },
   {
@@ -67,7 +67,7 @@ const EXPERTS: Expert[] = [
     name: "Christian Wang",
     role: "Research Fellow",
     bio: "Oxford PPE Commit",
-    image: "/experts/default-profile.jpg",
+    image: "/default-avatar-photo-placeholder-profile-picture-vector.jpg",
     mentor: "Oxford",
     interests: ["Philosophy", "Politics", "Economics"]
   },
@@ -76,9 +76,25 @@ const EXPERTS: Expert[] = [
     name: "Sophie",
     role: "Research Fellow",
     bio: "Sophie is a Coca-Cola Scholar Semifinalist and student rights advocate who speaks for fair educational legislation in her community. She also founded a program assisting Title 1 Students with attending Ivy League and top institutions.",
-    image: "/experts/sophie.jpg",
+    image: "/girl2.png",
     mentor: "Oxford",
     interests: ["Educational Policy", "Environmental Policy"]
+  },
+  {
+    id: 9,
+    name: "Lourdes Ronquillo-Castro",
+    role: "Research Fellow",
+    bio: "Dedicated to advancing public policy solutions with a focus on social justice and community development.",
+    image: "/girl3png.png",
+    interests: ["Social Justice", "Public Policy", "Community Development"]
+  },
+  {
+    id: 10,
+    name: "Heba Elkouraichi",
+    role: "Research Fellow",
+    bio: "Passionate about international relations and policy research, with a focus on global development and cross-cultural understanding.",
+    image: "/girl4.png",
+    interests: ["International Relations", "Global Development", "Policy Research"]
   }
 ]
 
@@ -127,6 +143,11 @@ export default function ExpertsPage() {
                     alt={expert.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => {
+                      console.error(`Error loading image for ${expert.name}:`, e);
+                      // Updated fallback image
+                      e.currentTarget.src = "/default-avatar-photo-placeholder-profile-picture-vector.jpg";
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                 </div>
