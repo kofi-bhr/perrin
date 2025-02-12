@@ -77,24 +77,44 @@ io.on('connection', (socket) => {
   
   socket.on('join', (userData) => {
     console.log('User joined:', userData)
-    connectedUsers.set(socket.id, userData.email)
-    io.emit('userList', Array.from(connectedUsers.values()))
+    
+    // Load profile from DB
+    try {
+      const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+      const userProfile = db.profiles[userData.email] || null
+      
+      // Store in connected users with profile from DB
+      connectedUsers.set(socket.id, {
+        email: userData.email,
+        profile: userProfile
+      })
+      
+      io.emit('userList', Array.from(connectedUsers.values()))
+    } catch (error) {
+      console.error('Error loading profile:', error)
+    }
   })
 
   socket.on('message', (message) => {
-    console.log('Message received:', message)
+    const userData = connectedUsers.get(socket.id)
+    if (!userData) return
+    
+    // Load latest profile from DB
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const profile = db.profiles[userData.email] || null
+    
     const newMessage = {
-      user: connectedUsers.get(socket.id),
+      user: userData.email,
       text: message,
-      time: new Date().toISOString()
+      time: new Date().toISOString(),
+      profile: profile
     }
     
-    // Save to memory and file
     chatHistory.push(newMessage)
     fs.writeFileSync(CHAT_FILE, JSON.stringify({ 
       messages: chatHistory,
       users: Array.from(connectedUsers.values())
-    }, null, 2))
+    }))
     
     io.emit('message', newMessage)
   })
