@@ -205,9 +205,12 @@ export default function EmployeeProfile() {
                       </div>
                     )}
                     {isEditing && (
-                      <label className="absolute inset-0 bg-black/50 flex items-center justify-center 
-                        cursor-pointer transition-opacity hover:opacity-75">
-                        <span className="text-white text-sm">Change Photo</span>
+                      <label className="absolute inset-0 flex flex-col items-center justify-center 
+                        cursor-pointer bg-black/70 text-center p-4 transition-opacity hover:opacity-90">
+                        <span className="text-white text-sm font-medium mb-1">Change Photo</span>
+                        <span className="text-white/80 text-xs px-2">
+                          Professional headshot recommended (max 2MB)
+                        </span>
                         <input
                           type="file"
                           accept="image/*"
