@@ -81,20 +81,71 @@ export default function EmployeeProfile() {
     }
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      // Check file size (limit to 2MB)
-      if (file.size > 2 * 1024 * 1024) {
-        alert('Image must be smaller than 2MB')
-        return
+      try {
+        // Check file size
+        if (file.size > 2 * 1024 * 1024) {
+          alert('Image must be smaller than 2MB')
+          return
+        }
+
+        // Create canvas for compression
+        const canvas = document.createElement('canvas')
+        const ctx = canvas.getContext('2d')
+
+        // Load image with proper typing
+        const loadImage = () => new Promise<HTMLImageElement>((resolve, reject) => {
+          const image = document.createElement('img')
+          image.onload = () => resolve(image)
+          image.onerror = () => reject(new Error('Failed to load image'))
+          image.src = URL.createObjectURL(file)
+        })
+
+        try {
+          const loadedImage = await loadImage()
+
+          // Calculate new dimensions (max 400px)
+          const MAX_SIZE = 400
+          let width = loadedImage.width
+          let height = loadedImage.height
+
+          if (width > height) {
+            if (width > MAX_SIZE) {
+              height *= MAX_SIZE / width
+              width = MAX_SIZE
+            }
+          } else {
+            if (height > MAX_SIZE) {
+              width *= MAX_SIZE / height
+              height = MAX_SIZE
+            }
+          }
+
+          // Set canvas size and draw image
+          canvas.width = width
+          canvas.height = height
+          if (ctx) {
+            ctx.drawImage(loadedImage, 0, 0, width, height)
+
+            // Get compressed base64 string
+            const compressedImage = canvas.toDataURL('image/jpeg', 0.7)
+
+            // Update profile
+            setProfile(prev => ({ ...prev, image: compressedImage }))
+          }
+
+          // Clean up
+          URL.revokeObjectURL(loadedImage.src)
+        } catch (loadError) {
+          console.error('Error loading image:', loadError)
+          alert('Failed to load image. Please try again.')
+        }
+      } catch (error) {
+        console.error('Error processing image:', error)
+        alert('Failed to process image. Please try again.')
       }
-      
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setProfile(prev => ({ ...prev, image: reader.result as string }))
-      }
-      reader.readAsDataURL(file)
     }
   }
 
@@ -143,11 +194,10 @@ export default function EmployeeProfile() {
                   <div className="relative w-32 h-32 rounded-2xl overflow-hidden border-4 border-white 
                     bg-white shadow-lg">
                     {profile.image ? (
-                      <Image
+                      <img
                         src={profile.image}
                         alt="Profile"
-                        fill
-                        className="object-cover"
+                        className="w-full h-full object-cover"
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-100 flex items-center justify-center">
