@@ -216,7 +216,7 @@ console.log({
 
 // Simple file-based DB
 if (!fs.existsSync(DB_FILE)) {
-  fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [] }))
+  fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [], profiles: {} }, null, 2))
 }
 
 // Fix missing upload variable declaration
@@ -751,5 +751,36 @@ app.get('/health', (req, res) => {
       error: error.message,
       stack: error.stack
     })
+  }
+})
+
+// Add the profile endpoint
+app.patch('/profile', auth, async (req, res) => {
+  try {
+    const email = 'employee@perrin.org' // For now, hardcode the email
+    const profile = req.body
+
+    // Load current DB
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    
+    // Initialize profiles if doesn't exist
+    if (!db.profiles) {
+      db.profiles = {}
+    }
+
+    // Update profile
+    db.profiles[email] = {
+      ...db.profiles[email],  // Keep existing data
+      ...profile,            // Merge new data
+      updatedAt: new Date().toISOString()
+    }
+
+    // Save back to DB
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+
+    res.json({ success: true, profile: db.profiles[email] })
+  } catch (error) {
+    console.error('Profile update error:', error)
+    res.status(500).json({ error: 'Failed to update profile' })
   }
 })

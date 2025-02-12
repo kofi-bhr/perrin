@@ -99,6 +99,14 @@ export default function Navbar() {
                   >
                     Chat Room
                   </Link>
+                  <Link
+                    href="/employee/profile"
+                    className={`font-medium hover:opacity-75 transition-opacity ${
+                      isScrolled ? 'text-gray-900' : 'text-white'
+                    }`}
+                  >
+                    My Profile
+                  </Link>
                 </>
               )}
               {isAdmin && (
@@ -154,6 +162,12 @@ export default function Navbar() {
                   <>
                     <Link href="/employee-panel" className="text-gray-900 font-medium hover:opacity-75">Employee Panel</Link>
                     <Link href="/chat" className="text-gray-900 font-medium hover:opacity-75">Chat Room</Link>
+                    <Link 
+                      href="/employee/profile" 
+                      className="text-gray-900 font-medium hover:opacity-75"
+                    >
+                      My Profile
+                    </Link>
                   </>
                 )}
                 {isAdmin && (

@@ -3,21 +3,39 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import io from 'socket.io-client'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
+import { FiUser } from 'react-icons/fi'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+interface Profile {
+  name: string
+  image: string | null
+}
+
+interface OnlineUser {
+  email: string
+  profile?: Profile
+}
+
+interface Message {
+  user: string
+  text: string
+  time: string
+  profile?: Profile
+}
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
 export default function ChatRoom() {
-  const [messages, setMessages] = useState<any[]>([])
+  const [messages, setMessages] = useState<Message[]>([])
   const [message, setMessage] = useState('')
   const [socket, setSocket] = useState<any>(null)
-  const [onlineUsers, setOnlineUsers] = useState<string[]>([])
+  const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([])
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const [userEmail, setUserEmail] = useState<string>('')
 
   useEffect(() => {
-    // Check if user is logged in
     const email = localStorage.getItem('userEmail')
     if (email !== 'employee@perrin.org') {
       router.push('/auth/signin')
@@ -25,28 +43,36 @@ export default function ChatRoom() {
     }
     setUserEmail(email)
 
-    // Connect to Socket.IO
+    // Get profile from localStorage
+    const profileData = localStorage.getItem('employeeProfile')
+    const profile = profileData ? JSON.parse(profileData) : null
+    
+    console.log('Connecting with profile:', profile) // Debug log
+
     const newSocket = io(API_URL, {
       transports: ['websocket', 'polling'],
       withCredentials: true
     })
     setSocket(newSocket)
 
-    // Join chat
-    newSocket.emit('join', { email })
+    // Join with complete profile data
+    newSocket.emit('join', { 
+      email,
+      profile: profile // Make sure profile is being sent
+    })
 
     // Listen for chat history
-    newSocket.on('chatHistory', (history: any[]) => {
+    newSocket.on('chatHistory', (history: Message[]) => {
       setMessages(history)
     })
 
     // Listen for new messages
-    newSocket.on('message', (msg: any) => {
+    newSocket.on('message', (msg: Message) => {
       setMessages(prev => [...prev, msg])
     })
 
     // Listen for user list updates
-    newSocket.on('userList', (users: string[]) => {
+    newSocket.on('userList', (users: OnlineUser[]) => {
       setOnlineUsers(users)
     })
 
@@ -121,17 +147,33 @@ export default function ChatRoom() {
                     hover:shadow-lg hover:shadow-black/20"
                 >
                   <div className="relative">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl 
-                      flex items-center justify-center shadow-lg shadow-blue-500/20 rotate-3 hover:rotate-0 
-                      transition-transform"
-                    >
-                      <span className="text-white font-bold">{user[0]?.toUpperCase()}</span>
-                    </div>
+                    {user.profile?.image ? (
+                      <div className="w-10 h-10 rounded-xl overflow-hidden">
+                        <Image
+                          src={user.profile.image}
+                          alt={user.profile.name}
+                          width={40}
+                          height={40}
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl 
+                        flex items-center justify-center shadow-lg shadow-blue-500/20 rotate-3 hover:rotate-0 
+                        transition-transform"
+                      >
+                        <span className="text-white font-bold">
+                          {user.profile?.name?.[0] || user.email?.[0] || 'E'}
+                        </span>
+                      </div>
+                    )}
                     <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 rounded-full 
                       border-2 border-gray-900 animate-pulse"
                     />
                   </div>
-                  <span className="text-sm font-medium text-gray-300">{user}</span>
+                  <span className="text-sm font-medium text-gray-300">
+                    {user.profile?.name || 'Employee'}
+                  </span>
                 </motion.div>
               ))}
             </div>
@@ -149,36 +191,50 @@ export default function ChatRoom() {
               className="flex-1 p-6 overflow-y-auto scroll-smooth space-y-4 custom-scrollbar"
             >
               {messages.map((msg, i) => {
-                // Check if this is a new sender or first message
-                const isNewSender = i === 0 || messages[i - 1].user !== msg.user
-                // Or if there's a time gap of more than 5 minutes
-                const timeGap = i > 0 && new Date(msg.time).getTime() - new Date(messages[i - 1].time).getTime() > 300000
+                const isCurrentUser = msg.user === localStorage.getItem('userEmail')
+                const prevMsg = i > 0 ? messages[i - 1] : null
+                const isNewSender = !prevMsg || prevMsg.user !== msg.user
+                const timeGap = prevMsg && 
+                  new Date(msg.time).getTime() - new Date(prevMsg.time).getTime() > 300000
 
                 return (
                   <motion.div
+                    key={i}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    key={i}
-                    className={`flex flex-col ${msg.user === userEmail ? 'items-end' : 'items-start'}`}
+                    className={`flex flex-col ${isCurrentUser ? 'items-end' : 'items-start'}`}
                   >
-                    {/* Only show name if it's a new sender or there's a time gap */}
                     {(isNewSender || timeGap) && (
-                      <div className="text-xs font-medium text-gray-400 mb-1 px-2">
-                        {msg.user === userEmail ? 'You' : msg.user.split('@')[0]}
+                      <div className="flex items-center gap-2 mb-1 px-2">
+                        {msg.profile?.image ? (
+                          <div className="relative w-6 h-6 rounded-full overflow-hidden">
+                            <Image
+                              src={msg.profile.image}
+                              alt={msg.profile.name || msg.user}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-6 h-6 rounded-full bg-gray-700 flex items-center justify-center">
+                            <FiUser className="w-3 h-3 text-gray-300" />
+                          </div>
+                        )}
+                        <div className="text-xs font-medium text-gray-400">
+                          {msg.profile?.name || (msg.user === userEmail ? 'You' : 'Employee')}
+                        </div>
                       </div>
                     )}
 
-                    {/* Message bubble */}
                     <div className={`max-w-[70%] ${
-                      msg.user === userEmail 
+                      isCurrentUser 
                         ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white' 
                         : 'bg-white/10 text-gray-100'
-                    } rounded-2xl px-6 py-4 shadow-xl hover:shadow-2xl transition-shadow`}
+                    } rounded-2xl px-6 py-4 shadow-xl`}
                     >
                       <p className="text-sm leading-relaxed">{msg.text}</p>
                       <div className={`text-xs mt-2 ${
-                        msg.user === userEmail ? 'text-blue-200/80' : 'text-gray-400'
+                        isCurrentUser ? 'text-blue-200/80' : 'text-gray-400'
                       }`}>
                         {new Date(msg.time).toLocaleTimeString([], { 
                           hour: '2-digit', 
