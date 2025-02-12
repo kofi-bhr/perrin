@@ -774,7 +774,7 @@ app.get('/health', (req, res) => {
   }
 })
 
-// Add the profile endpoint
+// Update the profile endpoint to handle images
 app.patch('/profile', auth, async (req, res) => {
   try {
     const email = 'employee@perrin.org' // For now, hardcode the email
@@ -788,16 +788,21 @@ app.patch('/profile', auth, async (req, res) => {
       db.profiles = {}
     }
 
-    // Update profile
+    // Get existing profile to preserve image if not updated
+    const existingProfile = db.profiles[email] || {}
+    
+    // Update profile, keeping the image from localStorage if not provided
     db.profiles[email] = {
-      ...db.profiles[email],  // Keep existing data
-      ...profile,            // Merge new data
+      ...existingProfile,
+      ...profile,
+      image: profile.image || existingProfile.image || null,
       updatedAt: new Date().toISOString()
     }
 
     // Save back to DB
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
 
+    // Send back complete profile including image
     res.json({ success: true, profile: db.profiles[email] })
   } catch (error) {
     console.error('Profile update error:', error)

@@ -58,24 +58,21 @@ export default function EmployeeProfile() {
     try {
       const token = localStorage.getItem('token')
       
-      // Create a copy of profile without the image for the API
-      const { image, ...profileWithoutImage } = profile
-      
-      // Save profile data
+      // Send complete profile including image
       const response = await fetch(`${API_URL}/profile`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(profileWithoutImage)
+        body: JSON.stringify(profile)  // Send complete profile including image
       })
 
       if (!response.ok) {
         throw new Error('Failed to update profile')
       }
 
-      // Save complete profile (including image) to localStorage
+      // Save to localStorage
       localStorage.setItem('employeeProfile', JSON.stringify(profile))
       setIsEditing(false)
     } catch (error) {
