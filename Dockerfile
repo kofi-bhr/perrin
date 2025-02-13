@@ -22,6 +22,12 @@ COPY postcss.config.js ./
 COPY tailwind.config.js ./
 COPY .env* ./
 
+# Add build arg for API URL
+ARG NEXT_PUBLIC_API_URL=https://perrin-production.up.railway.app
+
+# Set as environment variable
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Build the application
 RUN npm run build
 
