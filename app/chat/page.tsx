@@ -5,6 +5,7 @@ import io from 'socket.io-client'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { FiUser } from 'react-icons/fi'
+import { useAuth } from '@/lib/hooks/useAuth'
 
 interface Profile {
   name: string
@@ -33,53 +34,48 @@ export default function ChatRoom() {
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
-  const [userEmail, setUserEmail] = useState<string>('')
+  const { isAuthenticated, userEmail } = useAuth()
 
   useEffect(() => {
-    const email = localStorage.getItem('userEmail')
-    if (email !== 'employee@perrin.org') {
-      router.push('/auth/signin')
-      return
+    if (isAuthenticated && userEmail) {
+      // Get profile from localStorage
+      const profileData = localStorage.getItem('employeeProfile')
+      const profile = profileData ? JSON.parse(profileData) : null
+      
+      console.log('Connecting with profile:', profile) // Debug log
+
+      const newSocket = io(API_URL, {
+        transports: ['websocket', 'polling'],
+        withCredentials: true
+      })
+      setSocket(newSocket)
+
+      // Join with complete profile data
+      newSocket.emit('join', { 
+        email: userEmail,
+        profile: profile // Make sure profile is being sent
+      })
+
+      // Listen for chat history
+      newSocket.on('chatHistory', (history: Message[]) => {
+        setMessages(history)
+      })
+
+      // Listen for new messages
+      newSocket.on('message', (msg: Message) => {
+        setMessages(prev => [...prev, msg])
+      })
+
+      // Listen for user list updates
+      newSocket.on('userList', (users: OnlineUser[]) => {
+        setOnlineUsers(users)
+      })
+
+      return () => {
+        newSocket.close()
+      }
     }
-    setUserEmail(email)
-
-    // Get profile from localStorage
-    const profileData = localStorage.getItem('employeeProfile')
-    const profile = profileData ? JSON.parse(profileData) : null
-    
-    console.log('Connecting with profile:', profile) // Debug log
-
-    const newSocket = io(API_URL, {
-      transports: ['websocket', 'polling'],
-      withCredentials: true
-    })
-    setSocket(newSocket)
-
-    // Join with complete profile data
-    newSocket.emit('join', { 
-      email,
-      profile: profile // Make sure profile is being sent
-    })
-
-    // Listen for chat history
-    newSocket.on('chatHistory', (history: Message[]) => {
-      setMessages(history)
-    })
-
-    // Listen for new messages
-    newSocket.on('message', (msg: Message) => {
-      setMessages(prev => [...prev, msg])
-    })
-
-    // Listen for user list updates
-    newSocket.on('userList', (users: OnlineUser[]) => {
-      setOnlineUsers(users)
-    })
-
-    return () => {
-      newSocket.close()
-    }
-  }, [router])
+  }, [isAuthenticated, userEmail])
 
   // Update scroll behavior to use the chat container
   useEffect(() => {
@@ -94,6 +90,10 @@ export default function ChatRoom() {
       socket.emit('message', message)
       setMessage('')
     }
+  }
+
+  if (!isAuthenticated) {
+    return null // or a loading spinner
   }
 
   return (

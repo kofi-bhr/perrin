@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { FiUser, FiMail, FiPhone, FiBook, FiAward, FiLink } from 'react-icons/fi'
 import { images } from '@/lib/images'
+import { useAuth } from '@/lib/hooks/useAuth'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
@@ -22,9 +23,10 @@ interface Profile {
 
 export default function EmployeeProfile() {
   const router = useRouter()
+  const { isAuthenticated, userEmail } = useAuth()
   const [profile, setProfile] = useState<Profile>({
     name: '',
-    email: '',
+    email: userEmail || '', // Set email from auth
     phone: '',
     bio: '',
     expertise: [],
@@ -40,19 +42,39 @@ export default function EmployeeProfile() {
   const [newLink, setNewLink] = useState({ title: '', url: '' })
 
   useEffect(() => {
-    // Check authentication
-    const email = localStorage.getItem('userEmail')
-    if (email !== 'employee@perrin.org') {
-      router.push('/auth/signin')
-      return
+    if (isAuthenticated && userEmail) {
+      // Try to load existing profile from API first
+      const fetchProfile = async () => {
+        try {
+          const token = localStorage.getItem('token')
+          const response = await fetch(`${API_URL}/profile/${userEmail}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          
+          if (response.ok) {
+            const data = await response.json()
+            setProfile(data)
+          } else {
+            // If no profile exists, initialize with just the email
+            setProfile(prev => ({
+              ...prev,
+              email: userEmail
+            }))
+          }
+        } catch (error) {
+          console.error('Error loading profile:', error)
+        }
+      }
+      
+      fetchProfile()
     }
+  }, [isAuthenticated, userEmail])
 
-    // Load profile from localStorage
-    const savedProfile = localStorage.getItem('employeeProfile')
-    if (savedProfile) {
-      setProfile(JSON.parse(savedProfile))
-    }
-  }, [router])
+  if (!isAuthenticated) {
+    return null // or a loading spinner
+  }
 
   const handleSave = async () => {
     try {
