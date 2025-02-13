@@ -898,20 +898,25 @@ function generatePin() {
 // Add this new endpoint
 app.post('/admin/create-admin', auth, async (req, res) => {
   try {
+    console.log('Create admin request:', req.body)
     const { name, email } = req.body
+    
     if (!name || !email) {
+      console.log('Missing required fields')
       return res.status(400).json({ error: 'Name and email are required' })
     }
 
     const db = getDB()
     
     // Check if email already exists
-    if (db.users[email]) {
+    if (db.users?.[email]) {
+      console.log('Email already exists:', email)
       return res.status(400).json({ error: 'Email already registered' })
     }
 
     // Generate PIN
     const pin = generatePin()
+    console.log('Generated PIN:', pin)
 
     // Create admin account
     const newAdmin = {
@@ -921,6 +926,10 @@ app.post('/admin/create-admin', auth, async (req, res) => {
       role: 'admin',
       createdAt: new Date().toISOString()
     }
+
+    // Initialize collections if they don't exist
+    if (!db.users) db.users = {}
+    if (!db.accessRequests) db.accessRequests = []
 
     // Add to users and access requests
     db.users[email] = newAdmin
@@ -935,8 +944,12 @@ app.post('/admin/create-admin', auth, async (req, res) => {
       createdAt: new Date().toISOString()
     })
 
-    saveDB(db)
+    const saved = saveDB(db)
+    if (!saved) {
+      throw new Error('Failed to save database')
+    }
 
+    console.log('Admin created successfully:', newAdmin)
     res.json({ 
       success: true, 
       admin: newAdmin
@@ -944,5 +957,116 @@ app.post('/admin/create-admin', auth, async (req, res) => {
   } catch (error) {
     console.error('Error creating admin:', error)
     res.status(500).json({ error: 'Failed to create admin account' })
+  }
+})
+
+// Add this function if it's not already there
+function saveDB(db) {
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    return true
+  } catch (error) {
+    console.error('Error saving DB:', error)
+    return false
+  }
+}
+
+// Add/Update the request access endpoint
+app.post('/auth/request-access', async (req, res) => {
+  try {
+    const { name, email, department, reason } = req.body
+    console.log('Access request:', { name, email, department, reason })
+
+    const db = getDB()
+    
+    // Check if request already exists
+    const existingRequest = db.accessRequests?.find(r => r.email === email)
+    if (existingRequest) {
+      return res.json({
+        status: existingRequest.status,
+        pin: existingRequest.pin
+      })
+    }
+
+    // Create new request
+    const newRequest = {
+      id: Date.now().toString(),
+      name,
+      email,
+      department,
+      reason,
+      status: 'pending',
+      createdAt: new Date().toISOString()
+    }
+
+    // Initialize accessRequests if it doesn't exist
+    if (!db.accessRequests) {
+      db.accessRequests = []
+    }
+
+    db.accessRequests.push(newRequest)
+    saveDB(db)
+
+    res.json({ status: 'pending' })
+  } catch (error) {
+    console.error('Request access error:', error)
+    res.status(500).json({ error: String(error) })
+  }
+})
+
+// Add/Update the check request status endpoint
+app.get('/auth/check-request/:email', async (req, res) => {
+  try {
+    const { email } = req.params
+    const db = getDB()
+    
+    const request = db.accessRequests?.find(r => r.email === email)
+    if (!request) {
+      return res.status(404).json({ error: 'Request not found' })
+    }
+
+    res.json({
+      status: request.status,
+      pin: request.status === 'approved' ? request.pin : undefined
+    })
+  } catch (error) {
+    console.error('Check request error:', error)
+    res.status(500).json({ error: String(error) })
+  }
+})
+
+// Add/Update the approve request endpoint
+app.post('/admin/approve-request/:id', auth, async (req, res) => {
+  try {
+    const { id } = req.params
+    const db = getDB()
+    
+    const request = db.accessRequests?.find(r => r.id === id)
+    if (!request) {
+      return res.status(404).json({ error: 'Request not found' })
+    }
+
+    // Generate PIN
+    const pin = generatePin()
+    
+    // Update request
+    request.status = 'approved'
+    request.pin = pin
+    
+    // Add to users
+    if (!db.users) db.users = {}
+    db.users[request.email] = {
+      name: request.name,
+      email: request.email,
+      pin,
+      role: 'user',
+      createdAt: new Date().toISOString()
+    }
+
+    saveDB(db)
+    res.json(request)
+  } catch (error) {
+    console.error('Approve request error:', error)
+    res.status(500).json({ error: String(error) })
   }
 })
