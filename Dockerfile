@@ -5,8 +5,9 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
+# Install dependencies including SendGrid
 RUN npm install
+RUN npm install @sendgrid/mail
 
 # Copy all files
 COPY . .
