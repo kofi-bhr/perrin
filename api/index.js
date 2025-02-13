@@ -817,23 +817,65 @@ app.post('/auth/verify-pin', async (req, res) => {
     console.log('PIN:', pin)
 
     const db = getDB()
-    
-    // Check approved requests
-    const request = db.accessRequests?.find(r => 
-      r.status === 'approved' && r.pin === pin
-    )
+    console.log('Current DB State:', {
+      accessRequests: db.accessRequests?.length || 0,
+      users: Object.keys(db.users || {}).length,
+      profiles: Object.keys(db.profiles || {}).length
+    })
+
+    // First check existing users
+    const user = Object.values(db.users || {}).find(u => u.pin === pin)
+    if (user) {
+      console.log('Found existing user:', user.email)
+      return res.json({
+        token: 'test-token',
+        email: user.email
+      })
+    }
+
+    // Then check approved requests
+    const request = db.accessRequests?.find(r => {
+      const matches = r.status === 'approved' && r.pin === pin
+      console.log('Checking request:', {
+        id: r.id,
+        status: r.status,
+        pin: r.pin,
+        matches
+      })
+      return matches
+    })
 
     if (request) {
-      // If this is the first login with this PIN, move to users
-      if (!db.users[request.email]) {
-        db.users[request.email] = {
+      console.log('Found matching request:', request.email)
+      
+      // Add to users if first time
+      db.users = db.users || {}
+      db.users[request.email] = {
+        name: request.name,
+        email: request.email,
+        pin: request.pin,
+        createdAt: new Date().toISOString()
+      }
+      
+      // Initialize empty profile
+      db.profiles = db.profiles || {}
+      if (!db.profiles[request.email]) {
+        db.profiles[request.email] = {
           name: request.name,
           email: request.email,
-          pin: request.pin,
-          createdAt: new Date().toISOString()
+          phone: '',
+          bio: '',
+          expertise: [],
+          publications: [],
+          education: [],
+          links: [],
+          image: null
         }
-        saveDB(db)
       }
+      
+      // Save changes
+      saveDB(db)
+      console.log('Saved new user and profile')
 
       return res.json({
         token: 'test-token',
@@ -841,18 +883,11 @@ app.post('/auth/verify-pin', async (req, res) => {
       })
     }
 
-    // Also check existing users
-    const user = Object.values(db.users).find(u => u.pin === pin)
-    if (user) {
-      return res.json({
-        token: 'test-token',
-        email: user.email
-      })
-    }
-
+    console.log('No matching PIN found')
     res.status(401).json({ error: 'Invalid PIN' })
   } catch (error) {
     console.error('PIN verification error:', error)
+    console.error('Error stack:', error.stack)
     res.status(500).json({ error: String(error) })
   }
 })
