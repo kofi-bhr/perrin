@@ -5,6 +5,7 @@ import io from 'socket.io-client'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { FiUser } from 'react-icons/fi'
+import { useAuth } from '@/lib/hooks/useAuth'
 
 interface Profile {
   name: string
@@ -34,6 +35,8 @@ export default function ChatRoom() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const [userEmail, setUserEmail] = useState<string>('')
+
+  useAuth()
 
   useEffect(() => {
     const email = localStorage.getItem('userEmail')

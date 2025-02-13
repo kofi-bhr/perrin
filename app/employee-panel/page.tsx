@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { RESEARCH_CATEGORIES } from '@/lib/constants'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import { useAuth } from '@/lib/hooks/useAuth'
 
 type SubmissionStep = 'draft' | 'review' | 'success'
 
@@ -33,13 +34,9 @@ export default function EmployeePanel() {
     file: null as File | null,
   })
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      router.push('/auth/signin')
-      return
-    }
+  useAuth()
 
+  useEffect(() => {
     fetchPapers()
   }, [router])
 

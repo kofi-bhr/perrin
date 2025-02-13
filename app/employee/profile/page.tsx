@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { FiUser, FiMail, FiPhone, FiBook, FiAward, FiLink } from 'react-icons/fi'
 import { images } from '@/lib/images'
+import { useAuth } from '@/lib/hooks/useAuth'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
@@ -39,20 +40,15 @@ export default function EmployeeProfile() {
   const [newEducation, setNewEducation] = useState('')
   const [newLink, setNewLink] = useState({ title: '', url: '' })
 
-  useEffect(() => {
-    // Check authentication
-    const email = localStorage.getItem('userEmail')
-    if (email !== 'employee@perrin.org') {
-      router.push('/auth/signin')
-      return
-    }
+  useAuth()
 
+  useEffect(() => {
     // Load profile from localStorage
     const savedProfile = localStorage.getItem('employeeProfile')
     if (savedProfile) {
       setProfile(JSON.parse(savedProfile))
     }
-  }, [router])
+  }, [])
 
   const handleSave = async () => {
     try {
