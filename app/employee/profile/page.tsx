@@ -29,10 +29,10 @@ export default function EmployeeProfile() {
     email: userEmail || '', // Set email from auth
     phone: '',
     bio: '',
-    expertise: [],
-    publications: [],
-    education: [],
-    links: [],
+    expertise: [], // Initialize as empty array
+    publications: [], // Initialize as empty array
+    education: [], // Initialize as empty array
+    links: [], // Initialize as empty array
     image: null
   })
   const [isEditing, setIsEditing] = useState(false)
