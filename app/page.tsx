@@ -24,6 +24,7 @@ const API_URL =
 export default function Home() {
   const [latestPapers, setLatestPapers] = useState<Paper[]>([]);
   const words = ["Future", "Policy", "World", "Legislation"];
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     async function fetchLatestPapers() {
@@ -63,6 +64,14 @@ export default function Home() {
         staggerChildren: 0.1,
       },
     },
+  };
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -110,6 +119,7 @@ export default function Home() {
                 <div className="flex flex-col md:flex-row gap-2 md:gap-4 pt-4 items-center">
                   <Link
                     href="/research"
+                    onClick={closeMenu}
                     className="bg-white text-gray-900 px-4 md:px-6 py-2 text-md md:text-lg font-semibold 
                       hover:bg-gray-100 transition-all duration-300 border-2 border-white hover:shadow-lg 
                       hover:shadow-white/20"
@@ -118,6 +128,7 @@ export default function Home() {
                   </Link>
                   <Link
                     href="/experts"
+                    onClick={closeMenu}
                     className="border-2 border-white text-white px-4 md:px-6 py-2 text-md md:text-lg 
                       font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 
                       hover:shadow-lg hover:shadow-white/20"

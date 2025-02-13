@@ -8,7 +8,7 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center">
+      <section className="relative h-[75vh] flex items-center">
         <Image
           src={images.heroEvents}
           alt="UVA Events"
