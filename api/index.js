@@ -17,6 +17,7 @@ const path = require('path')
 const fs = require('fs')
 const { Server } = require('socket.io')
 const http = require('http')
+const sgMail = require('@sendgrid/mail')
 
 // First, declare all constants
 const RAILWAY_DOMAIN = process.env.NODE_ENV === 'production' 
@@ -807,5 +808,224 @@ app.patch('/profile', auth, async (req, res) => {
   } catch (error) {
     console.error('Profile update error:', error)
     res.status(500).json({ error: 'Failed to update profile' })
+  }
+})
+
+// Add these helper functions near the top
+function generatePin() {
+  return Math.floor(100000 + Math.random() * 900000).toString() // 6-digit PIN
+}
+
+function getDB() {
+  try {
+    if (!fs.existsSync(DB_FILE)) {
+      const initialDB = {
+        papers: [],
+        profiles: {},
+        accessRequests: [],
+        users: {
+          'employee@perrin.org': {
+            name: 'Default Admin',
+            email: 'employee@perrin.org',
+            pin: '000000',
+            role: 'admin',
+            createdAt: new Date().toISOString()
+          }
+        }
+      }
+      fs.writeFileSync(DB_FILE, JSON.stringify(initialDB, null, 2))
+      return initialDB
+    }
+    const data = fs.readFileSync(DB_FILE, 'utf-8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error reading DB:', error)
+    return {
+      papers: [],
+      profiles: {},
+      accessRequests: [],
+      users: {}
+    }
+  }
+}
+
+function saveDB(db) {
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    return true
+  } catch (error) {
+    console.error('Error saving DB:', error)
+    return false
+  }
+}
+
+// Add these endpoints
+app.post('/auth/request-access', async (req, res) => {
+  try {
+    const { name, email, department, reason } = req.body
+    console.log('Access request:', { name, email, department, reason })
+
+    const db = getDB()
+    
+    // Initialize if doesn't exist
+    if (!db.accessRequests) {
+      db.accessRequests = []
+    }
+    
+    // Check if request already exists
+    const existingRequest = db.accessRequests.find(r => r.email === email)
+    if (existingRequest) {
+      return res.json({
+        status: existingRequest.status,
+        pin: existingRequest.status === 'approved' ? existingRequest.pin : undefined
+      })
+    }
+
+    // Create new request
+    const newRequest = {
+      id: Date.now().toString(),
+      name,
+      email,
+      department,
+      reason,
+      status: 'pending',
+      createdAt: new Date().toISOString()
+    }
+
+    db.accessRequests.push(newRequest)
+    
+    const saved = saveDB(db)
+    if (!saved) {
+      throw new Error('Failed to save request')
+    }
+
+    console.log('Access request saved:', newRequest)
+    res.json({ status: 'pending' })
+  } catch (error) {
+    console.error('Request access error:', error)
+    res.status(500).json({ error: String(error) })
+  }
+})
+
+app.get('/auth/request-status', async (req, res) => {
+  try {
+    const { email } = req.query
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' })
+    }
+
+    const db = getDB()
+    
+    const request = db.accessRequests?.find(r => r.email === email)
+    if (!request) {
+      return res.status(404).json({ error: 'Request not found' })
+    }
+
+    res.json({
+      status: request.status,
+      pin: request.status === 'approved' ? request.pin : undefined
+    })
+  } catch (error) {
+    console.error('Check request error:', error)
+    res.status(500).json({ error: String(error) })
+  }
+})
+
+app.post('/auth/verify-pin', async (req, res) => {
+  try {
+    const { pin } = req.body
+    const db = getDB()
+
+    // Find user with this PIN
+    const user = Object.values(db.users || {}).find(u => u.pin === pin)
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid PIN' })
+    }
+
+    res.json({
+      token: 'user-token',
+      email: user.email,
+      role: user.role
+    })
+  } catch (error) {
+    console.error('Error verifying PIN:', error)
+    res.status(500).json({ error: 'Failed to verify PIN' })
+  }
+})
+
+app.get('/admin/access-requests', auth, async (req, res) => {
+  try {
+    const db = getDB()
+    
+    // Initialize if doesn't exist
+    if (!db.accessRequests) {
+      db.accessRequests = []
+    }
+
+    // Sort by date, newest first
+    const sortedRequests = db.accessRequests.sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+
+    res.json(sortedRequests)
+  } catch (error) {
+    console.error('Error fetching access requests:', error)
+    res.status(500).json({ error: 'Failed to fetch access requests' })
+  }
+})
+
+app.post('/admin/approve-request/:id', auth, async (req, res) => {
+  try {
+    const { id } = req.params
+    const db = getDB()
+    
+    const request = db.accessRequests?.find(r => r.id === id)
+    if (!request) {
+      return res.status(404).json({ error: 'Request not found' })
+    }
+
+    // Generate PIN
+    const pin = generatePin()
+    
+    // Update request
+    request.status = 'approved'
+    request.pin = pin
+    
+    // Add to users
+    if (!db.users) db.users = {}
+    db.users[request.email] = {
+      name: request.name,
+      email: request.email,
+      pin,
+      role: 'user',
+      createdAt: new Date().toISOString()
+    }
+
+    saveDB(db)
+
+    // After generating PIN and updating user
+    try {
+      await sgMail.send({
+        to: request.email,
+        from: process.env.SENDGRID_FROM_EMAIL,
+        subject: 'Your Perrin Institute Access Request Has Been Approved',
+        text: `Your access request has been approved. Your PIN is: ${pin}`,
+        html: `
+          <h2>Welcome to Perrin Institute!</h2>
+          <p>Your access request has been approved.</p>
+          <p>Your PIN is: <strong>${pin}</strong></p>
+          <p>You can now log in at <a href="https://perrininstitution.org/auth/signin">https://perrininstitution.org/auth/signin</a></p>
+        `
+      })
+      console.log('Approval email sent to:', request.email)
+    } catch (emailError) {
+      console.error('Failed to send email:', emailError)
+      // Continue even if email fails
+    }
+
+    res.json(request)
+  } catch (error) {
+    console.error('Approve request error:', error)
+    res.status(500).json({ error: String(error) })
   }
 })
