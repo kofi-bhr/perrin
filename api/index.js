@@ -17,6 +17,7 @@ const path = require('path')
 const fs = require('fs')
 const { Server } = require('socket.io')
 const http = require('http')
+const sgMail = require('@sendgrid/mail')
 
 // First, declare all constants
 const RAILWAY_DOMAIN = process.env.NODE_ENV === 'production' 
@@ -1080,6 +1081,26 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
       createdAt: new Date().toISOString()
     }
 
+    // Send email with PIN
+    try {
+      await sgMail.send({
+        to: request.email,
+        from: process.env.SENDGRID_FROM_EMAIL,
+        subject: 'Your Perrin Institute Access Request Has Been Approved',
+        text: `Your access request has been approved. Your PIN is: ${pin}`,
+        html: `
+          <h2>Welcome to Perrin Institute!</h2>
+          <p>Your access request has been approved.</p>
+          <p>Your PIN is: <strong>${pin}</strong></p>
+          <p>You can now log in at <a href="https://perrininstitution.org/auth/signin">https://perrininstitution.org/auth/signin</a></p>
+        `
+      })
+      console.log('Approval email sent to:', request.email)
+    } catch (emailError) {
+      console.error('Failed to send email:', emailError)
+      // Continue even if email fails
+    }
+
     saveDB(db)
     res.json(request)
   } catch (error) {
@@ -1130,5 +1151,34 @@ app.post('/auth/verify-pin', async (req, res) => {
   } catch (error) {
     console.error('Error verifying PIN:', error)
     res.status(500).json({ error: 'Failed to verify PIN' })
+  }
+})
+
+// Add/update the profile endpoint
+app.get('/profile/:email', auth, async (req, res) => {
+  try {
+    const { email } = req.params
+    const db = getDB()
+    
+    // Initialize profiles if doesn't exist
+    if (!db.profiles) db.profiles = {}
+    
+    // Get or create profile
+    const profile = db.profiles[email] || {
+      name: '',
+      email,
+      phone: '',
+      bio: '',
+      expertise: [],
+      publications: [],
+      education: [],
+      links: [],
+      image: null
+    }
+    
+    res.json(profile)
+  } catch (error) {
+    console.error('Error fetching profile:', error)
+    res.status(500).json({ error: 'Failed to fetch profile' })
   }
 })
