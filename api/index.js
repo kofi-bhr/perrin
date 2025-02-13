@@ -979,12 +979,17 @@ app.post('/auth/request-access', async (req, res) => {
 
     const db = getDB()
     
+    // Initialize if doesn't exist
+    if (!db.accessRequests) {
+      db.accessRequests = []
+    }
+    
     // Check if request already exists
-    const existingRequest = db.accessRequests?.find(r => r.email === email)
+    const existingRequest = db.accessRequests.find(r => r.email === email)
     if (existingRequest) {
       return res.json({
         status: existingRequest.status,
-        pin: existingRequest.pin
+        pin: existingRequest.status === 'approved' ? existingRequest.pin : undefined
       })
     }
 
@@ -999,14 +1004,22 @@ app.post('/auth/request-access', async (req, res) => {
       createdAt: new Date().toISOString()
     }
 
-    // Initialize accessRequests if it doesn't exist
-    if (!db.accessRequests) {
-      db.accessRequests = []
+    db.accessRequests.push(newRequest)
+    
+    // Save to DB
+    const saved = saveDB(db)
+    if (!saved) {
+      throw new Error('Failed to save request')
     }
 
-    db.accessRequests.push(newRequest)
-    saveDB(db)
+    // Send email notification to admin (you can add this later)
+    // await sendEmail({
+    //   to: 'admin@perrin.org',
+    //   subject: 'New Access Request',
+    //   text: `New access request from ${name} (${email})`
+    // })
 
+    console.log('Access request saved:', newRequest)
     res.json({ status: 'pending' })
   } catch (error) {
     console.error('Request access error:', error)
@@ -1014,10 +1027,14 @@ app.post('/auth/request-access', async (req, res) => {
   }
 })
 
-// Add/Update the check request status endpoint
-app.get('/auth/check-request/:email', async (req, res) => {
+// Update the path to match the frontend
+app.get('/auth/request-status', async (req, res) => {
   try {
-    const { email } = req.params
+    const { email } = req.query // Changed from params to query
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' })
+    }
+
     const db = getDB()
     
     const request = db.accessRequests?.find(r => r.email === email)
@@ -1068,5 +1085,50 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
   } catch (error) {
     console.error('Approve request error:', error)
     res.status(500).json({ error: String(error) })
+  }
+})
+
+// Add this endpoint to get access requests
+app.get('/admin/access-requests', auth, async (req, res) => {
+  try {
+    const db = getDB()
+    
+    // Initialize if doesn't exist
+    if (!db.accessRequests) {
+      db.accessRequests = []
+    }
+
+    // Sort by date, newest first
+    const sortedRequests = db.accessRequests.sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+
+    res.json(sortedRequests)
+  } catch (error) {
+    console.error('Error fetching access requests:', error)
+    res.status(500).json({ error: 'Failed to fetch access requests' })
+  }
+})
+
+// Add this endpoint to verify PIN
+app.post('/auth/verify-pin', async (req, res) => {
+  try {
+    const { pin } = req.body
+    const db = getDB()
+
+    // Find user with this PIN
+    const user = Object.values(db.users || {}).find(u => u.pin === pin)
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid PIN' })
+    }
+
+    res.json({
+      token: 'user-token', // You might want to generate a real token
+      email: user.email,
+      role: user.role
+    })
+  } catch (error) {
+    console.error('Error verifying PIN:', error)
+    res.status(500).json({ error: 'Failed to verify PIN' })
   }
 })
