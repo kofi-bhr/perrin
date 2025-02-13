@@ -942,6 +942,24 @@ app.post('/auth/verify-pin', async (req, res) => {
       return res.status(401).json({ error: 'Invalid PIN' })
     }
 
+    // Ensure profile exists with arrays
+    if (!db.profiles) db.profiles = {}
+    if (!db.profiles[user.email]) {
+      db.profiles[user.email] = {
+        name: user.name,
+        email: user.email,
+        phone: '',
+        bio: '',
+        expertise: [],
+        publications: [],
+        education: [],
+        links: [],
+        image: null,
+        createdAt: new Date().toISOString()
+      }
+      saveDB(db)
+    }
+
     res.json({
       token: 'user-token',
       email: user.email,
@@ -991,13 +1009,28 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
     request.status = 'approved'
     request.pin = pin
     
-    // Add to users
+    // Add to users with initialized arrays
     if (!db.users) db.users = {}
     db.users[request.email] = {
       name: request.name,
       email: request.email,
       pin,
       role: 'user',
+      createdAt: new Date().toISOString()
+    }
+
+    // Initialize profile for new user
+    if (!db.profiles) db.profiles = {}
+    db.profiles[request.email] = {
+      name: request.name,
+      email: request.email,
+      phone: '',
+      bio: '',
+      expertise: [], // Initialize empty arrays
+      publications: [],
+      education: [],
+      links: [],
+      image: null,
       createdAt: new Date().toISOString()
     }
 
