@@ -1082,3 +1082,71 @@ app.get('/test-email', async (req, res) => {
     res.status(500).json({ error: String(error) })
   }
 })
+
+// Add this endpoint to handle profile updates
+app.post('/profile/update', auth, async (req, res) => {
+  try {
+    const { email } = req.body
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' })
+    }
+
+    const db = getDB()
+    
+    // Initialize profiles if doesn't exist
+    if (!db.profiles) db.profiles = {}
+    
+    // Update profile
+    db.profiles[email] = {
+      ...db.profiles[email], // Keep existing data
+      ...req.body, // Update with new data
+      // Ensure arrays exist
+      expertise: Array.isArray(req.body.expertise) ? req.body.expertise : [],
+      publications: Array.isArray(req.body.publications) ? req.body.publications : [],
+      education: Array.isArray(req.body.education) ? req.body.education : [],
+      links: Array.isArray(req.body.links) ? req.body.links : [],
+      updatedAt: new Date().toISOString()
+    }
+
+    const saved = saveDB(db)
+    if (!saved) {
+      throw new Error('Failed to save profile')
+    }
+
+    console.log('Profile updated:', db.profiles[email])
+    res.json(db.profiles[email])
+  } catch (error) {
+    console.error('Error updating profile:', error)
+    res.status(500).json({ error: 'Failed to update profile' })
+  }
+})
+
+// Add this endpoint to get profile
+app.get('/profile/:email', auth, async (req, res) => {
+  try {
+    const { email } = req.params
+    const db = getDB()
+    
+    // Initialize profiles if doesn't exist
+    if (!db.profiles) db.profiles = {}
+    
+    // Get or create profile
+    const profile = db.profiles[email] || {
+      name: '',
+      email,
+      phone: '',
+      bio: '',
+      expertise: [],
+      publications: [],
+      education: [],
+      links: [],
+      image: null,
+      createdAt: new Date().toISOString()
+    }
+    
+    res.json(profile)
+  } catch (error) {
+    console.error('Error fetching profile:', error)
+    res.status(500).json({ error: 'Failed to fetch profile' })
+  }
+})
