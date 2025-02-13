@@ -791,11 +791,15 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
 app.post('/auth/verify-pin', async (req, res) => {
   try {
     const { pin } = req.body
-    console.log('Verifying PIN:', pin)
+    console.log('\n=== PIN VERIFICATION ATTEMPT ===')
+    console.log('Received PIN:', pin, 'Type:', typeof pin)
 
     // Log DB state before verification
-    logDB('before verification')
-
+    const dbContent = fs.readFileSync(DB_FILE, 'utf-8')
+    console.log('\nCurrent DB Content:', dbContent)
+    
+    const db = JSON.parse(dbContent)
+    
     // Test PIN
     if (pin === '000000') {
       console.log('Using test PIN')
@@ -805,39 +809,45 @@ app.post('/auth/verify-pin', async (req, res) => {
       })
     }
 
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    
-    // Log all requests for debugging
-    console.log('All access requests:', db.accessRequests?.map(r => ({
-      id: r.id,
-      email: r.email,
-      status: r.status,
-      pin: r.pin,
-      wouldMatch: r.pin === pin
-    })))
+    if (!db.accessRequests || !Array.isArray(db.accessRequests)) {
+      console.log('No access requests array found!')
+      return res.status(401).json({ error: 'Invalid PIN' })
+    }
 
-    const request = db.accessRequests?.find(r => {
-      const matches = r.status === 'approved' && r.pin === pin
-      console.log('Checking request:', {
+    console.log('\nChecking against requests:')
+    db.accessRequests.forEach(r => {
+      console.log({
         id: r.id,
-        email: r.email,
         status: r.status,
-        pin: r.pin,
+        storedPin: r.pin,
+        storedPinType: typeof r.pin,
         inputPin: pin,
+        matches: r.pin === pin,
+        strictMatches: r.pin === pin && r.status === 'approved'
+      })
+    })
+
+    const request = db.accessRequests.find(r => {
+      const matches = r.status === 'approved' && String(r.pin) === String(pin)
+      console.log('\nDetailed comparison:', {
+        id: r.id,
+        storedPin: r.pin,
+        inputPin: pin,
+        status: r.status,
         matches
       })
       return matches
     })
 
     if (request) {
-      console.log('Found matching request:', request)
+      console.log('\nFound matching request:', request)
       return res.json({
         token: 'test-token',
         email: request.email
       })
     }
 
-    console.log('No matching request found')
+    console.log('\nNo matching request found')
     res.status(401).json({ error: 'Invalid PIN' })
   } catch (error) {
     console.error('PIN verification error:', error)
