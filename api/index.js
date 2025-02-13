@@ -238,9 +238,23 @@ console.log({
   NODE_ENV: process.env.NODE_ENV
 })
 
-// Simple file-based DB
+// Initialize DB with empty values if it doesn't exist
 if (!fs.existsSync(DB_FILE)) {
-  fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [], profiles: {} }, null, 2))
+  const initialDB = {
+    papers: [],
+    profiles: {},
+    accessRequests: [],
+    users: {
+      'employee@perrin.org': {
+        name: 'Default Admin',
+        email: 'employee@perrin.org',
+        pin: '000000',
+        role: 'admin',
+        createdAt: new Date().toISOString()
+      }
+    }
+  }
+  fs.writeFileSync(DB_FILE, JSON.stringify(initialDB, null, 2))
 }
 
 // Fix missing upload variable declaration
@@ -829,10 +843,10 @@ app.get('/profile', auth, async (req, res) => {
     // Initialize profiles if doesn't exist
     if (!db.profiles) db.profiles = {}
     
-    // Get or create profile
+    // Get or create empty profile
     const profile = db.profiles[email] || {
-      name: '',
       email,
+      name: '',
       phone: '',
       bio: '',
       expertise: [],
@@ -842,8 +856,7 @@ app.get('/profile', auth, async (req, res) => {
       image: null,
       createdAt: new Date().toISOString()
     }
-
-    console.log('Fetched profile:', profile)
+    
     res.json(profile)
   } catch (error) {
     console.error('Error fetching profile:', error)
@@ -891,7 +904,9 @@ function getDB() {
 
 function saveDB(db) {
   try {
+    console.log('Saving DB to:', DB_FILE)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    console.log('DB saved successfully')
     return true
   } catch (error) {
     console.error('Error saving DB:', error)
@@ -1059,14 +1074,14 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
       createdAt: new Date().toISOString()
     }
 
-    // Initialize profile for new user
+    // Initialize profile for new user with minimal data
     if (!db.profiles) db.profiles = {}
     db.profiles[request.email] = {
-      name: request.name,
       email: request.email,
+      name: '', // Start empty
       phone: '',
       bio: '',
-      expertise: [], // Initialize empty arrays
+      expertise: [],
       publications: [],
       education: [],
       links: [],
@@ -1076,8 +1091,14 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
 
     saveDB(db)
 
-    // After generating PIN and updating user
+    // Add more detailed email logging
     try {
+      console.log('Sending approval email:', {
+        to: request.email,
+        from: process.env.SENDGRID_FROM_EMAIL,
+        apiKey: process.env.SENDGRID_API_KEY?.slice(0, 10) + '...' // Log first 10 chars of API key
+      })
+
       await sgMail.send({
         to: request.email,
         from: process.env.SENDGRID_FROM_EMAIL,
@@ -1090,9 +1111,13 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
           <p>You can now log in at <a href="https://perrininstitution.org/auth/signin">https://perrininstitution.org/auth/signin</a></p>
         `
       })
-      console.log('Approval email sent to:', request.email)
+      console.log('Approval email sent successfully')
     } catch (emailError) {
-      console.error('Failed to send email:', emailError)
+      console.error('Failed to send email:', {
+        error: emailError.message,
+        code: emailError.code,
+        response: emailError.response?.body
+      })
       // Continue even if email fails
     }
 
