@@ -475,8 +475,12 @@ app.get('/debug', function(req, res) {
 
 // Add a test endpoint to check if the server is responding
 app.get('/test', (req, res) => {
-  res.json({ message: 'Server is working' });
-});
+  res.json({ 
+    message: 'API is working',
+    time: new Date().toISOString(),
+    env: process.env.NODE_ENV
+  })
+})
 
 // Modify your /admin/papers endpoint to add more logging
 app.get('/admin/papers', auth, async (req, res) => {
@@ -660,39 +664,6 @@ function fixDatabaseUrls() {
 // Run this at startup
 fixDatabaseUrls()
 
-// Start the server (keep only this one at the end of the file)
-server.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
-})
-
-// Add basic error handling
-server.on('error', (error) => {
-  console.error('Server error:', error)
-})
-
-process.on('uncaughtException', (error) => {
-  console.error('Uncaught exception:', error)
-})
-
-process.on('unhandledRejection', (error) => {
-  console.error('Unhandled rejection:', error)
-})
-
-// Add middleware
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
-// Add CORS middleware
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200)
-  }
-  next()
-})
-
 // Health check routes
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' })
@@ -803,61 +774,88 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
 app.post('/auth/verify-pin', async (req, res) => {
   try {
     const { pin } = req.body
-    console.log('Attempting to verify PIN:', pin)
+    console.log('PIN Verification Debug:', {
+      receivedPin: pin,
+      requestBody: req.body,
+      headers: req.headers
+    })
+
+    // Read DB only once
+    const dbContent = fs.readFileSync(DB_FILE, 'utf-8')
+    console.log('Raw DB Content:', dbContent)
     
-    // Test PINs
+    const db = JSON.parse(dbContent)
+    console.log('Parsed DB:', db)
+
+    // Test PIN first
     if (pin === '000000') {
-      console.log('Using test PIN')
       return res.json({ 
         token: 'test-token', 
         email: 'employee@perrin.org'
       })
     }
 
-    // Read and parse DB
-    const dbContent = fs.readFileSync(DB_FILE, 'utf-8')
-    console.log('Raw DB Content:', dbContent)
-    
-    const db = JSON.parse(dbContent)
-    
-    // Check DB structure
-    console.log('DB Structure:', {
-      hasAccessRequests: !!db.accessRequests,
-      requestsCount: db.accessRequests?.length || 0,
-      dbKeys: Object.keys(db)
+    // Use the already parsed db instead of reading again
+    console.log('Current DB state:', {
+      hasRequests: !!db.accessRequests,
+      requestCount: db.accessRequests?.length || 0
     })
-    
-    if (!db.accessRequests || !Array.isArray(db.accessRequests)) {
-      console.log('No access requests array found in DB')
-      return res.status(401).json({ error: 'Invalid PIN' })
-    }
 
-    // Log each request for debugging
-    db.accessRequests.forEach((r, index) => {
-      console.log(`Request ${index}:`, {
-        id: r.id,
-        email: r.email,
-        status: r.status,
-        pin: r.pin,
-        wouldMatch: r.pin === pin
+    const request = db.accessRequests?.find(r => {
+      const matches = r.status === 'approved' && r.pin === pin
+      console.log('Checking request:', { 
+        id: r.id, 
+        pin: r.pin, 
+        status: r.status, 
+        matches 
       })
+      return matches
     })
-
-    const request = db.accessRequests.find(r => r.status === 'approved' && r.pin === pin)
 
     if (request) {
-      console.log('Found matching request:', request)
       return res.json({ 
         token: 'test-token', 
         email: request.email 
       })
     }
 
-    console.log('No matching PIN found')
     res.status(401).json({ error: 'Invalid PIN' })
   } catch (error) {
-    console.error('PIN verification error:', error)
-    console.error('Error stack:', error.stack)
-    res.status(500).json({ error: 'Server error' })
+    console.error('PIN Verification Error:', error)
+    res.status(500).json({ error: String(error) })
   }
+})
+
+// 5. Start server (at the very end)
+server.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on port ${port}`)
+  console.log(`Server URL: ${RAILWAY_DOMAIN}`)
+})
+
+// Add basic error handling
+server.on('error', (error) => {
+  console.error('Server error:', error)
+})
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught exception:', error)
+})
+
+process.on('unhandledRejection', (error) => {
+  console.error('Unhandled rejection:', error)
+})
+
+// Add middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// Add CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200)
+  }
+  next()
 })
