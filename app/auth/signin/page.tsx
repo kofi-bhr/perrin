@@ -40,8 +40,29 @@ export default function SignIn() {
       return
     }
 
-    setError('Invalid PIN')
-    setIsLoading(false)
+    try {
+      const response = await fetch(`${API_URL}/auth/verify-pin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ pin })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('userEmail', data.email)
+        router.push('/employee-panel')
+      } else {
+        setError('Invalid PIN')
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      setError('Connection error')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleAccessRequest = async (e: React.FormEvent) => {
@@ -277,4 +298,4 @@ export default function SignIn() {
       </div>
     </div>
   )
-} 
+}

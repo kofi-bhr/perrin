@@ -792,51 +792,34 @@ app.post('/auth/verify-pin', async (req, res) => {
   try {
     const { pin } = req.body
     console.log('\n=== PIN VERIFICATION ATTEMPT ===')
-    console.log('Received PIN:', pin, 'Type:', typeof pin)
+    console.log('Request body:', req.body)
+    console.log('PIN from request:', pin)
+    console.log('PIN type:', typeof pin)
+    console.log('Headers:', req.headers['content-type'])
 
-    // Log DB state before verification
+    // Read DB
     const dbContent = fs.readFileSync(DB_FILE, 'utf-8')
-    console.log('\nCurrent DB Content:', dbContent)
-    
     const db = JSON.parse(dbContent)
     
-    // Test PIN
-    if (pin === '000000') {
-      console.log('Using test PIN')
-      return res.json({ 
-        token: 'test-token', 
-        email: 'employee@perrin.org'
-      })
-    }
-
-    if (!db.accessRequests || !Array.isArray(db.accessRequests)) {
-      console.log('No access requests array found!')
-      return res.status(401).json({ error: 'Invalid PIN' })
-    }
-
-    console.log('\nChecking against requests:')
-    db.accessRequests.forEach(r => {
+    // Log all requests for debugging
+    console.log('\nAll access requests:')
+    db.accessRequests?.forEach(r => {
       console.log({
         id: r.id,
+        email: r.email,
+        pin: r.pin,
+        pinType: typeof r.pin,
         status: r.status,
-        storedPin: r.pin,
-        storedPinType: typeof r.pin,
-        inputPin: pin,
-        matches: r.pin === pin,
-        strictMatches: r.pin === pin && r.status === 'approved'
+        wouldMatch: String(r.pin) === String(pin)
       })
     })
 
-    const request = db.accessRequests.find(r => {
-      const matches = r.status === 'approved' && String(r.pin) === String(pin)
-      console.log('\nDetailed comparison:', {
-        id: r.id,
-        storedPin: r.pin,
-        inputPin: pin,
-        status: r.status,
-        matches
-      })
-      return matches
+    // Try both string and number comparisons
+    const request = db.accessRequests?.find(r => {
+      return r.status === 'approved' && (
+        String(r.pin) === String(pin) || // Try string comparison
+        Number(r.pin) === Number(pin)    // Try number comparison
+      )
     })
 
     if (request) {
