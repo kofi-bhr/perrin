@@ -17,4 +17,10 @@ body {
 
 main {
   flex: 1;
+}
+
+@media (max-width: 388px) {
+  .institution-text {
+    font-size: 0.5rem; /* Adjust the size as needed */
+  }
 } 

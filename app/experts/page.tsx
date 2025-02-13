@@ -9,7 +9,7 @@ export default function ExpertsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center">
+      <section className="relative h-[50vh] flex items-center pt-10">
         <Image
           src={images.heroFellows}
           alt="UVA Research Fellows"
@@ -29,10 +29,10 @@ export default function ExpertsPage() {
               <span className="text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2 backdrop-blur-sm">
                 Our Team
               </span>
-              <h1 className="mt-6 text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
+              <h1 className="mt-6 text-3xl md:text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
                 Meet Our Research Fellows
               </h1>
-              <p className="mt-6 text-xl text-gray-200 max-w-3xl">
+              <p className="mt-6 text-lg md:text-xl text-gray-200 max-w-3xl">
                 A diverse group of emerging scholars and policy experts shaping the future of public policy.
               </p>
             </motion.div>
@@ -43,7 +43,7 @@ export default function ExpertsPage() {
       {/* Experts Grid */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
             {EXPERTS.map((expert, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -56,12 +56,12 @@ export default function ExpertsPage() {
                   className="block group bg-white border border-gray-100 rounded-lg shadow-sm 
                     hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="relative h-64 overflow-hidden rounded-t-lg">
+                  <div className="relative h-48 sm:h-64 overflow-hidden rounded-t-lg">
                     <Image
                       src={expert.image}
                       alt={expert.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      layout="fill"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
                         console.error(`Error loading image for ${expert.name}:`, e);
                         e.currentTarget.src = "/default-avatar-photo-placeholder-profile-picture-vector.jpg";
@@ -70,13 +70,11 @@ export default function ExpertsPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                   </div>
                   
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900">
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
                       {expert.name}
                     </h3>
-                    <p className="text-blue-600 text-sm font-medium mt-1">
-                      {expert.role}
-                    </p>
+                    <p className="text-sm text-gray-500">{expert.role}</p>
                     
                     {expert.mentor && (
                       <p className="text-gray-600 text-sm mt-2">
