@@ -23,6 +23,7 @@ interface Profile {
 
 export default function EmployeeProfile() {
   const router = useRouter()
+  const { isAuthenticated } = useAuth()
   const [profile, setProfile] = useState<Profile>({
     name: '',
     email: '',
@@ -40,15 +41,19 @@ export default function EmployeeProfile() {
   const [newEducation, setNewEducation] = useState('')
   const [newLink, setNewLink] = useState({ title: '', url: '' })
 
-  useAuth()
-
   useEffect(() => {
-    // Load profile from localStorage
-    const savedProfile = localStorage.getItem('employeeProfile')
-    if (savedProfile) {
-      setProfile(JSON.parse(savedProfile))
+    if (isAuthenticated) {
+      // Load profile logic here
+      const savedProfile = localStorage.getItem('employeeProfile')
+      if (savedProfile) {
+        setProfile(JSON.parse(savedProfile))
+      }
     }
-  }, [])
+  }, [isAuthenticated])
+
+  if (!isAuthenticated) {
+    return null // or a loading spinner
+  }
 
   const handleSave = async () => {
     try {

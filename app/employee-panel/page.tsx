@@ -23,6 +23,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up
 
 export default function EmployeePanel() {
   const router = useRouter()
+  const { isAuthenticated } = useAuth()
   const [step, setStep] = useState<SubmissionStep>('draft')
   const [papers, setPapers] = useState<Paper[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -34,11 +35,11 @@ export default function EmployeePanel() {
     file: null as File | null,
   })
 
-  useAuth()
-
   useEffect(() => {
-    fetchPapers()
-  }, [router])
+    if (isAuthenticated) {
+      fetchPapers()
+    }
+  }, [isAuthenticated])
 
   const fetchPapers = async () => {
     try {
@@ -113,6 +114,10 @@ export default function EmployeePanel() {
     if (e.target.files?.[0]) {
       setFormData(prev => ({ ...prev, file: e.target.files![0] }))
     }
+  }
+
+  if (!isAuthenticated) {
+    return null // or a loading spinner
   }
 
   if (isLoading) return (
