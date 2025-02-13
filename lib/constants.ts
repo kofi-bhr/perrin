@@ -103,12 +103,4 @@ export const EXPERTS: Expert[] = [
     image: "/girl4.png",
     interests: ["International Relations", "Global Development", "Policy Research"]
   }
-]
-
-export const images = {
-  heroHome: '/uva-stock-1.jpg',
-  heroResearch: '/uva-stock-2.jpg',
-  heroEvents: '/uva-stock-3.jpg',
-  heroFellows: '/uva-stock-4.jpg',
-  defaultProfile: '/default-profile.jpg'
-} 
+] 

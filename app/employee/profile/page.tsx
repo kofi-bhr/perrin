@@ -26,7 +26,7 @@ export default function EmployeeProfile() {
   const { isAuthenticated, userEmail } = useAuth()
   const [profile, setProfile] = useState<Profile>({
     name: '',
-    email: userEmail || '',
+    email: userEmail || '', // Set email from auth
     phone: '',
     bio: '',
     expertise: [],
@@ -43,6 +43,7 @@ export default function EmployeeProfile() {
 
   useEffect(() => {
     if (isAuthenticated && userEmail) {
+      // Try to load existing profile from API first
       const fetchProfile = async () => {
         try {
           const token = localStorage.getItem('token')
@@ -54,21 +55,12 @@ export default function EmployeeProfile() {
           
           if (response.ok) {
             const data = await response.json()
-            setProfile({
-              ...data,
-              expertise: Array.isArray(data.expertise) ? data.expertise : [],
-              publications: Array.isArray(data.publications) ? data.publications : [],
-              education: Array.isArray(data.education) ? data.education : [],
-              links: Array.isArray(data.links) ? data.links : []
-            })
+            setProfile(data)
           } else {
+            // If no profile exists, initialize with just the email
             setProfile(prev => ({
               ...prev,
-              email: userEmail,
-              expertise: [],
-              publications: [],
-              education: [],
-              links: []
+              email: userEmail
             }))
           }
         } catch (error) {
