@@ -15,16 +15,58 @@ interface Paper {
   url: string
 }
 
+interface AccessRequest {
+  id: string
+  name: string
+  email: string
+  department: string
+  reason: string
+  status: 'pending' | 'approved'
+  createdAt: string
+  pin?: string
+}
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
 export default function AdminPanel() {
   const router = useRouter()
   const [papers, setPapers] = useState<Paper[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [accessRequests, setAccessRequests] = useState<AccessRequest[]>([])
   const [selectedStatus, setSelectedStatus] = useState<string>('all')
+  const [selectedRequest, setSelectedRequest] = useState<AccessRequest | null>(null)
+  const [showPinModal, setShowPinModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [newPin, setNewPin] = useState<string>('')
+
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const [papersRes, requestsRes] = await Promise.all([
+        fetch(`${API_URL}/admin/papers`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }),
+        fetch(`${API_URL}/admin/access-requests`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        })
+      ])
+
+      if (papersRes.ok) {
+        const papersData = await papersRes.json()
+        setPapers(papersData)
+      }
+
+      if (requestsRes.ok) {
+        const requestsData = await requestsRes.json()
+        setAccessRequests(requestsData)
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   useEffect(() => {
-    // Check if user is admin
     const token = localStorage.getItem('token')
     const email = localStorage.getItem('userEmail')
     
@@ -33,39 +75,8 @@ export default function AdminPanel() {
       return
     }
 
-    fetchPapers()
+    fetchData()
   }, [router])
-
-  const fetchPapers = async () => {
-    try {
-      const token = localStorage.getItem('token')
-      console.log('Attempting to fetch papers with token:', token?.substring(0, 10) + '...')
-      
-      const response = await fetch(`${API_URL}/admin/papers`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      })
-
-      console.log('Response status:', response.status)
-      
-      if (!response.ok) {
-        const errorText = await response.text()
-        console.error('Server error response:', errorText)
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      console.log('Received papers:', data?.length || 0)
-      setPapers(data || [])
-    } catch (error) {
-      console.error('Error fetching papers:', error)
-      setPapers([]) // Set empty array on error
-    } finally {
-      setIsLoading(false)
-    }
-  }
 
   const handleStatusUpdate = async (paperId: string, newStatus: string) => {
     try {
@@ -80,7 +91,7 @@ export default function AdminPanel() {
       })
 
       if (response.ok) {
-        fetchPapers()
+        fetchData()
       } else {
         alert('Failed to update paper status. Please try again.')
       }
@@ -110,7 +121,7 @@ export default function AdminPanel() {
       if (response.ok) {
         setPapers(papers.filter(paper => paper.id !== paperId))
         alert('Paper deleted successfully')
-        fetchPapers() // Refresh the list
+        fetchData() // Refresh the list
       } else {
         const errorData = await response.json().catch(() => ({ error: 'Failed to delete paper' }))
         throw new Error(errorData.error || 'Failed to delete paper')
@@ -283,6 +294,152 @@ export default function AdminPanel() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Access Requests</h2>
+          
+          <div className="bg-white shadow-sm overflow-hidden">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Department
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Status
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {accessRequests.map((request) => (
+                  <tr key={request.id} className="hover:bg-gray-50">
+                    <td className="px-6 py-4">
+                      <div className="text-sm font-medium text-gray-900">{request.name}</div>
+                      <div className="text-sm text-gray-500">{request.email}</div>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {request.department}
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                        request.status === 'approved'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-yellow-100 text-yellow-800'
+                      }`}>
+                        {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-500">
+                      {new Date(request.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => {
+                          setSelectedRequest(request)
+                          setShowPinModal(true)
+                        }}
+                        className="text-blue-600 hover:text-blue-900 text-sm font-medium"
+                        disabled={request.status === 'approved'}
+                      >
+                        View Details
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* PIN Modal */}
+          {showPinModal && selectedRequest && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-6 max-w-lg w-full mx-4">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Access Request Details</h3>
+                
+                <div className="space-y-4 mb-6">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Name</label>
+                    <p className="mt-1">{selectedRequest.name}</p>
+                  </div>
+                  
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Email</label>
+                    <p className="mt-1">{selectedRequest.email}</p>
+                  </div>
+                  
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Department</label>
+                    <p className="mt-1">{selectedRequest.department}</p>
+                  </div>
+                  
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">Reason</label>
+                    <p className="mt-1">{selectedRequest.reason}</p>
+                  </div>
+
+                  {selectedRequest.status === 'approved' && selectedRequest.pin && (
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <label className="text-sm font-medium text-blue-800">Access PIN</label>
+                      <p className="mt-1 text-2xl font-mono text-blue-900">{selectedRequest.pin}</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex justify-end gap-4">
+                  <button
+                    onClick={() => setShowPinModal(false)}
+                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900"
+                  >
+                    Close
+                  </button>
+                  {selectedRequest.status === 'pending' && (
+                    <button
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem('token')
+                          const response = await fetch(`${API_URL}/admin/approve-request/${selectedRequest.id}`, {
+                            method: 'POST',
+                            headers: {
+                              'Authorization': `Bearer ${token}`,
+                              'Content-Type': 'application/json'
+                            }
+                          })
+
+                          if (response.ok) {
+                            const updatedRequest = await response.json()
+                            setAccessRequests(prev => prev.map(r => 
+                              r.id === updatedRequest.id ? updatedRequest : r
+                            ))
+                            setSelectedRequest(updatedRequest)
+                            
+                            // Update success message
+                            alert(`Access approved! PIN has been emailed to ${selectedRequest.email}`)
+                          }
+                        } catch (error) {
+                          console.error('Error approving request:', error)
+                          alert('Failed to approve request')
+                        }
+                      }}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium 
+                        hover:bg-blue-700"
+                    >
+                      Approve & Generate PIN
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

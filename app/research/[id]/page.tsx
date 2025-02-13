@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { FiDownload, FiCopy, FiCheck, FiArrowLeft } from 'react-icons/fi'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import PDFViewer from '@/components/PDFViewer'
 
 interface Paper {
   id: string
@@ -73,7 +74,19 @@ export default function ResearchPaperPage() {
   const handleCiteCopy = () => {
     if (!paper) return
     
-    const citation = `${paper.author} (${new Date(paper.date).getFullYear()}). ${paper.title}. Perrin Institute.`
+    // Format date components
+    const date = new Date(paper.date)
+    const month = date.toLocaleString('default', { month: 'long' })
+    const day = date.getDate()
+    const year = date.getFullYear()
+    
+    // Chicago style format:
+    // Author's Last Name, First Name. "Title of Paper." Perrin Institute, Month Day, Year.
+    // Note: This assumes author name is in "First Last" format - you might need to adjust if format differs
+    const [firstName, ...lastNames] = paper.author.split(' ')
+    const lastName = lastNames.join(' ')
+    const citation = `${lastName}, ${firstName}. "${paper.title}." Perrin Institute, ${month} ${day}, ${year}.`
+    
     navigator.clipboard.writeText(citation)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -142,16 +155,8 @@ export default function ResearchPaperPage() {
           {/* PDF Viewer */}
           <div className="md:col-span-2">
             <div className="bg-white shadow-sm rounded-lg overflow-hidden">
-              {pdfUrl ? (
-                <iframe
-                  src={pdfUrl}
-                  className="w-full h-[800px]"
-                  title={paper.title}
-                />
-              ) : (
-                <div className="flex items-center justify-center h-[800px]">
-                  <LoadingSpinner />
-                </div>
+              {paper?.url && (
+                <PDFViewer url={paper.url} />
               )}
             </div>
           </div>

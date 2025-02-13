@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['perrin-production.up.railway.app'],
+    unoptimized: true
   },
-  output: 'standalone',
+  output: 'standalone'
 }
 
 module.exports = nextConfig 

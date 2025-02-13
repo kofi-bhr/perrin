@@ -1,8 +1,17 @@
 [build]
-builder = "DOCKERFILE"
-dockerfilePath = "Dockerfile"
+builder = "nixpacks"
+buildCommand = "npm install"
 
 [deploy]
-startCommand = "npm run start"
-healthcheckPath = "/"
-healthcheckTimeout = 100 
+startCommand = "node api/index.js"
+healthcheckPath = "/health"
+healthcheckTimeout = 10
+
+[[services]]
+name = "api"
+protocol = "http"
+port = "3001"
+
+[[volumes]]
+name = "data"
+mountPath = "/data" 

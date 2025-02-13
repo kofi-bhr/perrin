@@ -3,7 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
-.pnp.*
+.pnp.js
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
@@ -14,11 +14,13 @@
 /coverage
 
 # next.js
-# /.next/
+/.next/
 /out/
+.next
 
 # production
 /build
+/dist
 
 # misc
 .DS_Store
@@ -48,7 +50,16 @@ public/papers/*
 !public/papers/.gitkeep
 
 # local env files
-.env.local
+.env*.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Local Netlify folder
+.netlify
+
+# Other standard ignores
+node_modules/
+.next/
+dist/
+build/

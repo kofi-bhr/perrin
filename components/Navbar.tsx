@@ -65,7 +65,7 @@ export default function Navbar() {
                 className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
                   }`}
               >
-                Research Fellows
+                Fellows
               </Link>
               <Link
                 href="/events"
@@ -82,13 +82,32 @@ export default function Navbar() {
                 About
               </Link>
               {isLoggedIn && (
-                <Link
-                  href="/employee-panel"
-                  className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
+                <>
+                  <Link
+                    href="/employee-panel"
+                    className={`font-medium hover:opacity-75 transition-opacity ${
+                      isScrolled ? 'text-gray-900' : 'text-white'
                     }`}
-                >
-                  Employee Panel
-                </Link>
+                  >
+                    Employee Panel
+                  </Link>
+                  <Link
+                    href="/chat"
+                    className={`font-medium hover:opacity-75 transition-opacity ${
+                      isScrolled ? 'text-gray-900' : 'text-white'
+                    }`}
+                  >
+                    Chat Room
+                  </Link>
+                  <Link
+                    href="/employee/profile"
+                    className={`font-medium hover:opacity-75 transition-opacity ${
+                      isScrolled ? 'text-gray-900' : 'text-white'
+                    }`}
+                  >
+                    My Profile
+                  </Link>
+                </>
               )}
               {isAdmin && (
                 <Link
@@ -140,7 +159,16 @@ export default function Navbar() {
                 <Link href="/events" className="text-gray-900 font-medium hover:opacity-75">Events</Link>
                 <Link href="/about" className="text-gray-900 font-medium hover:opacity-75">About</Link>
                 {isLoggedIn && (
-                  <Link href="/employee-panel" className="text-gray-900 font-medium hover:opacity-75">Employee Panel</Link>
+                  <>
+                    <Link href="/employee-panel" className="text-gray-900 font-medium hover:opacity-75">Employee Panel</Link>
+                    <Link href="/chat" className="text-gray-900 font-medium hover:opacity-75">Chat Room</Link>
+                    <Link 
+                      href="/employee/profile" 
+                      className="text-gray-900 font-medium hover:opacity-75"
+                    >
+                      My Profile
+                    </Link>
+                  </>
                 )}
                 {isAdmin && (
                   <Link href="/admin" className="text-gray-900 font-medium hover:opacity-75">Admin Panel</Link>

@@ -6,38 +6,56 @@ import Link from 'next/link'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
+type AuthMode = 'pin' | 'request'
+
 export default function SignIn() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [mode, setMode] = useState<AuthMode>('pin')
+  const [pin, setPin] = useState('')
+  const [requestForm, setRequestForm] = useState({
+    name: '',
+    email: '',
+    reason: '',
+    department: ''
+  })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const [requestStatus, setRequestStatus] = useState<{
+    status?: 'pending' | 'approved'
+    pin?: string
+    message?: string
+  } | null>(null)
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handlePinLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
     
+    // Hardcoded PIN check
+    if (pin === '000000') {
+      localStorage.setItem('token', 'test-token')
+      localStorage.setItem('userEmail', 'employee@perrin.org')
+      router.push('/employee-panel')
+      return
+    }
+
     try {
-      console.log('Attempting login...')
-      const response = await fetch(`${API_URL}/login`, {
+      const response = await fetch(`${API_URL}/auth/verify-pin`, {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+        headers: {
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ pin })
       })
 
-      console.log('Response received:', response.status)
       if (response.ok) {
-        const { token } = await response.json()
-        localStorage.setItem('token', token)
-        localStorage.setItem('userEmail', email)
+        const data = await response.json()
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('userEmail', data.email)
         router.push('/employee-panel')
       } else {
-        console.log('Login failed')
-        setError('Invalid credentials')
+        setError('Invalid PIN')
       }
     } catch (error) {
       console.error('Login error:', error)
@@ -47,9 +65,47 @@ export default function SignIn() {
     }
   }
 
+  const handleAccessRequest = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+    
+    try {
+      const response = await fetch(`${API_URL}/auth/request-access`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestForm)
+      })
+
+      if (response.ok) {
+        setSuccess('Request submitted successfully. Please wait for admin approval.')
+        setRequestForm({ name: '', email: '', reason: '', department: '' })
+      } else {
+        setError('Failed to submit request')
+      }
+    } catch (error) {
+      console.error('Request error:', error)
+      setError('Connection error')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const checkRequestStatus = async (email: string) => {
+    try {
+      const response = await fetch(`${API_URL}/auth/request-status?email=${email}`)
+      if (response.ok) {
+        const data = await response.json()
+        setRequestStatus(data)
+      }
+    } catch (error) {
+      console.error('Error checking status:', error)
+    }
+  }
+
   return (
     <div className="min-h-screen flex relative overflow-hidden">
-      {/* Left side - Image with extremely minimal gradient fade */}
+      {/* Left side - Image */}
       <div className="hidden lg:block relative w-[60%]">
         <Image
           src="/uvasignin.jpg"
@@ -59,7 +115,6 @@ export default function SignIn() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-transparent" />
-        {/* Barely visible fade to white */}
         <div className="absolute inset-y-0 right-0 w-[4%] bg-gradient-to-r from-transparent via-white/5 to-white" />
         <div className="absolute top-1/3 left-12 right-24">
           <Link href="/" className="text-white text-2xl font-serif font-bold">PERRIN</Link>
@@ -72,16 +127,38 @@ export default function SignIn() {
         </div>
       </div>
 
-      {/* Right side - Login Form */}
+      {/* Right side - Auth Forms */}
       <div className="w-full lg:w-[40%] flex items-center justify-center px-8 lg:px-16 bg-white relative z-10">
         <div className="w-full max-w-md">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8">
             <Link href="/" className="text-3xl font-serif font-bold text-gray-900 lg:hidden">
               PERRIN
             </Link>
             <h1 className="mt-6 text-2xl font-bold text-gray-900">
-              Employee Sign In
+              Employee Access
             </h1>
+          </div>
+
+          {/* Mode Toggle */}
+          <div className="flex gap-4 mb-8">
+            <button
+              onClick={() => setMode('pin')}
+              className={`flex-1 py-2 text-sm font-medium border-b-2 transition-colors
+                ${mode === 'pin' 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+            >
+              Enter PIN
+            </button>
+            <button
+              onClick={() => setMode('request')}
+              className={`flex-1 py-2 text-sm font-medium border-b-2 transition-colors
+                ${mode === 'request' 
+                  ? 'border-blue-600 text-blue-600' 
+                  : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+            >
+              Request Access
+            </button>
           </div>
 
           {error && (
@@ -90,86 +167,135 @@ export default function SignIn() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email Address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-none
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                  text-gray-900 bg-white"
-                placeholder="name@perrin.org"
-              />
+          {success && (
+            <div className="mb-4 p-4 bg-green-50 border-l-4 border-green-500 text-green-700">
+              {success}
             </div>
+          )}
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-none
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                  text-gray-900 bg-white"
-                placeholder="Enter your password"
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                  Remember me
+          {mode === 'pin' ? (
+            <form onSubmit={handlePinLogin} className="space-y-6">
+              <div>
+                <label htmlFor="pin" className="block text-sm font-medium text-gray-700 mb-2">
+                  Access PIN
                 </label>
+                <input
+                  id="pin"
+                  type="password"
+                  required
+                  value={pin}
+                  onChange={(e) => setPin(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 
+                    focus:ring-blue-500 focus:border-transparent outline-none"
+                  placeholder="Enter your PIN"
+                />
               </div>
 
-              <Link
-                href="/auth/forgot-password"
-                className="text-sm font-medium text-blue-600 hover:text-blue-500"
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-3 bg-blue-600 text-white rounded-lg font-medium
+                  hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
-                Forgot password?
-              </Link>
-            </div>
+                {isLoading ? 'Verifying...' : 'Continue'}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleAccessRequest} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={requestForm.name}
+                  onChange={(e) => setRequestForm(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 
+                    focus:ring-blue-500 focus:border-transparent outline-none"
+                />
+              </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full flex justify-center py-4 px-4 border border-transparent
-                text-sm font-medium text-white bg-blue-600 hover:bg-blue-700
-                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-                disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              {isLoading ? 'Signing in...' : 'Sign in'}
-            </button>
-          </form>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={requestForm.email}
+                  onChange={(e) => setRequestForm(prev => ({ ...prev, email: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 
+                    focus:ring-blue-500 focus:border-transparent outline-none"
+                />
+              </div>
 
-          <div className="mt-8 text-center">
-            <span className="text-sm text-gray-500">
-              Need help? Contact{' '}
-              <a href="mailto:it@perrin.org" className="text-blue-600 hover:text-blue-500">
-                IT Support
-              </a>
-            </span>
-          </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Department
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={requestForm.department}
+                  onChange={(e) => setRequestForm(prev => ({ ...prev, department: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 
+                    focus:ring-blue-500 focus:border-transparent outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Reason for Access
+                </label>
+                <textarea
+                  required
+                  value={requestForm.reason}
+                  onChange={(e) => setRequestForm(prev => ({ ...prev, reason: e.target.value }))}
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 
+                    focus:ring-blue-500 focus:border-transparent outline-none"
+                />
+              </div>
+
+              <div className="mb-6">
+                <button
+                  onClick={() => checkRequestStatus(requestForm.email)}
+                  className="text-blue-600 hover:text-blue-700 text-sm"
+                >
+                  Check Request Status
+                </button>
+
+                {requestStatus && (
+                  <div className={`mt-4 p-4 rounded-lg ${
+                    requestStatus.status === 'approved' 
+                      ? 'bg-green-50 border border-green-200' 
+                      : 'bg-yellow-50 border border-yellow-200'
+                  }`}>
+                    {requestStatus.status === 'approved' ? (
+                      <>
+                        <p className="text-green-800 font-medium">Your request has been approved!</p>
+                        <p className="text-green-700 mt-2">Your PIN: <span className="font-mono font-bold">{requestStatus.pin}</span></p>
+                      </>
+                    ) : (
+                      <p className="text-yellow-800">Your request is pending approval.</p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-3 bg-blue-600 text-white rounded-lg font-medium
+                  hover:bg-blue-700 transition-colors disabled:opacity-50"
+              >
+                {isLoading ? 'Submitting...' : 'Request Access'}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
   )
-} 
+}
