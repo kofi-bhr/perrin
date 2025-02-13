@@ -26,6 +26,11 @@ interface AccessRequest {
   pin?: string
 }
 
+interface AdminForm {
+  name: string
+  email: string
+}
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
 export default function AdminPanel() {
@@ -37,6 +42,16 @@ export default function AdminPanel() {
   const [showPinModal, setShowPinModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [newPin, setNewPin] = useState<string>('')
+  const [showAdminForm, setShowAdminForm] = useState(false)
+  const [adminForm, setAdminForm] = useState<AdminForm>({
+    name: '',
+    email: ''
+  })
+  const [adminCreated, setAdminCreated] = useState<{
+    name: string
+    email: string
+    pin: string
+  } | null>(null)
 
   const fetchData = async () => {
     try {
@@ -144,6 +159,37 @@ export default function AdminPanel() {
         return <FiX className="text-red-500" />
       default:
         return <FiClock className="text-yellow-500" />
+    }
+  }
+
+  const handleCreateAdmin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_URL}/admin/create-admin`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(adminForm)
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setAdminCreated({
+          name: data.admin.name,
+          email: data.admin.email,
+          pin: data.admin.pin
+        })
+        setAdminForm({ name: '', email: '' })
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Failed to create admin')
+      }
+    } catch (error) {
+      console.error('Error creating admin:', error)
+      alert('Failed to create admin account')
     }
   }
 
@@ -437,6 +483,86 @@ export default function AdminPanel() {
                     </button>
                   )}
                 </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="mt-8 bg-white rounded-lg shadow p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold">Admin Management</h2>
+            <button
+              onClick={() => setShowAdminForm(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Create New Admin
+            </button>
+          </div>
+
+          {showAdminForm && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+              <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+                <h3 className="text-xl font-bold mb-4">Create New Admin Account</h3>
+                
+                {adminCreated ? (
+                  <div className="space-y-4">
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <p className="text-green-800 font-medium">Admin account created!</p>
+                      <div className="mt-2 space-y-2">
+                        <p>Name: {adminCreated.name}</p>
+                        <p>Email: {adminCreated.email}</p>
+                        <p className="font-mono">PIN: {adminCreated.pin}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setShowAdminForm(false)
+                        setAdminCreated(null)
+                      }}
+                      className="w-full bg-blue-600 text-white px-4 py-2 rounded"
+                    >
+                      Close
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleCreateAdmin} className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Name</label>
+                      <input
+                        type="text"
+                        required
+                        value={adminForm.name}
+                        onChange={(e) => setAdminForm(prev => ({ ...prev, name: e.target.value }))}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-1">Email</label>
+                      <input
+                        type="email"
+                        required
+                        value={adminForm.email}
+                        onChange={(e) => setAdminForm(prev => ({ ...prev, email: e.target.value }))}
+                        className="w-full px-3 py-2 border rounded"
+                      />
+                    </div>
+                    <div className="flex gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setShowAdminForm(false)}
+                        className="flex-1 px-4 py-2 border rounded"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="flex-1 bg-blue-600 text-white px-4 py-2 rounded"
+                      >
+                        Create Admin
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
           )}

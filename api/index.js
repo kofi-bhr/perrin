@@ -36,7 +36,7 @@ fs.mkdirSync(dataDir, { recursive: true })
 fs.mkdirSync(uploadsDir, { recursive: true })
 
 // Update DB_FILE path
-const DB_FILE = path.join(dataDir, 'db.json')
+const DB_FILE = path.join(VOLUME_PATH, 'db.json')
 
 // Add this near your other constants
 const CHAT_FILE = path.join(dataDir, 'chat.json')
@@ -234,9 +234,38 @@ console.log({
   NODE_ENV: process.env.NODE_ENV
 })
 
-// Simple file-based DB
+// Initialize DB with proper structure if it doesn't exist
 if (!fs.existsSync(DB_FILE)) {
-  fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [], profiles: {} }, null, 2))
+  console.log('Creating new DB file with initial structure')
+  const initialDB = {
+    papers: [],
+    profiles: {},
+    accessRequests: [
+      // Add back the default admin account
+      {
+        id: '1',
+        name: 'Default Admin',
+        email: 'employee@perrin.org',
+        department: 'Admin',
+        reason: 'Default admin access',
+        status: 'approved',
+        pin: '000000',
+        createdAt: new Date().toISOString()
+      }
+    ],
+    users: {
+      // Add back the default admin user
+      'employee@perrin.org': {
+        name: 'Default Admin',
+        email: 'employee@perrin.org',
+        pin: '000000',
+        role: 'admin',
+        createdAt: new Date().toISOString()
+      }
+    }
+  }
+  fs.writeFileSync(DB_FILE, JSON.stringify(initialDB, null, 2))
+  console.log('Created new DB file with admin account')
 }
 
 // Fix missing upload variable declaration
@@ -807,5 +836,113 @@ app.patch('/profile', auth, async (req, res) => {
   } catch (error) {
     console.error('Profile update error:', error)
     res.status(500).json({ error: 'Failed to update profile' })
+  }
+})
+
+function getDB() {
+  try {
+    if (!fs.existsSync(DB_FILE)) {
+      console.log('DB file not found, creating new one')
+      const initialDB = {
+        papers: [],
+        profiles: {},
+        accessRequests: [{
+          id: '1',
+          name: 'Default Admin',
+          email: 'employee@perrin.org',
+          department: 'Admin',
+          reason: 'Default admin access',
+          status: 'approved',
+          pin: '000000',
+          createdAt: new Date().toISOString()
+        }],
+        users: {
+          'employee@perrin.org': {
+            name: 'Default Admin',
+            email: 'employee@perrin.org',
+            pin: '000000',
+            role: 'admin',
+            createdAt: new Date().toISOString()
+          }
+        }
+      }
+      fs.writeFileSync(DB_FILE, JSON.stringify(initialDB, null, 2))
+      return initialDB
+    }
+    const data = fs.readFileSync(DB_FILE, 'utf-8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error reading DB:', error)
+    return {
+      papers: [],
+      profiles: {},
+      accessRequests: [],
+      users: {
+        'employee@perrin.org': {
+          name: 'Default Admin',
+          email: 'employee@perrin.org',
+          pin: '000000',
+          role: 'admin',
+          createdAt: new Date().toISOString()
+        }
+      }
+    }
+  }
+}
+
+// Add this helper function near the top
+function generatePin() {
+  return Math.floor(100000 + Math.random() * 900000).toString() // 6-digit PIN
+}
+
+// Add this new endpoint
+app.post('/admin/create-admin', auth, async (req, res) => {
+  try {
+    const { name, email } = req.body
+    if (!name || !email) {
+      return res.status(400).json({ error: 'Name and email are required' })
+    }
+
+    const db = getDB()
+    
+    // Check if email already exists
+    if (db.users[email]) {
+      return res.status(400).json({ error: 'Email already registered' })
+    }
+
+    // Generate PIN
+    const pin = generatePin()
+
+    // Create admin account
+    const newAdmin = {
+      name,
+      email,
+      pin,
+      role: 'admin',
+      createdAt: new Date().toISOString()
+    }
+
+    // Add to users and access requests
+    db.users[email] = newAdmin
+    db.accessRequests.push({
+      id: Date.now().toString(),
+      name,
+      email,
+      department: 'Admin',
+      reason: 'Admin account creation',
+      status: 'approved',
+      pin,
+      createdAt: new Date().toISOString()
+    })
+
+    saveDB(db)
+
+    res.json({ 
+      success: true, 
+      admin: newAdmin
+    })
+  } catch (error) {
+    console.error('Error creating admin:', error)
+    res.status(500).json({ error: 'Failed to create admin account' })
   }
 })
