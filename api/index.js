@@ -781,36 +781,77 @@ app.get('/health', (req, res) => {
 // Update the profile endpoint to handle images
 app.patch('/profile', auth, async (req, res) => {
   try {
-    const email = 'employee@perrin.org' // For now, hardcode the email
-    const profile = req.body
-
-    // Load current DB
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    
-    // Initialize profiles if doesn't exist
-    if (!db.profiles) {
-      db.profiles = {}
+    // Get email from request body or auth token
+    const email = req.body.email
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' })
     }
 
-    // Get existing profile to preserve image if not updated
+    const db = getDB()
+    
+    // Initialize profiles if doesn't exist
+    if (!db.profiles) db.profiles = {}
+    
+    // Get existing profile
     const existingProfile = db.profiles[email] || {}
     
-    // Update profile, keeping the image from localStorage if not provided
+    // Update profile with new data
     db.profiles[email] = {
       ...existingProfile,
-      ...profile,
-      image: profile.image || existingProfile.image || null,
+      ...req.body,
+      // Ensure arrays exist
+      expertise: Array.isArray(req.body.expertise) ? req.body.expertise : existingProfile.expertise || [],
+      publications: Array.isArray(req.body.publications) ? req.body.publications : existingProfile.publications || [],
+      education: Array.isArray(req.body.education) ? req.body.education : existingProfile.education || [],
+      links: Array.isArray(req.body.links) ? req.body.links : existingProfile.links || [],
       updatedAt: new Date().toISOString()
     }
 
-    // Save back to DB
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    const saved = saveDB(db)
+    if (!saved) {
+      throw new Error('Failed to save profile')
+    }
 
-    // Send back complete profile including image
-    res.json({ success: true, profile: db.profiles[email] })
+    console.log('Profile updated:', db.profiles[email])
+    res.json(db.profiles[email])
   } catch (error) {
-    console.error('Profile update error:', error)
+    console.error('Error updating profile:', error)
     res.status(500).json({ error: 'Failed to update profile' })
+  }
+})
+
+// Update this endpoint to use GET /profile
+app.get('/profile', auth, async (req, res) => {
+  try {
+    // Get email from query params or auth token
+    const email = req.query.email
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' })
+    }
+
+    const db = getDB()
+    
+    // Initialize profiles if doesn't exist
+    if (!db.profiles) db.profiles = {}
+    
+    // Get or create profile
+    const profile = db.profiles[email] || {
+      name: '',
+      email,
+      phone: '',
+      bio: '',
+      expertise: [],
+      publications: [],
+      education: [],
+      links: [],
+      image: null,
+      createdAt: new Date().toISOString()
+    }
+    
+    res.json(profile)
+  } catch (error) {
+    console.error('Error fetching profile:', error)
+    res.status(500).json({ error: 'Failed to fetch profile' })
   }
 })
 

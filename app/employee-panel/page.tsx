@@ -118,6 +118,35 @@ export default function EmployeePanel() {
     }
   }
 
+  const updateProfile = async (profileData) => {
+    try {
+      const token = localStorage.getItem('token')
+      const email = localStorage.getItem('userEmail')
+      
+      const response = await fetch(`${API_URL}/profile`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          ...profileData,
+          email // Include email in the request
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update profile')
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      console.error('Error saving profile:', error)
+      throw error
+    }
+  }
+
   if (!isAuthenticated) {
     return null // or a loading spinner
   }
