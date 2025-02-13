@@ -216,10 +216,12 @@ export default function EmployeeProfile() {
                   <div className="relative w-32 h-32 rounded-2xl overflow-hidden border-4 border-white 
                     bg-white shadow-lg">
                     {profile.image ? (
-                      <img
-                        src={profile.image}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
+                      <Image
+                        src={profile.image || '/default-profile.jpg'}
+                        alt={`${profile.name}'s profile`}
+                        width={200}
+                        height={200}
+                        className="rounded-full"
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-100 flex items-center justify-center">

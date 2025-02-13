@@ -19,6 +19,17 @@ interface Paper {
   url: string
 }
 
+interface ProfileData {
+  name?: string
+  phone?: string
+  bio?: string
+  expertise?: string[]
+  publications?: string[]
+  education?: string[]
+  links?: string[]
+  image?: string | null
+}
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://perrin-production.up.railway.app'
 
 export default function EmployeePanel() {
@@ -118,7 +129,7 @@ export default function EmployeePanel() {
     }
   }
 
-  const updateProfile = async (profileData) => {
+  const updateProfile = async (profileData: ProfileData) => {
     try {
       const token = localStorage.getItem('token')
       const email = localStorage.getItem('userEmail')
@@ -131,7 +142,7 @@ export default function EmployeePanel() {
         },
         body: JSON.stringify({
           ...profileData,
-          email // Include email in the request
+          email
         })
       })
 
