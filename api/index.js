@@ -1062,3 +1062,24 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
     res.status(500).json({ error: String(error) })
   }
 })
+
+// Near the top after requires
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+// Add a test endpoint
+app.get('/test-email', async (req, res) => {
+  try {
+    await sgMail.send({
+      to: 'test@example.com', // Replace with your email
+      from: process.env.SENDGRID_FROM_EMAIL,
+      subject: 'Test Email',
+      text: 'This is a test email',
+      html: '<h1>This is a test email</h1>'
+    })
+    res.json({ success: true })
+  } catch (error) {
+    console.error('Email error:', error)
+    res.status(500).json({ error: String(error) })
+  }
+})
