@@ -4,6 +4,7 @@ WORKDIR /app
 
 # Copy package files first
 COPY package*.json ./
+COPY .eslintrc.js ./
 
 # Install ALL dependencies (including devDependencies)
 RUN npm install

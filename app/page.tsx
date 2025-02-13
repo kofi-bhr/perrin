@@ -84,10 +84,10 @@ export default function Home() {
           src={images.heroHome}
           alt="UVA campus"
           fill
-          className="object-cover brightness-[0.75] transform scale-[1.1] transition-transform duration-[2s]"
+          className="object-cover brightness-[0.75]"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
 
         <div className="absolute w-full z-10">
           <div className="max-w-7xl mx-auto px-4">
@@ -98,16 +98,11 @@ export default function Home() {
               className="2xl:max-w-3xl space-y-2 2xl:space-y-8 text-center md:text-left"
             >
               <div>
-                <span className="institution-text text-xs md:text-start text-blue-400 font-semibold tracking-wider uppercase 
-                  bg-black/30 px-4 py-2 backdrop-blur-sm border border-white/10">
+                <span className="text-xs md:text-md text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2">
                   An Institution at The University of Virginia
                 </span>
-                <h1 className="mt-4 text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-white leading-[1.15] 
-                  tracking-tight drop-shadow-lg">
-                  Shaping Tomorrow&apos;s <br /> 
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-400">
-                    <FlipWords words={words} />
-                  </span>
+                <h1 className="mt-4 text-5xl lg:text-7xl font-serif font-bold text-white leading-[1.15] tracking-tight drop-shadow-lg">
+                  Shaping Tomorrow&apos;s <br /> <FlipWords words={words} />
                 </h1>
               </div>
               <p className="text-gray-200 text-sm md:text-lg leading-relaxed max-w-4xl drop-shadow-lg mx-auto md:mx-0">
@@ -115,59 +110,57 @@ export default function Home() {
                 policy through rigorous analysis and innovative solutions for a
                 more prosperous and equitable society.
               </p>
-              <div className="flex flex-col items-center md:items-start space-y-4">
-                <div className="flex flex-col md:flex-row gap-2 md:gap-4 pt-4 items-center">
-                  <Link
-                    href="/research"
-                    onClick={closeMenu}
-                    className="bg-white text-gray-900 px-4 md:px-6 py-2 text-md md:text-lg font-semibold 
-                      hover:bg-gray-100 transition-all duration-300 border-2 border-white hover:shadow-lg 
-                      hover:shadow-white/20"
-                  >
-                    View Our Research
-                  </Link>
-                  <Link
-                    href="/experts"
-                    onClick={closeMenu}
-                    className="border-2 border-white text-white px-4 md:px-6 py-2 text-md md:text-lg 
-                      font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 
-                      hover:shadow-lg hover:shadow-white/20"
-                  >
-                    Meet Our Experts
-                  </Link>
-                </div>
-                <motion.div
-                  variants={staggerChildren}
-                  initial="initial"
-                  animate="animate"
-                  className="grid grid-cols-2 md:grid-cols-3 gap-8"
+              <div className="flex flex-wrap gap-2 md:gap-4 pt-4">
+                <Link
+                  href="/research"
+                  className="bg-white text-gray-900 px-2 md:px-6 py-2 text-md md:text-lg font-semibold 
+                    hover:bg-gray-100 transition-colors border-2 border-white"
                 >
-                  {[
-                    { number: "250+", label: "Policy Researchers" },
-                    { number: "$3.7M+", label: "Alumni Scholarships Secured" },
-                    { number: "200+", label: "Research Publications" },
-                  ].map((stat, index) => (
-                    <motion.div
-                      key={index}
-                      variants={fadeIn}
-                      transition={fadeInTransition}
-                      className="text-white border-l-2 border-blue-400 pl-6 hover:border-blue-300 
-                        transition-colors group"
-                    >
-                      <div className="text-4xl font-bold font-serif group-hover:text-blue-300 
-                        transition-colors">
-                        {stat.number}
-                      </div>
-                      <div className="text-gray-300 mt-1 text-sm md:text-base">
-                        {stat.label}
-                      </div>
-                    </motion.div>
-                  ))}
-                </motion.div>
+                  View Our Research
+                </Link>
+                <Link
+                  href="/experts"
+                  className="border-2 border-white text-white px-2 md:px-6 py-2 text-md md:text-lg font-semibold 
+                    hover:bg-white hover:text-gray-900 transition-colors"
+                >
+                  Meet Our Experts
+                </Link>
               </div>
             </motion.div>
           </div>
         </div>
+
+        {/* Metrics */}
+        <motion.div
+          variants={staggerChildren}
+          initial="initial"
+          animate="animate"
+          className="absolute -bottom-14 md:bottom-0 left-0 right-0 z-10"
+        >
+          <div className="max-w-7xl mx-auto px-4 pb-20">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+              {[
+                { number: "250+", label: "Policy Researchers" },
+                { number: "$3.7M+", label: "Alumni Scholarships Secured" },
+                { number: "200+", label: "Research Publications" },
+              ].map((stat, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeIn}
+                  transition={fadeInTransition}
+                  className="text-white border-l-2 border-blue-400 pl-6"
+                >
+                  <div className="text-4xl font-bold font-serif">
+                    {stat.number}
+                  </div>
+                  <div className="text-gray-300 mt-1 text-sm md:text-base">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
         {/* Scroll indicator */}
         <motion.div
@@ -178,7 +171,7 @@ export default function Home() {
         >
           <div className="animate-bounce">
             <svg
-              className="w-6 h-6 text-white/70 hover:text-white transition-colors"
+              className="w-6 h-6 text-white"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -324,7 +317,7 @@ export default function Home() {
               </div>
               <div className="pt-4">
                 <Link
-                  href="/experts"
+                  href="/experts/kashaf-alvi"
                   className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 
                     font-semibold rounded-lg hover:bg-blue-700 transition-colors"
                 >
@@ -355,14 +348,65 @@ export default function Home() {
             >
               <iframe
                 className="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/xS_3pUX3Qvg?autoplay=1&mute=1&loop=1&playlist=xS_3pUX3Qvg&rel=0&modestbranding=1&controls=1&enablejsapi=0&origin=perrin.institute"
+                src="https://www.youtube.com/embed/xS_3pUX3Qvg?autoplay=1&mute=1&loop=1&playlist=xS_3pUX3Qvg"
                 title="Kashaf Alvi BBC Feature"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
             </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Experts Section */}
+      <motion.section
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="py-20"
+      >
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.h2
+            variants={fadeIn}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="text-4xl font-serif font-bold mb-12 text-center"
+          >
+            Our Experts
+          </motion.h2>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[1, 2, 3, 4].map((item, index) => (
+              <motion.div
+                key={item}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2 }}
+                className="group"
+              >
+                <div className="relative h-64 mb-4 overflow-hidden">
+                  <Image
+                    src={`/expert-${item}.jpg`}
+                    alt="Expert portrait"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <h3 className="text-xl font-bold mb-1">Dr. Sarah Johnson</h3>
+                <p className="text-gray-600 text-sm mb-2">
+                  Senior Fellow, Economic Policy
+                </p>
+                <Link
+                  href="/experts/1"
+                  className="text-blue-600 text-sm font-semibold hover:text-blue-700"
+                >
+                  View Profile →
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </div>
       </motion.section>
