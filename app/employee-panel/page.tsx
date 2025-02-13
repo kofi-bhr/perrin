@@ -134,6 +134,12 @@ export default function EmployeePanel() {
       const token = localStorage.getItem('token')
       const email = localStorage.getItem('userEmail')
       
+      if (!token || !email) {
+        throw new Error('Not authenticated')
+      }
+
+      console.log('Updating profile:', { email, ...profileData })
+
       const response = await fetch(`${API_URL}/profile`, {
         method: 'PATCH',
         headers: {
@@ -147,7 +153,8 @@ export default function EmployeePanel() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to update profile')
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to update profile')
       }
 
       const data = await response.json()

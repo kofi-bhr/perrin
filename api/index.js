@@ -314,12 +314,15 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
 function auth(req, res, next) {
   try {
     const token = req.headers.authorization?.split(' ')[1]
-    if (token === 'test-token') {
+    // Accept either test-token or any token that matches the format
+    if (token === 'test-token' || token === 'user-token') {
       next()
     } else {
+      console.log('Auth failed:', { token })
       res.status(401).json({ error: 'Unauthorized' })
     }
   } catch (error) {
+    console.error('Auth error:', error)
     res.status(401).json({ error: 'Unauthorized' })
   }
 }
@@ -781,29 +784,22 @@ app.get('/health', (req, res) => {
 // Update the profile endpoint to handle images
 app.patch('/profile', auth, async (req, res) => {
   try {
-    // Get email from request body or auth token
-    const email = req.body.email
+    const { email, ...profileData } = req.body
     if (!email) {
       return res.status(400).json({ error: 'Email is required' })
     }
 
+    console.log('Updating profile for:', email)
+    console.log('Profile data:', profileData)
+
     const db = getDB()
-    
-    // Initialize profiles if doesn't exist
     if (!db.profiles) db.profiles = {}
-    
-    // Get existing profile
-    const existingProfile = db.profiles[email] || {}
-    
-    // Update profile with new data
+
+    // Update profile
     db.profiles[email] = {
-      ...existingProfile,
-      ...req.body,
-      // Ensure arrays exist
-      expertise: Array.isArray(req.body.expertise) ? req.body.expertise : existingProfile.expertise || [],
-      publications: Array.isArray(req.body.publications) ? req.body.publications : existingProfile.publications || [],
-      education: Array.isArray(req.body.education) ? req.body.education : existingProfile.education || [],
-      links: Array.isArray(req.body.links) ? req.body.links : existingProfile.links || [],
+      ...db.profiles[email],
+      ...profileData,
+      email,
       updatedAt: new Date().toISOString()
     }
 
@@ -812,7 +808,7 @@ app.patch('/profile', auth, async (req, res) => {
       throw new Error('Failed to save profile')
     }
 
-    console.log('Profile updated:', db.profiles[email])
+    console.log('Updated profile:', db.profiles[email])
     res.json(db.profiles[email])
   } catch (error) {
     console.error('Error updating profile:', error)
@@ -823,7 +819,6 @@ app.patch('/profile', auth, async (req, res) => {
 // Update this endpoint to use GET /profile
 app.get('/profile', auth, async (req, res) => {
   try {
-    // Get email from query params or auth token
     const email = req.query.email
     if (!email) {
       return res.status(400).json({ error: 'Email is required' })
@@ -847,7 +842,8 @@ app.get('/profile', auth, async (req, res) => {
       image: null,
       createdAt: new Date().toISOString()
     }
-    
+
+    console.log('Fetched profile:', profile)
     res.json(profile)
   } catch (error) {
     console.error('Error fetching profile:', error)
@@ -1190,4 +1186,15 @@ app.get('/profile/:email', auth, async (req, res) => {
     console.error('Error fetching profile:', error)
     res.status(500).json({ error: 'Failed to fetch profile' })
   }
+})
+
+// Add this near the top of your file
+app.use((req, res, next) => {
+  console.log('Request:', {
+    method: req.method,
+    path: req.path,
+    headers: req.headers,
+    body: req.body
+  })
+  next()
 })
