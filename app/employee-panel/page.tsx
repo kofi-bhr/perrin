@@ -49,11 +49,13 @@ export default function EmployeePanel() {
           'Authorization': `Bearer ${token}`
         }
       })
-      const data = await response.json()
-      console.log('Fetched papers:', data)
-      setPapers(data)
+      if (response.ok) {
+        const data = await response.json()
+        setPapers(Array.isArray(data) ? data : [])
+      }
     } catch (error) {
       console.error('Error fetching papers:', error)
+      setPapers([])
     } finally {
       setIsLoading(false)
     }
