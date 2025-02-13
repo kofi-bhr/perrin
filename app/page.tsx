@@ -79,15 +79,15 @@ export default function Home() {
 
 
       {/* Hero Section */}
-      <section className="relative h-screen md:h-[900px] flex items-center pt-16">
+      <section className="relative h-[115vh] md:h-[900px] flex items-center ">
         <Image
           src={images.heroHome}
           alt="UVA campus"
           fill
-          className="object-cover brightness-[0.75]"
+          className="object-cover brightness-[0.75] transform scale-[1.1] transition-transform duration-[2s]"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-black/20" />
 
         <div className="absolute w-full z-10">
           <div className="max-w-7xl mx-auto px-4">
@@ -95,72 +95,77 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="2xl:max-w-3xl space-y-2 2xl:space-y-8 text-center md:text-left"
+              className="2xl:max-w-3xl space-y-2 2xl:space-y-8 text-left"
             >
               <div>
-                <span className="text-xs md:text-md text-blue-400 font-semibold tracking-wider uppercase bg-black/30 px-4 py-2">
+                <span className="institution-text text-xs md:text-start text-blue-400 font-semibold tracking-wider uppercase 
+                  bg-black/30 px-4 py-2 backdrop-blur-sm border border-white/10">
                   An Institution at The University of Virginia
                 </span>
-                <h1 className="mt-4 text-5xl lg:text-7xl font-serif font-bold text-white leading-[1.15] tracking-tight drop-shadow-lg">
-                  Shaping Tomorrow&apos;s <br /> <FlipWords words={words} />
+                <h1 className="mt-4 text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-white leading-[1.15] 
+                  tracking-tight drop-shadow-lg text-left">
+                  Shaping Tomorrow&apos;s <br /> 
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-400">
+                    <FlipWords words={words} />
+                  </span>
                 </h1>
               </div>
-              <p className="text-gray-200 text-sm md:text-lg leading-relaxed max-w-4xl drop-shadow-lg mx-auto md:mx-0">
+              <p className="text-gray-200 text-sm md:text-lg leading-relaxed max-w-4xl drop-shadow-lg mx-auto md:mx-0 p-3 text-left">
                 Leading research institution dedicated to advancing public
                 policy through rigorous analysis and innovative solutions for a
                 more prosperous and equitable society.
               </p>
-              <div className="flex flex-wrap gap-2 md:gap-4 pt-4">
-                <Link
-                  href="/research"
-                  className="bg-white text-gray-900 px-2 md:px-6 py-2 text-md md:text-lg font-semibold 
-                    hover:bg-gray-100 transition-colors border-2 border-white"
+              <div className="flex flex-col items-center md:items-start space-y-4">
+                <div className="flex flex-col md:flex-row gap-2 md:gap-4 pt-4 items-center">
+                  <Link
+                    href="/research"
+                    className="bg-white text-gray-900 px-4 md:px-6 py-2 text-md md:text-lg font-semibold 
+                      hover:bg-gray-100 transition-all duration-300 border-2 border-white hover:shadow-lg 
+                      hover:shadow-white/20"
+                  >
+                    View Our Research
+                  </Link>
+                  <Link
+                    href="/experts"
+                    className="border-2 border-white text-white px-4 md:px-6 py-2 text-md md:text-lg 
+                      font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300 
+                      hover:shadow-lg hover:shadow-white/20"
+                  >
+                    Meet Our Experts
+                  </Link>
+                </div>
+                <motion.div
+                  variants={staggerChildren}
+                  initial="initial"
+                  animate="animate"
+                  className="grid grid-cols-2 md:grid-cols-3 gap-8 p-3"
                 >
-                  View Our Research
-                </Link>
-                <Link
-                  href="/experts"
-                  className="border-2 border-white text-white px-2 md:px-6 py-2 text-md md:text-lg font-semibold 
-                    hover:bg-white hover:text-gray-900 transition-colors"
-                >
-                  Meet Our Experts
-                </Link>
+                  {[
+                    { number: "250+", label: "Policy Researchers" },
+                    { number: "$3.7M+", label: "Alumni Scholarships Secured" },
+                    { number: "200+", label: "Research Publications" },
+                  ].map((stat, index) => (
+                    <motion.div
+                      key={index}
+                      variants={fadeIn}
+                      transition={fadeInTransition}
+                      className="text-white border-l-2 border-blue-400 pl-6 hover:border-blue-300 
+                        transition-colors group"
+                    >
+                      <div className="text-4xl font-bold font-serif group-hover:text-blue-300 
+                        transition-colors">
+                        {stat.number}
+                      </div>
+                      <div className="text-gray-300 mt-1 text-sm md:text-base">
+                        {stat.label}
+                      </div>
+                    </motion.div>
+                  ))}
+                </motion.div>
               </div>
             </motion.div>
           </div>
         </div>
-
-        {/* Metrics */}
-        <motion.div
-          variants={staggerChildren}
-          initial="initial"
-          animate="animate"
-          className="absolute -bottom-14 md:bottom-0 left-0 right-0 z-10"
-        >
-          <div className="max-w-7xl mx-auto px-4 pb-20">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
-              {[
-                { number: "250+", label: "Policy Researchers" },
-                { number: "$3.7M+", label: "Alumni Scholarships Secured" },
-                { number: "200+", label: "Research Publications" },
-              ].map((stat, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeIn}
-                  transition={fadeInTransition}
-                  className="text-white border-l-2 border-blue-400 pl-6"
-                >
-                  <div className="text-4xl font-bold font-serif">
-                    {stat.number}
-                  </div>
-                  <div className="text-gray-300 mt-1 text-sm md:text-base">
-                    {stat.label}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
 
         {/* Scroll indicator */}
         <motion.div
@@ -171,7 +176,7 @@ export default function Home() {
         >
           <div className="animate-bounce">
             <svg
-              className="w-6 h-6 text-white"
+              className="w-6 h-6 text-white/70 hover:text-white transition-colors"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
