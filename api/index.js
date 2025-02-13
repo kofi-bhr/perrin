@@ -786,8 +786,12 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
 
     await sgMail.send(msg)
     
-    // Save to DB
+    // Add this logging:
+    console.log('Before save - Request:', updatedRequest)
+    console.log('Before save - Full DB:', db)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    console.log('After save - DB Content:', fs.readFileSync(DB_FILE, 'utf-8'))
+    
     res.json(updatedRequest)
   } catch (error) {
     console.error('Error in approve request:', error)
@@ -799,35 +803,61 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
 app.post('/auth/verify-pin', async (req, res) => {
   try {
     const { pin } = req.body
-    console.log('Verifying PIN:', pin)
+    console.log('Attempting to verify PIN:', pin)
     
     // Test PINs
     if (pin === '000000') {
+      console.log('Using test PIN')
       return res.json({ 
         token: 'test-token', 
         email: 'employee@perrin.org'
       })
     }
 
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    console.log('Checking PIN against requests:', db.accessRequests?.length || 0)
+    // Read and parse DB
+    const dbContent = fs.readFileSync(DB_FILE, 'utf-8')
+    console.log('Raw DB Content:', dbContent)
     
-    const request = db.accessRequests?.find(r => 
-      r.status === 'approved' && r.pin === pin
-    )
+    const db = JSON.parse(dbContent)
+    
+    // Check DB structure
+    console.log('DB Structure:', {
+      hasAccessRequests: !!db.accessRequests,
+      requestsCount: db.accessRequests?.length || 0,
+      dbKeys: Object.keys(db)
+    })
+    
+    if (!db.accessRequests || !Array.isArray(db.accessRequests)) {
+      console.log('No access requests array found in DB')
+      return res.status(401).json({ error: 'Invalid PIN' })
+    }
+
+    // Log each request for debugging
+    db.accessRequests.forEach((r, index) => {
+      console.log(`Request ${index}:`, {
+        id: r.id,
+        email: r.email,
+        status: r.status,
+        pin: r.pin,
+        wouldMatch: r.pin === pin
+      })
+    })
+
+    const request = db.accessRequests.find(r => r.status === 'approved' && r.pin === pin)
 
     if (request) {
-      console.log('Found matching request:', request.email)
-      res.json({ 
+      console.log('Found matching request:', request)
+      return res.json({ 
         token: 'test-token', 
         email: request.email 
       })
-    } else {
-      console.log('No matching PIN found')
-      res.status(401).json({ error: 'Invalid PIN' })
     }
+
+    console.log('No matching PIN found')
+    res.status(401).json({ error: 'Invalid PIN' })
   } catch (error) {
     console.error('PIN verification error:', error)
+    console.error('Error stack:', error.stack)
     res.status(500).json({ error: 'Server error' })
   }
 })
