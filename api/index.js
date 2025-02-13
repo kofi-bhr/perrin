@@ -26,7 +26,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const RAILWAY_DOMAIN = process.env.NODE_ENV === 'production' 
   ? (process.env.RAILWAY_PUBLIC_DOMAIN || 'perrin-production.up.railway.app')
   : 'http://localhost:3001'
-const PORT = process.env.PORT || 3001  // Railway will provide PORT env variable
+const port = process.env.PORT || 3001  // Railway will provide PORT env variable
 
 // Update volume mount path configuration
 const VOLUME_PATH = process.env.RAILWAY_VOLUME_MOUNT_PATH || '/data'
@@ -660,8 +660,7 @@ function fixDatabaseUrls() {
 // Run this at startup
 fixDatabaseUrls()
 
-// Start the server
-const port = process.env.PORT || 3001
+// Start the server (keep only this one at the end of the file)
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })
@@ -679,172 +678,40 @@ process.on('unhandledRejection', (error) => {
   console.error('Unhandled rejection:', error)
 })
 
-// Add a force-fix endpoint
-app.get('/force-fix', function(req, res) {
-  try {
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    const fixed = db.papers.map(paper => ({
-      ...paper,
-      url: `${RAILWAY_DOMAIN}/uploads/${paper.fileName}`,
-      fileUrl: paper.fileName
-    }))
-    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixed }, null, 2))
-    res.json({ message: 'All papers forced to Railway URLs', count: fixed.length })
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to force fix' })
+// Add middleware
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// Add CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200)
   }
+  next()
 })
 
-app.get('/test-paper/:id', function(req, res) {
-  try {
-    const { id } = req.params;
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
-    const paper = db.papers.find(p => p.id === id);
-    
-    res.json({
-      original: paper,
-      withUrl: {
-        ...paper,
-        url: `${RAILWAY_DOMAIN}/uploads/${paper.fileName}`
-      },
-      debug: {
-        RAILWAY_DOMAIN,
-        fileName: paper.fileName,
-        constructedUrl: `${RAILWAY_DOMAIN}/uploads/${paper.fileName}`
-      }
-    });
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Server error' });
-  }
-})
-
-// Add this with your other routes (near GET /papers and PATCH /papers/:id)
-app.delete('/papers/:id', auth, async function(req, res) {
-  try {
-    const { id } = req.params
-    console.log('Delete request for paper:', id)
-    
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    const paperIndex = db.papers.findIndex(p => p.id === id)
-    
-    if (paperIndex === -1) {
-      console.log('Paper not found:', id)
-      return res.status(404).json({ error: 'Paper not found' })
-    }
-
-    const paper = db.papers[paperIndex]
-    console.log('Found paper:', paper)
-
-    // Remove from database
-    db.papers.splice(paperIndex, 1)
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-
-    // Try to delete file
-    if (paper.fileName) {
-      const filePath = path.join(uploadsDir, paper.fileName)
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath)
-      }
-    }
-
-    res.json({ success: true, message: 'Paper deleted' })
-  } catch (error) {
-    console.error('Delete error:', error)
-    res.status(500).json({ error: 'Failed to delete paper' })
-  }
-})
-
-// Add comprehensive health check
+// Health check routes
 app.get('/health', (req, res) => {
-  try {
-    // Check if directories exist
-    const dirs = {
-      dataDir: fs.existsSync(dataDir),
-      uploadsDir: fs.existsSync(uploadsDir),
-      dbFile: fs.existsSync(DB_FILE)
-    }
-
-    // Check if we can write to directories
-    try {
-      fs.accessSync(dataDir, fs.constants.W_OK)
-      fs.accessSync(uploadsDir, fs.constants.W_OK)
-      dirs.writeable = true
-    } catch (e) {
-      dirs.writeable = false
-    }
-
-    res.json({
-      status: 'ok',
-      time: new Date().toISOString(),
-      environment: {
-        NODE_ENV: process.env.NODE_ENV,
-        PORT: process.env.PORT,
-        RAILWAY_DOMAIN,
-        VOLUME_PATH
-      },
-      directories: dirs,
-      headers: req.headers
-    })
-  } catch (error) {
-    res.status(500).json({
-      status: 'error',
-      error: error.message,
-      stack: error.stack
-    })
-  }
+  res.status(200).json({ status: 'ok' })
 })
 
-// Update the profile endpoint to handle images
-app.patch('/profile', auth, async (req, res) => {
-  try {
-    const email = 'employee@perrin.org' // For now, hardcode the email
-    const profile = req.body
-
-    // Load current DB
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    
-    // Initialize profiles if doesn't exist
-    if (!db.profiles) {
-      db.profiles = {}
-    }
-
-    // Get existing profile to preserve image if not updated
-    const existingProfile = db.profiles[email] || {}
-    
-    // Update profile, keeping the image from localStorage if not provided
-    db.profiles[email] = {
-      ...existingProfile,
-      ...profile,
-      image: profile.image || existingProfile.image || null,
-      updatedAt: new Date().toISOString()
-    }
-
-    // Save back to DB
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-
-    // Send back complete profile including image
-    res.json({ success: true, profile: db.profiles[email] })
-  } catch (error) {
-    console.error('Profile update error:', error)
-    res.status(500).json({ error: 'Failed to update profile' })
-  }
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'API is running' })
 })
 
-// Add near your other routes
+// 1. Employee submits access request
 app.post('/auth/request-access', async (req, res) => {
   try {
     const { name, email, department, reason } = req.body
-    
-    // Load current DB
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     
-    // Initialize access requests if doesn't exist
     if (!db.accessRequests) {
       db.accessRequests = []
     }
 
-    // Add new request
     const request = {
       id: Date.now().toString(),
       name,
@@ -852,13 +719,11 @@ app.post('/auth/request-access', async (req, res) => {
       department,
       reason,
       status: 'pending',
-      createdAt: new Date().toISOString(),
-      pin: null
+      createdAt: new Date().toISOString()
     }
 
     db.accessRequests.push(request)
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-
     res.json({ success: true })
   } catch (error) {
     console.error('Access request error:', error)
@@ -866,72 +731,21 @@ app.post('/auth/request-access', async (req, res) => {
   }
 })
 
-// Update the verify-pin endpoint
-app.post('/auth/verify-pin', async (req, res) => {
+// 2. Admin views requests
+app.get('/admin/access-requests', auth, async (req, res) => {
   try {
-    const { pin } = req.body
-    console.log('Verifying PIN:', pin)
-    
-    // Add test PINs
-    const testPins = {
-      '123456': 'employee@perrin.org',
-      '000000': 'employee@perrin.org'
-    }
-
-    if (testPins[pin]) {
-      console.log('Using test PIN')
-      return res.json({ 
-        token: 'test-token', 
-        email: testPins[pin]
-      })
-    }
-
-    // Read and parse DB
-    const dbContent = fs.readFileSync(DB_FILE, 'utf-8')
-    console.log('DB Content:', dbContent)
-    
-    const db = JSON.parse(dbContent)
-    console.log('Parsed DB:', db)
-    console.log('Access Requests:', db.accessRequests)
-    
-    // Find approved request with matching PIN
-    const request = db.accessRequests?.find(r => {
-      console.log('Checking request:', {
-        requestPin: r.pin,
-        inputPin: pin,
-        status: r.status,
-        match: r.status === 'approved' && r.pin === pin
-      })
-      return r.status === 'approved' && r.pin === pin
-    })
-
-    if (request) {
-      console.log('Found matching request:', request)
-      return res.json({ 
-        token: 'test-token', 
-        email: request.email 
-      })
-    }
-
-    console.log('No matching PIN found')
-    res.status(401).json({ error: 'Invalid PIN' })
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    res.json(db.accessRequests || [])
   } catch (error) {
-    console.error('PIN verification error:', error)
-    console.error('Error details:', error.stack)
-    res.status(500).json({ error: 'Server error' })
+    res.status(500).json({ error: 'Failed to fetch requests' })
   }
 })
 
-// Update the approve request endpoint to ensure proper DB structure
+// 3. Admin approves request and generates PIN
 app.post('/admin/approve-request/:id', auth, async (req, res) => {
   try {
     const { id } = req.params
-    let db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    
-    // Ensure DB structure
-    if (!db.accessRequests) {
-      db.accessRequests = []
-    }
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
     
     const requestIndex = db.accessRequests.findIndex(r => r.id === id)
     if (requestIndex === -1) {
@@ -950,17 +764,12 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
     }
     
     db.accessRequests[requestIndex] = updatedRequest
-    
-    // Save to DB
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-    console.log('Saved request with PIN:', updatedRequest)
 
     // Send email with PIN
     const msg = {
       to: updatedRequest.email,
-      from: 'cashrhilinski@gmail.com', // Your verified sender
+      from: 'cashrhilinski@gmail.com',
       subject: 'Your Perrin Institution Access PIN',
-      text: `Hello ${updatedRequest.name},\n\nYour access request has been approved!\n\nYour PIN: ${pin}\n\nYou can now log in to the employee portal using this PIN.\n\nBest regards,\nPerrin Institution Team`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2>Welcome to Perrin Institution!</h2>
@@ -976,7 +785,9 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
     }
 
     await sgMail.send(msg)
-
+    
+    // Save to DB
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
     res.json(updatedRequest)
   } catch (error) {
     console.error('Error in approve request:', error)
@@ -984,47 +795,39 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
   }
 })
 
-app.get('/auth/request-status', async (req, res) => {
+// 4. Employee logs in with PIN
+app.post('/auth/verify-pin', async (req, res) => {
   try {
-    const { email } = req.query
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const { pin } = req.body
+    console.log('Verifying PIN:', pin)
     
-    const request = db.accessRequests?.find(r => r.email === email)
-    
-    if (!request) {
-      return res.json({ status: 'not_found' })
+    // Test PINs
+    if (pin === '000000') {
+      return res.json({ 
+        token: 'test-token', 
+        email: 'employee@perrin.org'
+      })
     }
 
-    res.json({
-      status: request.status,
-      pin: request.status === 'approved' ? request.pin : undefined
-    })
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    console.log('Checking PIN against requests:', db.accessRequests?.length || 0)
+    
+    const request = db.accessRequests?.find(r => 
+      r.status === 'approved' && r.pin === pin
+    )
+
+    if (request) {
+      console.log('Found matching request:', request.email)
+      res.json({ 
+        token: 'test-token', 
+        email: request.email 
+      })
+    } else {
+      console.log('No matching PIN found')
+      res.status(401).json({ error: 'Invalid PIN' })
+    }
   } catch (error) {
-    res.status(500).json({ error: 'Failed to check status' })
+    console.error('PIN verification error:', error)
+    res.status(500).json({ error: 'Server error' })
   }
-})
-
-// Add near the top of your routes
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok' })
-})
-
-// Also add a root route for basic checking
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'API is running' })
-})
-
-// After creating the app
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
-// Add CORS middleware
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200)
-  }
-  next()
 })
