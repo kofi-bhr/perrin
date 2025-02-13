@@ -656,10 +656,23 @@ function fixDatabaseUrls() {
 // Run this at startup
 fixDatabaseUrls()
 
-// Make sure to use server.listen instead of app.listen
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server running on port ${PORT}`)
-  console.log(`Railway URL: ${RAILWAY_DOMAIN}`)
+// Start the server
+const port = process.env.PORT || 3001
+server.listen(port, () => {
+  console.log(`Server is running on port ${port}`)
+})
+
+// Add basic error handling
+server.on('error', (error) => {
+  console.error('Server error:', error)
+})
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught exception:', error)
+})
+
+process.on('unhandledRejection', (error) => {
+  console.error('Unhandled rejection:', error)
 })
 
 // Add a force-fix endpoint
@@ -981,4 +994,19 @@ app.get('/health', (req, res) => {
 // Also add a root route for basic checking
 app.get('/', (req, res) => {
   res.status(200).json({ message: 'API is running' })
+})
+
+// After creating the app
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// Add CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200)
+  }
+  next()
 })
