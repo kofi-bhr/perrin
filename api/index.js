@@ -19,6 +19,9 @@ const { Server } = require('socket.io')
 const http = require('http')
 const sgMail = require('@sendgrid/mail')
 
+// Initialize SendGrid right after requiring it
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 // First, declare all constants
 const RAILWAY_DOMAIN = process.env.NODE_ENV === 'production' 
   ? (process.env.RAILWAY_PUBLIC_DOMAIN || 'perrin-production.up.railway.app')
@@ -1063,15 +1066,11 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
   }
 })
 
-// Near the top after requires
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-
 // Add a test endpoint
 app.get('/test-email', async (req, res) => {
   try {
     await sgMail.send({
-      to: 'test@example.com', // Replace with your email
+      to: 'test@example.com',
       from: process.env.SENDGRID_FROM_EMAIL,
       subject: 'Test Email',
       text: 'This is a test email',
