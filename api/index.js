@@ -238,9 +238,13 @@ console.log({
   NODE_ENV: process.env.NODE_ENV
 })
 
-// Simple file-based DB
+// Add this near the top where you initialize other files
 if (!fs.existsSync(DB_FILE)) {
-  fs.writeFileSync(DB_FILE, JSON.stringify({ papers: [], profiles: {} }, null, 2))
+  fs.writeFileSync(DB_FILE, JSON.stringify({
+    papers: [],
+    profiles: {},
+    accessRequests: []
+  }))
 }
 
 // Fix missing upload variable declaration
@@ -862,59 +866,72 @@ app.post('/auth/request-access', async (req, res) => {
   }
 })
 
+// Update the verify-pin endpoint
 app.post('/auth/verify-pin', async (req, res) => {
   try {
     const { pin } = req.body
+    console.log('Verifying PIN:', pin)
     
     // Add test PINs
     const testPins = {
-      '123456': 'employee@perrin.org',  // Production test
-      '000000': 'employee@perrin.org'   // Local development test
+      '123456': 'employee@perrin.org',
+      '000000': 'employee@perrin.org'
     }
 
     if (testPins[pin]) {
+      console.log('Using test PIN')
       return res.json({ 
         token: 'test-token', 
         email: testPins[pin]
       })
     }
 
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    // Read and parse DB
+    const dbContent = fs.readFileSync(DB_FILE, 'utf-8')
+    console.log('DB Content:', dbContent)
+    
+    const db = JSON.parse(dbContent)
+    console.log('Parsed DB:', db)
+    console.log('Access Requests:', db.accessRequests)
     
     // Find approved request with matching PIN
-    const request = db.accessRequests?.find(r => 
-      r.status === 'approved' && r.pin === pin
-    )
+    const request = db.accessRequests?.find(r => {
+      console.log('Checking request:', {
+        requestPin: r.pin,
+        inputPin: pin,
+        status: r.status,
+        match: r.status === 'approved' && r.pin === pin
+      })
+      return r.status === 'approved' && r.pin === pin
+    })
 
     if (request) {
-      res.json({ 
+      console.log('Found matching request:', request)
+      return res.json({ 
         token: 'test-token', 
         email: request.email 
       })
-    } else {
-      res.status(401).json({ error: 'Invalid PIN' })
     }
+
+    console.log('No matching PIN found')
+    res.status(401).json({ error: 'Invalid PIN' })
   } catch (error) {
     console.error('PIN verification error:', error)
+    console.error('Error details:', error.stack)
     res.status(500).json({ error: 'Server error' })
   }
 })
 
-// Add to your admin routes
-app.get('/admin/access-requests', auth, async (req, res) => {
-  try {
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-    res.json(db.accessRequests || [])
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch requests' })
-  }
-})
-
-// Update the approve request endpoint
+// Update the approve request endpoint to ensure proper DB structure
 app.post('/admin/approve-request/:id', auth, async (req, res) => {
   try {
     const { id } = req.params
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    let db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    
+    // Ensure DB structure
+    if (!db.accessRequests) {
+      db.accessRequests = []
+    }
     
     const requestIndex = db.accessRequests.findIndex(r => r.id === id)
     if (requestIndex === -1) {
@@ -933,6 +950,10 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
     }
     
     db.accessRequests[requestIndex] = updatedRequest
+    
+    // Save to DB
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    console.log('Saved request with PIN:', updatedRequest)
 
     // Send email with PIN
     const msg = {
@@ -956,10 +977,7 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
 
     await sgMail.send(msg)
 
-    // Save to DB and respond
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
     res.json(updatedRequest)
-
   } catch (error) {
     console.error('Error in approve request:', error)
     res.status(500).json({ error: 'Failed to approve request' })
