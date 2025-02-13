@@ -972,3 +972,13 @@ app.get('/auth/request-status', async (req, res) => {
     res.status(500).json({ error: 'Failed to check status' })
   }
 })
+
+// Add near the top of your routes
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' })
+})
+
+// Also add a root route for basic checking
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'API is running' })
+})
