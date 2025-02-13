@@ -39,8 +39,35 @@ const uploadsDir = path.join(VOLUME_PATH, 'uploads')
 fs.mkdirSync(dataDir, { recursive: true })
 fs.mkdirSync(uploadsDir, { recursive: true })
 
-// Update DB_FILE path
-const DB_FILE = path.join(dataDir, 'db.json')
+// Near the top with other constants
+const DB_FILE = path.join(VOLUME_PATH, 'db.json')
+
+// Initialize DB if it doesn't exist
+if (!fs.existsSync(DB_FILE)) {
+  fs.writeFileSync(DB_FILE, JSON.stringify({
+    papers: [],
+    profiles: {},
+    accessRequests: []
+  }, null, 2))
+}
+
+// Add debug logging for DB operations
+function logDB(operation) {
+  try {
+    const content = fs.readFileSync(DB_FILE, 'utf-8')
+    console.log(`DB ${operation}:`, {
+      path: DB_FILE,
+      exists: fs.existsSync(DB_FILE),
+      content: JSON.parse(content),
+      volumePath: VOLUME_PATH
+    })
+  } catch (error) {
+    console.error(`Error logging DB ${operation}:`, error)
+  }
+}
+
+// Call this after initialization
+logDB('initialization')
 
 // Add this near your other constants
 const CHAT_FILE = path.join(dataDir, 'chat.json')
@@ -56,6 +83,21 @@ let chatHistory = JSON.parse(fs.readFileSync(CHAT_FILE, 'utf-8')).messages || []
 
 const app = express()
 const server = http.createServer(app)
+
+// Move ALL middleware to the top, before any routes
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+// CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200)
+  }
+  next()
+})
 
 // Configure Socket.IO with proper CORS
 const io = new Server(server, {
@@ -129,22 +171,6 @@ io.on('connection', (socket) => {
     io.emit('userList', Array.from(connectedUsers.values()))
   })
 })
-
-// Update CORS middleware to allow Socket.IO and PATCH requests
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
-  res.header('Access-Control-Allow-Headers', '*')
-  res.header('Access-Control-Allow-Credentials', 'true')
-  
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end()
-  }
-  next()
-})
-
-// Remove all other CORS middleware
-app.use(express.json())
 
 // Update the static file serving middleware
 app.use('/uploads', (req, res, next) => {
@@ -237,15 +263,6 @@ console.log({
   RAILWAY_PUBLIC_DOMAIN: process.env.RAILWAY_PUBLIC_DOMAIN,
   NODE_ENV: process.env.NODE_ENV
 })
-
-// Add this near the top where you initialize other files
-if (!fs.existsSync(DB_FILE)) {
-  fs.writeFileSync(DB_FILE, JSON.stringify({
-    papers: [],
-    profiles: {},
-    accessRequests: []
-  }))
-}
 
 // Fix missing upload variable declaration
 const upload = multer({ storage: storage })
@@ -774,54 +791,56 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
 app.post('/auth/verify-pin', async (req, res) => {
   try {
     const { pin } = req.body
-    console.log('PIN Verification Debug:', {
-      receivedPin: pin,
-      requestBody: req.body,
-      headers: req.headers
-    })
+    console.log('Verifying PIN:', pin)
 
-    // Read DB only once
-    const dbContent = fs.readFileSync(DB_FILE, 'utf-8')
-    console.log('Raw DB Content:', dbContent)
-    
-    const db = JSON.parse(dbContent)
-    console.log('Parsed DB:', db)
+    // Log DB state before verification
+    logDB('before verification')
 
-    // Test PIN first
+    // Test PIN
     if (pin === '000000') {
+      console.log('Using test PIN')
       return res.json({ 
         token: 'test-token', 
         email: 'employee@perrin.org'
       })
     }
 
-    // Use the already parsed db instead of reading again
-    console.log('Current DB state:', {
-      hasRequests: !!db.accessRequests,
-      requestCount: db.accessRequests?.length || 0
-    })
+    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    
+    // Log all requests for debugging
+    console.log('All access requests:', db.accessRequests?.map(r => ({
+      id: r.id,
+      email: r.email,
+      status: r.status,
+      pin: r.pin,
+      wouldMatch: r.pin === pin
+    })))
 
     const request = db.accessRequests?.find(r => {
       const matches = r.status === 'approved' && r.pin === pin
-      console.log('Checking request:', { 
-        id: r.id, 
-        pin: r.pin, 
-        status: r.status, 
-        matches 
+      console.log('Checking request:', {
+        id: r.id,
+        email: r.email,
+        status: r.status,
+        pin: r.pin,
+        inputPin: pin,
+        matches
       })
       return matches
     })
 
     if (request) {
-      return res.json({ 
-        token: 'test-token', 
-        email: request.email 
+      console.log('Found matching request:', request)
+      return res.json({
+        token: 'test-token',
+        email: request.email
       })
     }
 
+    console.log('No matching request found')
     res.status(401).json({ error: 'Invalid PIN' })
   } catch (error) {
-    console.error('PIN Verification Error:', error)
+    console.error('PIN verification error:', error)
     res.status(500).json({ error: String(error) })
   }
 })
@@ -843,19 +862,4 @@ process.on('uncaughtException', (error) => {
 
 process.on('unhandledRejection', (error) => {
   console.error('Unhandled rejection:', error)
-})
-
-// Add middleware
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
-// Add CORS middleware
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200)
-  }
-  next()
 })
