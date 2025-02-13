@@ -23,10 +23,10 @@ interface Profile {
 
 export default function EmployeeProfile() {
   const router = useRouter()
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, userEmail } = useAuth()
   const [profile, setProfile] = useState<Profile>({
     name: '',
-    email: '',
+    email: userEmail || '', // Set email from auth
     phone: '',
     bio: '',
     expertise: [],
@@ -42,14 +42,35 @@ export default function EmployeeProfile() {
   const [newLink, setNewLink] = useState({ title: '', url: '' })
 
   useEffect(() => {
-    if (isAuthenticated) {
-      // Load profile logic here
-      const savedProfile = localStorage.getItem('employeeProfile')
-      if (savedProfile) {
-        setProfile(JSON.parse(savedProfile))
+    if (isAuthenticated && userEmail) {
+      // Try to load existing profile from API first
+      const fetchProfile = async () => {
+        try {
+          const token = localStorage.getItem('token')
+          const response = await fetch(`${API_URL}/profile/${userEmail}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          
+          if (response.ok) {
+            const data = await response.json()
+            setProfile(data)
+          } else {
+            // If no profile exists, initialize with just the email
+            setProfile(prev => ({
+              ...prev,
+              email: userEmail
+            }))
+          }
+        } catch (error) {
+          console.error('Error loading profile:', error)
+        }
       }
+      
+      fetchProfile()
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, userEmail])
 
   if (!isAuthenticated) {
     return null // or a loading spinner
