@@ -2,9 +2,8 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Add volume mount point
+# Create directories but don't use VOLUME directive
 RUN mkdir -p /data/data /data/uploads
-VOLUME /data
 
 # Copy package files first
 COPY package*.json ./
