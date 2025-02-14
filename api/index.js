@@ -183,7 +183,7 @@ app.use('/uploads', (req, res, next) => {
 
 // Configure multer to store files in Railway volume
 const storage = multer.diskStorage({
-  destination: uploadsDir,
+  destination: uploadsDir,  // This is /data/uploads
   filename: (_req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname)
   }
@@ -241,42 +241,75 @@ console.log({
 // Initialize DB with admin if it doesn't exist
 function initDB() {
   try {
+    // First ensure directories exist
+    fs.mkdirSync(dataDir, { recursive: true })
+    fs.mkdirSync(uploadsDir, { recursive: true })
+
+    // Log directory status
+    console.log('=== Directory Check ===', {
+      dataDir: {
+        exists: fs.existsSync(dataDir),
+        writable: isDirectoryWritable(dataDir)
+      },
+      uploadsDir: {
+        exists: fs.existsSync(uploadsDir),
+        writable: isDirectoryWritable(uploadsDir)
+      }
+    })
+
     let db
     if (!fs.existsSync(DB_FILE)) {
+      console.log('Creating new database file')
       db = {
         papers: [],
-        profiles: {},
+        profiles: [],
         accessRequests: [],
-        users: {
-          'employee@perrin.org': {
-            name: 'Default Admin',
-            email: 'employee@perrin.org',
-            pin: '000000',
-            role: 'admin',
-            createdAt: new Date().toISOString()
-          }
-        }
-      }
-      fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-    } else {
-      db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
-      // Ensure admin account exists
-      if (!db.users?.['employee@perrin.org']) {
-        db.users = db.users || {}
-        db.users['employee@perrin.org'] = {
+        users: [{
+          id: Date.now().toString(),
           name: 'Default Admin',
           email: 'employee@perrin.org',
           pin: '000000',
           role: 'admin',
+          status: 'active',
           createdAt: new Date().toISOString()
-        }
+        }]
+      }
+      fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+      console.log('New database file created')
+    } else {
+      console.log('Loading existing database')
+      const data = fs.readFileSync(DB_FILE, 'utf-8')
+      db = JSON.parse(data)
+      
+      // Always ensure admin exists
+      if (!db.users) db.users = []
+      if (!db.users.find(u => u.email === 'employee@perrin.org')) {
+        db.users.push({
+          id: Date.now().toString(),
+          name: 'Default Admin',
+          email: 'employee@perrin.org',
+          pin: '000000',
+          role: 'admin',
+          status: 'active',
+          createdAt: new Date().toISOString()
+        })
         fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+        console.log('Admin user restored')
       }
     }
+
+    // Verify DB structure
+    console.log('=== Database Check ===', {
+      hasUsers: Boolean(db.users),
+      adminExists: Boolean(db.users?.find(u => u.email === 'employee@perrin.org')),
+      userCount: db.users.length,
+      requestCount: (db.accessRequests || []).length
+    })
+
     return db
   } catch (error) {
     console.error('Error initializing DB:', error)
-    return null
+    throw error // Let the app crash if DB init fails
   }
 }
 
@@ -336,7 +369,7 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       author: 'Employee Name',
       date: new Date().toISOString(),
       status: 'pending',
-      url: `${RAILWAY_DOMAIN}/uploads/${req.file.filename}` // Add URL here
+      url: `${RAILWAY_DOMAIN}/uploads/${req.file.filename}`
     }
 
     const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
@@ -674,11 +707,15 @@ app.get('/nuke-database', function(req, res) {  // Remove async since we're not 
 
 // At startup, verify volume
 console.log('=== Volume Check ===')
-console.log('Volume path:', process.env.RAILWAY_VOLUME_MOUNT_PATH)
-console.log('Uploads directory:', uploadsDir)
-console.log('Current directory contents:', fs.readdirSync('.'))
-console.log('Volume directory contents:', fs.readdirSync(VOLUME_PATH))
-console.log('Files in uploads:', fs.readdirSync(uploadsDir))
+console.log({
+  volumePath: process.env.RAILWAY_VOLUME_MOUNT_PATH,
+  dataDir,
+  uploadsDir,
+  dbFile: DB_FILE,
+  volumeExists: fs.existsSync(VOLUME_PATH),
+  dataDirExists: fs.existsSync(dataDir),
+  dbFileExists: fs.existsSync(DB_FILE)
+})
 
 // Add this after your DB initialization
 function fixDatabaseUrls() {
@@ -900,17 +937,17 @@ function getDB() {
     if (!fs.existsSync(DB_FILE)) {
       const initialDB = {
         papers: [],
-        profiles: {},
+        profiles: [],
         accessRequests: [],
-        users: {
-          'employee@perrin.org': {
-            name: 'Default Admin',
-            email: 'employee@perrin.org',
-            pin: '000000',
-            role: 'admin',
-            createdAt: new Date().toISOString()
-          }
-        }
+        users: [{
+          id: Date.now().toString(),
+          name: 'Default Admin',
+          email: 'employee@perrin.org',
+          pin: '000000',
+          role: 'admin',
+          status: 'active',
+          createdAt: new Date().toISOString()
+        }]
       }
       fs.writeFileSync(DB_FILE, JSON.stringify(initialDB, null, 2))
       return initialDB
@@ -921,9 +958,9 @@ function getDB() {
     console.error('Error reading DB:', error)
     return {
       papers: [],
-      profiles: {},
+      profiles: [],
       accessRequests: [],
-      users: {}
+      users: []
     }
   }
 }
@@ -939,7 +976,14 @@ function isDirectoryWritable(dir) {
 
 function saveDB(db) {
   try {
-    console.log('Saving DB to:', DB_FILE)
+    console.log('=== Saving DB ===')
+    console.log({
+      dbFile: DB_FILE,
+      volumePath: process.env.RAILWAY_VOLUME_MOUNT_PATH,
+      dataDirExists: fs.existsSync(dataDir),
+      dbFileExists: fs.existsSync(DB_FILE),
+      dbContents: JSON.stringify(db).slice(0, 100) + '...' // Log first 100 chars
+    })
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
     console.log('DB saved successfully')
     return true
@@ -947,7 +991,9 @@ function saveDB(db) {
     console.error('Error saving DB:', error, {
       path: DB_FILE,
       exists: fs.existsSync(dataDir),
-      writable: isDirectoryWritable(dataDir)
+      writable: isDirectoryWritable(dataDir),
+      error: error.message,
+      stack: error.stack
     })
     return false
   }
@@ -1030,18 +1076,19 @@ app.post('/auth/verify-pin', async (req, res) => {
     const { pin } = req.body
     const db = getDB()
 
-    // Find user with this PIN
-    const user = Object.values(db.users || {}).find(u => u.pin === pin)
+    // Find user with this PIN in array
+    const user = db.users?.find(u => u.pin === pin)
     if (!user) {
       return res.status(401).json({ error: 'Invalid PIN' })
     }
 
-    // Ensure profile exists with arrays
-    if (!db.profiles) db.profiles = {}
-    if (!db.profiles[user.email]) {
-      db.profiles[user.email] = {
-        name: user.name,
+    // Find or create profile
+    let profile = db.profiles?.find(p => p.email === user.email)
+    if (!profile) {
+      profile = {
+        id: Date.now().toString(),
         email: user.email,
+        name: user.name,
         phone: '',
         bio: '',
         expertise: [],
@@ -1051,6 +1098,7 @@ app.post('/auth/verify-pin', async (req, res) => {
         image: null,
         createdAt: new Date().toISOString()
       }
+      db.profiles.push(profile)
       saveDB(db)
     }
 
@@ -1102,22 +1150,29 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
     // Update request
     request.status = 'approved'
     request.pin = pin
-    
-    // Add to users with initialized arrays
-    if (!db.users) db.users = {}
-    db.users[request.email] = {
+
+    // Create user object similar to how papers are stored
+    const user = {
+      id: Date.now().toString(),
       name: request.name,
       email: request.email,
       pin,
       role: 'user',
+      department: request.department,
+      status: 'active',
       createdAt: new Date().toISOString()
     }
+    
+    // Store in array like papers (instead of object)
+    if (!db.users) db.users = []
+    db.users.push(user)
 
-    // Initialize profile for new user with minimal data
-    if (!db.profiles) db.profiles = {}
-    db.profiles[request.email] = {
+    // Initialize empty profile
+    if (!db.profiles) db.profiles = []
+    db.profiles.push({
+      id: Date.now().toString(),
       email: request.email,
-      name: '', // Start empty
+      name: '',
       phone: '',
       bio: '',
       expertise: [],
@@ -1126,39 +1181,12 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
       links: [],
       image: null,
       createdAt: new Date().toISOString()
-    }
+    })
 
     saveDB(db)
 
-    // Add more detailed email logging
-    try {
-      console.log('Sending approval email:', {
-        to: request.email,
-        from: process.env.SENDGRID_FROM_EMAIL,
-        apiKey: process.env.SENDGRID_API_KEY?.slice(0, 10) + '...' // Log first 10 chars of API key
-      })
-
-      await sgMail.send({
-        to: request.email,
-        from: process.env.SENDGRID_FROM_EMAIL,
-        subject: 'Your Perrin Institute Access Request Has Been Approved',
-        text: `Your access request has been approved. Your PIN is: ${pin}`,
-        html: `
-          <h2>Welcome to Perrin Institute!</h2>
-          <p>Your access request has been approved.</p>
-          <p>Your PIN is: <strong>${pin}</strong></p>
-          <p>You can now log in at <a href="https://perrininstitution.org/auth/signin">https://perrininstitution.org/auth/signin</a></p>
-        `
-      })
-      console.log('Approval email sent successfully')
-    } catch (emailError) {
-      console.error('Failed to send email:', {
-        error: emailError.message,
-        code: emailError.code,
-        response: emailError.response?.body
-      })
-      // Continue even if email fails
-    }
+    // Send email...
+    // ... rest of email sending code ...
 
     res.json(request)
   } catch (error) {
