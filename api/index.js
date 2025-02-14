@@ -84,7 +84,7 @@ io.on('connection', (socket) => {
     
     // Load profile from DB
     try {
-      const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+      const db = getDB()
       const userProfile = db.profiles[userData.email] || null
       
       // Store in connected users with profile from DB
@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
     if (!userData) return
     
     // Load latest profile from DB
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     const profile = db.profiles[userData.email] || null
     
     const newMessage = {
@@ -115,10 +115,13 @@ io.on('connection', (socket) => {
     }
     
     chatHistory.push(newMessage)
-    fs.writeFileSync(CHAT_FILE, JSON.stringify({ 
+    const saved = saveDB({ 
       messages: chatHistory,
       users: Array.from(connectedUsers.values())
-    }))
+    })
+    if (!saved) {
+      throw new Error('Failed to save chat history')
+    }
     
     io.emit('message', newMessage)
   })
@@ -372,9 +375,12 @@ app.post('/upload', auth, upload.single('file'), function(req, res) {
       url: `${RAILWAY_DOMAIN}/uploads/${req.file.filename}`
     }
 
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     db.papers.push(paper)
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    const saved = saveDB(db)
+    if (!saved) {
+      throw new Error('Failed to save paper')
+    }
 
     res.json(paper)
   } catch (error) {
@@ -411,7 +417,7 @@ console.log('Environment detection:', {
 // Routes
 app.get('/papers', function(req, res) {
   try {
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     const papers = db.papers
       .filter(paper => paper.status === 'approved')
       .map(paper => ({
@@ -456,7 +462,7 @@ app.get('/papers/:id', function(req, res) {
     console.log('\n=== GET /papers/:id ===');
     const { id } = req.params;
     
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+    const db = getDB();
     const paper = db.papers.find(p => p.id === id);
     
     if (!paper) {
@@ -501,7 +507,7 @@ app.patch('/papers/:id', auth, function(req, res) {
     console.log('Attempting to update paper:', { id, status })
 
     // Read and log current DB state
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     console.log('Current DB state:', db)
     
     // Find and log paper
@@ -524,8 +530,10 @@ app.patch('/papers/:id', auth, function(req, res) {
     console.log('Updated paper:', updatedPaper)
 
     // Save back to file
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-    console.log('DB saved successfully')
+    const saved = saveDB(db)
+    if (!saved) {
+      throw new Error('Failed to save paper')
+    }
     
     res.json(updatedPaper)
   } catch (error) {
@@ -536,7 +544,7 @@ app.patch('/papers/:id', auth, function(req, res) {
 
 app.get('/debug', function(req, res) {
   try {
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     console.log('Current DB contents:', db)
     res.json(db)
   } catch (error) {
@@ -562,7 +570,7 @@ app.get('/admin/papers', auth, async (req, res) => {
       return res.json([]);
     }
 
-    const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+    const data = getDB();
     console.log('Found papers:', data.papers?.length || 0);
     
     res.json(data.papers || []);
@@ -647,7 +655,7 @@ app.get('/check-file/:filename', (req, res) => {
 
 app.get('/fix-papers', function(req, res) {
   try {
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     const fixedPapers = db.papers.map(paper => {
       // Extract filename from any URL format
       const fileName = paper.url?.split('/').pop() || paper.fileName || paper.fileUrl
@@ -658,7 +666,10 @@ app.get('/fix-papers', function(req, res) {
       }
     })
     
-    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixedPapers }, null, 2))
+    const saved = saveDB({ papers: fixedPapers })
+    if (!saved) {
+      throw new Error('Failed to fix papers')
+    }
     res.json({ message: 'Papers fixed', count: fixedPapers.length })
   } catch (error) {
     res.status(500).json({ error: 'Failed to fix papers' })
@@ -671,7 +682,7 @@ app.get('/nuke-database', function(req, res) {  // Remove async since we're not 
     console.log('=== NUKING DATABASE ===')
     
     // Read current database
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     console.log('Found papers:', db.papers.length)
     
     // Strip everything except essential data
@@ -691,8 +702,10 @@ app.get('/nuke-database', function(req, res) {  // Remove async since we're not 
     })
     
     // Save clean data
-    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixed }, null, 2))
-    console.log('Saved clean papers:', fixed.length)
+    const saved = saveDB({ papers: fixed })
+    if (!saved) {
+      throw new Error('Failed to save clean data')
+    }
     
     res.json({ 
       message: 'Database nuked and rebuilt',
@@ -720,13 +733,16 @@ console.log({
 // Add this after your DB initialization
 function fixDatabaseUrls() {
   try {
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     const fixed = db.papers.map(paper => ({
       ...paper,
       url: `${RAILWAY_DOMAIN}/uploads/${paper.fileName}`,
       fileUrl: paper.fileName
     }))
-    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixed }, null, 2))
+    const saved = saveDB({ papers: fixed })
+    if (!saved) {
+      throw new Error('Failed to fix database URLs')
+    }
     console.log('Fixed database URLs:', fixed.length, 'papers updated')
   } catch (error) {
     console.error('Failed to fix database URLs:', error)
@@ -745,13 +761,16 @@ server.listen(PORT, '0.0.0.0', () => {
 // Add a force-fix endpoint
 app.get('/force-fix', function(req, res) {
   try {
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     const fixed = db.papers.map(paper => ({
       ...paper,
       url: `${RAILWAY_DOMAIN}/uploads/${paper.fileName}`,
       fileUrl: paper.fileName
     }))
-    fs.writeFileSync(DB_FILE, JSON.stringify({ papers: fixed }, null, 2))
+    const saved = saveDB({ papers: fixed })
+    if (!saved) {
+      throw new Error('Failed to force fix')
+    }
     res.json({ message: 'All papers forced to Railway URLs', count: fixed.length })
   } catch (error) {
     res.status(500).json({ error: 'Failed to force fix' })
@@ -761,7 +780,7 @@ app.get('/force-fix', function(req, res) {
 app.get('/test-paper/:id', function(req, res) {
   try {
     const { id } = req.params;
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+    const db = getDB();
     const paper = db.papers.find(p => p.id === id);
     
     res.json({
@@ -788,7 +807,7 @@ app.delete('/papers/:id', auth, async function(req, res) {
     const { id } = req.params
     console.log('Delete request for paper:', id)
     
-    const db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    const db = getDB()
     const paperIndex = db.papers.findIndex(p => p.id === id)
     
     if (paperIndex === -1) {
@@ -801,7 +820,10 @@ app.delete('/papers/:id', auth, async function(req, res) {
 
     // Remove from database
     db.papers.splice(paperIndex, 1)
-    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    const saved = saveDB(db)
+    if (!saved) {
+      throw new Error('Failed to delete paper')
+    }
 
     // Try to delete file
     if (paper.fileName) {
@@ -858,7 +880,7 @@ app.get('/health', (req, res) => {
   }
 })
 
-// Update the profile endpoint to handle images
+// Update the profile endpoint to handle updates correctly
 app.patch('/profile', auth, async (req, res) => {
   try {
     const { email, ...profileData } = req.body
@@ -870,30 +892,50 @@ app.patch('/profile', auth, async (req, res) => {
     console.log('Profile data:', profileData)
 
     const db = getDB()
-    if (!db.profiles) db.profiles = {}
-
-    // Update profile
-    db.profiles[email] = {
-      ...db.profiles[email],
-      ...profileData,
-      email,
-      updatedAt: new Date().toISOString()
+    
+    // Initialize arrays if they don't exist
+    if (!db.profiles) db.profiles = []
+    
+    // Find existing profile or create new one
+    let profileIndex = db.profiles.findIndex(p => p.email === email)
+    if (profileIndex === -1) {
+      // Create new profile
+      const newProfile = {
+        id: Date.now().toString(),
+        email,
+        ...profileData,
+        expertise: profileData.expertise || [],
+        education: profileData.education || [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }
+      db.profiles.push(newProfile)
+    } else {
+      // Update existing profile
+      db.profiles[profileIndex] = {
+        ...db.profiles[profileIndex],
+        ...profileData,
+        updatedAt: new Date().toISOString()
+      }
     }
 
+    // Save to database
     const saved = saveDB(db)
     if (!saved) {
       throw new Error('Failed to save profile')
     }
 
-    console.log('Updated profile:', db.profiles[email])
-    res.json(db.profiles[email])
+    // Return the updated profile
+    const updatedProfile = db.profiles.find(p => p.email === email)
+    console.log('Updated profile:', updatedProfile)
+    res.json(updatedProfile)
   } catch (error) {
     console.error('Error updating profile:', error)
     res.status(500).json({ error: 'Failed to update profile' })
   }
 })
 
-// Update this endpoint to use GET /profile
+// Update the get profile endpoint
 app.get('/profile', auth, async (req, res) => {
   try {
     const email = req.query.email
@@ -903,20 +945,26 @@ app.get('/profile', auth, async (req, res) => {
 
     const db = getDB()
     
-    // Initialize profiles if doesn't exist
-    if (!db.profiles) db.profiles = {}
+    // Initialize if doesn't exist
+    if (!db.profiles) db.profiles = []
     
-    // Get or create empty profile
-    let profile = {
-      id: Date.now().toString(),
-      email: email,
-      name: '',
-      phone: '',
-      bio: '',
-      expertise: [],
-      education: [],
-      image: null,
-      createdAt: new Date().toISOString()
+    // Find existing profile or return default
+    let profile = db.profiles.find(p => p.email === email)
+    if (!profile) {
+      profile = {
+        id: Date.now().toString(),
+        email,
+        name: '',
+        phone: '',
+        bio: '',
+        expertise: [],
+        education: [],
+        image: null,
+        createdAt: new Date().toISOString()
+      }
+      // Add to database
+      db.profiles.push(profile)
+      saveDB(db)
     }
     
     res.json(profile)
@@ -981,10 +1029,24 @@ function saveDB(db) {
       volumePath: process.env.RAILWAY_VOLUME_MOUNT_PATH,
       dataDirExists: fs.existsSync(dataDir),
       dbFileExists: fs.existsSync(DB_FILE),
-      dbContents: JSON.stringify(db).slice(0, 100) + '...' // Log first 100 chars
+      profiles: db.profiles?.length || 0,
+      users: db.users?.length || 0,
+      papers: db.papers?.length || 0,
+      accessRequests: db.accessRequests?.length || 0
     })
+    
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-    console.log('DB saved successfully')
+    
+    // Verify save
+    const savedData = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+    console.log('=== Save Verification ===')
+    console.log({
+      profilesSaved: savedData.profiles?.length || 0,
+      usersSaved: savedData.users?.length || 0,
+      papersSaved: savedData.papers?.length || 0,
+      requestsSaved: savedData.accessRequests?.length || 0
+    })
+    
     return true
   } catch (error) {
     console.error('Error saving DB:', error, {
@@ -1081,20 +1143,23 @@ app.post('/auth/verify-pin', async (req, res) => {
       return res.status(401).json({ error: 'Invalid PIN' })
     }
 
-    // Find or create profile
-    let profile = {
-      id: Date.now().toString(),
-      email: user.email,
-      name: user.name,
-      phone: '',
-      bio: '',
-      expertise: [],
-      education: [],
-      image: null,
-      createdAt: new Date().toISOString()
+    // Find existing profile or create new one
+    let profile = db.profiles?.find(p => p.email === user.email)
+    if (!profile) {
+      profile = {
+        id: Date.now().toString(),
+        email: user.email,
+        name: user.name,
+        phone: '',
+        bio: '',
+        expertise: [],
+        education: [],
+        image: null,
+        createdAt: new Date().toISOString()
+      }
+      db.profiles.push(profile)
+      saveDB(db)
     }
-    db.profiles.push(profile)
-    saveDB(db)
 
     res.json({
       token: 'user-token',
