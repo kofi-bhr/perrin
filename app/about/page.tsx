@@ -15,56 +15,13 @@ const FOUNDERS = [
   }
 ]
 
-const UVA_STUDENTS = [
-  {
-    name: "Kaylee Tate",
-    role: "UVA Student",
-    image: images.defaultProfile,
-  },
-  {
-    name: "Lexie Hobbs",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Kiro Moussa",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Neha Nair",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Oyindamola Akintola",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Sabrina Morency",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Christian Wang",
-    role: "UVA Student",
-    image: images.defaultProfile
-  },
-  {
-    name: "Sophie",
-    role: "UVA Student",
-    image: images.defaultProfile
-  }
-]
-
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-[75vh] flex items-center">
+      <section className="relative h-[60vh] flex items-center">
         <Image
-          src="/aboutpageimg.jpg"  // Updated from images.heroHome to the new image
+          src="/aboutpageimg.jpg"
           alt="About Perrin Institute"
           fill
           className="object-cover brightness-[0.75]"
@@ -108,32 +65,6 @@ export default function AboutPage() {
                 className="object-cover"
               />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* UVA Students Section */}
-      <section className="bg-gray-50 py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">UVA Students</h2>
-          <p className="text-gray-600 text-center max-w-3xl mx-auto mb-12">
-            Meet our talented team of University of Virginia students working to shape the future of public policy.
-          </p>
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {UVA_STUDENTS.map((student, index) => (
-              <div key={index} className="text-center">
-                <div className="relative w-40 h-40 mx-auto mb-4 rounded-full overflow-hidden">
-                  <Image
-                    src={student.image}
-                    alt={student.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-1">{student.name}</h3>
-                <p className="text-blue-600 font-medium text-sm mb-1">{student.role}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

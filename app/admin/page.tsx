@@ -349,7 +349,6 @@ export default function AdminPanel() {
                           setShowPinModal(true)
                         }}
                         className="text-blue-600 hover:text-blue-900 text-sm font-medium"
-                        disabled={request.status === 'approved'}
                       >
                         View Details
                       </button>
