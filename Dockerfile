@@ -2,6 +2,10 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+# Add volume mount point
+RUN mkdir -p /data/data /data/uploads
+VOLUME /data
+
 # Copy package files first
 COPY package*.json ./
 COPY .eslintrc.js ./

@@ -238,24 +238,50 @@ console.log({
   NODE_ENV: process.env.NODE_ENV
 })
 
-// Initialize DB with empty values if it doesn't exist
-if (!fs.existsSync(DB_FILE)) {
-  const initialDB = {
-    papers: [],
-    profiles: {},
-    accessRequests: [],
-    users: {
-      'employee@perrin.org': {
-        name: 'Default Admin',
-        email: 'employee@perrin.org',
-        pin: '000000',
-        role: 'admin',
-        createdAt: new Date().toISOString()
+// Initialize DB with admin if it doesn't exist
+function initDB() {
+  try {
+    let db
+    if (!fs.existsSync(DB_FILE)) {
+      db = {
+        papers: [],
+        profiles: {},
+        accessRequests: [],
+        users: {
+          'employee@perrin.org': {
+            name: 'Default Admin',
+            email: 'employee@perrin.org',
+            pin: '000000',
+            role: 'admin',
+            createdAt: new Date().toISOString()
+          }
+        }
+      }
+      fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+    } else {
+      db = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'))
+      // Ensure admin account exists
+      if (!db.users?.['employee@perrin.org']) {
+        db.users = db.users || {}
+        db.users['employee@perrin.org'] = {
+          name: 'Default Admin',
+          email: 'employee@perrin.org',
+          pin: '000000',
+          role: 'admin',
+          createdAt: new Date().toISOString()
+        }
+        fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
       }
     }
+    return db
+  } catch (error) {
+    console.error('Error initializing DB:', error)
+    return null
   }
-  fs.writeFileSync(DB_FILE, JSON.stringify(initialDB, null, 2))
 }
+
+// Call initDB at startup
+initDB()
 
 // Fix missing upload variable declaration
 const upload = multer({ storage: storage })
@@ -902,6 +928,15 @@ function getDB() {
   }
 }
 
+function isDirectoryWritable(dir) {
+  try {
+    fs.accessSync(dir, fs.constants.W_OK)
+    return true
+  } catch {
+    return false
+  }
+}
+
 function saveDB(db) {
   try {
     console.log('Saving DB to:', DB_FILE)
@@ -909,7 +944,11 @@ function saveDB(db) {
     console.log('DB saved successfully')
     return true
   } catch (error) {
-    console.error('Error saving DB:', error)
+    console.error('Error saving DB:', error, {
+      path: DB_FILE,
+      exists: fs.existsSync(dataDir),
+      writable: isDirectoryWritable(dataDir)
+    })
     return false
   }
 }
