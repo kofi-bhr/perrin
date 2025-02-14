@@ -907,15 +907,14 @@ app.get('/profile', auth, async (req, res) => {
     if (!db.profiles) db.profiles = {}
     
     // Get or create empty profile
-    const profile = db.profiles[email] || {
-      email,
+    let profile = {
+      id: Date.now().toString(),
+      email: email,
       name: '',
       phone: '',
       bio: '',
       expertise: [],
-      publications: [],
       education: [],
-      links: [],
       image: null,
       createdAt: new Date().toISOString()
     }
@@ -1083,24 +1082,19 @@ app.post('/auth/verify-pin', async (req, res) => {
     }
 
     // Find or create profile
-    let profile = db.profiles?.find(p => p.email === user.email)
-    if (!profile) {
-      profile = {
-        id: Date.now().toString(),
-        email: user.email,
-        name: user.name,
-        phone: '',
-        bio: '',
-        expertise: [],
-        publications: [],
-        education: [],
-        links: [],
-        image: null,
-        createdAt: new Date().toISOString()
-      }
-      db.profiles.push(profile)
-      saveDB(db)
+    let profile = {
+      id: Date.now().toString(),
+      email: user.email,
+      name: user.name,
+      phone: '',
+      bio: '',
+      expertise: [],
+      education: [],
+      image: null,
+      createdAt: new Date().toISOString()
     }
+    db.profiles.push(profile)
+    saveDB(db)
 
     res.json({
       token: 'user-token',
@@ -1176,9 +1170,7 @@ app.post('/admin/approve-request/:id', auth, async (req, res) => {
       phone: '',
       bio: '',
       expertise: [],
-      publications: [],
       education: [],
-      links: [],
       image: null,
       createdAt: new Date().toISOString()
     })
@@ -1231,9 +1223,7 @@ app.post('/profile/update', auth, async (req, res) => {
       ...req.body, // Update with new data
       // Ensure arrays exist
       expertise: Array.isArray(req.body.expertise) ? req.body.expertise : [],
-      publications: Array.isArray(req.body.publications) ? req.body.publications : [],
       education: Array.isArray(req.body.education) ? req.body.education : [],
-      links: Array.isArray(req.body.links) ? req.body.links : [],
       updatedAt: new Date().toISOString()
     }
 
@@ -1260,15 +1250,14 @@ app.get('/profile/:email', auth, async (req, res) => {
     if (!db.profiles) db.profiles = {}
     
     // Get or create profile
-    const profile = db.profiles[email] || {
+    let profile = {
+      id: Date.now().toString(),
+      email: email,
       name: '',
-      email,
       phone: '',
       bio: '',
       expertise: [],
-      publications: [],
       education: [],
-      links: [],
       image: null,
       createdAt: new Date().toISOString()
     }
