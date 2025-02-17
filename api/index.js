@@ -241,28 +241,12 @@ console.log({
   NODE_ENV: process.env.NODE_ENV
 })
 
-// Initialize DB with admin if it doesn't exist
+// Add this near the top with other initialization code
 function initDB() {
   try {
-    // First ensure directories exist
-    fs.mkdirSync(dataDir, { recursive: true })
-    fs.mkdirSync(uploadsDir, { recursive: true })
-
-    // Log directory status
-    console.log('=== Directory Check ===', {
-      dataDir: {
-        exists: fs.existsSync(dataDir),
-        writable: isDirectoryWritable(dataDir)
-      },
-      uploadsDir: {
-        exists: fs.existsSync(uploadsDir),
-        writable: isDirectoryWritable(uploadsDir)
-      }
-    })
-
     let db
     if (!fs.existsSync(DB_FILE)) {
-      console.log('Creating new database file')
+      // Create new DB with default admin
       db = {
         papers: [],
         profiles: [],
@@ -278,45 +262,50 @@ function initDB() {
         }]
       }
       fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-      console.log('New database file created')
     } else {
-      console.log('Loading existing database')
+      // Load existing DB
       const data = fs.readFileSync(DB_FILE, 'utf-8')
       db = JSON.parse(data)
       
-      // Always ensure admin exists
-      if (!db.users) db.users = []
-      if (!db.users.find(u => u.email === 'employee@perrin.org')) {
-        db.users.push({
-          id: Date.now().toString(),
-          name: 'Default Admin',
-          email: 'employee@perrin.org',
-          pin: '000000',
-          role: 'admin',
-          status: 'active',
-          createdAt: new Date().toISOString()
-        })
-        fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
-        console.log('Admin user restored')
-      }
+      // Ensure all collections exist without overwriting
+      db.users = db.users || [{
+        id: Date.now().toString(),
+        name: 'Default Admin',
+        email: 'employee@perrin.org',
+        pin: '000000',
+        role: 'admin',
+        status: 'active',
+        createdAt: new Date().toISOString()
+      }]
+      db.profiles = db.profiles || []
+      db.papers = db.papers || []
+      db.accessRequests = db.accessRequests || []
+      
+      // Save back with any missing collections added
+      fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
     }
-
-    // Verify DB structure
-    console.log('=== Database Check ===', {
-      hasUsers: Boolean(db.users),
-      adminExists: Boolean(db.users?.find(u => u.email === 'employee@perrin.org')),
-      userCount: db.users.length,
-      requestCount: (db.accessRequests || []).length
-    })
-
     return db
   } catch (error) {
     console.error('Error initializing DB:', error)
-    throw error // Let the app crash if DB init fails
+    throw error
   }
 }
 
-// Call initDB at startup
+// Update getDB function to use initDB
+function getDB() {
+  try {
+    if (!fs.existsSync(DB_FILE)) {
+      return initDB()
+    }
+    const data = fs.readFileSync(DB_FILE, 'utf-8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error reading DB:', error)
+    return initDB() // Try to reinitialize if read fails
+  }
+}
+
+// Call initDB when server starts
 initDB()
 
 // Fix missing upload variable declaration
@@ -977,39 +966,6 @@ app.get('/profile', auth, async (req, res) => {
 // Add these helper functions near the top
 function generatePin() {
   return Math.floor(100000 + Math.random() * 900000).toString() // 6-digit PIN
-}
-
-function getDB() {
-  try {
-    if (!fs.existsSync(DB_FILE)) {
-      const initialDB = {
-        papers: [],
-        profiles: [],
-        accessRequests: [],
-        users: [{
-          id: Date.now().toString(),
-          name: 'Default Admin',
-          email: 'employee@perrin.org',
-          pin: '000000',
-          role: 'admin',
-          status: 'active',
-          createdAt: new Date().toISOString()
-        }]
-      }
-      fs.writeFileSync(DB_FILE, JSON.stringify(initialDB, null, 2))
-      return initialDB
-    }
-    const data = fs.readFileSync(DB_FILE, 'utf-8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error('Error reading DB:', error)
-    return {
-      papers: [],
-      profiles: [],
-      accessRequests: [],
-      users: []
-    }
-  }
 }
 
 function isDirectoryWritable(dir) {
