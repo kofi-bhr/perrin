@@ -105,7 +105,7 @@ export default function ResearchPage() {
                     ? 'border-blue-600 text-blue-600 bg-blue-50' 
                     : 'border-gray-200 text-gray-600 hover:border-blue-600 hover:text-blue-600'}`}
               >
-                All Research
+                All Labs
               </motion.button>
               {RESEARCH_CATEGORIES.map(category => (
                 <motion.button

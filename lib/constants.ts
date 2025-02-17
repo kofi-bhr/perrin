@@ -1,10 +1,8 @@
 export const RESEARCH_CATEGORIES = [
-  'Economic Policy',
-  'Foreign Relations',
-  'Climate Change',
-  'Healthcare',
-  'Education',
-  'Technology'
+  'Human-Centered AI Laboratory',
+  'Policy Entrepreneurship Laboratory',
+  'Governance Technology Laboratory',
+  'International Studies Laboratory'
 ] as const
 
 export type ResearchCategory = typeof RESEARCH_CATEGORIES[number]

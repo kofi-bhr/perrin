@@ -65,7 +65,7 @@ export default function Navbar() {
                 className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
                   }`}
               >
-                Fellows
+                Directory
               </Link>
               <Link
                 href="/events"
@@ -155,7 +155,7 @@ export default function Navbar() {
             {isMenuOpen && (
               <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-start py-4 px-4 space-y-3">
                 <Link href="/research" className="text-gray-900 font-medium hover:opacity-75">Research</Link>
-                <Link href="/experts" className="text-gray-900 font-medium hover:opacity-75">Research Fellows</Link>
+                <Link href="/experts" className="text-gray-900 font-medium hover:opacity-75">Directory</Link>
                 <Link href="/events" className="text-gray-900 font-medium hover:opacity-75">Events</Link>
                 <Link href="/about" className="text-gray-900 font-medium hover:opacity-75">About</Link>
                 {isLoggedIn && (

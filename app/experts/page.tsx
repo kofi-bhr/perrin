@@ -104,7 +104,7 @@ export default function ExpertsPage() {
               Our Team
             </span>
             <h1 className="mt-6 text-5xl lg:text-7xl font-serif font-bold text-white leading-tight">
-              Meet Our Research Fellows
+              Meet Our Team
             </h1>
             <p className="mt-6 text-xl text-gray-200 max-w-3xl">
               A diverse group of emerging scholars and policy experts shaping the future of public policy.
