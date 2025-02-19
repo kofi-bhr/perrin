@@ -364,58 +364,6 @@ export default function Home() {
         </div>
       </motion.section>
 
-      {/* Experts Section */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="py-20"
-      >
-        <div className="max-w-7xl mx-auto px-4">
-          <motion.h2
-            variants={fadeIn}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            className="text-4xl font-serif font-bold mb-12 text-center"
-          >
-            Our Experts
-          </motion.h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[1, 2, 3, 4].map((item, index) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                className="group"
-              >
-                <div className="relative h-64 mb-4 overflow-hidden">
-                  <Image
-                    src={`/expert-${item}.jpg`}
-                    alt="Expert portrait"
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <h3 className="text-xl font-bold mb-1">Dr. Sarah Johnson</h3>
-                <p className="text-gray-600 text-sm mb-2">
-                  Senior Fellow, Economic Policy
-                </p>
-                <Link
-                  href="/experts/1"
-                  className="text-blue-600 text-sm font-semibold hover:text-blue-700"
-                >
-                  View Profile →
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
       {/* Latest Publications - Updated */}
       <motion.section
         initial={{ opacity: 0 }}
