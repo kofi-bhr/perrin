@@ -1606,11 +1606,11 @@ export default function Home() {
               className="mt-16 text-xs font-mono text-white/30 max-w-md mx-auto"
             >
               <div className="bg-white/5 p-4 rounded-lg backdrop-blur-sm">
-                <div className="text-blue-400">{`// Join our research network`}</div>
-                <div>function <span className="text-green-400">joinPerrinInstitute</span>() {`{`}</div>
+                <div className="text-blue-400">&#47;&#47; Join our research network</div>
+                <div>function <span className="text-green-400">joinPerrinInstitute</span>() &#123;</div>
                 <div className="pl-4">const impact = await <span className="text-yellow-400">createPolicy</span>();</div>
                 <div className="pl-4">return <span className="text-purple-400">buildBetterFuture</span>(impact);</div>
-                <div>{`}`}</div>
+                <div>&#125;</div>
               </div>
             </motion.div>
             
