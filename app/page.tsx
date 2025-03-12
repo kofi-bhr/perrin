@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useAnimation, Variant } from "framer-motion";
@@ -134,13 +134,13 @@ const Loader = ({ setIsLoading }: { setIsLoading: (value: boolean) => void }) =>
   const [showLogo, setShowLogo] = useState(false);
   
   // Loading phases text - more sophisticated FAANG-style messages
-  const loadingPhrases = [
+  const loadingPhrases = useMemo(() => [
     "Initializing systems",
     "Loading resources",
     "Preparing data models",
     "Analyzing policy frameworks",
     "Optimizing experience"
-  ];
+  ], []);
   
   // Show logo with slight delay for dramatic effect
   useEffect(() => {
@@ -912,10 +912,10 @@ export default function Home() {
                   <div className="bg-white/[0.02] backdrop-blur-sm border border-white/5 rounded-lg p-3 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] rotate-3">
                     <div className="text-[10px] font-mono text-blue-400/80 mb-1">// Policy Analysis</div>
                     <div className="text-[9px] font-mono text-white/60 leading-relaxed">
-                      <div>function <span className="text-purple-400">analyzePolicy</span>() {'{'}</div>
+                      <div>function <span className="text-purple-400">analyzePolicy</span>() {`{`}</div>
                       <div className="pl-2">const data = getData();</div>
                       <div className="pl-2">return AI.process(data);</div>
-                      <div>{'}'}</div>
+                      <div>{`}`}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -1388,11 +1388,11 @@ export default function Home() {
                 <div className="bg-white/[0.02] backdrop-blur-sm border border-white/5 rounded-lg p-3 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] rotate-3">
                   <div className="text-[10px] font-mono text-blue-400/80 mb-1">// Our Mission</div>
                   <div className="text-[9px] font-mono text-white/60 leading-relaxed">
-                    <div>function <span className="text-purple-400">createImpact</span>() {'{'}</div>
+                    <div>function <span className="text-purple-400">createImpact</span>() {`{`}</div>
                     <div className="pl-2">const research = getData();</div>
                     <div className="pl-2">const policy = analyze(research);</div>
                     <div className="pl-2">return implement(policy);</div>
-                    <div>{'}'}</div>
+                    <div>{`}`}</div>
                   </div>
                 </div>
               </motion.div>
@@ -1606,11 +1606,11 @@ export default function Home() {
               className="mt-16 text-xs font-mono text-white/30 max-w-md mx-auto"
             >
               <div className="bg-white/5 p-4 rounded-lg backdrop-blur-sm">
-                <div className="text-blue-400">// Join our research network</div>
-                <div>function <span className="text-green-400">joinPerrinInstitute</span>() {'{'}</div>
+                <div className="text-blue-400">{`// Join our research network`}</div>
+                <div>function <span className="text-green-400">joinPerrinInstitute</span>() {`{`}</div>
                 <div className="pl-4">const impact = await <span className="text-yellow-400">createPolicy</span>();</div>
                 <div className="pl-4">return <span className="text-purple-400">buildBetterFuture</span>(impact);</div>
-                <div>{'}'}</div>
+                <div>{`}`}</div>
               </div>
             </motion.div>
             
@@ -1634,7 +1634,7 @@ export default function Home() {
                     ease: "easeInOut"
                   }}
                 />
-                <span className="text-xs font-mono text-white/40">Applications Open • {new Date().toLocaleDateString()}</span>
+                <span className="text-xs font-mono text-white/40">Applications Open &bull; {new Date().toLocaleDateString()}</span>
               </div>
             </motion.div>
           </div>
