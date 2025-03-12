@@ -673,33 +673,37 @@ export default function Home() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: animationsReady ? 1 : 0, y: animationsReady ? 0 : 20 }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
                   className="mb-6 inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-3 py-1.5 rounded-full"
                 >
                   <div className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
                   <TypewriterText 
                     text="AI-Powered Policy Research Lab" 
-                    delay={animationsReady ? 500 : 3500}
+                    delay={animationsReady ? 300 : 2500}
                     className="text-blue-400 text-xs uppercase tracking-widest"
                   />
                 </motion.div>
                 
                 {/* FAANG-style headline with premium typography */}
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight tracking-tight overflow-hidden">
-                  <RevealText delay={animationsReady ? 0.4 : 3.4}>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                  >
                     <div>
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">Shaping policy through </span>
                       <span className="text-blue-400">data-driven</span>
                       <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80"> research.</span>
                     </div>
-                  </RevealText>
+                  </motion.div>
                 </h1>
                 
                 <motion.p 
                   className="mt-6 text-xl text-white/70 max-w-xl leading-relaxed"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: animationsReady ? 1 : 0, y: animationsReady ? 0 : 20 }}
-                  transition={{ duration: 0.8, delay: 0.8 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
                 >
                   The Perrin Institute is a student-led think tank at the University of Virginia 
                   dedicated to advancing innovative solutions for complex policy challenges.
