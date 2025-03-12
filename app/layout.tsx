@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -13,9 +14,9 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 });
 
-export const metadata = {
-  title: "Perrin Think Tank",
-  description: "Leading research and policy analysis institution",
+export const metadata: Metadata = {
+  title: "Perrin Institute",
+  description: "A student-led think tank at the University of Virginia",
 };
 
 export default function RootLayout({

@@ -40,7 +40,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-3'
       }`}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center">

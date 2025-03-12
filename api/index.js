@@ -249,7 +249,7 @@ function initDB() {
       // Create new DB with default admin
       db = {
         papers: [],
-        profiles: [],
+        profiles: {},
         accessRequests: [],
         users: [{
           id: Date.now().toString(),
@@ -262,28 +262,44 @@ function initDB() {
         }]
       }
       fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
+      console.log('Created new DB file with default admin')
     } else {
       // Load existing DB
+      console.log('Loading existing DB file')
       const data = fs.readFileSync(DB_FILE, 'utf-8')
       db = JSON.parse(data)
       
-      // Ensure all collections exist without overwriting
-      db.users = db.users || [{
-        id: Date.now().toString(),
-        name: 'Default Admin',
-        email: 'employee@perrin.org',
-        pin: '000000',
-        role: 'admin',
-        status: 'active',
-        createdAt: new Date().toISOString()
-      }]
-      db.profiles = db.profiles || []
+      // CRITICAL: Don't overwrite existing collections
+      // Just ensure they exist with proper defaults
+      if (!db.users) {
+        console.log('No users found, adding default admin')
+        db.users = [{
+          id: Date.now().toString(),
+          name: 'Default Admin',
+          email: 'employee@perrin.org',
+          pin: '000000',
+          role: 'admin',
+          status: 'active',
+          createdAt: new Date().toISOString()
+        }]
+      } else {
+        console.log(`Found ${db.users.length} existing users`)
+      }
+      
+      // Initialize other collections if they don't exist
+      db.profiles = db.profiles || {}
       db.papers = db.papers || []
       db.accessRequests = db.accessRequests || []
-      
-      // Save back with any missing collections added
-      fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2))
     }
+    
+    // Log DB state for debugging
+    console.log('DB initialized with:', {
+      users: db.users.length,
+      papers: db.papers.length,
+      profiles: Object.keys(db.profiles).length,
+      accessRequests: db.accessRequests.length
+    })
+    
     return db
   } catch (error) {
     console.error('Error initializing DB:', error)
