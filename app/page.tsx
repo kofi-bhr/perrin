@@ -910,7 +910,7 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                 >
                   <div className="bg-white/[0.02] backdrop-blur-sm border border-white/5 rounded-lg p-3 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] rotate-3">
-                    <div className="text-[10px] font-mono text-blue-400/80 mb-1">// Policy Analysis</div>
+                    <div className="text-[10px] font-mono text-blue-400/80 mb-1">{`// Policy Analysis`}</div>
                     <div className="text-[9px] font-mono text-white/60 leading-relaxed">
                       <div>function <span className="text-purple-400">analyzePolicy</span>() {`{`}</div>
                       <div className="pl-2">const data = getData();</div>
@@ -1386,7 +1386,7 @@ export default function Home() {
                 whileHover={{ scale: 1.05, rotate: "-1deg" }}
               >
                 <div className="bg-white/[0.02] backdrop-blur-sm border border-white/5 rounded-lg p-3 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] rotate-3">
-                  <div className="text-[10px] font-mono text-blue-400/80 mb-1">// Our Mission</div>
+                  <div className="text-[10px] font-mono text-blue-400/80 mb-1">{`// Our Mission`}</div>
                   <div className="text-[9px] font-mono text-white/60 leading-relaxed">
                     <div>function <span className="text-purple-400">createImpact</span>() {`{`}</div>
                     <div className="pl-2">const research = getData();</div>
