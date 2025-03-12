@@ -5,22 +5,12 @@ import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
   const pathname = usePathname()
-
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-
-  const isTransparentPage = ['/', '/employee-panel', '/admin'].includes(pathname)
+  const isTransparentPage = ['/'].includes(pathname)
 
   useEffect(() => {
-    // Check login status and admin status
-    const token = localStorage.getItem('token')
-    const email = localStorage.getItem('userEmail')
-    setIsLoggedIn(!!token)
-    setIsAdmin(email === 'employee@perrin.org')
-
     // Scroll handler
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0)
@@ -31,13 +21,6 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isTransparentPage])
-
-  const handleSignOut = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('userEmail')
-    setIsLoggedIn(false)
-    setIsAdmin(false)
-  }
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-3'
@@ -53,13 +36,6 @@ export default function Navbar() {
             </Link>
 
             <div className="hidden md:flex items-center space-x-8 ml-12">
-              <Link
-                href="/research"
-                className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
-                  }`}
-              >
-                Research
-              </Link>
               <Link
                 href="/experts"
                 className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
@@ -81,43 +57,13 @@ export default function Navbar() {
               >
                 About
               </Link>
-              {isLoggedIn && (
-                <>
-                  <Link
-                    href="/employee-panel"
-                    className={`font-medium hover:opacity-75 transition-opacity ${
-                      isScrolled ? 'text-gray-900' : 'text-white'
-                    }`}
-                  >
-                    Employee Panel
-                  </Link>
-                  <Link
-                    href="/chat"
-                    className={`font-medium hover:opacity-75 transition-opacity ${
-                      isScrolled ? 'text-gray-900' : 'text-white'
-                    }`}
-                  >
-                    Chat Room
-                  </Link>
-                  <Link
-                    href="/employee/profile"
-                    className={`font-medium hover:opacity-75 transition-opacity ${
-                      isScrolled ? 'text-gray-900' : 'text-white'
-                    }`}
-                  >
-                    My Profile
-                  </Link>
-                </>
-              )}
-              {isAdmin && (
-                <Link
-                  href="/admin"
-                  className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
-                    } ${pathname === '/admin' ? 'border-b-2 border-blue-500' : ''}`}
-                >
-                  Admin Panel
-                </Link>
-              )}
+              <Link
+                href="/application"
+                className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
+                  }`}
+              >
+                Apply
+              </Link>
             </div>
           </div>
 
@@ -130,52 +76,25 @@ export default function Navbar() {
               <span className={`block w-6 h-0.5 ${isScrolled ? 'bg-gray-900' : 'bg-white'}`}></span>
               <span className={`block w-6 h-0.5 ${isScrolled ? 'bg-gray-900' : 'bg-white'}`}></span>
             </button>
-            {isLoggedIn ? (
-              <button
-                onClick={handleSignOut}
-                className={`border-2 px-4 py-2 font-medium transition-colors ${isScrolled
-                  ? 'border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'
-                  : 'border-white text-white hover:bg-white hover:text-gray-900'
-                  }`}
-              >
-                Sign Out
-              </button>
-            ) : (
-              <Link
-                href="/auth/signin"
-                className={`border-2 px-4 py-2 font-medium transition-colors ${isScrolled
-                  ? 'border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'
-                  : 'border-white text-white hover:bg-white hover:text-gray-900'
-                  }`}
-              >
-                Employee Login
-              </Link>
-            )}
+            <Link
+              href="/contact"
+              className={`border-2 px-4 py-2 font-medium transition-colors ${isScrolled
+                ? 'border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'
+                : 'border-white text-white hover:bg-white hover:text-gray-900'
+                }`}
+            >
+              Contact Us
+            </Link>
+          </div>
 
             {isMenuOpen && (
               <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-start py-4 px-4 space-y-3">
-                <Link href="/research" className="text-gray-900 font-medium hover:opacity-75">Research</Link>
                 <Link href="/experts" className="text-gray-900 font-medium hover:opacity-75">Directory</Link>
                 <Link href="/events" className="text-gray-900 font-medium hover:opacity-75">Events</Link>
                 <Link href="/about" className="text-gray-900 font-medium hover:opacity-75">About</Link>
-                {isLoggedIn && (
-                  <>
-                    <Link href="/employee-panel" className="text-gray-900 font-medium hover:opacity-75">Employee Panel</Link>
-                    <Link href="/chat" className="text-gray-900 font-medium hover:opacity-75">Chat Room</Link>
-                    <Link 
-                      href="/employee/profile" 
-                      className="text-gray-900 font-medium hover:opacity-75"
-                    >
-                      My Profile
-                    </Link>
-                  </>
-                )}
-                {isAdmin && (
-                  <Link href="/admin" className="text-gray-900 font-medium hover:opacity-75">Admin Panel</Link>
-                )}
+                <Link href="/application" className="text-gray-900 font-medium hover:opacity-75">Apply</Link>
               </div>
             )}
-          </div>
         </div>
       </div>
     </nav>
