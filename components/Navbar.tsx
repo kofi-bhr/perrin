@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import { HiMenu, HiX } from 'react-icons/hi'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -9,6 +10,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const isTransparentPage = ['/'].includes(pathname)
+  const isExpertsPage = pathname.includes('/experts')
 
   useEffect(() => {
     // Scroll handler
@@ -22,81 +24,135 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isTransparentPage])
 
-  return (
-    <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-3'
-      }`}>
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center">
-              <span className={`text-2xl font-serif font-bold ${isScrolled ? 'text-gray-900' : 'text-white'
-                }`}>
-                PERRIN
-              </span>
-            </Link>
+  // Close menu when changing pages
+  useEffect(() => {
+    setIsMenuOpen(false)
+  }, [pathname])
 
-            <div className="hidden md:flex items-center space-x-8 ml-12">
-              <Link
-                href="/experts"
-                className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
-                  }`}
-              >
-                Directory
+  // Determine navbar styling based on current page and scroll state
+  const navbarBg = isExpertsPage 
+    ? isScrolled ? 'bg-slate-800/90 backdrop-blur-md border-b border-slate-700/50' : 'bg-transparent' 
+    : isScrolled ? 'bg-white shadow-md' : 'bg-transparent'
+  
+  const textColor = isExpertsPage
+    ? 'text-white'
+    : isScrolled ? 'text-gray-900' : 'text-white'
+  
+  const hoverEffect = isExpertsPage
+    ? 'hover:text-blue-400'
+    : 'hover:opacity-75'
+
+  return (
+    <>
+      <nav className={`fixed w-full z-50 transition-all duration-300 ${navbarBg} py-3`}>
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center group">
+                <span className={`text-2xl font-serif font-bold ${textColor}`}>
+                  PERRIN
+                </span>
               </Link>
-              <Link
-                href="/events"
-                className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
-                  }`}
+
+              <div className="hidden md:flex items-center space-x-8 ml-12">
+                <Link
+                  href="/experts"
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/experts') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                >
+                  Directory
+                </Link>
+                <Link
+                  href="/events"
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/events') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                >
+                  Events
+                </Link>
+                <Link
+                  href="/about"
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/about') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                >
+                  About
+                </Link>
+                <Link
+                  href="/application"
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/application') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                >
+                  Apply
+                </Link>
+              </div>
+            </div>
+
+            <div className="md:hidden">
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={`p-2 focus:outline-none ${textColor}`}
+                aria-label="Toggle menu"
               >
-                Events
-              </Link>
-              <Link
-                href="/about"
-                className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
-                  }`}
-              >
-                About
-              </Link>
-              <Link
-                href="/application"
-                className={`font-medium hover:opacity-75 transition-opacity ${isScrolled ? 'text-gray-900' : 'text-white'
-                  }`}
-              >
-                Apply
-              </Link>
+                {isMenuOpen ? (
+                  <HiX className="h-6 w-6" />
+                ) : (
+                  <HiMenu className="h-6 w-6" />
+                )}
+              </button>
             </div>
           </div>
+        </div>
+      </nav>
 
-          <div className="flex items-center space-x-4">
-            <button
-              className="md:hidden flex flex-col items-center justify-center space-y-1 mr-2"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <span className={`block w-6 h-0.5 ${isScrolled ? 'bg-gray-900' : 'bg-white'}`}></span>
-              <span className={`block w-6 h-0.5 ${isScrolled ? 'bg-gray-900' : 'bg-white'}`}></span>
-              <span className={`block w-6 h-0.5 ${isScrolled ? 'bg-gray-900' : 'bg-white'}`}></span>
-            </button>
+      {/* Mobile menu, separate from nav */}
+      {isMenuOpen && (
+        <div 
+          className={`fixed inset-0 z-40 ${isExpertsPage ? 'bg-slate-900' : 'bg-white'}`}
+          style={{ top: '60px' }} // Adjust based on your navbar height
+        >
+          <div className="px-4 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
-              href="/contact"
-              className={`border-2 px-4 py-2 font-medium transition-colors ${isScrolled
-                ? 'border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'
-                : 'border-white text-white hover:bg-white hover:text-gray-900'
-                }`}
+              href="/experts"
+              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
+                isExpertsPage 
+                  ? 'text-white hover:text-blue-400 border-slate-700' 
+                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
+              } ${pathname.includes('/experts') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              onClick={() => setIsMenuOpen(false)}
             >
-              Contact Us
+              Directory
+            </Link>
+            <Link
+              href="/events"
+              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
+                isExpertsPage 
+                  ? 'text-white hover:text-blue-400 border-slate-700' 
+                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
+              } ${pathname.includes('/events') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Events
+            </Link>
+            <Link
+              href="/about"
+              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
+                isExpertsPage 
+                  ? 'text-white hover:text-blue-400 border-slate-700' 
+                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
+              } ${pathname.includes('/about') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              href="/application"
+              className={`block px-3 py-4 rounded-md text-base font-medium ${
+                isExpertsPage 
+                  ? 'text-white hover:text-blue-400' 
+                  : 'text-gray-900 hover:bg-gray-50'
+              } ${pathname.includes('/application') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Apply
             </Link>
           </div>
-
-            {isMenuOpen && (
-              <div className="md:hidden absolute top-16 left-0 w-full bg-white shadow-md flex flex-col items-start py-4 px-4 space-y-3">
-                <Link href="/experts" className="text-gray-900 font-medium hover:opacity-75">Directory</Link>
-                <Link href="/events" className="text-gray-900 font-medium hover:opacity-75">Events</Link>
-                <Link href="/about" className="text-gray-900 font-medium hover:opacity-75">About</Link>
-                <Link href="/application" className="text-gray-900 font-medium hover:opacity-75">Apply</Link>
-              </div>
-            )}
         </div>
-      </div>
-    </nav>
+      )}
+    </>
   )
 }
