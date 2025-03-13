@@ -26,7 +26,7 @@ interface FAQ {
 }
 
 export default function ApplicationPage() {
-  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
+  // Remove selectedProgram state
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [animationsReady, setAnimationsReady] = useState(false);
 
@@ -242,15 +242,13 @@ export default function ApplicationPage() {
                       </ul>
                     </div>
                     
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedProgram(program)}
+                    <a 
+                      href={`/application/apply?program=${program.id}`}
                       className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900"
                     >
                       Apply to Program
                       <FiArrowRight className="ml-2 h-5 w-5" />
-                    </motion.button>
+                    </a>
                   </div>
                 </motion.div>
               ))}
@@ -294,119 +292,8 @@ export default function ApplicationPage() {
           </motion.div>
         </div>
       </div>
-
-      {/* Program Details Modal */}
-      {selectedProgram && (
-        <div className="fixed inset-0 overflow-y-auto z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm transition-opacity" 
-              aria-hidden="true" 
-              onClick={() => setSelectedProgram(null)}
-            ></motion.div>
-
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-block align-bottom bg-gradient-to-b from-gray-900 to-black rounded-xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-white/10"
-            >
-              <div className="px-6 pt-6 pb-4 sm:p-8">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/30 text-blue-300 border border-blue-800/50 mb-4">
-                      {selectedProgram.subtitle}
-                    </div>
-                    <h3 className="text-2xl leading-6 font-bold text-white mb-1" id="modal-title">
-                      {selectedProgram.title}
-                    </h3>
-                  </div>
-                  <button
-                    onClick={() => setSelectedProgram(null)}
-                    className="bg-white/5 rounded-full p-2 hover:bg-white/10 transition-colors"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                </div>
-                
-                <div className="mt-6 space-y-6">
-                  <div className="flex flex-wrap gap-4 py-4 border-t border-b border-white/5">
-                    <div className="flex items-center text-sm text-gray-400">
-                      <FiMapPin className="flex-shrink-0 mr-2 h-4 w-4 text-gray-500" />
-                      {selectedProgram.location}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-400">
-                      <FiCalendar className="flex-shrink-0 mr-2 h-4 w-4 text-gray-500" />
-                      {selectedProgram.duration}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-400">
-                      <FiDollarSign className="flex-shrink-0 mr-2 h-4 w-4 text-gray-500" />
-                      ${selectedProgram.applicationFee} application fee
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h4 className="text-lg font-medium text-white mb-3">Program Description</h4>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      {selectedProgram.description}
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <h4 className="text-lg font-medium text-white mb-3">Program Highlights</h4>
-                    <ul className="space-y-2">
-                      {selectedProgram.highlights.map((highlight, index) => (
-                        <li key={index} className="flex items-start text-sm text-gray-300">
-                          <FiCheck className="flex-shrink-0 mt-1 mr-2 h-4 w-4 text-blue-400" />
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h4 className="text-lg font-medium text-white mb-3">Eligibility Requirements</h4>
-                    <ul className="space-y-2">
-                      {selectedProgram.eligibility.map((req, index) => (
-                        <li key={index} className="flex items-start text-sm text-gray-300">
-                          <FiCheck className="flex-shrink-0 mt-1 mr-2 h-4 w-4 text-blue-400" />
-                          <span>{req}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="px-6 py-5 sm:px-8 bg-gradient-to-r from-blue-900/20 to-purple-900/20 border-t border-white/5">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                  <div className="text-sm text-gray-400">
-                    <span className="font-medium text-white">Application deadline:</span> March 15, 2024
-                  </div>
-                  
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900"
-                  >
-                    Apply Now
-                    <FiArrowRight className="ml-2 h-5 w-5" />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      )}
+      
+      {/* Completely removed the Program Details Modal */}
     </>
   );
 }
