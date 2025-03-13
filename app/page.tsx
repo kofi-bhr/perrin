@@ -1043,9 +1043,13 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">Strategic Partnerships</h2>
-            <p className="text-white/70 max-w-2xl mx-auto">Collaborating with leading organizations to transform policy research into actionable impact</p>
-            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6"></div>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mb-6">
+              Suggested Policy To
+            </h2>
+            
+            <p className="text-lg text-gray-300 leading-relaxed">
+              Collaborating with leading organizations to transform policy research into actionable impact
+            </p>
           </motion.div>
 
           {/* Partners grid with organization names */}
@@ -1147,8 +1151,8 @@ export default function Home() {
                 color: "blue"
               },
               {
-                value: "$3.7M",
-                label: "Scholarships Awarded",
+                value: "$3.57M",
+                label: "Scholarships garnered by our alumni",
                 description: "Supporting the next generation of policy innovators and leaders",
                 icon: "money",
                 color: "green"
