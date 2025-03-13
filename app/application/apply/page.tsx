@@ -6,14 +6,21 @@ import Link from 'next/link';
 import { FiArrowLeft } from 'react-icons/fi';
 import Navbar from '../../../components/Navbar';
 
+// Define program types for type safety
+type ProgramKey = '1' | '2';
+type ProgramInfo = {
+  title: string;
+  formId: string;
+};
+
 export default function ApplicationFormPage() {
   const searchParams = useSearchParams();
-  const programId = searchParams.get('program');
+  const programIdParam = searchParams.get('program');
   const [loading, setLoading] = useState(true);
   const [formHeight, setFormHeight] = useState(1800);
   
-  // Define program details
-  const programDetails = {
+  // Define program details with proper typing
+  const programDetails: Record<ProgramKey, ProgramInfo> = {
     '1': {
       title: 'Policy Research Fellowship',
       formId: '240535192284154' // Replace with your actual JotForm ID for program 1
@@ -24,9 +31,14 @@ export default function ApplicationFormPage() {
     }
   };
   
-  // Get current program details or use defaults
-  const currentProgram = programId && programDetails[programId] 
-    ? programDetails[programId] 
+  // Use type guard to check if programId is a valid key
+  const isProgramKey = (key: string | null): key is ProgramKey => {
+    return key === '1' || key === '2';
+  };
+  
+  // Get current program details or use defaults with type safety
+  const currentProgram: ProgramInfo = isProgramKey(programIdParam) 
+    ? programDetails[programIdParam] 
     : { title: 'Our Program', formId: '240535192284154' }; // Default form
   
   // Listen for JotForm messages to resize iframe
@@ -83,7 +95,7 @@ export default function ApplicationFormPage() {
               id="JotFormIFrame"
               title={`Apply for ${currentProgram.title}`}
               onLoad={() => setLoading(false)}
-              src={`https://form.jotform.com/${currentProgram.formId}?programName=${encodeURIComponent(currentProgram.title)}&programId=${programId || 'default'}`}
+              src={`https://form.jotform.com/${currentProgram.formId}?programName=${encodeURIComponent(currentProgram.title)}&programId=${isProgramKey(programIdParam) ? programIdParam : 'default'}`}
               style={{
                 width: '100%',
                 height: `${formHeight}px`,
