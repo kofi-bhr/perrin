@@ -38,6 +38,18 @@ const staggerContainer = {
   }
 }
 
+// Combined card variants (merging fadeIn and cardHover)
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+  rest: { scale: 1, boxShadow: "0 0 0 rgba(0,0,0,0)" },
+  hover: { 
+    scale: 1.02, 
+    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+    transition: { type: "tween", ease: "easeOut", duration: 0.3 }
+  }
+}
+
 export default function EventsPage() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [activeTab, setActiveTab] = useState('featured');
@@ -176,7 +188,7 @@ export default function EventsPage() {
               <span className="text-blue-400 text-xs uppercase tracking-widest">Events & Programs</span>
             </div>
             
-            <h1 className="text-4xl font-serif font-bold text-white sm:text-5xl sm:tracking-tight lg:text-6xl mb-6">
+            <h1 className="text-4xl font-bold text-white sm:text-5xl sm:tracking-tight lg:text-6xl mb-6">
               Perrin <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Events</span>
             </h1>
             
@@ -286,9 +298,11 @@ export default function EventsPage() {
             {filteredEvents.map((event, index) => (
               <motion.div
                 key={event.id}
-                variants={fadeIn}
+                variants={cardVariants}
+                initial="rest"
+                whileHover="hover"
                 transition={{ duration: 0.5, delay: 0.1 * index }}
-                className="group relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent hover:border-white/20 transition-all duration-300"
+                className="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent hover:border-white/20 transition-all duration-300 shadow-xl"
                 onClick={() => setSelectedEvent(event)}
               >
                 {/* Gradient background */}
@@ -307,7 +321,9 @@ export default function EventsPage() {
                     </span>
                   </div>
                   
-                  <h3 className="text-xl font-medium text-white mb-3 group-hover:text-blue-300 transition-colors">{event.title}</h3>
+                  <h3 className="text-xl font-medium text-white group-hover:text-blue-300 transition-colors line-clamp-1">
+                    {event.title}
+                  </h3>
                   
                   <div className="space-y-2 mb-4">
                     <div className="flex items-center text-sm text-gray-400">

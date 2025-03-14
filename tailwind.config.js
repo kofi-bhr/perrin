@@ -8,8 +8,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)', 'sans-serif'],
-        serif: ['var(--font-playfair)', 'serif'],
+        sans: ['var(--font-roboto-condensed)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-roboto-condensed)', 'Georgia', 'serif'],
+        mono: ['var(--font-roboto-condensed)', 'monospace'],
+        display: ['var(--font-roboto-condensed)', 'system-ui', 'sans-serif'],
+        body: ['var(--font-roboto-condensed)', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

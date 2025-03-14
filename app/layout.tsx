@@ -1,13 +1,21 @@
-import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from "next/font/google";
-import "./globals.css";
+import './globals.css'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import { Roboto_Condensed } from 'next/font/google'
+import { Inter as InterFont, Playfair_Display } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+// Initialize the Roboto Condensed font
+const robotoCondensed = Roboto_Condensed({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto-condensed',
+})
+
+// Keep this for fallback if needed
+const inter = Inter({ subsets: ['latin'] })
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -15,8 +23,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Perrin Institute",
-  description: "A student-led think tank at the University of Virginia",
+  title: 'The Perrin Institute',
+  description: 'AI-Powered Policy Research Lab',
 };
 
 export default function RootLayout({
@@ -25,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`h-full ${playfair.variable}`}>
+    <html lang="en" className={`${robotoCondensed.variable} ${playfair.variable}`}>
       <head>
         {/* Preload critical hero images */}
         <link
@@ -53,7 +61,7 @@ export default function RootLayout({
           type="image/jpeg"
         />
       </head>
-      <body className={`${inter.variable} ${playfair.variable} font-sans`}>
+      <body className={`${robotoCondensed.className} ${inter.variable} ${playfair.variable} font-sans`}>
         <Navbar />
         <main className="w-full">{children}</main>
         <Footer />

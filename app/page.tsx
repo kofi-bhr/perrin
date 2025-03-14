@@ -710,16 +710,16 @@ export default function Home() {
                 </motion.div>
                 
                 {/* FAANG-style headline with premium typography */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-tight tracking-tight overflow-hidden">
+                <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
                   >
                     <div>
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">Shaping policy through </span>
-                      <span className="text-blue-400">data-driven</span>
-                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80"> research.</span>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80">Shaping Policy Through </span>
+                      <span className="text-blue-400">Data-Driven</span>
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/80"> Research.</span>
                     </div>
                   </motion.div>
                 </h1>
@@ -730,8 +730,7 @@ export default function Home() {
                   animate={{ opacity: animationsReady ? 1 : 0, y: animationsReady ? 0 : 20 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                 >
-                  The Perrin Institute is a student-led think tank at the University of Virginia 
-                  dedicated to advancing innovative solutions for complex policy challenges.
+                  The Perrin Institution is a contracted research organization based at the University of Virginia, dedicated to shaping the future of technology governance and legal innovation.
                 </motion.p>
                 
                 {/* Google/Apple-style feature highlight with enhanced styling */}
@@ -976,10 +975,10 @@ export default function Home() {
               className="mt-24 border-t border-white/10 pt-10 grid grid-cols-2 md:grid-cols-4 gap-8"
             >
               {[
-                { label: "Research Areas", value: "12+", icon: FiDatabase, color: "text-blue-400" },
-                { label: "Policy Papers", value: "30+", icon: FiCode, color: "text-purple-400" },
-                { label: "Researchers", value: "25+", icon: FiServer, color: "text-green-400" },
-                { label: "Partner Institutions", value: "8+", icon: FiServer, color: "text-yellow-400" }
+                { label: "Supporters", value: "48,000+", icon: FiDatabase, color: "text-blue-400" },
+                { label: "Reached via Socials", value: "75,000,000+", icon: FiCode, color: "text-purple-400" },
+                { label: "Garnered Scholarships", value: "$3,570,000+", icon: FiServer, color: "text-green-400" },
+                { label: "Applicants", value: "3,000+", icon: FiServer, color: "text-yellow-400" }
               ].map((stat, index) => (
                 <motion.div 
                   key={index} 
