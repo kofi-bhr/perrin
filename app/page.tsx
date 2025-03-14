@@ -612,7 +612,7 @@ export default function Home() {
     } catch (error) {
       console.error('Error fetching papers:', error);
     }
-  }
+  } // Make sure this closing bracket is here
 
   // Use the original return statement to avoid changing the UI
   if (showLoader && isLoading) {
@@ -1309,482 +1309,10 @@ export default function Home() {
             ))}
           </div>
           
-          {/* FAANG-style data visualization element */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-24 p-8 border border-white/10 rounded-xl bg-white/[0.02] backdrop-blur-sm shadow-2xl overflow-hidden"
-          >
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-              <div>
-                <div className="flex items-center mb-2">
-                  <motion.div 
-                    className="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"
-                    animate={{ 
-                      opacity: [0.5, 1, 0.5]
-                    }}
-                    transition={{ 
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-                  <span className="text-xs font-mono text-green-400/80">GLOBAL IMPACT ANALYSIS</span>
-                </div>
-                <h3 className="text-xl font-medium">Policy Influence Metrics</h3>
-              </div>
-              
-              <div className="mt-4 md:mt-0 text-xs font-mono text-white/40 flex items-center">
-                <span>Updated {new Date().toLocaleDateString()}</span>
-                <div className="ml-3 w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></div>
-              </div>
-            </div>
-            
-            <div className="flex flex-col md:flex-row gap-8 mt-16">
-              {/* Beautiful side-by-side metrics */}
-              <div className="w-full flex justify-center items-center gap-8">
-                
-                {/* SSRN Achievement Card */}
-                <div className="w-72 bg-gradient-to-br from-slate-900 via-slate-900/95 to-blue-950/30 border border-blue-500/20 rounded-xl shadow-xl overflow-hidden group hover:border-blue-400/40 transition-all duration-500 hover:shadow-blue-900/20 hover:shadow-2xl">
-                  <div className="relative">
-                    {/* Glass header */}
-                    <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-blue-400"></div>
-                    
-                    <div className="p-6">
-                      {/* Top badge */}
-                      <div className="absolute -right-3 -top-3 transform rotate-12 group-hover:rotate-6 transition-transform duration-500">
-                        <div className="bg-blue-600/90 text-[10px] font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm text-white tracking-wider">
-                          TOP RANKED
-                        </div>
-                      </div>
-                      
-                      {/* Title with logo */}
-                      <div className="flex items-center mb-4">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-400 rounded-lg mr-3 p-0.5">
-                          <div className="w-full h-full bg-blue-950 rounded-md flex items-center justify-center">
-                            <span className="text-xs text-blue-200 font-bold">SSRN</span>
-                          </div>
-                        </div>
-                        <div>
-                          <h4 className="text-sm font-medium text-blue-300 tracking-tight uppercase">Global Recognition</h4>
-                          <h3 className="text-white font-bold tracking-tight">eJournal Downloads</h3>
-                        </div>
-                      </div>
-                      
-                      {/* Main stats */}
-                      <div className="flex items-baseline space-x-3 mb-4">
-                        <span className="text-3xl font-bold text-white">#3</span>
-                        <div className="h-6 w-px bg-blue-500/20"></div>
-                        <div className="flex flex-col">
-                          <span className="text-xs text-blue-300">Global Ranking</span>
-                          <span className="text-[10px] text-blue-400/60">Among 4,200+ Institutions</span>
-                        </div>
-                      </div>
-                      
-                      {/* Progress stats */}
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="text-slate-400">Progress to #1</span>
-                          <span className="text-blue-400">85%</span>
-                        </div>
-                        <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
-                          <div className="h-full w-[85%] bg-gradient-to-r from-blue-600 to-blue-400 rounded-full 
-                                        group-hover:animate-pulse"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Stanford Achievement Card */}
-                <div className="w-72 bg-gradient-to-br from-slate-900 via-slate-900/95 to-red-950/30 border border-red-500/20 rounded-xl shadow-xl overflow-hidden group hover:border-red-400/40 transition-all duration-500 hover:shadow-red-900/20 hover:shadow-2xl">
-                  <div className="relative">
-                    {/* Glass header */}
-                    <div className="h-1.5 w-full bg-gradient-to-r from-red-600 to-red-400"></div>
-                    
-                    <div className="p-6">
-                      {/* Top badge */}
-                      <div className="absolute -right-3 -top-3 transform rotate-12 group-hover:rotate-6 transition-transform duration-500">
-                        <div className="bg-red-600/90 text-[10px] font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm text-white tracking-wider">
-                          EXCELLENCE
-                        </div>
-                      </div>
-                      
-                      {/* Title with logo */}
-                      <div className="flex items-center mb-4">
-                        <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-400 rounded-lg mr-3 p-0.5">
-                          <div className="w-full h-full bg-red-950 rounded-md flex items-center justify-center">
-                            <span className="text-xs text-red-200 font-bold">SU</span>
-                          </div>
-                        </div>
-                        <div>
-                          <h4 className="text-sm font-medium text-red-300 tracking-tight uppercase">Academic Excellence</h4>
-                          <h3 className="text-white font-bold tracking-tight">Research Award</h3>
-                        </div>
-                      </div>
-                      
-                      {/* Main stats */}
-                      <div className="flex items-baseline space-x-3 mb-4">
-                        <span className="text-3xl font-bold text-white">#1</span>
-                        <div className="h-6 w-px bg-red-500/20"></div>
-                        <div className="flex flex-col">
-                          <span className="text-xs text-red-300">Recognition</span>
-                          <span className="text-[10px] text-red-400/60">Top Policy Research Institute</span>
-                        </div>
-                      </div>
-                      
-                      {/* Progress stats */}
-                      <div className="space-y-2">
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="text-slate-400">Achievement Level</span>
-                          <span className="text-red-400">98%</span>
-                        </div>
-                        <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
-                          <div className="h-full w-[98%] bg-gradient-to-r from-red-600 to-red-400 rounded-full 
-                                        group-hover:animate-pulse"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* Institute Overview with Tech Focus */}
-      <section className="relative py-32 px-6 border-t border-white/10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050510] to-black"></div>
-        
-        {/* Extremely subtle tech grid */}
-        <TechGrid animated={false} opacity={0.003} />
-        
-        {/* Tech-inspired floating elements - very subtle */}
-        <motion.div 
-          className="absolute top-[20%] left-[5%] w-32 h-32 rounded-full bg-blue-500/3 blur-3xl"
-          animate={{
-            opacity: [0.3, 0.6, 0.3],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div 
-          className="absolute bottom-[10%] right-[5%] w-40 h-40 rounded-full bg-indigo-500/3 blur-3xl"
-          animate={{
-            opacity: [0.2, 0.5, 0.2],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        />
-        
-        <div className="container mx-auto relative z-10">
-          <div className="grid md:grid-cols-12 gap-12 md:gap-16 items-center">
-            <motion.div 
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
-              className="md:col-span-7"
-            >
-              <div className="flex items-center mb-2">
-                <div className="w-1 h-1 bg-blue-500 rounded-full mr-2"></div>
-                <span className="text-blue-400 text-xs uppercase tracking-widest font-mono">About Us</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8">The Perrin Institution</h2>
-              
-              {/* Premium content layout with enhanced typography */}
-              <div className="space-y-6">
-                <motion.p 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  className="text-white/70 text-lg leading-relaxed"
-                >
-                  The Perrin Institution, named in honor of Noel Perrin, a distinguished Dartmouth College professor and environmental essayist, continues his legacy of impactful policy research. Perrin, a graduate of both Duke University and the University of Cambridge, was dedicated to environmentalism, rural issues, and modern poetry. The institution builds on his vision by authoring advanced research in public policy, history, global affairs, and technology, with a particular focus on AI’s role in governance. The Perrin Institution advocates for greater transparency in federal rule-making through initiatives like the 
-                  "Summary of the Declared," which simplifies complex legal language, ensuring better public understanding and preventing harmful policies from passing unnoticed.
-                </motion.p>
-                
-                <motion.p 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-white/70 text-lg leading-relaxed"
-                >
-                  The "Summary of the Declared" is an initiative coined by the Perrin Institution to improve transparency in federal rule-making. Recognizing the often impenetrable legal language in federal notices and proposed rules, the institution developed this process to simplify complex regulations into a clear, one-paragraph summary. This approach makes it easier for the public to understand the implications of new policies, ensuring they are more informed and able to participate in the decision-making process. 
-                  By distilling legal jargon, the "Summary of the Declared" helps prevent harmful regulations from passing under the radar, promoting a more accountable and transparent government.
-                </motion.p>
-              </div>
-              
-              {/* FAANG-style feature highlights */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                className="mt-10 grid grid-cols-2 gap-6"
-              >
-                {[
-                  { title: "501(c)(3)", description: "Federally recognized think tank organization." },
-                  { title: "Federally Accredited", description: "Officially recognized by U.S. Senator Chris Van Hollen." },
-                  { title: "Registered CIO", description: "Certified Contracted Independent Organization." },
-                  { title: "AI Integrated", description: "Incorporating artificial intelligence to enhance policy analysis." }
-                ].map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    className="relative"
-                  >
-                    <div className="absolute top-0 left-0 w-8 h-8 -mt-2 -ml-2">
-                      <motion.div 
-                        className="w-full h-full rounded-full bg-blue-500/10"
-                        animate={{ 
-                          scale: [1, 1.2, 1],
-                          opacity: [0.3, 0.6, 0.3]
-                        }}
-                        transition={{ 
-                          duration: 3,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: index * 0.5
-                        }}
-                      />
-                    </div>
-                    <h3 className="text-lg font-medium mb-1 text-white">{feature.title}</h3>
-                    <p className="text-sm text-white/60">{feature.description}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-              
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-                whileHover={{ x: 5 }}
-                className="mt-10"
-              >
-                <Link 
-                  href="/about"
-                  className="inline-flex items-center px-6 py-3 bg-white/[0.03] backdrop-blur-sm border border-white/10 hover:border-white/30 rounded-lg transition-all duration-300 text-blue-400 hover:text-blue-300 group"
-                >
-                  Learn About Our Mission <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </motion.div>
-            </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative md:col-span-5"
-            >
-              {/* Premium image presentation with enhanced styling */}
-              <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] border border-white/5">
-                <Image
-                  src="/congress.webp"
-                  alt="United States Congress"
-                  fill
-                  className="object-cover object-center transition-transform duration-700 hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
-                
-                {/* Tech overlay */}
-                <div className="absolute inset-0 bg-blue-500/10 mix-blend-overlay"></div>
-                
-                {/* Corner accent */}
-                <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-500/30 to-transparent rotate-45 transform origin-top-right"></div>
-                </div>
-              </div>
-              
-              {/* Floating tech element - Apple style with enhanced styling */}
-              <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                whileInView={{ 
-                  opacity: 1, 
-                  y: 0,
-                  scale: 1
-                }}
-                viewport={{ once: true }}
-                transition={{ 
-                  duration: 1.2, 
-                  delay: 0.6,
-                  ease: "easeOut"
-                }}
-                className="absolute -bottom-10 -left-10 w-[240px]"
-                whileHover={{ y: -5, boxShadow: "0 15px 30px -10px rgba(0,0,0,0.5)" }}
-              >
-                <div className="bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-xl p-4 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)]">
-                  <div className="flex items-center mb-3">
-                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full mr-2 animate-pulse"></div>
-                    <div className="text-xs font-medium text-white/90">Institute Metrics</div>
-                  </div>
-                  <motion.div 
-                    className="h-[1px] w-full bg-white/10 mb-4"
-                    initial={{ scaleX: 0, opacity: 0 }}
-                    whileInView={{ 
-                      scaleX: 1,
-                      opacity: 1
-                    }}
-                    viewport={{ once: true }}
-                    transition={{ 
-                      duration: 0.8, 
-                      delay: 0.8,
-                      ease: "easeOut"
-                    }}
-                  />
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center text-xs">
-                      <div className="text-white/60">Research Fellows</div>
-                      <div className="text-blue-400 font-medium">250+</div>
-                    </div>
-                    <div className="flex justify-between items-center text-xs">
-                      <div className="text-white/60">Policy Areas</div>
-                      <div className="text-blue-400 font-medium">12+</div>
-                    </div>
-                    <div className="flex justify-between items-center text-xs">
-                      <div className="text-white/60">Partner Institutions</div>
-                      <div className="text-blue-400 font-medium">40+</div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-              
-              {/* Floating code snippet - Apple style */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.8 }}
-                className="absolute -top-8 -right-8 w-[180px] hidden md:block"
-                whileHover={{ scale: 1.05, rotate: "-1deg" }}
-              >
-                <div className="bg-white/[0.02] backdrop-blur-sm border border-white/5 rounded-lg p-3 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.3)] rotate-3">
-                  <div className="text-[10px] font-mono text-blue-400/80 mb-1">{`// Our Mission`}</div>
-                  <div className="text-[9px] font-mono text-white/60 leading-relaxed">
-                    <div>function <span className="text-purple-400">createImpact</span>() {`{`}</div>
-                    <div className="pl-2">const research = getData();</div>
-                    <div className="pl-2">const policy = analyze(research);</div>
-                    <div className="pl-2">return implement(policy);</div>
-                    <div>{`}`}</div>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-      
-      {/* CTA Section with Tech Elements */}
-      <motion.section 
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 1.2 }}
-        className="relative py-32 px-6 overflow-hidden"
-      >
-        {/* Premium gradient background with depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050510] to-[#030308]"></div>
-        
-        {/* Advanced animated background gradient - Apple/Google style */}
-        <motion.div 
-          className="absolute inset-0 opacity-10"
-          animate={{ 
-            background: [
-              "radial-gradient(circle at 30% 50%, rgba(30,64,144,0.15) 0%, rgba(0,0,0,0) 70%)",
-              "radial-gradient(circle at 70% 50%, rgba(30,64,144,0.15) 0%, rgba(0,0,0,0) 70%)"
-            ]
-          }}
-          transition={{ 
-            duration: 8, 
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "easeInOut"
-          }}
-        />
-        
-        {/* Enhanced tech grid with more data points */}
-        <TechGrid animated={true} opacity={0.004} dataPoints={8} />
-        
-        {/* Premium animated particles - Apple/Meta style */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <motion.div
-              key={i}
-              className={`absolute w-1 h-1 rounded-full ${i % 3 === 0 ? 'bg-blue-400/15' : i % 3 === 1 ? 'bg-indigo-400/15' : 'bg-purple-400/15'}`}
-              initial={{ 
-                x: Math.random() * 100 + "%", 
-                y: Math.random() * 100 + "%",
-                opacity: Math.random() * 0.15 + 0.05,
-                scale: Math.random() * 0.5 + 0.5
-              }}
-              animate={{ 
-                x: [
-                  Math.random() * 100 + "%", 
-                  Math.random() * 100 + "%", 
-                  Math.random() * 100 + "%"
-                ],
-                y: [
-                  Math.random() * 100 + "%", 
-                  Math.random() * 100 + "%", 
-                  Math.random() * 100 + "%"
-                ],
-                opacity: [0.05, 0.15, 0.05],
-                scale: [0.5, 1, 0.5]
-              }}
-              transition={{ 
-                duration: 20 + Math.random() * 30, 
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Apple-style subtle grid lines */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="h-full w-full grid grid-cols-6 gap-0 opacity-[0.02]">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="border-r border-white/10 h-full"></div>
-            ))}
-          </div>
-          <div className="h-full w-full grid grid-rows-6 gap-0 opacity-[0.02]">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="border-b border-white/10 w-full"></div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="container mx-auto relative z-10">
-          <div className="max-w-5xl mx-auto">
-            {/* Premium floating label - Google style */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="flex justify-center mb-8"
-            >
-              <div className="inline-flex items-center px-4 py-2 bg-white/[0.03] backdrop-blur-sm rounded-full border border-white/10 shadow-lg">
+          {/* Global Recognition & Achievement section - MOVED HERE */}
+          <div className="mt-24">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center px-4 py-2 bg-white/[0.03] backdrop-blur-sm rounded-full border border-white/10 shadow-lg mb-6">
                 <motion.div 
                   className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2"
                   animate={{ 
@@ -1797,248 +1325,1237 @@ export default function Home() {
                     ease: "easeInOut"
                   }}
                 />
-                <span className="text-xs font-mono text-blue-400/90 tracking-wider">JOIN OUR RESEARCH NETWORK</span>
+                <span className="text-xs font-mono text-blue-400/90 tracking-wider">RESEARCH EXCELLENCE</span>
               </div>
-            </motion.div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6">Global Recognition & Achievement</h2>
+              <p className="text-xl text-white/60 max-w-3xl mx-auto">
+                Our research and policy contributions have received prestigious recognition from leading global institutions.
+              </p>
+            </div>
             
-            {/* Premium CTA card with enhanced styling */}
-            <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl p-10 md:p-16 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] relative overflow-hidden">
-              {/* Premium corner accent - Apple style */}
-              <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden">
-                <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-blue-500/20 to-transparent rotate-45 transform origin-top-right"></div>
-              </div>
-              
-              {/* Subtle animated gradient overlay - Google style */}
-              <motion.div 
-                className="absolute inset-0 opacity-5 pointer-events-none"
-                animate={{ 
-                  background: [
-                    "linear-gradient(45deg, rgba(59,130,246,0.1) 0%, rgba(0,0,0,0) 70%)",
-                    "linear-gradient(45deg, rgba(0,0,0,0) 30%, rgba(59,130,246,0.1) 100%)"
-                  ]
-                }}
-                transition={{ 
-                  duration: 15, 
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  ease: "easeInOut"
-                }}
-              />
-              
-              {/* Floating tech elements - Apple style */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {/* Enhanced SSRN Card */}
               <motion.div
-                className="absolute -top-10 -left-10 w-20 h-20 rounded-full bg-blue-500/5 blur-3xl"
-                animate={{
-                  opacity: [0.3, 0.6, 0.3],
-                  scale: [1, 1.2, 1],
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative group"
+                whileHover={{ 
+                  y: -10,
+                  transition: { duration: 0.3 }
                 }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.div
-                className="absolute bottom-10 right-10 w-40 h-40 rounded-full bg-indigo-500/5 blur-3xl"
-                animate={{
-                  opacity: [0.2, 0.5, 0.2],
-                  scale: [1, 1.1, 1],
-                }}
-                transition={{
-                  duration: 10,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2
-                }}
-              />
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-400/10 rounded-2xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300"></div>
+                <div className="bg-gradient-to-br from-slate-900 via-slate-900/95 to-blue-950/30 border border-blue-500/20 rounded-2xl shadow-2xl overflow-hidden relative">
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="h-2 w-full bg-gradient-to-r from-blue-600 to-blue-400"></div>
+                  
+                  <div className="p-8">
+                    {/* Top badge */}
+                    <div className="absolute -right-3 -top-3 transform rotate-12 group-hover:rotate-6 transition-transform duration-500">
+                      <div className="bg-blue-600/90 text-[10px] font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm text-white tracking-wider">
+                        GLOBALLY RECOGNIZED
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col md:flex-row md:items-center mb-8 gap-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl p-0.5 flex-shrink-0">
+                        <div className="w-full h-full bg-blue-950 rounded-lg flex items-center justify-center">
+                          <span className="text-lg text-blue-200 font-bold">SSRN</span>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <div className="text-sm font-medium text-blue-300 tracking-tight uppercase mb-1">Social Science Research Network</div>
+                        <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">eJournal Downloads</h3>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-12 mb-10">
+                      <div className="flex items-center gap-6">
+                        <div className="text-5xl font-bold text-white">#3</div>
+                        <div className="h-14 w-px bg-blue-500/20 hidden md:block"></div>
+                        <div className="hidden md:block">
+                          <div className="text-sm text-blue-300">Global Ranking</div>
+                          <div className="text-xs text-blue-400/60">Among 4,200+ Institutions</div>
+                        </div>
+                      </div>
+                      
+                      <motion.div 
+                        className="w-24 h-24 rounded-full border-4 border-blue-500/30 flex items-center justify-center relative"
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+                      >
+                        <div className="absolute inset-1 rounded-full border border-blue-400/20"></div>
+                        <div className="text-xl font-bold text-white">85%</div>
+                        <div className="absolute top-0 right-0 w-4 h-4 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50"></div>
+                      </motion.div>
+                    </div>
+                    
+                    <div className="md:hidden mb-6">
+                      <div className="text-sm text-blue-300">Global Ranking</div>
+                      <div className="text-xs text-blue-400/60">Among 4,200+ Institutions</div>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-slate-400">Progress to #1</span>
+                        <span className="text-blue-400">85%</span>
+                      </div>
+                      <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                        <motion.div 
+                          className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"
+                          initial={{ width: "0%" }}
+                          whileInView={{ width: "85%" }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.5, delay: 0.3 }}
+                        />
+                      </div>
+                      
+                      <div className="pt-6 grid grid-cols-2 gap-4">
+                        {[
+                          { value: "42K+", label: "Downloads" },
+                          { value: "124+", label: "Papers" },
+                          { value: "89%", label: "Citation Rate" },
+                          { value: "4.8", label: "Impact Factor" }
+                        ].slice(0, 2).map((stat, i) => (
+                          <div key={i} className="text-center">
+                            <div className="text-sm font-bold text-white mb-1">{stat.value}</div>
+                            <div className="text-xs text-blue-300/60">{stat.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
               
-              {/* Premium headline with enhanced typography */}
-              <motion.h2 
+              {/* New US Senator Recognition Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="relative group isolate overflow-hidden"
+                whileHover={{ 
+                  y: -10,
+                  scale: 1.03,
+                  transition: { duration: 0.4, ease: "easeOut" }
+                }}
+              >
+                {/* Enhanced background effects with more intensity */}
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-purple-400/20 rounded-2xl blur-xl opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500/40 to-violet-400/40 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-all duration-500 animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-800/5 to-fuchsia-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                
+                {/* Moving particles effect */}
+                <div className="absolute inset-0 overflow-hidden rounded-2xl opacity-30 group-hover:opacity-70 transition-opacity duration-500">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div 
+                      key={i}
+                      className="absolute w-1 h-1 rounded-full bg-purple-400"
+                      initial={{ 
+                        x: Math.random() * 100 + "%", 
+                        y: Math.random() * 100 + "%",
+                        opacity: Math.random() * 0.5 + 0.3
+                      }}
+                      animate={{ 
+                        x: [
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%"
+                        ],
+                        y: [
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%"
+                        ],
+                        opacity: [0.3, 0.7, 0.3]
+                      }}
+                      transition={{ 
+                        duration: 10 + Math.random() * 20, 
+                        repeat: Infinity,
+                        ease: "linear" 
+                      }}
+                      style={{ scale: 1 + Math.random() * 2 }}
+                    />
+                  ))}
+                </div>
+                
+                <div className="bg-gradient-to-br from-slate-900 via-slate-900/95 to-purple-950/30 border border-purple-500/30 rounded-2xl shadow-2xl overflow-hidden relative backdrop-blur-sm group-hover:border-purple-500/50 transition-colors duration-300">
+                  {/* Enhanced hover glow */}
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-600/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Animated top bar with enhanced animation */}
+                  <motion.div 
+                    className="h-2.5 w-full bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-400"
+                    initial={{ backgroundPosition: "0% 50%" }}
+                    animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                    style={{ backgroundSize: "200% 100%" }}
+                  />
+                  
+                  <div className="p-8 relative">
+                    {/* Enhanced top badge with improved animation */}
+                    <motion.div 
+                      className="absolute -right-3 -top-3 z-10"
+                      initial={{ rotate: 12 }}
+                      whileHover={{ rotate: 0, scale: 1.2 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      <div className="relative">
+                        {/* Badge glow effect */}
+                        <div className="absolute inset-0 bg-purple-500/60 rounded-full blur-md"></div>
+                        <div className="absolute inset-0 bg-purple-400/20 rounded-full blur-lg animate-pulse"></div>
+                        <div className="bg-gradient-to-r from-purple-600 to-purple-400 text-[10px] font-bold px-3.5 py-1.5 rounded-full shadow-lg backdrop-blur-sm text-white tracking-wider relative border border-purple-400/30">
+                          FEDERAL RECOGNITION
+                        </div>
+                      </div>
+                    </motion.div>
+                    
+                    <div className="flex flex-col md:flex-row md:items-center mb-8 gap-6">
+                      {/* Enhanced icon container with more dramatic animation */}
+                      <motion.div 
+                        className="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-400 rounded-xl p-0.5 flex-shrink-0 relative group-hover:shadow-lg group-hover:shadow-purple-500/30"
+                        whileHover={{ 
+                          rotate: [0, -5, 5, -3, 0],
+                          scale: 1.1,
+                          transition: { duration: 0.5 }
+                        }}
+                      >
+                        {/* Add subtle light effect */}
+                        <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="w-full h-full bg-slate-900 rounded-lg flex items-center justify-center relative overflow-hidden">
+                          {/* Add subtle gradient overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          
+                          {/* Add subtle pulsing effect */}
+                          <motion.div 
+                            className="absolute inset-0 bg-purple-500/5"
+                            animate={{ opacity: [0, 0.5, 0] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                          
+                          <div className="text-lg text-purple-200 font-bold flex items-center justify-center">
+                            <motion.svg 
+                              xmlns="http://www.w3.org/2000/svg" 
+                              viewBox="0 0 20 20" 
+                              fill="currentColor" 
+                              className="w-10 h-10"
+                              whileHover={{ scale: 1.2 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                            >
+                              <path fillRule="evenodd" d="M1 4.75C1 3.784 1.784 3 2.75 3h14.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0117.25 17H2.75A1.75 1.75 0 011 15.25V4.75zm3.5 2.75a.75.75 0 011.5 0v5.75a.75.75 0 01-1.5 0V7.5zm3.25-.5a.75.75 0 00-.75.75v6.25a.75.75 0 001.5 0V7.75a.75.75 0 00-.75-.75zm3.25.5a.75.75 0 011.5 0v5.75a.75.75 0 01-1.5 0V7.5zm3.25-.5a.75.75 0 00-.75.75v6.25a.75.75 0 001.5 0V7.75a.75.75 0 00-.75-.75z" clipRule="evenodd" />
+                            </motion.svg>
+                          </div>
+                        </div>
+                      </motion.div>
+                      
+                      <div>
+                        <motion.div 
+                          className="text-sm font-medium text-purple-300 tracking-tight uppercase mb-1"
+                          initial={{ opacity: 0.8 }}
+                          whileHover={{ opacity: 1, x: 2 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <span className="inline-block mr-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                              <path fillRule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clipRule="evenodd" />
+                            </svg>
+                          </span>
+                          United States Senate
+                        </motion.div>
+                        <motion.h3 
+                          className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200 tracking-tight"
+                          initial={{ opacity: 0.9 }}
+                          whileHover={{ opacity: 1, scale: 1.01 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          Official Recognition
+                        </motion.h3>
+                      </div>
+                    </div>
+                    
+                    {/* Enhanced federal stats section */}
+                    <div className="flex items-center gap-12 mb-10">
+                      <div className="flex items-center gap-6">
+                        {/* Enhanced US display with glow */}
+                        <div className="relative">
+                          <div className="absolute inset-0 text-5xl font-bold text-purple-400 blur-sm opacity-50">US</div>
+                          <div className="text-5xl font-bold text-white relative">US</div>
+                        </div>
+                        <div className="h-14 w-px bg-purple-500/30 hidden md:block"></div>
+                        <div className="hidden md:block">
+                          <div className="text-sm text-purple-300 font-medium">Senatorial Acknowledgment</div>
+                          <div className="text-xs text-purple-400/70 mt-0.5 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 mr-1">
+                              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-5.5-2.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM10 12a5.99 5.99 0 00-4.793 2.39A6.483 6.483 0 0010 16.5a6.483 6.483 0 004.793-2.11A5.99 5.99 0 0010 12z" clipRule="evenodd" />
+                            </svg>
+                            Sen. Chris Van Hollen
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Enhanced circular progress with more visual effects */}
+                      <motion.div 
+                        className="w-24 h-24 rounded-full border-4 border-purple-500/40 flex items-center justify-center relative group-hover:border-purple-500/60 transition-colors duration-300"
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+                      >
+                        <div className="absolute inset-1 rounded-full border border-purple-400/30"></div>
+                        <motion.div 
+                          className="absolute inset-2 rounded-full"
+                          style={{
+                            background: "conic-gradient(from 0deg, #a855f7 0%, #a855f750 100%)",
+                          }}
+                          animate={{
+                            background: ["conic-gradient(from 0deg, #a855f7 100%, #a855f750 100%)", "conic-gradient(from 360deg, #a855f7 100%, #a855f750 100%)"]
+                          }}
+                          transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                        ></motion.div>
+                        <div className="absolute inset-3 rounded-full bg-slate-900/80 backdrop-blur-sm flex items-center justify-center">
+                          <div className="text-xl font-bold text-white">100%</div>
+                        </div>
+                        <div className="absolute top-0 right-0 w-4 h-4 bg-purple-500 rounded-full shadow-lg shadow-purple-500/50 animate-pulse"></div>
+                      </motion.div>
+                    </div>
+                    
+                    <div className="md:hidden mb-6">
+                      <div className="text-sm text-purple-300 font-medium">Senatorial Acknowledgment</div>
+                      <div className="text-xs text-purple-400/70 mt-0.5 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 mr-1">
+                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-5.5-2.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM10 12a5.99 5.99 0 00-4.793 2.39A6.483 6.483 0 0010 16.5a6.483 6.483 0 004.793-2.11A5.99 5.99 0 0010 12z" clipRule="evenodd" />
+                        </svg>
+                        Sen. Chris Van Hollen
+                      </div>
+                    </div>
+                    
+                    {/* Enhanced content section with improved typography and effects */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-slate-400 font-medium">Federal Accreditation</span>
+                        <span className="text-purple-400 font-bold">100%</span>
+                      </div>
+                      <div className="h-2 w-full bg-slate-800/80 rounded-full overflow-hidden">
+                        <motion.div 
+                          className="h-full bg-gradient-to-r from-purple-600 to-purple-400 rounded-full relative"
+                          initial={{ width: "0%" }}
+                          whileInView={{ width: "100%" }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.5, delay: 0.3 }}
+                        >
+                          <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </motion.div>
+                      </div>
+                      
+                      <div className="pt-4 mt-6 border-t border-purple-500/30">
+                        <div className="text-slate-300 leading-relaxed relative">
+                          <motion.div
+                            initial={{ opacity: 0.9 }}
+                            whileHover={{ opacity: 1 }}
+                            className="relative"
+                          >
+                            <span className="absolute -left-3 top-0 text-purple-400 font-bold text-xl">"</span>
+                            <span className="font-medium">Special recognition</span> from the <span className="font-semibold text-white">United States Senate</span> for exceptional contributions to advancing science education and innovation leadership in America.
+                            <span className="absolute -bottom-1 -right-1 text-purple-400 font-bold text-xl">"</span>
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-4 border-t border-purple-500/30 mt-6">
+                        <div className="flex justify-between items-center">
+                          <motion.div 
+                            className="text-purple-400 text-sm font-medium flex items-center" 
+                            whileHover={{ scale: 1.05, x: 2 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                            </svg>
+                            Recognized by United States Senate
+                          </motion.div>
+                          <motion.div 
+                            className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-md bg-purple-950/60 text-purple-300 border border-purple-500/30 backdrop-blur-sm"
+                            whileHover={{ y: -2, scale: 1.05 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clipRule="evenodd" />
+                            </svg>
+                            June 2023
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      {/* Enhanced animated view button with more effects */}
+                      <motion.button
+                        className="mt-4 w-full bg-gradient-to-r from-purple-800/70 to-fuchsia-700/70 hover:from-purple-700/90 hover:to-fuchsia-600/90 text-white rounded-lg p-2.5 text-sm font-medium flex items-center justify-center gap-2 group border border-purple-500/30 relative overflow-hidden"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {/* Add shimmer effect */}
+                        <motion.div 
+                          className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+                          animate={{
+                            x: ["-100%", "100%"],
+                          }}
+                          transition={{
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            duration: 2,
+                            ease: "linear",
+                          }}
+                        />
+                        
+                        <span>View Recognition</span>
+                        <motion.span
+                          initial={{ x: 0 }}
+                          animate={{ x: [0, 3, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop" }}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                            <path fillRule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clipRule="evenodd" />
+                          </svg>
+                        </motion.span>
+                      </motion.button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+              
+              {/* Stanford Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="relative group isolate overflow-hidden"
+                whileHover={{ 
+                  y: -10,
+                  scale: 1.03,
+                  transition: { duration: 0.4, ease: "easeOut" }
+                }}
+              >
+                {/* Enhanced background effects with more intensity */}
+                <div className="absolute inset-0 bg-gradient-to-r from-red-600/30 to-orange-400/20 rounded-2xl blur-xl opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500/40 to-orange-400/40 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-all duration-500 animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-red-800/5 to-orange-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                
+                {/* Moving particles effect */}
+                <div className="absolute inset-0 overflow-hidden rounded-2xl opacity-30 group-hover:opacity-70 transition-opacity duration-500">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div 
+                      key={i}
+                      className="absolute w-1 h-1 rounded-full bg-red-400"
+                      initial={{ 
+                        x: Math.random() * 100 + "%", 
+                        y: Math.random() * 100 + "%",
+                        opacity: Math.random() * 0.5 + 0.3
+                      }}
+                      animate={{ 
+                        x: [
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%"
+                        ],
+                        y: [
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%"
+                        ],
+                        opacity: [0.3, 0.7, 0.3]
+                      }}
+                      transition={{ 
+                        duration: 10 + Math.random() * 20, 
+                        repeat: Infinity,
+                        ease: "linear" 
+                      }}
+                      style={{ scale: 1 + Math.random() * 2 }}
+                    />
+                  ))}
+                </div>
+                
+                <div className="bg-gradient-to-br from-slate-900 via-slate-900/95 to-red-950/30 border border-red-500/30 rounded-2xl shadow-2xl overflow-hidden relative backdrop-blur-sm group-hover:border-red-500/50 transition-colors duration-300">
+                  {/* Enhanced hover glow */}
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-red-600/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Animated top bar with enhanced animation */}
+                  <motion.div 
+                    className="h-2.5 w-full bg-gradient-to-r from-red-600 via-rose-500 to-orange-400"
+                    initial={{ backgroundPosition: "0% 50%" }}
+                    animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                    style={{ backgroundSize: "200% 100%" }}
+                  />
+                  
+                  <div className="p-8 relative">
+                    {/* Enhanced top badge with improved animation */}
+                    <motion.div 
+                      className="absolute -right-3 -top-3 z-10"
+                      initial={{ rotate: 12 }}
+                      whileHover={{ rotate: 0, scale: 1.2 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      <div className="relative">
+                        {/* Badge glow effect */}
+                        <div className="absolute inset-0 bg-red-500/60 rounded-full blur-md"></div>
+                        <div className="absolute inset-0 bg-red-400/20 rounded-full blur-lg animate-pulse"></div>
+                        <div className="bg-gradient-to-r from-red-600 to-orange-400 text-[10px] font-bold px-3.5 py-1.5 rounded-full shadow-lg backdrop-blur-sm text-white tracking-wider relative border border-red-400/30">
+                          RECOGNITION
+                        </div>
+                      </div>
+                    </motion.div>
+                    
+                    <div className="flex flex-col md:flex-row md:items-center mb-8 gap-6">
+                      {/* Enhanced icon container with more dramatic animation */}
+                      <motion.div 
+                        className="w-16 h-16 bg-gradient-to-br from-red-600 to-orange-400 rounded-xl p-0.5 flex-shrink-0 relative group-hover:shadow-lg group-hover:shadow-red-500/30"
+                        whileHover={{ 
+                          rotate: [0, -5, 5, -3, 0],
+                          scale: 1.1,
+                          transition: { duration: 0.5 }
+                        }}
+                      >
+                        {/* Add subtle light effect */}
+                        <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="w-full h-full bg-slate-900 rounded-lg flex items-center justify-center relative overflow-hidden">
+                          {/* Add subtle gradient overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-red-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          
+                          {/* Add subtle pulsing effect */}
+                          <motion.div 
+                            className="absolute inset-0 bg-red-500/5"
+                            animate={{ opacity: [0, 0.5, 0] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                          
+                          <div className="text-lg text-red-200 font-bold flex items-center justify-center">
+                            <motion.svg 
+                              xmlns="http://www.w3.org/2000/svg" 
+                              viewBox="0 0 24 24" 
+                              fill="currentColor" 
+                              className="w-10 h-10"
+                              whileHover={{ scale: 1.2 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                            >
+                              <path d="M11.584 2.376a.75.75 0 01.832 0l9 6a.75.75 0 11-.832 1.248L12 3.901 3.416 9.624a.75.75 0 01-.832-1.248l9-6z" />
+                              <path fillRule="evenodd" d="M20.25 10.332v9.918H21a.75.75 0 010 1.5H3a.75.75 0 010-1.5h.75v-9.918a.75.75 0 01.634-.74A49.109 49.109 0 0112 9c2.59 0 5.134.202 7.616.592a.75.75 0 01.634.74zm-7.5 2.418a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75zm3-.75a.75.75 0 01.75.75v6.75a.75.75 0 01-1.5 0v-6.75a.75.75 0 01.75-.75zM9 12.75a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75z" clipRule="evenodd" />
+                              <path d="M12 7.875a1.125 1.125 0 100-2.25 1.125 1.125 0 000 2.25z" />
+                            </motion.svg>
+                          </div>
+                        </div>
+                      </motion.div>
+                      
+                      <div>
+                        <motion.div 
+                          className="text-sm font-medium text-red-300 tracking-tight uppercase mb-1"
+                          initial={{ opacity: 0.8 }}
+                          whileHover={{ opacity: 1, x: 2 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <span className="inline-block mr-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                              <path fillRule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clipRule="evenodd" />
+                            </svg>
+                          </span>
+                          Stanford University
+                        </motion.div>
+                        <motion.h3 
+                          className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-red-200 tracking-tight"
+                          initial={{ opacity: 0.9 }}
+                          whileHover={{ opacity: 1, scale: 1.01 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          Research Recognition
+                        </motion.h3>
+                      </div>
+                    </div>
+                    
+                    {/* Add similar stats section as the other cards */}
+                    <div className="flex items-center gap-12 mb-10">
+                      <div className="flex items-center gap-6">
+                        {/* Enhanced Stanford display with glow */}
+                        <div className="relative">
+                          <div className="absolute inset-0 text-5xl font-bold text-red-400 blur-sm opacity-50">SU</div>
+                          <div className="text-5xl font-bold text-white relative">SU</div>
+                        </div>
+                        <div className="h-14 w-px bg-red-500/30 hidden md:block"></div>
+                        <div className="hidden md:block">
+                          <div className="text-sm text-red-300 font-medium">Academic Excellence</div>
+                          <div className="text-xs text-red-400/70 mt-0.5 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 mr-1">
+                              <path fillRule="evenodd" d="M9.664 1.319a.75.75 0 01.672 0 41.059 41.059 0 018.198 5.424.75.75 0 01-.254 1.285 31.372 31.372 0 00-7.86 3.83.75.75 0 01-.84 0 31.508 31.508 0 00-2.08-1.287V9.394c0-.244.116-.463.302-.592a35.504 35.504 0 013.305-2.033.75.75 0 00-.714-1.319 37 37 0 00-3.446 2.12A2.216 2.216 0 006 9.393v.38a31.293 31.293 0 00-4.28-1.746.75.75 0 01-.254-1.285 41.059 41.059 0 018.198-5.424zM6 11.459a29.747 29.747 0 00-2.455 1.45.75.75 0 01-.836-.98c.329-.987.713-1.95 1.149-2.888a1.5 1.5 0 012.142 2.118z" clipRule="evenodd" />
+                              <path d="M18 10.5a.75.75 0 01-.75.75h-1.513c-.96 0-1.919.122-2.850.364a.75.75 0 11-.352-1.459A16.695 16.695 0 0115.75 9.75h1.5a.75.75 0 01.75.75z" />
+                              <path fillRule="evenodd" d="M7.5 15a2.25 2.25 0 104.5 0 2.25 2.25 0 00-4.5 0zm9-2.25a.75.75 0 01.75.75v4.5a.75.75 0 01-.75.75h-9.5a.75.75 0 010-1.5h9.5v-3.75a.75.75 0 01.75-.75z" clipRule="evenodd" />
+                            </svg>
+                            Research Publication
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Enhanced circular progress with more visual effects */}
+                      <motion.div 
+                        className="w-24 h-24 rounded-full border-4 border-red-500/40 flex items-center justify-center relative group-hover:border-red-500/60 transition-colors duration-300"
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+                      >
+                        <div className="absolute inset-1 rounded-full border border-red-400/30"></div>
+                        <motion.div 
+                          className="absolute inset-2 rounded-full"
+                          style={{
+                            background: "conic-gradient(from 0deg, #ef4444 0%, #ef444450 100%)",
+                          }}
+                          animate={{
+                            background: ["conic-gradient(from 0deg, #ef4444 98%, #ef444450 98%)", "conic-gradient(from 360deg, #ef4444 98%, #ef444450 98%)"]
+                          }}
+                          transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                        ></motion.div>
+                        <div className="absolute inset-3 rounded-full bg-slate-900/80 backdrop-blur-sm flex items-center justify-center">
+                          <div className="text-xl font-bold text-white">98%</div>
+                        </div>
+                        <div className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full shadow-lg shadow-red-500/50 animate-pulse"></div>
+                      </motion.div>
+                    </div>
+                    
+                    <div className="md:hidden mb-6">
+                      <div className="text-sm text-red-300 font-medium">Academic Excellence</div>
+                      <div className="text-xs text-red-400/70 mt-0.5 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 mr-1">
+                          <path fillRule="evenodd" d="M9.664 1.319a.75.75 0 01.672 0 41.059 41.059 0 018.198 5.424.75.75 0 01-.254 1.285 31.372 31.372 0 00-7.86 3.83.75.75 0 01-.84 0 31.508 31.508 0 00-2.08-1.287V9.394c0-.244.116-.463.302-.592a35.504 35.504 0 013.305-2.033.75.75 0 00-.714-1.319 37 37 0 00-3.446 2.12A2.216 2.216 0 006 9.393v.38a31.293 31.293 0 00-4.28-1.746.75.75 0 01-.254-1.285 41.059 41.059 0 018.198-5.424zM6 11.459a29.747 29.747 0 00-2.455 1.45.75.75 0 01-.836-.98c.329-.987.713-1.95 1.149-2.888a1.5 1.5 0 012.142 2.118z" clipRule="evenodd" />
+                          <path d="M18 10.5a.75.75 0 01-.75.75h-1.513c-.96 0-1.919.122-2.850.364a.75.75 0 11-.352-1.459A16.695 16.695 0 0115.75 9.75h1.5a.75.75 0 01.75.75z" />
+                          <path fillRule="evenodd" d="M7.5 15a2.25 2.25 0 104.5 0 2.25 2.25 0 00-4.5 0zm9-2.25a.75.75 0 01.75.75v4.5a.75.75 0 01-.75.75h-9.5a.75.75 0 010-1.5h9.5v-3.75a.75.75 0 01.75-.75z" clipRule="evenodd" />
+                        </svg>
+                        Research Publication
+                      </div>
+                    </div>
+                    
+                    {/* Enhanced content section with improved typography and effects */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-slate-400 font-medium">Academic Standing</span>
+                        <span className="text-red-400 font-bold">98%</span>
+                      </div>
+                      <div className="h-2 w-full bg-slate-800/80 rounded-full overflow-hidden">
+                        <motion.div 
+                          className="h-full bg-gradient-to-r from-red-600 to-orange-400 rounded-full relative"
+                          initial={{ width: "0%" }}
+                          whileInView={{ width: "98%" }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.5, delay: 0.3 }}
+                        >
+                          <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </motion.div>
+                      </div>
+                      
+                      <div className="pt-4 mt-6 border-t border-red-500/30">
+                        <div className="text-slate-300 leading-relaxed relative">
+                          <motion.div
+                            initial={{ opacity: 0.9 }}
+                            whileHover={{ opacity: 1 }}
+                            className="relative"
+                          >
+                            <span className="absolute -left-3 top-0 text-red-400 font-bold text-xl">"</span>
+                            <span className="font-medium">Special recognition</span> from <span className="font-semibold text-white">Stanford University</span> for exceptional research and academic contributions to the advancement of machine learning and AI technologies.
+                            <span className="absolute -bottom-1 -right-1 text-red-400 font-bold text-xl">"</span>
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-4 border-t border-red-500/30 mt-6">
+                        <div className="flex justify-between items-center">
+                          <motion.div 
+                            className="text-red-400 text-sm font-medium flex items-center" 
+                            whileHover={{ scale: 1.05, x: 2 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                            </svg>
+                            Stanford Research Excellence
+                          </motion.div>
+                          <motion.div 
+                            className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-md bg-red-950/60 text-red-300 border border-red-500/30 backdrop-blur-sm"
+                            whileHover={{ y: -2, scale: 1.05 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clipRule="evenodd" />
+                            </svg>
+                            March 2023
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      {/* Enhanced animated view button with more effects */}
+                      <motion.button
+                        className="mt-4 w-full bg-gradient-to-r from-red-800/70 to-orange-700/70 hover:from-red-700/90 hover:to-orange-600/90 text-white rounded-lg p-2.5 text-sm font-medium flex items-center justify-center gap-2 group border border-red-500/30 relative overflow-hidden"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {/* Add shimmer effect */}
+                        <motion.div 
+                          className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+                          animate={{
+                            x: ["-100%", "100%"],
+                          }}
+                          transition={{
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            duration: 2,
+                            ease: "linear",
+                          }}
+                        />
+                        
+                        <span>View Recognition</span>
+                        <motion.span
+                          initial={{ x: 0 }}
+                          animate={{ x: [0, 3, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop" }}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                            <path fillRule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clipRule="evenodd" />
+                          </svg>
+                        </motion.span>
+                      </motion.button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+              
+              {/* SRRN Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="relative group isolate overflow-hidden"
+                whileHover={{ 
+                  y: -10,
+                  scale: 1.03,
+                  transition: { duration: 0.4, ease: "easeOut" }
+                }}
+              >
+                {/* Enhanced background effects with more intensity */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-cyan-400/20 rounded-2xl blur-xl opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/40 to-cyan-400/40 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-all duration-500 animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-800/5 to-cyan-600/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                
+                {/* Moving particles effect */}
+                <div className="absolute inset-0 overflow-hidden rounded-2xl opacity-30 group-hover:opacity-70 transition-opacity duration-500">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div 
+                      key={i}
+                      className="absolute w-1 h-1 rounded-full bg-blue-400"
+                      initial={{ 
+                        x: Math.random() * 100 + "%", 
+                        y: Math.random() * 100 + "%",
+                        opacity: Math.random() * 0.5 + 0.3
+                      }}
+                      animate={{ 
+                        x: [
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%"
+                        ],
+                        y: [
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%", 
+                          Math.random() * 100 + "%"
+                        ],
+                        opacity: [0.3, 0.7, 0.3]
+                      }}
+                      transition={{ 
+                        duration: 10 + Math.random() * 20, 
+                        repeat: Infinity,
+                        ease: "linear" 
+                      }}
+                      style={{ scale: 1 + Math.random() * 2 }}
+                    />
+                  ))}
+                </div>
+                
+                <div className="bg-gradient-to-br from-slate-900 via-slate-900/95 to-blue-950/30 border border-blue-500/30 rounded-2xl shadow-2xl overflow-hidden relative backdrop-blur-sm group-hover:border-blue-500/50 transition-colors duration-300">
+                  {/* Enhanced hover glow */}
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Animated top bar with enhanced animation */}
+                  <motion.div 
+                    className="h-2.5 w-full bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400"
+                    initial={{ backgroundPosition: "0% 50%" }}
+                    animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                    style={{ backgroundSize: "200% 100%" }}
+                  />
+                  
+                  <div className="p-8 relative">
+                    {/* Enhanced top badge with improved animation */}
+                    <motion.div 
+                      className="absolute -right-3 -top-3 z-10"
+                      initial={{ rotate: 12 }}
+                      whileHover={{ rotate: 0, scale: 1.2 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      <div className="relative">
+                        {/* Badge glow effect */}
+                        <div className="absolute inset-0 bg-blue-500/60 rounded-full blur-md"></div>
+                        <div className="absolute inset-0 bg-blue-400/20 rounded-full blur-lg animate-pulse"></div>
+                        <div className="bg-gradient-to-r from-blue-600 to-cyan-400 text-[10px] font-bold px-3.5 py-1.5 rounded-full shadow-lg backdrop-blur-sm text-white tracking-wider relative border border-blue-400/30">
+                          RECOGNITION
+                        </div>
+                      </div>
+                    </motion.div>
+                    
+                    <div className="flex flex-col md:flex-row md:items-center mb-8 gap-6">
+                      {/* Enhanced icon container with more dramatic animation */}
+                      <motion.div 
+                        className="w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-xl p-0.5 flex-shrink-0 relative group-hover:shadow-lg group-hover:shadow-blue-500/30"
+                        whileHover={{ 
+                          rotate: [0, -5, 5, -3, 0],
+                          scale: 1.1,
+                          transition: { duration: 0.5 }
+                        }}
+                      >
+                        {/* Add subtle light effect */}
+                        <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="w-full h-full bg-slate-900 rounded-lg flex items-center justify-center relative overflow-hidden">
+                          {/* Add subtle gradient overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          
+                          {/* Add subtle pulsing effect */}
+                          <motion.div 
+                            className="absolute inset-0 bg-blue-500/5"
+                            animate={{ opacity: [0, 0.5, 0] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                          
+                          <div className="text-lg text-blue-200 font-bold flex items-center justify-center">
+                            <motion.svg 
+                              xmlns="http://www.w3.org/2000/svg" 
+                              viewBox="0 0 24 24" 
+                              fill="currentColor" 
+                              className="w-10 h-10"
+                              whileHover={{ scale: 1.2 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                            >
+                              <path d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.902 3.912l-.003.002-.34.18a.75.75 0 01-.707 0A50.009 50.009 0 007.5 12.174v-.224c0-.131.067-.248.172-.311a54.614 54.614 0 014.653-2.52.75.75 0 00-.65-1.352 56.129 56.129 0 00-4.78 2.589 1.858 1.858 0 00-.859 1.228 49.803 49.803 0 00-4.634-1.527.75.75 0 01-.231-1.337A60.653 60.653 0 0111.7 2.805z" />
+                              <path d="M13.06 15.473a48.45 48.45 0 017.666-3.282c.134 1.414.22 2.843.255 4.285a.75.75 0 01-.46.71 47.878 47.878 0 00-8.105 4.342.75.75 0 01-.832 0 47.877 47.877 0 00-8.104-4.342.75.75 0 01-.461-.71c.035-1.442.121-2.87.255-4.286A48.4 48.4 0 016 13.18v1.27a1.5 1.5 0 00-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.661a6.729 6.729 0 00.551-1.608 1.5 1.5 0 00.14-2.67v-.645a48.549 48.549 0 013.44 1.668 2.25 2.25 0 002.12 0z" />
+                              <path d="M4.462 19.462c.42-.419.753-.89 1-1.394.453.213.902.434 1.347.661a6.743 6.743 0 01-1.286 1.794.75.75 0 11-1.06-1.06z" />
+                            </motion.svg>
+                          </div>
+                        </div>
+                      </motion.div>
+                      
+                      <div>
+                        <motion.div 
+                          className="text-sm font-medium text-blue-300 tracking-tight uppercase mb-1"
+                          initial={{ opacity: 0.8 }}
+                          whileHover={{ opacity: 1, x: 2 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <span className="inline-block mr-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                              <path fillRule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401z" clipRule="evenodd" />
+                            </svg>
+                          </span>
+                          Science Research Recognition Network
+                        </motion.div>
+                        <motion.h3 
+                          className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200 tracking-tight"
+                          initial={{ opacity: 0.9 }}
+                          whileHover={{ opacity: 1, scale: 1.01 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          SRRN Recognition
+                        </motion.h3>
+                      </div>
+                    </div>
+                    
+                    {/* Add similar stats section as the Senate card */}
+                    <div className="flex items-center gap-12 mb-10">
+                      <div className="flex items-center gap-6">
+                        {/* Enhanced SRRN display with glow */}
+                        <div className="relative">
+                          <div className="absolute inset-0 text-5xl font-bold text-blue-400 blur-sm opacity-50">SR</div>
+                          <div className="text-5xl font-bold text-white relative">SR</div>
+                        </div>
+                        <div className="h-14 w-px bg-blue-500/30 hidden md:block"></div>
+                        <div className="hidden md:block">
+                          <div className="text-sm text-blue-300 font-medium">Research Excellence</div>
+                          <div className="text-xs text-blue-400/70 mt-0.5 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 mr-1">
+                              <path d="M10.75 16.82A7.462 7.462 0 0115 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0018 15.06v-11a.75.75 0 00-.546-.721A9.006 9.006 0 0015 3a8.963 8.963 0 00-4.25 1.065V16.82zM9.25 4.065A8.963 8.963 0 005 3c-.85 0-1.673.118-2.454.339A.75.75 0 002 4.06v11a.75.75 0 00.954.721A7.506 7.506 0 015 15.5c1.579 0 3.042.487 4.25 1.32V4.065z" />
+                            </svg>
+                            Academic Citation
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Enhanced circular progress with more visual effects */}
+                      <motion.div 
+                        className="w-24 h-24 rounded-full border-4 border-blue-500/40 flex items-center justify-center relative group-hover:border-blue-500/60 transition-colors duration-300"
+                        initial={{ rotate: 0 }}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+                      >
+                        <div className="absolute inset-1 rounded-full border border-blue-400/30"></div>
+                        <motion.div 
+                          className="absolute inset-2 rounded-full"
+                          style={{
+                            background: "conic-gradient(from 0deg, #3b82f6 0%, #3b82f650 100%)",
+                          }}
+                          animate={{
+                            background: ["conic-gradient(from 0deg, #3b82f6 95%, #3b82f650 95%)", "conic-gradient(from 360deg, #3b82f6 95%, #3b82f650 95%)"]
+                          }}
+                          transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                        ></motion.div>
+                        <div className="absolute inset-3 rounded-full bg-slate-900/80 backdrop-blur-sm flex items-center justify-center">
+                          <div className="text-xl font-bold text-white">95%</div>
+                        </div>
+                        <div className="absolute top-0 right-0 w-4 h-4 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50 animate-pulse"></div>
+                      </motion.div>
+                    </div>
+                    
+                    <div className="md:hidden mb-6">
+                      <div className="text-sm text-blue-300 font-medium">Research Excellence</div>
+                      <div className="text-xs text-blue-400/70 mt-0.5 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 mr-1">
+                          <path d="M10.75 16.82A7.462 7.462 0 0115 15.5c.71 0 1.396.098 2.046.282A.75.75 0 0018 15.06v-11a.75.75 0 00-.546-.721A9.006 9.006 0 0015 3a8.963 8.963 0 00-4.25 1.065V16.82zM9.25 4.065A8.963 8.963 0 005 3c-.85 0-1.673.118-2.454.339A.75.75 0 002 4.06v11a.75.75 0 00.954.721A7.506 7.506 0 015 15.5c1.579 0 3.042.487 4.25 1.32V4.065z" />
+                        </svg>
+                        Academic Citation
+                      </div>
+                    </div>
+                    
+                    {/* Enhanced content section with improved typography and effects */}
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-slate-400 font-medium">Research Impact</span>
+                        <span className="text-blue-400 font-bold">95%</span>
+                      </div>
+                      <div className="h-2 w-full bg-slate-800/80 rounded-full overflow-hidden">
+                        <motion.div 
+                          className="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full relative"
+                          initial={{ width: "0%" }}
+                          whileInView={{ width: "95%" }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.5, delay: 0.3 }}
+                        >
+                          <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </motion.div>
+                      </div>
+                      
+                      <div className="pt-4 mt-6 border-t border-blue-500/30">
+                        <div className="text-slate-300 leading-relaxed relative">
+                          <motion.div
+                            initial={{ opacity: 0.9 }}
+                            whileHover={{ opacity: 1 }}
+                            className="relative"
+                          >
+                            <span className="absolute -left-3 top-0 text-blue-400 font-bold text-xl">"</span>
+                            <span className="font-medium">Honored</span> by the <span className="font-semibold text-white">Science Research Recognition Network</span> for outstanding achievements in scientific research and contribution to the field of AI & machine learning.
+                            <span className="absolute -bottom-1 -right-1 text-blue-400 font-bold text-xl">"</span>
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      <div className="pt-4 border-t border-blue-500/30 mt-6">
+                        <div className="flex justify-between items-center">
+                          <motion.div 
+                            className="text-blue-400 text-sm font-medium flex items-center" 
+                            whileHover={{ scale: 1.05, x: 2 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-1">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+                            </svg>
+                            SRRN Research Excellence
+                          </motion.div>
+                          <motion.div 
+                            className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-md bg-blue-950/60 text-blue-300 border border-blue-500/30 backdrop-blur-sm"
+                            whileHover={{ y: -2, scale: 1.05 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clipRule="evenodd" />
+                            </svg>
+                            February 2023
+                          </motion.div>
+                        </div>
+                      </div>
+                      
+                      {/* Enhanced animated view button with more effects */}
+                      <motion.button
+                        className="mt-4 w-full bg-gradient-to-r from-blue-800/70 to-cyan-700/70 hover:from-blue-700/90 hover:to-cyan-600/90 text-white rounded-lg p-2.5 text-sm font-medium flex items-center justify-center gap-2 group border border-blue-500/30 relative overflow-hidden"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {/* Add shimmer effect */}
+                        <motion.div 
+                          className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+                          animate={{
+                            x: ["-100%", "100%"],
+                          }}
+                          transition={{
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            duration: 2,
+                            ease: "linear",
+                          }}
+                        />
+                        
+                        <span>View Recognition</span>
+                        <motion.span
+                          initial={{ x: 0 }}
+                          animate={{ x: [0, 3, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop" }}
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                            <path fillRule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clipRule="evenodd" />
+                          </svg>
+                        </motion.span>
+                      </motion.button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Research Think Tank CTA Section */}
+      <section className="py-32 relative overflow-hidden border-t border-white/10">
+        {/* Subtle background elements */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-blue-950/30"></div>
+        
+        {/* Academic pattern overlay */}
+        <div className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: '60px 60px'
+          }}
+        ></div>
+        
+        {/* Subtle floating particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                width: Math.random() * 3 + 1 + "px",
+                height: Math.random() * 3 + 1 + "px",
+                background: i % 3 === 0 ? "rgba(255, 255, 255, 0.3)" : i % 3 === 1 ? "rgba(56, 189, 248, 0.4)" : "rgba(96, 165, 250, 0.3)",
+                top: Math.random() * 100 + "%",
+                left: Math.random() * 100 + "%",
+              }}
+              animate={{
+                y: [0, -15, 0],
+                opacity: [0.1, 0.3, 0.1],
+              }}
+              transition={{
+                duration: Math.random() * 5 + 8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+        </div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-gradient-to-b from-slate-900/80 to-slate-900/60 rounded-2xl border border-blue-900/20 p-12 backdrop-blur-sm shadow-xl">
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="text-4xl md:text-5xl font-serif font-bold mb-6 max-w-3xl leading-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/80"
-              >
-                Shape the future of policy innovation
-              </motion.h2>
-              
-              {/* Premium subtitle with enhanced typography */}
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-white/70 text-xl max-w-2xl mb-8 leading-relaxed"
-              >
-                Join a community of forward-thinking researchers, policy experts, and students dedicated to 
-                solving today's most complex challenges through data-driven approaches.
-              </motion.p>
-              
-              {/* Premium feature highlights - Google/Apple style */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
-              >
-                {[
-                  { 
-                    icon: FiDatabase, 
-                    title: "Research Opportunities",
-                    description: "Collaborate on cutting-edge policy research with leading experts",
-                    color: "blue"
-                  },
-                  { 
-                    icon: FiCode, 
-                    title: "Fellowship Program",
-                    description: "Access mentorship, resources, and a network of policy innovators",
-                    color: "purple"
-                  },
-                  { 
-                    icon: FiServer, 
-                    title: "Events & Workshops",
-                    description: "Participate in exclusive policy discussions and training sessions",
-                    color: "green"
-                  }
-                ].map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    className={`p-6 border border-white/5 rounded-xl bg-gradient-to-b from-${feature.color}-500/5 to-transparent backdrop-blur-sm relative overflow-hidden group`}
-                    whileHover={{ 
-                      y: -5, 
-                      boxShadow: `0 20px 40px -10px rgba(0,0,0,0.3), 0 0 15px -3px rgba(59, 130, 246, 0.15)`,
-                      borderColor: `rgba(59, 130, 246, 0.2)`
-                    }}
-                  >
-                    {/* Corner accent */}
-                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-${feature.color}-500/20 to-transparent rotate-45 transform origin-top-right`}></div>
-                    </div>
-                    
-                    {/* Animated icon */}
-                    <motion.div 
-                      className={`w-12 h-12 rounded-full bg-${feature.color}-500/10 flex items-center justify-center mb-4 border border-${feature.color}-500/20 group-hover:border-${feature.color}-500/40 transition-colors duration-300`}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <feature.icon className={`text-${feature.color}-400 group-hover:text-${feature.color}-300 transition-colors duration-300`} size={20} />
-                    </motion.div>
-                    
-                    <h3 className="text-lg font-medium mb-2 group-hover:text-white transition-colors duration-300">{feature.title}</h3>
-                    <p className="text-sm text-white/60 group-hover:text-white/70 transition-colors duration-300">{feature.description}</p>
-                    
-                    {/* Hover line effect */}
-                    <motion.div 
-                      className={`absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-${feature.color}-500/50 to-${feature.color}-500/0 w-0 group-hover:w-full transition-all duration-500`}
-                    />
-                  </motion.div>
-                ))}
-              </motion.div>
-              
-              {/* Premium CTA buttons with enhanced styling */}
-              <motion.div 
-                className="flex flex-col sm:flex-row items-center gap-6 justify-center"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.5 }}
+                className="text-center"
               >
                 <motion.div 
-                  whileHover={{ 
-                    scale: 1.03, 
-                    boxShadow: "0 15px 30px -5px rgba(59, 130, 246, 0.4), 0 0 30px -10px rgba(59, 130, 246, 0.3)" 
-                  }} 
-                  whileTap={{ scale: 0.97 }}
-                  className="relative overflow-hidden group rounded-xl shadow-lg w-full sm:w-auto"
+                  className="flex justify-center mb-6 gap-1"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
                 >
-                  <Link 
-                    href="/contact"
-                    className="inline-flex items-center justify-center w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl transition-all duration-300 z-10 relative font-medium text-center"
-                  >
-                    Get Involved <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  <motion.div 
-                    className="absolute inset-0 bg-blue-400/20"
-                    whileHover={{ x: ["100%", "0%"] }}
-                    transition={{ duration: 0.3 }}
-                  />
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-blue-400">
+                    <path d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.902 3.912l-.003.002-.34.18a.75.75 0 01-.707 0A50.009 50.009 0 007.5 12.174v-.224c0-.131.067-.248.172-.311a54.614 54.614 0 014.653-2.52.75.75 0 00-.65-1.352 56.129 56.129 0 00-4.78 2.589 1.858 1.858 0 00-.859 1.228 49.803 49.803 0 00-4.634-1.527.75.75 0 01-.231-1.337A60.653 60.653 0 0111.7 2.805z" />
+                    <path d="M13.06 15.473a48.45 48.45 0 017.666-3.282c.134 1.414.22 2.843.255 4.285a.75.75 0 01-.46.71 47.878 47.878 0 00-8.105 4.342.75.75 0 01-.832 0 47.877 47.877 0 00-8.104-4.342.75.75 0 01-.461-.71c.035-1.442.121-2.87.255-4.286A48.4 48.4 0 016 13.18v1.27a1.5 1.5 0 00-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.661a6.729 6.729 0 00.551-1.608 1.5 1.5 0 00.14-2.67v-.645a48.549 48.549 0 013.44 1.668 2.25 2.25 0 002.12 0z" />
+                    <path d="M4.462 19.462c.42-.419.753-.89 1-1.394.453.213.902.434 1.347.661a6.743 6.743 0 01-1.286 1.794.75.75 0 11-1.06-1.06z" />
+                  </svg>
                 </motion.div>
+
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-200 to-blue-400">
+                    Transform
+                  </span> your academic influence
+                </h2>
                 
-                <motion.div 
-                  whileHover={{ scale: 1.03 }} 
-                  whileTap={{ scale: 0.97 }}
-                  className="rounded-xl overflow-hidden w-full sm:w-auto"
-                >
-                  <Link 
-                    href="/fellows"
-                    className="inline-flex items-center justify-center w-full sm:w-auto px-10 py-4 bg-white/[0.03] backdrop-blur-sm border border-white/10 hover:border-white/30 rounded-xl transition-all duration-300 font-medium text-center"
+                <p className="text-lg text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
+                  Perrin combines AI-driven analytics with expert insight to help researchers, think tanks, and academic institutions maximize their policy impact and scholarly influence.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-12">
+                  {[
+                    {
+                      title: "Policy Impact",
+                      value: "93%",
+                      desc: "of users report increased policy citations"
+                    },
+                    {
+                      title: "Research Visibility",
+                      value: "4.8×",
+                      desc: "average increase in scholarly reach"
+                    },
+                    {
+                      title: "AI-Powered",
+                      value: "24/7",
+                      desc: "continuous influence monitoring"
+                    }
+                  ].map((item, i) => (
+                    <motion.div 
+                      key={i}
+                      className="text-center p-4 relative"
+                      initial={{ opacity: 0, y: 15 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: 0.2 + (i * 0.1) }}
+                    >
+                      <div className="text-3xl font-bold text-blue-400 mb-1">{item.value}</div>
+                      <div className="text-sm text-blue-100 font-medium mb-1">{item.title}</div>
+                      <div className="text-xs text-gray-400">{item.desc}</div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-5 justify-center">
+                  {[
+                    {
+                      title: "Individual Researchers",
+                      feature: "Enhanced Impact Tracking",
+                      icon: (
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                          <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
+                        </svg>
+                      )
+                    },
+                    {
+                      title: "Academic Institutions",
+                      feature: "Cross-Department Analytics",
+                      icon: (
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                          <path d="M11.584 2.376a.75.75 0 01.832 0l9 6a.75.75 0 11-.832 1.248L12 3.901 3.416 9.624a.75.75 0 01-.832-1.248l9-6z" />
+                          <path fillRule="evenodd" d="M20.25 10.332v9.918H21a.75.75 0 010 1.5H3a.75.75 0 010-1.5h.75v-9.918a.75.75 0 01.634-.74A49.109 49.109 0 0112 9c2.59 0 5.134.202 7.616.592a.75.75 0 01.634.74zm-7.5 2.418a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75zm3-.75a.75.75 0 01.75.75v6.75a.75.75 0 01-1.5 0v-6.75a.75.75 0 01.75-.75zM9 12.75a.75.75 0 00-1.5 0v6.75a.75.75 0 001.5 0v-6.75z" clipRule="evenodd" />
+                        </svg>
+                      )
+                    },
+                    {
+                      title: "Think Tanks & Policy Groups",
+                      feature: "Policy Influence Metrics",
+                      icon: (
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                          <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.262 6.072a8.25 8.25 0 1010.562-.766 4.5 4.5 0 01-1.318 1.357L14.25 7.5l.165.33a.809.809 0 01-1.086 1.085l-.604-.302a1.125 1.125 0 00-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 01-2.288 4.04l-.723.724a1.125 1.125 0 01-1.298.21l-.153-.076a1.125 1.125 0 01-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 01-.21-1.298L9.75 12l-1.64-1.64a6 6 0 01-1.676-3.257l-.172-1.03z" clipRule="evenodd" />
+                        </svg>
+                      )
+                    }
+                  ].map((program, i) => (
+                    <motion.div 
+                      key={i}
+                      className="flex flex-col items-center p-5 rounded-xl bg-gradient-to-br from-blue-900/20 to-slate-800/40 border border-blue-500/10 backdrop-blur-sm"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.1 + (i * 0.1) }}
+                      whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                    >
+                      <div className="mb-3 p-2 bg-gradient-to-br from-blue-600/80 to-cyan-500/80 rounded-lg text-white">
+                        {program.icon}
+                      </div>
+                      <h3 className="text-lg font-semibold text-white mb-1">{program.title}</h3>
+                      <p className="text-sm text-blue-200/70">{program.feature}</p>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                <div className="flex flex-col sm:flex-row gap-5 justify-center">
+                  <motion.a
+                    href="#contact"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg text-white font-medium text-lg shadow-lg shadow-blue-500/10 border border-blue-500/30 relative overflow-hidden group"
                   >
-                    Meet Our Fellows
-                  </Link>
+                    <motion.div 
+                      className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+                      animate={{
+                        x: ["-100%", "100%"],
+                      }}
+                      transition={{
+                        repeat: Infinity,
+                        repeatType: "loop",
+                        duration: 2,
+                        ease: "linear",
+                      }}
+                    />
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      Join Our Research Network
+                      <motion.svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 20 20" 
+                        fill="currentColor" 
+                        className="w-5 h-5"
+                        animate={{ x: [0, 4, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop" }}
+                      >
+                        <path fillRule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clipRule="evenodd" />
+                      </motion.svg>
+                    </span>
+                  </motion.a>
+                  
+                  <motion.a
+                    href="#whitepaper"
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="px-8 py-4 bg-slate-800/60 backdrop-blur-sm border border-blue-900/30 rounded-lg text-white font-medium text-lg transition-colors duration-300 flex items-center justify-center gap-2 hover:bg-slate-800/80"
+                  >
+                    <span>Download Whitepaper</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+                      <path fillRule="evenodd" d="M4.5 2A1.5 1.5 0 003 3.5v13A1.5 1.5 0 004.5 18h11a1.5 1.5 0 001.5-1.5V7.621a1.5 1.5 0 00-.44-1.06l-4.12-4.122A1.5 1.5 0 0011.378 2H4.5zm4.75 6.75a.75.75 0 011.5 0v2.546l.943-1.048a.75.75 0 011.114 1.004l-2.25 2.5a.75.75 0 01-1.114 0l-2.25-2.5a.75.75 0 111.114-1.004l.943 1.048V8.75z" clipRule="evenodd" />
+                    </svg>
+                  </motion.a>
+                </div>
+                
+                <div className="mt-10 flex items-center justify-center gap-4 flex-wrap">
+                  <motion.div 
+                    className="px-3 py-1.5 rounded-full bg-blue-950/30 border border-blue-900/20 text-xs text-blue-300/70 flex items-center gap-1.5"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5">
+                <motion.div 
+                  className="mt-8 text-sm text-blue-300/60 flex items-center justify-center gap-2"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+                  </svg>
+                  <span>Applications for 2024 programs now open</span>
                 </motion.div>
               </motion.div>
             </div>
-            
-            {/* Premium floating status indicator - Apple style */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.7 }}
-              className="mt-12 flex justify-center"
-            >
-              <div className="inline-flex items-center px-5 py-2.5 bg-white/[0.02] backdrop-blur-sm rounded-full border border-white/5 shadow-lg">
-                <motion.div 
-                  className="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"
-                  animate={{ 
-                    opacity: [0.5, 1, 0.5]
-                  }}
-                  transition={{ 
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                />
-                <span className="text-xs font-mono text-white/60">Applications Open &bull; {new Date().toLocaleDateString()} &bull; <span className="text-blue-400">Limited Positions Available</span></span>
-              </div>
-            </motion.div>
-            
-            {/* Premium tech code snippet - Google/Meta style */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 1.2 }}
-              className="mt-16 max-w-md mx-auto"
-              whileHover={{ scale: 1.03, rotate: "-1deg" }}
-            >
-              <div className="bg-white/[0.02] backdrop-blur-sm border border-white/5 p-4 rounded-lg shadow-lg">
-                <div className="flex items-center mb-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/50 mr-1.5"></div>
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/50 mr-1.5"></div>
-                  <div className="w-3 h-3 rounded-full bg-green-500/50"></div>
-                  <div className="ml-auto text-[10px] font-mono text-white/30">perrin_institute.js</div>
-                </div>
-                <div className="text-xs font-mono leading-relaxed">
-                  <div className="text-blue-400/80">&#47;&#47; Join our research network</div>
-                  <div><span className="text-purple-400">async function</span> <span className="text-green-400">joinPerrinInstitute</span>() &#123;</div>
-                  <div className="pl-4"><span className="text-white/60">const</span> <span className="text-yellow-400">researcher</span> = <span className="text-white/60">await</span> <span className="text-blue-400">createProfile</span>();</div>
-                  <div className="pl-4"><span className="text-white/60">const</span> <span className="text-yellow-400">impact</span> = <span className="text-white/60">await</span> <span className="text-blue-400">collaborateOnPolicy</span>();</div>
-                  <div className="pl-4"><span className="text-white/60">return</span> <span className="text-purple-400">buildBetterFuture</span>(impact);</div>
-                  <div>&#125;</div>
-                  <div className="mt-2 text-green-400/80">&#47;&#47; Ready to make a difference?</div>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </div>
-      </motion.section>
+      </section>
     </main>
   );
-}
+}        
