@@ -172,7 +172,7 @@ export default function ApplicationPage() {
               </h1>
               
               <p className="mt-5 max-w-2xl mx-auto text-xl text-gray-300">
-                Apply to our prestigious policy research programs with a $15 application fee
+                Present Research at Conferences, Universities, and Summits
               </p>
             </motion.div>
           </div>

@@ -1043,11 +1043,11 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mb-6">
-              Suggested Policy To
+              U.S. Federal Agencies Advised
             </h2>
             
             <p className="text-lg text-gray-300 leading-relaxed">
-              Collaborating with leading organizations to transform policy research into actionable impact
+            We create advanced solutions that prevent malicious policies from being obscured and legitimized by convoluted legal semantics.
             </p>
           </motion.div>
 
@@ -1145,21 +1145,21 @@ export default function Home() {
               {
                 value: "250+",
                 label: "Policy Researchers",
-                description: "Leading experts and emerging scholars shaping the future of policy",
+                description: "Our team of 250+ policy researchers leverages expertise in technology and governance to drive impactful, data-driven solutions for all of our clients",
                 icon: "graph",
                 color: "blue"
               },
               {
-                value: "$3.57M",
-                label: "Scholarships garnered by our alumni",
-                description: "Supporting the next generation of policy innovators and leaders",
+                value: "$3M+",
+                label: "Garnered Scholarships",
+                description: "Total tution value garnered in merit-based scholarships, study abroad oppurunties, and research stipends by the Perrin Institution's employees",
                 icon: "money",
                 color: "green"
               },
               {
-                value: "40+",
-                label: "Partner Institutions",
-                description: "Collaborating with universities and organizations worldwide",
+                value: "10+",
+                label: "Research Laboratories",
+                description: "We operate over 10 technology-driven, policy-focused labs dedicated to developing innovative solutions at the intersection of technology & governence",
                 icon: "network",
                 color: "purple"
               }
@@ -1315,7 +1315,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-24 p-6 border border-white/10 rounded-xl bg-white/[0.02] backdrop-blur-sm"
+            className="mt-24 p-8 border border-white/10 rounded-xl bg-white/[0.02] backdrop-blur-sm shadow-2xl overflow-hidden"
           >
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
@@ -1342,44 +1342,115 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { label: "Policy Adoption Rate", value: "42%", change: "+12%", color: "blue" },
-                { label: "Research Citations", value: "1.8k", change: "+24%", color: "purple" },
-                { label: "Media Mentions", value: "320+", change: "+18%", color: "green" },
-                { label: "Academic Partnerships", value: "40+", change: "+15%", color: "yellow" }
-              ].map((metric, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 * index }}
-                  className="p-4 border border-white/5 rounded-lg bg-gradient-to-b from-white/[0.01] to-transparent"
-                >
-                  <div className="text-xs font-mono text-white/40 mb-2">{metric.label}</div>
-                  <div className="flex items-end justify-between">
-                    <div className={`text-2xl font-medium text-${metric.color}-400`}>{metric.value}</div>
-                    <div className="text-xs text-green-400 flex items-center">
-                      <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18 15L12 9L6 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      {metric.change}
+            <div className="flex flex-col md:flex-row gap-8 mt-16">
+              {/* Beautiful side-by-side metrics */}
+              <div className="w-full flex justify-center items-center gap-8">
+                
+                {/* SSRN Achievement Card */}
+                <div className="w-72 bg-gradient-to-br from-slate-900 via-slate-900/95 to-blue-950/30 border border-blue-500/20 rounded-xl shadow-xl overflow-hidden group hover:border-blue-400/40 transition-all duration-500 hover:shadow-blue-900/20 hover:shadow-2xl">
+                  <div className="relative">
+                    {/* Glass header */}
+                    <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 to-blue-400"></div>
+                    
+                    <div className="p-6">
+                      {/* Top badge */}
+                      <div className="absolute -right-3 -top-3 transform rotate-12 group-hover:rotate-6 transition-transform duration-500">
+                        <div className="bg-blue-600/90 text-[10px] font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm text-white tracking-wider">
+                          TOP RANKED
+                        </div>
+                      </div>
+                      
+                      {/* Title with logo */}
+                      <div className="flex items-center mb-4">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-400 rounded-lg mr-3 p-0.5">
+                          <div className="w-full h-full bg-blue-950 rounded-md flex items-center justify-center">
+                            <span className="text-xs text-blue-200 font-bold">SSRN</span>
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-medium text-blue-300 tracking-tight uppercase">Global Recognition</h4>
+                          <h3 className="text-white font-bold tracking-tight">eJournal Downloads</h3>
+                        </div>
+                      </div>
+                      
+                      {/* Main stats */}
+                      <div className="flex items-baseline space-x-3 mb-4">
+                        <span className="text-3xl font-bold text-white">#3</span>
+                        <div className="h-6 w-px bg-blue-500/20"></div>
+                        <div className="flex flex-col">
+                          <span className="text-xs text-blue-300">Global Ranking</span>
+                          <span className="text-[10px] text-blue-400/60">Among 4,200+ Institutions</span>
+                        </div>
+                      </div>
+                      
+                      {/* Progress stats */}
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="text-slate-400">Progress to #1</span>
+                          <span className="text-blue-400">85%</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                          <div className="h-full w-[85%] bg-gradient-to-r from-blue-600 to-blue-400 rounded-full 
+                                        group-hover:animate-pulse"></div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  
-                  {/* Visualization bar */}
-                  <div className="mt-3 h-1 bg-white/10 rounded-full overflow-hidden">
-                    <motion.div 
-                      className={`h-full bg-${metric.color}-500`}
-                      initial={{ width: "0%" }}
-                      whileInView={{ width: `${60 + index * 10}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
-                    />
+                </div>
+                
+                {/* Stanford Achievement Card */}
+                <div className="w-72 bg-gradient-to-br from-slate-900 via-slate-900/95 to-red-950/30 border border-red-500/20 rounded-xl shadow-xl overflow-hidden group hover:border-red-400/40 transition-all duration-500 hover:shadow-red-900/20 hover:shadow-2xl">
+                  <div className="relative">
+                    {/* Glass header */}
+                    <div className="h-1.5 w-full bg-gradient-to-r from-red-600 to-red-400"></div>
+                    
+                    <div className="p-6">
+                      {/* Top badge */}
+                      <div className="absolute -right-3 -top-3 transform rotate-12 group-hover:rotate-6 transition-transform duration-500">
+                        <div className="bg-red-600/90 text-[10px] font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm text-white tracking-wider">
+                          EXCELLENCE
+                        </div>
+                      </div>
+                      
+                      {/* Title with logo */}
+                      <div className="flex items-center mb-4">
+                        <div className="w-10 h-10 bg-gradient-to-br from-red-600 to-red-400 rounded-lg mr-3 p-0.5">
+                          <div className="w-full h-full bg-red-950 rounded-md flex items-center justify-center">
+                            <span className="text-xs text-red-200 font-bold">SU</span>
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-medium text-red-300 tracking-tight uppercase">Academic Excellence</h4>
+                          <h3 className="text-white font-bold tracking-tight">Research Award</h3>
+                        </div>
+                      </div>
+                      
+                      {/* Main stats */}
+                      <div className="flex items-baseline space-x-3 mb-4">
+                        <span className="text-3xl font-bold text-white">#1</span>
+                        <div className="h-6 w-px bg-red-500/20"></div>
+                        <div className="flex flex-col">
+                          <span className="text-xs text-red-300">Recognition</span>
+                          <span className="text-[10px] text-red-400/60">Top Policy Research Institute</span>
+                        </div>
+                      </div>
+                      
+                      {/* Progress stats */}
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="text-slate-400">Achievement Level</span>
+                          <span className="text-red-400">98%</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                          <div className="h-full w-[98%] bg-gradient-to-r from-red-600 to-red-400 rounded-full 
+                                        group-hover:animate-pulse"></div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </motion.div>
-              ))}
+                </div>
+                
+              </div>
             </div>
           </motion.div>
         </div>
@@ -1432,7 +1503,7 @@ export default function Home() {
                 <div className="w-1 h-1 bg-blue-500 rounded-full mr-2"></div>
                 <span className="text-blue-400 text-xs uppercase tracking-widest font-mono">About Us</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8">The Institute</h2>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8">The Perrin Institution</h2>
               
               {/* Premium content layout with enhanced typography */}
               <div className="space-y-6">
@@ -1443,8 +1514,8 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.1 }}
                   className="text-white/70 text-lg leading-relaxed"
                 >
-                  The Perrin Institute is a pioneering student-led think tank at the University of Virginia,
-                  serving as a bridge between academic research and practical policy implementation.
+                  The Perrin Institution, named in honor of Noel Perrin, a distinguished Dartmouth College professor and environmental essayist, continues his legacy of impactful policy research. Perrin, a graduate of both Duke University and the University of Cambridge, was dedicated to environmentalism, rural issues, and modern poetry. The institution builds on his vision by authoring advanced research in public policy, history, global affairs, and technology, with a particular focus on AI’s role in governance. The Perrin Institution advocates for greater transparency in federal rule-making through initiatives like the 
+                  "Summary of the Declared," which simplifies complex legal language, ensuring better public understanding and preventing harmful policies from passing unnoticed.
                 </motion.p>
                 
                 <motion.p 
@@ -1454,9 +1525,8 @@ export default function Home() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-white/70 text-lg leading-relaxed"
                 >
-                  Our work spans multiple policy areas including economic development, environmental 
-                  sustainability, education reform, and social justice. We bring together diverse 
-                  perspectives and emerging scholars to address pressing challenges in public policy.
+                  The "Summary of the Declared" is an initiative coined by the Perrin Institution to improve transparency in federal rule-making. Recognizing the often impenetrable legal language in federal notices and proposed rules, the institution developed this process to simplify complex regulations into a clear, one-paragraph summary. This approach makes it easier for the public to understand the implications of new policies, ensuring they are more informed and able to participate in the decision-making process. 
+                  By distilling legal jargon, the "Summary of the Declared" helps prevent harmful regulations from passing under the radar, promoting a more accountable and transparent government.
                 </motion.p>
               </div>
               
@@ -1469,10 +1539,10 @@ export default function Home() {
                 className="mt-10 grid grid-cols-2 gap-6"
               >
                 {[
-                  { title: "Student-Led", description: "Empowering the next generation of policy leaders" },
-                  { title: "Data-Driven", description: "Leveraging advanced analytics for policy insights" },
-                  { title: "Interdisciplinary", description: "Combining diverse perspectives and methodologies" },
-                  { title: "Impact-Focused", description: "Creating real-world policy solutions" }
+                  { title: "501(c)(3)", description: "Federally recognized think tank organization." },
+                  { title: "Federally Accredited", description: "Officially recognized by U.S. Senator Chris Van Hollen." },
+                  { title: "Registered CIO", description: "Certified Contracted Independent Organization." },
+                  { title: "AI Integrated", description: "Incorporating artificial intelligence to enhance policy analysis." }
                 ].map((feature, index) => (
                   <motion.div
                     key={index}
