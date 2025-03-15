@@ -1,0 +1,96 @@
+/* Add these animation keyframes to your globals.css */
+
+@keyframes float-slow {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-30px, 20px) scale(1.05);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes float-slow-reverse {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes float-particle {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
+
+/* Oxford colors */
+.from-oxford-blue {
+  --tw-gradient-from: #002147;
+}
+
+.to-oxford-red {
+  --tw-gradient-to: #9f1c20;
+}
+
+.bg-oxford-blue {
+  background-color: #002147;
+}
+
+.bg-oxford-red {
+  background-color: #9f1c20;
+}
+
+.bg-oxford-pattern {
+  background-image: url('/images/oxford-pattern.svg');
+  background-repeat: repeat;
+}
+
+/* Animation utilities */
+.animate-float-slow {
+  animation: float-slow 20s ease-in-out infinite;
+}
+
+.animate-float-slow-reverse {
+  animation: float-slow-reverse 25s ease-in-out infinite;
+}
+
+/* Enhanced focus styles for accessibility */
+.focus-visible:ring {
+  @apply ring-2 ring-blue-500 ring-offset-2 ring-offset-gray-900 outline-none;
+}
+
+/* Improved scrollbar for a more polished look */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+} 

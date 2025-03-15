@@ -1334,103 +1334,7 @@ export default function Home() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {/* Enhanced SSRN Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative group"
-                whileHover={{ 
-                  y: -10,
-                  transition: { duration: 0.3 }
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-blue-400/10 rounded-2xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity duration-300"></div>
-                <div className="bg-gradient-to-br from-slate-900 via-slate-900/95 to-blue-950/30 border border-blue-500/20 rounded-2xl shadow-2xl overflow-hidden relative">
-                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="h-2 w-full bg-gradient-to-r from-blue-600 to-blue-400"></div>
-                  
-                  <div className="p-8">
-                    {/* Top badge */}
-                    <div className="absolute -right-3 -top-3 transform rotate-12 group-hover:rotate-6 transition-transform duration-500">
-                      <div className="bg-blue-600/90 text-[10px] font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm text-white tracking-wider">
-                        GLOBALLY RECOGNIZED
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-col md:flex-row md:items-center mb-8 gap-6">
-                      <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-400 rounded-xl p-0.5 flex-shrink-0">
-                        <div className="w-full h-full bg-blue-950 rounded-lg flex items-center justify-center">
-                          <span className="text-lg text-blue-200 font-bold">SSRN</span>
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <div className="text-sm font-medium text-blue-300 tracking-tight uppercase mb-1">Social Science Research Network</div>
-                        <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">eJournal Downloads</h3>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-12 mb-10">
-                      <div className="flex items-center gap-6">
-                        <div className="text-5xl font-bold text-white">#3</div>
-                        <div className="h-14 w-px bg-blue-500/20 hidden md:block"></div>
-                        <div className="hidden md:block">
-                          <div className="text-sm text-blue-300">Global Ranking</div>
-                          <div className="text-xs text-blue-400/60">Among 4,200+ Institutions</div>
-                        </div>
-                      </div>
-                      
-                      <motion.div 
-                        className="w-24 h-24 rounded-full border-4 border-blue-500/30 flex items-center justify-center relative"
-                        initial={{ rotate: 0 }}
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-                      >
-                        <div className="absolute inset-1 rounded-full border border-blue-400/20"></div>
-                        <div className="text-xl font-bold text-white">85%</div>
-                        <div className="absolute top-0 right-0 w-4 h-4 bg-blue-500 rounded-full shadow-lg shadow-blue-500/50"></div>
-                      </motion.div>
-                    </div>
-                    
-                    <div className="md:hidden mb-6">
-                      <div className="text-sm text-blue-300">Global Ranking</div>
-                      <div className="text-xs text-blue-400/60">Among 4,200+ Institutions</div>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-slate-400">Progress to #1</span>
-                        <span className="text-blue-400">85%</span>
-                      </div>
-                      <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
-                        <motion.div 
-                          className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"
-                          initial={{ width: "0%" }}
-                          whileInView={{ width: "85%" }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1.5, delay: 0.3 }}
-                        />
-                      </div>
-                      
-                      <div className="pt-6 grid grid-cols-2 gap-4">
-                        {[
-                          { value: "42K+", label: "Downloads" },
-                          { value: "124+", label: "Papers" },
-                          { value: "89%", label: "Citation Rate" },
-                          { value: "4.8", label: "Impact Factor" }
-                        ].slice(0, 2).map((stat, i) => (
-                          <div key={i} className="text-center">
-                            <div className="text-sm font-bold text-white mb-1">{stat.value}</div>
-                            <div className="text-xs text-blue-300/60">{stat.label}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+              {/* Enhanced SSRN Card - REMOVED */}
               
               {/* New US Senator Recognition Card */}
               <motion.div
@@ -2329,61 +2233,937 @@ export default function Home() {
         </div>
       </section>
 
+{/* Featured in BBC Section */}
+<section className="py-24 relative overflow-hidden">
+  <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"></div>
+  <div className="absolute inset-0 opacity-30" 
+    style={{
+      backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+    }}></div>
+    
+  <div className="container mx-auto px-6 relative z-10">
+    <div className="max-w-7xl mx-auto">
+      {/* BBC media badge */}
+      <motion.div 
+        className="flex justify-center mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="bg-white/5 border border-white/10 rounded-full py-2 px-5 backdrop-blur-sm inline-flex items-center gap-2">
+          <motion.div 
+            className="text-red-500 font-bold text-sm"
+            animate={{ 
+              opacity: [0.8, 1, 0.8],
+              scale: [0.98, 1, 0.98],
+            }}
+            transition={{ 
+              duration: 3, 
+              repeat: Infinity,
+              ease: "easeInOut" 
+            }}
+          >
+            <div className="flex items-center">
+              <span className="font-bold text-lg tracking-wider">BBC</span>
+              <span className="ml-1 tracking-wide">NEWS</span>
+            </div>
+          </motion.div>
+          <span className="text-white/70 text-xs tracking-wider font-medium uppercase">Featured Interview</span>
+        </div>
+      </motion.div>
+    
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* Video/image left side */}
+        <motion.div 
+          className="relative rounded-2xl overflow-hidden aspect-video bg-slate-800 shadow-xl shadow-blue-900/10"
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Embedded YouTube video with autoplay */}
+          <iframe 
+            src="https://www.youtube.com/embed/xS_3pUX3Qvg?autoplay=1&mute=1&loop=1&playlist=xS_3pUX3Qvg&controls=1&modestbranding=1&rel=0"
+            title="BBC Interview with Director Kashaf"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full z-10"
+          ></iframe>
+          
+          {/* BBC logo watermark */}
+          <div className="absolute top-4 left-4 z-20 pointer-events-none bg-black/50 px-2 py-1 rounded">
+            <span className="font-bold text-lg text-red-600 tracking-wider">BBC</span>
+          </div>
+        </motion.div>
+        
+        {/* Content right side */}
+        <motion.div 
+          className="flex flex-col"
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="mb-4">
+            <motion.div 
+              className="inline-flex items-center px-3 py-1 mb-4 bg-indigo-500/10 rounded-full border border-indigo-500/30"
+              initial={{ opacity: 0, y: -10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <motion.div 
+                className="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2"
+                animate={{ 
+                  scale: [1, 1.5, 1],
+                  opacity: [0.7, 1, 0.7]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  ease: "easeInOut" 
+                }}
+              />
+              <span className="text-xs font-mono text-indigo-400 tracking-wider">LEADERSHIP SPOTLIGHT</span>
+            </motion.div>
+            
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-2 text-white"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              Meet Our Inclusive Policy Laboratory Director
+            </motion.h2>
+            
+            <motion.div 
+              className="flex items-center gap-3 mb-6"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500/30">
+                <div className="w-full h-full bg-gradient-to-br from-indigo-800 to-purple-900"></div>
+              </div>
+              <div>
+                <div className="text-white font-medium">Kashaf Ahmed, PhD</div>
+                <div className="text-white/60 text-sm">Inclusive Policy Laboratory</div>
+              </div>
+            </motion.div>
+          </div>
+          
+          <motion.div 
+            className="space-y-4 text-white/80"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.6 }}
+          >
+            <p className="leading-relaxed">
+              The BBC recently spotlighted our trailblazing Inclusive Policy Laboratory Director, Kashaf Ahmed, highlighting her groundbreaking work at the intersection of technology and governance.
+            </p>
+            <p className="leading-relaxed">
+              In this exclusive interview, Kashaf discusses how the Lab's innovative approach to inclusive policy development is reshaping the landscape of public governance and creating more equitable technological solutions.
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="mt-8 flex flex-wrap gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.7 }}
+          >
+            <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm flex-1 min-w-[140px]">
+              <div className="text-indigo-400 text-sm font-medium mb-1">Featured Research</div>
+              <div className="text-white text-lg font-medium">Inclusive AI Governance</div>
+            </div>
+            
+            <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm flex-1 min-w-[140px]">
+              <div className="text-indigo-400 text-sm font-medium mb-1">Policy Impact</div>
+              <div className="text-white text-lg font-medium">12+ National Frameworks</div>
+            </div>
+          </motion.div>
+          
+          <motion.div 
+            className="mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.8 }}
+          >
+            <a 
+              href="https://www.youtube.com/watch?v=xS_3pUX3Qvg" 
+              target="_blank" 
+              className="inline-flex items-center text-indigo-400 font-medium hover:text-indigo-300 transition-colors"
+            >
+              Open in YouTube
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-1">
+                <path fillRule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clipRule="evenodd" />
+              </svg>
+            </a>
+          </motion.div>
+        </motion.div>
+      </div>
+    </div>
+  </div>
+</section>
+
       {/* Research Think Tank CTA Section */}
-      <section className="py-32 relative overflow-hidden border-t border-white/10">
-        {/* Subtle background elements */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-blue-950/30"></div>
+      <section className="py-20 md:py-32 relative overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-blue-950/30 to-black/50 z-0"></div>
         
-        {/* Academic pattern overlay */}
-        <div className="absolute inset-0 opacity-5"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: '60px 60px'
-          }}
-        ></div>
-        
-        {/* Subtle floating particles */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(12)].map((_, i) => (
+        {/* Animated background elements */}
+        <div className="absolute inset-0 z-0">
+          {/* Grid lines */}
+          <div className="absolute inset-0" 
+            style={{
+              backgroundImage: 'linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px)',
+              backgroundSize: '60px 60px'
+            }}>
+          </div>
+          
+          {/* Radial gradient */}
+          <div className="absolute inset-0 bg-radial-gradient"></div>
+          
+          {/* Animated circles */}
+          {[...Array(5)].map((_, i) => (
             <motion.div
-              key={i}
-              className="absolute rounded-full"
+              key={`circle-${i}`}
+              className="absolute rounded-full border border-blue-500/20"
               style={{
-                width: Math.random() * 3 + 1 + "px",
-                height: Math.random() * 3 + 1 + "px",
-                background: i % 3 === 0 ? "rgba(255, 255, 255, 0.3)" : i % 3 === 1 ? "rgba(56, 189, 248, 0.4)" : "rgba(96, 165, 250, 0.3)",
-                top: Math.random() * 100 + "%",
-                left: Math.random() * 100 + "%",
+                width: (i + 1) * 100 + 'px',
+                height: (i + 1) * 100 + 'px',
+                top: '50%',
+                left: '50%',
+                x: '-50%',
+                y: '-50%',
               }}
               animate={{
-                y: [0, -15, 0],
-                opacity: [0.1, 0.3, 0.1],
+                scale: [1, 1.2, 1],
+                opacity: [0.1, 0.2, 0.1],
               }}
               transition={{
-                duration: Math.random() * 5 + 8,
+                duration: 8 + i,
                 repeat: Infinity,
                 ease: "easeInOut",
+                delay: i * 0.5
+              }}
+            />
+          ))}
+          
+          {/* Floating particles */}
+          {[...Array(30)].map((_, i) => (
+            <motion.div
+              key={`particle-${i}`}
+              className="absolute rounded-full bg-blue-400"
+              style={{
+                width: Math.random() * 4 + 2 + "px",
+                height: Math.random() * 4 + 2 + "px",
+                top: Math.random() * 100 + "%",
+                left: Math.random() * 100 + "%",
+                filter: "blur(1px)",
+                opacity: 0.2
+              }}
+              animate={{
+                y: [Math.random() * -100, Math.random() * 100],
+                x: [Math.random() * -100, Math.random() * 100],
+                opacity: [0, 0.5, 0],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                ease: "easeInOut",
+                repeatType: "reverse"
               }}
             />
           ))}
         </div>
         
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto">
-            <div className="bg-gradient-to-b from-slate-900/80 to-slate-900/60 rounded-2xl border border-blue-900/20 p-12 backdrop-blur-sm shadow-xl">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="text-center"
-              >
-                {/* Make sure this motion.div is properly closed */}
-              </motion.div>
-            </div>
+        <div className="container mx-auto px-6 relative z-10">
+          {/* Section header */}
+          <div className="text-center mb-16">
+            <motion.div 
+              className="inline-flex items-center px-3 py-1 bg-blue-500/10 rounded-full border border-blue-400/30 mb-4"
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <motion.div 
+                className="w-2 h-2 bg-blue-400 rounded-full mr-2"
+                animate={{ 
+                  scale: [1, 1.5, 1],
+                  opacity: [0.7, 1, 0.7]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  ease: "easeInOut" 
+                }}
+              />
+              <span className="text-xs font-mono text-blue-400 tracking-wider">COLLABORATION OPPORTUNITY</span>
+            </motion.div>
+            
+            <motion.h2 
+              className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+            >
+              Join Our Research Think Tank
+            </motion.h2>
+            
+            <motion.p 
+              className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+            >
+              Connect with leading researchers and policymakers working at the intersection of technology and governance
+            </motion.p>
           </div>
+          
+          {/* Main card with content */}
+          <motion.div 
+            className="relative rounded-2xl overflow-hidden backdrop-blur-sm border border-white/10"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            {/* Card inner glow */}
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-purple-500/5"></div>
+            
+            {/* Card content grid */}
+            <div className="grid grid-cols-1 md:grid-cols-5 relative z-10">
+              {/* Left content area - 3 columns */}
+              <div className="md:col-span-3 p-10 md:p-16">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  <h3 className="text-2xl md:text-3xl font-semibold mb-8 text-white">Shape the future of policy research</h3>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10">
+                    {[
+                      {
+                        icon: (
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                            <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
+                          </svg>
+                        ),
+                        title: "Research Collaboration",
+                        description: "Work with leading experts on cutting-edge policy research initiatives",
+                        color: "blue"
+                      },
+                      {
+                        icon: (
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                            <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z" />
+                          </svg>
+                        ),
+                        title: "Global Network",
+                        description: "Access our network of 200+ researchers across 35 countries",
+                        color: "indigo"
+                      },
+                      {
+                        icon: (
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                            <path d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.902 3.912l-.003.002-.34.18a.75.75 0 01-.707 0A50.009 50.009 0 007.5 12.174v-.224c0-.131.067-.248.172-.311a54.614 54.614 0 014.653-2.52.75.75 0 00-.65-1.352 56.129 56.129 0 00-4.78 2.589 1.858 1.858 0 00-.859 1.228 49.803 49.803 0 00-4.634-1.527.75.75 0 01-.231-1.337A60.653 60.653 0 0111.7 2.805z" />
+                            <path d="M13.06 15.473a48.45 48.45 0 017.666-3.282c.134 1.414.22 2.843.255 4.285a.75.75 0 01-.46.71 47.878 47.878 0 00-8.105 4.342.75.75 0 01-.832 0 47.877 47.877 0 00-8.104-4.342.75.75 0 01-.461-.71c.035-1.442.121-2.87.255-4.286A48.4 48.4 0 016 13.18v1.27a1.5 1.5 0 00-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.661a6.729 6.729 0 00.551-1.608 1.5 1.5 0 00.14-2.67v-.645a48.549 48.549 0 013.44 1.668 2.25 2.25 0 002.12 0z" />
+                            <path d="M4.462 19.462c.42-.419.753-.89 1-1.394.453.213.902.434 1.347.661a6.743 6.743 0 01-1.286 1.794.75.75 0 11-1.06-1.06z" />
+                          </svg>
+                        ),
+                        title: "Resources & Funding",
+                        description: "Gain access to exclusive research tools, publications, and funding opportunities",
+                        color: "purple"
+                      },
+                      {
+                        icon: (
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                            <path fillRule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 01.75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 019.75 22.5a.75.75 0 01-.75-.75v-4.131A15.838 15.838 0 016.382 15H2.25a.75.75 0 01-.75-.75 6.75 6.75 0 017.815-6.666zM15 6.75a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" clipRule="evenodd" />
+                            <path d="M5.26 17.242a.75.75 0 10-.897-1.203 5.243 5.243 0 00-2.05 5.022.75.75 0 00.625.627 5.243 5.243 0 005.022-2.051.75.75 0 10-1.202-.897 3.744 3.744 0 01-3.008 1.51c0-1.23.592-2.323 1.51-3.008z" />
+                          </svg>
+                        ),
+                        title: "Policy Impact",
+                        description: "Influence real-world policy decisions with your research and expertise",
+                        color: "cyan"
+                      }
+                    ].map((benefit, index) => (
+                      <motion.div 
+                        key={index}
+                        className="flex items-start"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
+                        whileHover={{ 
+                          x: 5, 
+                          transition: { duration: 0.2 } 
+                        }}
+                      >
+                        <motion.div 
+                          className={`w-12 h-12 bg-${benefit.color}-500/10 rounded-xl flex items-center justify-center mr-4 border border-${benefit.color}-500/20 flex-shrink-0 overflow-hidden relative`}
+                          whileHover={{ 
+                            scale: 1.05,
+                            borderColor: `rgba(${benefit.color === 'blue' ? '59, 130, 246' : benefit.color === 'indigo' ? '99, 102, 241' : benefit.color === 'purple' ? '139, 92, 246' : '6, 182, 212'}, 0.5)`,
+                          }}
+                        >
+                          <motion.div 
+                            className="absolute inset-0 opacity-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                            initial={{ x: '-100%' }}
+                            whileHover={{ 
+                              opacity: 1,
+                              x: '100%',
+                              transition: { duration: 0.6 }
+                            }}
+                          />
+                          <motion.div 
+                            className={`text-${benefit.color}-400`}
+                            whileHover={{ 
+                              scale: 1.2,
+                              rotate: [0, 5, -5, 0],
+                              transition: { duration: 0.5 }
+                            }}
+                          >
+                            {benefit.icon}
+                          </motion.div>
+                        </motion.div>
+                        
+                        <div>
+                          <h4 className="text-white font-semibold mb-1">{benefit.title}</h4>
+                          <p className="text-white/60 text-sm">{benefit.description}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  className="mt-10"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
+                >
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <motion.a 
+                      href="#apply-now" 
+                      className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-4 px-8 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20 group"
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <motion.span 
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
+                        initial={{ x: '-100%' }}
+                        animate={{ x: '100%' }}
+                        transition={{ 
+                          repeat: Infinity, 
+                          repeatType: 'loop', 
+                          duration: 2,
+                          ease: 'linear'
+                        }}
+                      />
+                      <span className="relative flex items-center z-10">
+                        <span>Request Information</span>
+                        <motion.svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          viewBox="0 0 20 20" 
+                          fill="currentColor" 
+                          className="w-5 h-5 ml-2"
+                          initial={{ x: 0 }}
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{ 
+                            duration: 1.5, 
+                            repeat: Infinity,
+                            repeatType: 'loop',
+                            ease: "easeInOut"
+                          }}
+                        >
+                          <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.02-1.1l2.1-1.95H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                        </motion.svg>
+                      </span>
+                    </motion.a>
+                    
+                    <motion.a 
+                      href="#learn-more" 
+                      className="bg-white/5 hover:bg-white/10 text-white border border-white/10 font-medium py-4 px-8 rounded-xl flex items-center justify-center transition-all duration-300 hover:border-white/30 relative overflow-hidden"
+                      whileHover={{ 
+                        scale: 1.03, 
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
+                        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <motion.span 
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12"
+                        initial={{ x: '-100%' }}
+                        whileHover={{ 
+                          x: '100%',
+                          transition: { duration: 0.8 }
+                        }}
+                      />
+                      <span className="relative z-10">Learn More</span>
+                    </motion.a>
+                  </div>
+                </motion.div>
+              </div>
+              
+              {/* Right content area - 2 columns */}
+              <div className="md:col-span-2 relative overflow-hidden h-96 md:h-auto bg-gradient-to-br from-blue-900/10 via-indigo-900/20 to-purple-900/10">
+                {/* Dynamic background elements */}
+                <div className="absolute inset-0">
+                  {/* Animated gradient blobs */}
+                  <motion.div 
+                    className="absolute w-64 h-64 rounded-full bg-blue-500/10 blur-3xl"
+                    style={{ top: '20%', left: '30%' }}
+                    animate={{ 
+                      scale: [1, 1.2, 1],
+                      opacity: [0.3, 0.5, 0.3],
+                    }}
+                    transition={{ 
+                      duration: 8, 
+                      repeat: Infinity,
+                      ease: "easeInOut" 
+                    }}
+                  />
+                  <motion.div 
+                    className="absolute w-56 h-56 rounded-full bg-indigo-500/10 blur-3xl"
+                    style={{ top: '50%', right: '20%' }}
+                    animate={{ 
+                      scale: [1.2, 1, 1.2],
+                      opacity: [0.3, 0.5, 0.3],
+                    }}
+                    transition={{ 
+                      duration: 7, 
+                      repeat: Infinity,
+                      ease: "easeInOut" 
+                    }}
+                  />
+                </div>
+                
+                {/* Central visualization */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {/* Connection lines */}
+                  <svg className="absolute w-full h-full" viewBox="0 0 400 400">
+                    <motion.path 
+                      d="M200,100 C240,150 240,250 200,300" 
+                      stroke="rgba(59, 130, 246, 0.2)" 
+                      strokeWidth="1"
+                      fill="none"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 2, delay: 0.5 }}
+                    />
+                    <motion.path 
+                      d="M200,100 C160,150 160,250 200,300" 
+                      stroke="rgba(99, 102, 241, 0.2)" 
+                      strokeWidth="1"
+                      fill="none"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 2, delay: 0.7 }}
+                    />
+                    <motion.path 
+                      d="M120,200 L280,200" 
+                      stroke="rgba(139, 92, 246, 0.2)" 
+                      strokeWidth="1"
+                      fill="none"
+                      initial={{ pathLength: 0, opacity: 0 }}
+                      animate={{ pathLength: 1, opacity: 1 }}
+                      transition={{ duration: 1.5, delay: 0.9 }}
+                    />
+                  </svg>
+
+                  {/* Central globe visualization */}
+                  <motion.div 
+                    className="relative w-72 h-72"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1, delay: 0.3 }}
+                  >
+                    {/* Orbiting network connections */}
+                    <motion.div 
+                      className="absolute inset-0 rounded-full"
+                      style={{ border: '1px solid rgba(59, 130, 246, 0.15)' }}
+                      animate={{ rotate: 360 }}
+                      transition={{ 
+                        duration: 100, 
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    >
+                      {/* Network nodes - inner orbit */}
+                      {[...Array(12)].map((_, i) => {
+                        const angle = (i / 12) * Math.PI * 2;
+                        const x = Math.cos(angle) * 36;
+                        const y = Math.sin(angle) * 36;
+                        return (
+                          <motion.div
+                            key={`node-inner-${i}`}
+                            className="absolute w-2 h-2 bg-blue-400 rounded-full"
+                            style={{
+                              left: `calc(50% + ${x}%)`,
+                              top: `calc(50% + ${y}%)`,
+                            }}
+                            animate={{
+                              scale: [1, 1.5, 1],
+                              opacity: [0.4, 1, 0.4],
+                            }}
+                            transition={{
+                              duration: 2 + (i % 3),
+                              repeat: Infinity,
+                              delay: i * 0.2,
+                            }}
+                          />
+                        )
+                      })}
+                    </motion.div>
+
+                    {/* Middle orbit */}
+                    <motion.div 
+                      className="absolute inset-0 rounded-full"
+                      style={{ border: '1px solid rgba(99, 102, 241, 0.15)' }}
+                      animate={{ rotate: -360 }}
+                      transition={{ 
+                        duration: 120, 
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    >
+                      {/* Network nodes - middle orbit */}
+                      {[...Array(16)].map((_, i) => {
+                        const angle = (i / 16) * Math.PI * 2;
+                        const x = Math.cos(angle) * 60;
+                        const y = Math.sin(angle) * 60;
+                        return (
+                          <motion.div
+                            key={`node-middle-${i}`}
+                            className="absolute w-1.5 h-1.5 bg-indigo-400 rounded-full"
+                            style={{
+                              left: `calc(50% + ${x}%)`,
+                              top: `calc(50% + ${y}%)`,
+                            }}
+                            animate={{
+                              scale: [1, 1.8, 1],
+                              opacity: [0.3, 0.7, 0.3],
+                            }}
+                            transition={{
+                              duration: 3 + (i % 4),
+                              repeat: Infinity,
+                              delay: i * 0.15,
+                            }}
+                          />
+                        )
+                      })}
+                    </motion.div>
+
+                    {/* Outer orbit */}
+                    <motion.div 
+                      className="absolute inset-0 rounded-full"
+                      style={{ border: '1px solid rgba(139, 92, 246, 0.15)' }}
+                      animate={{ rotate: 360 }}
+                      transition={{ 
+                        duration: 150, 
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    >
+                      {/* Network nodes - outer orbit */}
+                      {[...Array(20)].map((_, i) => {
+                        const angle = (i / 20) * Math.PI * 2;
+                        const x = Math.cos(angle) * 82;
+                        const y = Math.sin(angle) * 82;
+                        return (
+                          <motion.div
+                            key={`node-outer-${i}`}
+                            className="absolute w-1 h-1 bg-purple-400 rounded-full"
+                            style={{
+                              left: `calc(50% + ${x}%)`,
+                              top: `calc(50% + ${y}%)`,
+                            }}
+                            animate={{
+                              scale: [1, 2, 1],
+                              opacity: [0.2, 0.5, 0.2],
+                            }}
+                            transition={{
+                              duration: 4 + (i % 3),
+                              repeat: Infinity,
+                              delay: i * 0.1,
+                            }}
+                          />
+                        )
+                      })}
+                    </motion.div>
+
+                    {/* Center sphere */}
+                    <motion.div 
+                      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-white/10 flex items-center justify-center"
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 1, delay: 1 }}
+                    >
+                      <motion.div 
+                        className="relative w-full h-full flex items-center justify-center"
+                        animate={{ 
+                          rotate: [0, 360] 
+                        }}
+                        transition={{ 
+                          duration: 60,
+                          repeat: Infinity,
+                          ease: "linear" 
+                        }}
+                      >
+                        {/* Connection points */}
+                        {[...Array(6)].map((_, i) => {
+                          const angle = (i / 6) * Math.PI * 2;
+                          const x = Math.cos(angle) * 48;
+                          const y = Math.sin(angle) * 48;
+                          return (
+                            <motion.div
+                              key={`connection-${i}`}
+                              className="absolute w-0.5 h-0.5 bg-white rounded-full"
+                              style={{
+                                left: `calc(50% + ${x}%)`,
+                                top: `calc(50% + ${y}%)`,
+                              }}
+                              animate={{
+                                opacity: [0, 1, 0],
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                delay: i * 0.3,
+                              }}
+                            />
+                          )
+                        })}
+                        
+                        <motion.div 
+                          className="w-20 h-20 rounded-full flex items-center justify-center backdrop-blur-sm bg-gradient-to-br from-blue-600/10 to-indigo-600/10 border border-blue-500/20"
+                          animate={{ 
+                            scale: [1, 1.05, 1],
+                            opacity: [0.8, 1, 0.8],
+                          }}
+                          transition={{ 
+                            duration: 4, 
+                            repeat: Infinity,
+                            ease: "easeInOut" 
+                          }}
+                        >
+                          <svg viewBox="0 0 24 24" fill="none" className="w-14 h-14" xmlns="http://www.w3.org/2000/svg">
+                            <motion.path 
+                              d="M12 2L2 7L12 12L22 7L12 2Z" 
+                              stroke="url(#paint0_linear)" 
+                              strokeWidth="1.5" 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round"
+                              initial={{ pathLength: 0, opacity: 0 }}
+                              animate={{ pathLength: 1, opacity: 1 }}
+                              transition={{ duration: 1.5, delay: 1.4 }}
+                            />
+                            <motion.path 
+                              d="M2 17L12 22L22 17" 
+                              stroke="url(#paint1_linear)" 
+                              strokeWidth="1.5" 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round"
+                              initial={{ pathLength: 0, opacity: 0 }}
+                              animate={{ pathLength: 1, opacity: 1 }}
+                              transition={{ duration: 1.5, delay: 1.6 }}
+                            />
+                            <motion.path 
+                              d="M2 12L12 17L22 12" 
+                              stroke="url(#paint2_linear)" 
+                              strokeWidth="1.5" 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round"
+                              initial={{ pathLength: 0, opacity: 0 }}
+                              animate={{ pathLength: 1, opacity: 1 }}
+                              transition={{ duration: 1.5, delay: 1.8 }}
+                            />
+                            <motion.path 
+                              d="M12 22V12" 
+                              stroke="url(#paint3_linear)" 
+                              strokeWidth="1.5" 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round"
+                              initial={{ pathLength: 0, opacity: 0 }}
+                              animate={{ pathLength: 1, opacity: 1 }}
+                              transition={{ duration: 1, delay: 2 }}
+                            />
+                            <defs>
+                              <linearGradient id="paint0_linear" x1="2" y1="7" x2="22" y2="7" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#60A5FA" />
+                                <stop offset="1" stopColor="#A78BFA" />
+                              </linearGradient>
+                              <linearGradient id="paint1_linear" x1="2" y1="19.5" x2="22" y2="19.5" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#60A5FA" />
+                                <stop offset="1" stopColor="#A78BFA" />
+                              </linearGradient>
+                              <linearGradient id="paint2_linear" x1="2" y1="14.5" x2="22" y2="14.5" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#60A5FA" />
+                                <stop offset="1" stopColor="#A78BFA" />
+                              </linearGradient>
+                              <linearGradient id="paint3_linear" x1="12" y1="17" x2="13" y2="17" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#60A5FA" />
+                                <stop offset="1" stopColor="#A78BFA" />
+                              </linearGradient>
+                            </defs>
+                          </svg>
+                        </motion.div>
+                      </motion.div>
+                    </motion.div>
+                  </motion.div>
+                </div>
+
+                {/* Visual data points - top */}
+                <motion.div 
+                  className="absolute top-10 left-0 right-0 flex justify-center pointer-events-none"
+                  initial={{ opacity: 0, y: -20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.9 }}
+                >
+                  <div className="flex items-center gap-2">
+                    <motion.div 
+                      className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center"
+                      whileInView={{ 
+                        scale: [0.8, 1.3, 1],
+                        opacity: [0, 1, 1] 
+                      }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1 }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 text-white">
+                        <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
+                      </svg>
+                    </motion.div>
+                    <motion.div 
+                      className="h-8 w-8 rounded-full bg-gradient-to-r from-indigo-500 to-indigo-600 flex items-center justify-center"
+                      whileInView={{ 
+                        scale: [0.8, 1.3, 1],
+                        opacity: [0, 1, 1] 
+                      }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-white">
+                        <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
+                      </svg>
+                    </motion.div>
+                    <motion.div 
+                      className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center"
+                      whileInView={{ 
+                        scale: [0.8, 1.3, 1],
+                        opacity: [0, 1, 1] 
+                      }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.4 }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
+                        <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
+                      </svg>
+                    </motion.div>
+                    <motion.div 
+                      className="h-6 w-6 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center"
+                      whileInView={{ 
+                        scale: [0.8, 1.3, 1],
+                        opacity: [0, 1, 1] 
+                      }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.6 }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3 text-white">
+                        <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd" />
+                      </svg>
+                    </motion.div>
+                  </div>
+                </motion.div>
+
+                {/* Visual profile bubbles - bottom */}
+                <motion.div 
+                  className="absolute bottom-6 left-0 right-0 flex justify-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 1.1 }}
+                >
+                  <motion.div 
+                    className="flex -space-x-3 justify-center"
+                    whileInView={{ scale: [0.9, 1] }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    {[...Array(5)].map((_, i) => (
+                      <motion.div 
+                        key={i} 
+                        className="w-8 h-8 rounded-full border-2 border-blue-900 overflow-hidden"
+                        style={{ 
+                          backgroundImage: `url(https://randomuser.me/api/portraits/${i % 2 === 0 ? 'women' : 'men'}/${10 + i}.jpg)`,
+                          backgroundSize: 'cover',
+                          zIndex: 5 - i,
+                        }}
+                        initial={{ x: i * 20 }}
+                        whileInView={{ x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.2 + (i * 0.1) }}
+                        whileHover={{ 
+                          y: -5, 
+                          scale: 1.2, 
+                          zIndex: 10,
+                          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3)"
+                        }}
+                      />
+                    ))}
+                    <motion.div 
+                      className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 border-2 border-blue-900 flex items-center justify-center text-white font-medium text-xs"
+                      style={{ zIndex: 0 }}
+                      initial={{ x: 50 }}
+                      whileInView={{ x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: 0.8 }}
+                      whileHover={{ 
+                        y: -5, 
+                        scale: 1.2, 
+                        zIndex: 10,
+                        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3)"
+                      }}
+                    >
+                      200+
+                    </motion.div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Application deadline - subtle indicator */}
+                <motion.div 
+                  className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"
+                  animate={{ 
+                    opacity: [0.3, 0.7, 0.3],
+                    backgroundPosition: ['100% 0%', '0% 0%'], 
+                  }}
+                  transition={{ 
+                    duration: 8, 
+                    repeat: Infinity,
+                    repeatType: 'mirror',
+                    ease: "easeInOut" 
+                  }}
+                />
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
     </main>
   );
-}        
+}

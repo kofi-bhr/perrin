@@ -62,16 +62,16 @@ export default function Navbar() {
                   Directory
                 </Link>
                 <Link
+                  href="/Labs"
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/Labs') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                >
+                  Labs
+                </Link>
+                <Link
                   href="/events"
                   className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/events') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
                 >
                   Events
-                </Link>
-                <Link
-                  href="/about"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/about') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
-                >
-                  About
                 </Link>
                 <Link
                   href="/application"
@@ -118,6 +118,17 @@ export default function Navbar() {
               Directory
             </Link>
             <Link
+              href="/Labs"
+              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
+                isExpertsPage 
+                  ? 'text-white hover:text-blue-400 border-slate-700' 
+                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
+              } ${pathname.includes('/Labs') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Labs
+            </Link>
+            <Link
               href="/events"
               className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
                 isExpertsPage 
@@ -127,17 +138,6 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               Events
-            </Link>
-            <Link
-              href="/about"
-              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isExpertsPage 
-                  ? 'text-white hover:text-blue-400 border-slate-700' 
-                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/about') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
             </Link>
             <Link
               href="/application"

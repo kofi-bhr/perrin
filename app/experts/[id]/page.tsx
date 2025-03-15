@@ -144,6 +144,33 @@ const EXPERTS: Expert[] = [
   },
   {
     id: 14,
+    name: "Khoa Duong",
+    role: "Vice President of Marketing",
+    bio: "Vice President of Marketing leading brand strategy and market growth initiatives.",
+    image: "",
+    email: "duongdangkhoa0328@gmail.com",
+    phone: "(+84) 981880698",
+    category: "Leadership"
+  },
+  {
+    id: 15,
+    name: "Vick Volovnyk",
+    role: "Director of Communications",
+    bio: "Director of Communications managing external communications and public relations.",
+    image: "",
+    category: "Leadership"
+  },
+  {
+    id: 16,
+    name: "Yiren Jing",
+    role: "Policy Researcher",
+    bio: "Policy Researcher analyzing and developing policy recommendations.",
+    image: "",
+    email: "jingyiren345@gmail.com",
+    category: "Research"
+  },
+  {
+    id: 17,
     name: "Rienat Kharian",
     role: "Policy Researcher",
     bio: "Policy Researcher analyzing policy implications and opportunities.",
@@ -151,7 +178,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 15,
+    id: 18,
     name: "Kashaf Alvi",
     role: "Policy Researcher",
     bio: "Policy Researcher conducting research on various policy areas.",
@@ -159,7 +186,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 16,
+    id: 19,
     name: "Aayam Bansal",
     role: "Policy Researcher",
     bio: "Policy Researcher specializing in policy analysis and development.",
@@ -167,7 +194,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 17,
+    id: 20,
     name: "Daniel Tu",
     role: "Policy Researcher",
     bio: "Policy Researcher focusing on policy implementation and evaluation.",
@@ -175,7 +202,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 18,
+    id: 21,
     name: "Lucas Benardete",
     role: "Policy Researcher",
     bio: "Policy Researcher investigating policy impacts and effectiveness.",
@@ -183,7 +210,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 19,
+    id: 22,
     name: "Anirudh Polagani",
     role: "Policy Researcher",
     bio: "Policy Researcher exploring innovative policy solutions.",
@@ -192,7 +219,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 20,
+    id: 23,
     name: "Riya Dutta",
     role: "Policy Researcher",
     bio: "Policy Researcher examining policy frameworks and outcomes.",
@@ -201,7 +228,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 21,
+    id: 24,
     name: "Jacob Wolmetz",
     role: "Policy Researcher",
     bio: "Policy Researcher studying emerging policy trends and challenges.",
@@ -209,7 +236,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 22,
+    id: 25,
     name: "Yash Laddha",
     role: "Policy Researcher",
     bio: "Policy Researcher contributing to policy innovation and research.",
@@ -218,7 +245,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 23,
+    id: 26,
     name: "Noah Diaz",
     role: "Policy Researcher",
     bio: "Policy Researcher analyzing complex policy issues and solutions.",
@@ -226,7 +253,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 24,
+    id: 27,
     name: "Saanvi Gowda",
     role: "Policy Researcher",
     bio: "Policy Researcher conducting thorough policy analysis and research.",
@@ -234,7 +261,7 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 25,
+    id: 28,
     name: "Shuwei Guo",
     role: "Policy Researcher",
     bio: "Policy Researcher exploring innovative approaches to policy challenges.",
@@ -243,7 +270,41 @@ const EXPERTS: Expert[] = [
     category: "Research"
   },
   {
-    id: 26,
+    id: 29,
+    name: "Simran Sahoo",
+    role: "Editorial Board Researcher",
+    bio: "Editorial Board Researcher reviewing and overseeing content publication.",
+    image: "",
+    category: "Editorial"
+  },
+  {
+    id: 30,
+    name: "Mohammad Ibrahim",
+    role: "Editorial Board Researcher",
+    bio: "Editorial Board Researcher contributing to content analysis and publication.",
+    image: "",
+    category: "Editorial"
+  },
+  {
+    id: 31,
+    name: "Aaron Zeleke",
+    role: "Editorial Board Researcher",
+    bio: "Editorial Board Researcher supporting content development and research.",
+    image: "",
+    category: "Editorial"
+  },
+  {
+    id: 32,
+    name: "Rebekah Mekonen",
+    role: "Editorial Board Researcher",
+    bio: "Editorial Board Researcher and Outreach Chair facilitating research communication.",
+    image: "",
+    email: "qhu4bv@virginia.edu",
+    phone: "5714993544",
+    category: "Editorial"
+  },
+  {
+    id: 33,
     name: "Kiro Moussa",
     role: "Research Fellow | Massachusetts Institute of Technology",
     bio: "Research Fellow affiliated with MIT, specializing in technology policy intersection.",
@@ -259,7 +320,50 @@ const EXPERTS: Expert[] = [
     }
   },
   {
-    id: 27,
+    id: 34,
+    name: "Lexie Hobbs",
+    role: "Research Fellow | Smith College",
+    bio: "Research Fellow affiliated with Smith College, conducting policy research.",
+    image: "/experts/anonymous.jpg",
+    interests: ["Government", "Policy Research", "Higher Education"],
+    category: "Research Fellow",
+    affiliations: {
+      education: ["Smith College"]
+    }
+  },
+  {
+    id: 35,
+    name: "Anaise Lopez-Rodriguez",
+    role: "Research Fellow | Brown University",
+    bio: "Research Fellow affiliated with Brown University, focusing on policy development.",
+    image: "",
+    category: "Research Fellow",
+    affiliations: {
+      education: ["Brown University"]
+    }
+  },
+  {
+    id: 36,
+    name: "Jawhar Yasin",
+    role: "Research Fellow | Princeton University",
+    bio: "Research Fellow affiliated with Princeton University, studying policy implementation.",
+    image: "",
+    category: "Research Fellow",
+    affiliations: {
+      education: ["Princeton University"]
+    }
+  },
+  {
+    id: 37,
+    name: "Neha Nair",
+    role: "Research Fellow | Not Applicable Yet",
+    bio: "Research Fellow preparing for institutional affiliation, researching policy innovation.",
+    image: "/girl1.png",
+    interests: ["Environmental Policy", "Technology", "Sustainability"],
+    category: "Research Fellow"
+  },
+  {
+    id: 38,
     name: "Lourdes Ronquillo",
     role: "Research Fellow | Tufts University",
     bio: "Research Fellow affiliated with Tufts University, focusing on policy research.",
@@ -270,7 +374,7 @@ const EXPERTS: Expert[] = [
     }
   },
   {
-    id: 28,
+    id: 39,
     name: "Christian Wang",
     role: "Research Fellow | University of Oxford",
     bio: "Research Fellow affiliated with Oxford University, focusing on philosophy, politics, and economics.",
@@ -282,7 +386,7 @@ const EXPERTS: Expert[] = [
     }
   },
   {
-    id: 29,
+    id: 40,
     name: "Oz Smith",
     role: "Research Fellow | Not Applicable",
     bio: "Research Fellow conducting independent policy research.",
@@ -290,7 +394,7 @@ const EXPERTS: Expert[] = [
     category: "Research Fellow"
   },
   {
-    id: 30,
+    id: 41,
     name: "Heba Elkouraichi",
     role: "Research Fellow | Vassar College",
     bio: "Research Fellow affiliated with Vassar College, studying policy implementation.",
@@ -301,7 +405,7 @@ const EXPERTS: Expert[] = [
     }
   },
   {
-    id: 31,
+    id: 42,
     name: "Sophie Sarazin",
     role: "Research Fellow | Not Applicable Yet",
     bio: "Research Fellow preparing for institutional affiliation, focusing on policy research.",
@@ -309,6 +413,74 @@ const EXPERTS: Expert[] = [
     email: "ssarazin.07@gmail.com",
     category: "Research Fellow",
     interests: ["Educational Policy", "Environmental Policy"]
+  },
+  {
+    id: 43,
+    name: "Noah Wondwossen",
+    role: "Co-President",
+    bio: "Co-President of Perrin at The University of Virginia.",
+    image: "",
+    email: "kqe8kv@virginia.edu",
+    phone: "2408107421",
+    category: "UVA Chapter"
+  },
+  {
+    id: 44,
+    name: "Nehemiah Kim",
+    role: "Treasurer",
+    bio: "Treasurer of Perrin at The University of Virginia.",
+    image: "",
+    email: "kyi5ra@virginia.edu",
+    phone: "3176280361",
+    category: "UVA Chapter"
+  },
+  {
+    id: 45,
+    name: "Naomi Million",
+    role: "Secretary",
+    bio: "Secretary of Perrin at The University of Virginia.",
+    image: "",
+    email: "uwm4xh@virginia.edu",
+    phone: "7033990711",
+    category: "UVA Chapter"
+  },
+  {
+    id: 46,
+    name: "Manuella Kodwo",
+    role: "Member",
+    bio: "Member of Perrin at The University of Virginia.",
+    image: "",
+    email: "pyv7wx@virginia.edu",
+    phone: "7038592870",
+    category: "UVA Chapter"
+  },
+  {
+    id: 47,
+    name: "Mikael Tefferi",
+    role: "Member",
+    bio: "Member of Perrin at The University of Virginia.",
+    image: "",
+    email: "dne7vg@virginia.edu",
+    phone: "7033464967",
+    category: "UVA Chapter"
+  },
+  {
+    id: 48,
+    name: "Heran Dereje",
+    role: "Member",
+    bio: "Member of Perrin at The University of Virginia.",
+    image: "",
+    email: "rqh5rc@virginia.edu",
+    category: "UVA Chapter"
+  },
+  {
+    id: 49,
+    name: "Abel Alexander",
+    role: "Member",
+    bio: "Member of Perrin at The University of Virginia.",
+    image: "",
+    email: "fct4zy@virginia.edu",
+    category: "UVA Chapter"
   }
 ]
 
