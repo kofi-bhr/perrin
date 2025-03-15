@@ -9,6 +9,7 @@ import TechGrid from "@/components/TechGrid";
 import TechCursor from "@/components/TechCursor";
 import Footer from '@/components/Footer';
 import { Popover, Dialog, Disclosure, Transition } from '@headlessui/react';
+import { useInView } from 'react-intersection-observer' // You may need to install this package
 
 interface Paper {
   id: string;
@@ -2349,7 +2350,7 @@ export default function Home() {
                 <div className="w-full h-full bg-gradient-to-br from-indigo-800 to-purple-900"></div>
               </div>
               <div>
-                <div className="text-white font-medium">Kashaf Ahmed, PhD</div>
+                <div className="text-white font-medium">Kashaf Ahmed</div>
                 <div className="text-white/60 text-sm">Inclusive Policy Laboratory</div>
               </div>
             </motion.div>
@@ -2689,7 +2690,7 @@ export default function Home() {
                             ease: "easeInOut"
                           }}
                         >
-                          <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.02-1.1l2.1-1.95H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                          <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clipRule="evenodd" />
                         </motion.svg>
                       </span>
                     </motion.a>
