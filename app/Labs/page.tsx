@@ -2,22 +2,22 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiArrowRight, FiDatabase, FiGlobe, FiCpu, FiBarChart2, FiLayers } from 'react-icons/fi'
+import { FiArrowRight, FiDatabase, FiGlobe, FiCpu, FiBarChart2, FiLayers, FiUsers, FiMessageCircle, FiStar, FiBookOpen, FiZap } from 'react-icons/fi'
 import { useState } from 'react'
 
 // Lab data
 const LABS = [
   {
-    id: 'ai-policy',
-    title: 'AI Policy & Governance',
+    id: 'ai-governance',
+    title: 'AI Governance',
     icon: <FiCpu className="h-6 w-6" />,
     color: 'from-blue-500 to-indigo-600',
     textColor: 'text-blue-400',
-    description: 'Developing frameworks for responsible AI governance and policy recommendations that balance innovation with ethical considerations.',
+    description: 'Developing ethical frameworks and policy recommendations for responsible AI deployment, focusing on transparency, fairness, and accountability in algorithmic systems.',
     stats: [
-      { label: 'Publications', value: '14' },
-      { label: 'Researchers', value: '8' },
-      { label: 'Partnerships', value: '3' }
+      { label: 'Focus Areas', value: '4' },
+      { label: 'Projects', value: '7' },
+      { label: 'Partnerships', value: '5' }
     ],
     image: '/lab-ai-policy.jpg',
     defaultImage: '/default-lab.jpg',
@@ -28,35 +28,35 @@ const LABS = [
     ]
   },
   {
-    id: 'data-democracy',
-    title: 'Data & Democracy',
-    icon: <FiDatabase className="h-6 w-6" />,
+    id: 'inclusive-policy',
+    title: 'Inclusive Policy',
+    icon: <FiUsers className="h-6 w-6" />,
     color: 'from-purple-500 to-pink-600',
     textColor: 'text-purple-400',
-    description: 'Exploring how data-driven technologies impact democratic processes and developing solutions to strengthen democratic institutions.',
+    description: 'Creating policy frameworks that ensure equitable access and representation, addressing systemic barriers and promoting diversity across public policy initiatives.',
     stats: [
-      { label: 'Publications', value: '11' },
-      { label: 'Researchers', value: '6' },
-      { label: 'Case Studies', value: '5' }
+      { label: 'Focus Areas', value: '3' },
+      { label: 'Projects', value: '6' },
+      { label: 'Case Studies', value: '8' }
     ],
-    image: '/lab-data-democracy.jpg',
+    image: '/lab-inclusive-policy.jpg',
     defaultImage: '/default-lab.jpg',
     projects: [
-      'Digital Election Integrity Project',
-      'Misinformation Propagation Analysis',
-      'Civic Technology Innovation'
+      'Equity Impact Assessment Tools',
+      'Inclusive Public Engagement Models',
+      'Accessibility Policy Framework'
     ]
   },
   {
-    id: 'climate-tech',
-    title: 'Climate Tech Policy',
+    id: 'climate-technology',
+    title: 'Climate Technology',
     icon: <FiGlobe className="h-6 w-6" />,
     color: 'from-emerald-500 to-teal-600',
     textColor: 'text-emerald-400',
     description: 'Researching policy frameworks that accelerate the deployment of climate technologies while ensuring equitable access and implementation.',
     stats: [
-      { label: 'Publications', value: '9' },
-      { label: 'Researchers', value: '7' },
+      { label: 'Focus Areas', value: '5' },
+      { label: 'Projects', value: '9' },
       { label: 'Policy Briefs', value: '12' }
     ],
     image: '/lab-climate-tech.jpg',
@@ -68,43 +68,123 @@ const LABS = [
     ]
   },
   {
-    id: 'economic-innovation',
-    title: 'Economic Innovation',
-    icon: <FiBarChart2 className="h-6 w-6" />,
+    id: 'deliberative-democracy',
+    title: 'Deliberative Democracy',
+    icon: <FiMessageCircle className="h-6 w-6" />,
     color: 'from-amber-500 to-orange-600',
     textColor: 'text-amber-400',
-    description: 'Developing data-driven policy recommendations to foster economic innovation and resilience in rapidly changing technological landscapes.',
+    description: 'Exploring innovative approaches to democratic participation, focusing on citizen assemblies, participatory budgeting, and digital deliberation tools.',
     stats: [
-      { label: 'Publications', value: '15' },
-      { label: 'Researchers', value: '9' },
-      { label: 'Economic Models', value: '7' }
+      { label: 'Focus Areas', value: '3' },
+      { label: 'Projects', value: '5' },
+      { label: 'Case Studies', value: '7' }
+    ],
+    image: '/lab-democracy.jpg',
+    defaultImage: '/default-lab.jpg',
+    projects: [
+      'Digital Citizens Assembly Framework',
+      'Cross-Partisan Dialogue Models',
+      'Participatory Policy Design'
+    ]
+  },
+  {
+    id: 'special-projects',
+    title: 'Special Projects Lab',
+    icon: <FiStar className="h-6 w-6" />,
+    color: 'from-cyan-500 to-blue-600',
+    textColor: 'text-cyan-400',
+    description: 'Tackling high-impact, time-sensitive policy challenges through rapid response research and innovative cross-disciplinary approaches.',
+    stats: [
+      { label: 'Focus Areas', value: 'Varies' },
+      { label: 'Projects', value: '10+' },
+      { label: 'Response Time', value: 'Rapid' }
+    ],
+    image: '/lab-special-projects.jpg',
+    defaultImage: '/default-lab.jpg',
+    projects: [
+      'Rapid Response Policy Analysis',
+      'Cross-Disciplinary Crisis Solutions',
+      'Emerging Challenges Assessment'
+    ]
+  },
+  {
+    id: 'foreign-affairs',
+    title: 'Foreign Affairs Lab',
+    icon: <FiGlobe className="h-6 w-6" />,
+    color: 'from-indigo-500 to-purple-600',
+    textColor: 'text-indigo-400',
+    description: 'Analyzing global policy trends and developing frameworks for international cooperation, diplomatic engagement, and transnational governance.',
+    stats: [
+      { label: 'Focus Areas', value: '4' },
+      { label: 'Projects', value: '6' },
+      { label: 'Partnerships', value: 'Global' }
+    ],
+    image: '/lab-foreign-affairs.jpg',
+    defaultImage: '/default-lab.jpg',
+    projects: [
+      'Transnational Governance Models',
+      'Digital Diplomacy Framework',
+      'Global Cooperation Mechanisms'
+    ]
+  },
+  {
+    id: 'economic-policy',
+    title: 'Economic Policy Lab',
+    icon: <FiBarChart2 className="h-6 w-6" />,
+    color: 'from-green-500 to-emerald-600',
+    textColor: 'text-green-400',
+    description: 'Developing innovative economic policy solutions that promote sustainable growth, equitable prosperity, and financial stability.',
+    stats: [
+      { label: 'Focus Areas', value: '5' },
+      { label: 'Projects', value: '8' },
+      { label: 'Economic Models', value: '6' }
     ],
     image: '/lab-economic.jpg',
     defaultImage: '/default-lab.jpg',
     projects: [
-      'Future of Work Initiative',
-      'Digital Economy Regulation Framework',
-      'Innovation Ecosystem Mapping'
+      'Inclusive Growth Framework',
+      'Green Economy Transition Models',
+      'Digital Economy Regulation'
     ]
   },
   {
-    id: 'computational-policy',
-    title: 'Computational Policy',
-    icon: <FiLayers className="h-6 w-6" />,
-    color: 'from-cyan-500 to-blue-600',
-    textColor: 'text-cyan-400',
-    description: 'Using advanced computational methods to analyze policy issues and develop evidence-based recommendations for complex societal challenges.',
+    id: 'legal-research',
+    title: 'Legal Research Lab',
+    icon: <FiBookOpen className="h-6 w-6" />,
+    color: 'from-red-500 to-rose-600',
+    textColor: 'text-red-400',
+    description: 'Analyzing legal frameworks and developing policy recommendations at the intersection of law, technology, and public governance.',
     stats: [
-      { label: 'Publications', value: '12' },
-      { label: 'Researchers', value: '10' },
-      { label: 'Algorithms Developed', value: '6' }
+      { label: 'Focus Areas', value: '3' },
+      { label: 'Projects', value: '7' },
+      { label: 'Legal Analyses', value: '15+' }
     ],
-    image: '/lab-computational.jpg',
+    image: '/lab-legal.jpg',
     defaultImage: '/default-lab.jpg',
     projects: [
-      'Policy Simulation Models',
-      'Computational Social Science Methods',
-      'Predictive Policy Analytics'
+      'Digital Rights Framework',
+      'Regulatory Innovation Models',
+      'Technology Law Assessment'
+    ]
+  },
+  {
+    id: 'policy-entrepreneurship',
+    title: 'Policy Entrepreneurship Lab',
+    icon: <FiZap className="h-6 w-6" />,
+    color: 'from-yellow-500 to-amber-600',
+    textColor: 'text-yellow-400',
+    description: 'Incubating innovative policy solutions and developing frameworks for effective implementation and scaling of successful initiatives.',
+    stats: [
+      { label: 'Focus Areas', value: '4' },
+      { label: 'Projects', value: '9' },
+      { label: 'Pilot Programs', value: '5' }
+    ],
+    image: '/lab-entrepreneurship.jpg',
+    defaultImage: '/default-lab.jpg',
+    projects: [
+      'Policy Innovation Incubator',
+      'Implementation Science Framework',
+      'Policy Scaling Models'
     ]
   }
 ]
@@ -303,10 +383,10 @@ export default function LabsPage() {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               {[
-                { label: "Research Labs", value: "5" },
-                { label: "Researchers", value: "40+" },
-                { label: "Publications", value: "60+" },
-                { label: "Technologies", value: "12" }
+                { label: "Research Labs", value: "9" },
+                { label: "Policy Researchers", value: "250+" },
+                { label: "Specialized Teams", value: "15" },
+                { label: "Focus Areas", value: "30+" }
               ].map((stat, i) => (
                 <motion.div
                   key={stat.label}
@@ -538,98 +618,6 @@ export default function LabsPage() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-      
-      {/* Collaboration CTA Section */}
-      <section className="py-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/10 via-purple-900/10 to-blue-900/10"></div>
-        
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="bg-gradient-to-b from-white/[0.07] to-white/[0.03] border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm shadow-xl"
-          >
-            <div className="relative p-8 md:p-12">
-              {/* Background elements */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500"></div>
-              
-              <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-              
-              <div className="relative">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
-                  Collaborate with Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Research Labs</span>
-                </h2>
-                
-                <p className="text-lg text-gray-300 mb-8 max-w-3xl">
-                  We're looking for research partners, policy practitioners, and technical experts to join our mission of developing innovative policy solutions through rigorous research and analysis.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Link href="/application">
-                    <motion.button
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-4 px-8 rounded-xl flex items-center justify-center shadow-lg shadow-blue-900/20 group"
-                    >
-                      <motion.span 
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
-                        initial={{ x: '-100%' }}
-                        animate={{ x: '100%' }}
-                        transition={{ 
-                          repeat: Infinity, 
-                          repeatType: 'loop', 
-                          duration: 2,
-                          ease: 'linear'
-                        }}
-                      />
-                      <span className="relative flex items-center z-10">
-                        <span>Apply for Collaboration</span>
-                        <motion.span 
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{ 
-                            duration: 1.5, 
-                            repeat: Infinity,
-                            repeatType: 'loop',
-                            ease: "easeInOut"
-                          }}
-                          className="ml-2"
-                        >
-                          <FiArrowRight className="h-5 w-5" />
-                        </motion.span>
-                      </span>
-                    </motion.button>
-                  </Link>
-                  
-                  <Link href="/contact">
-                    <motion.button
-                      whileHover={{ 
-                        scale: 1.03, 
-                        backgroundColor: "rgba(255, 255, 255, 0.1)",
-                        boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      className="bg-white/5 hover:bg-white/10 text-white border border-white/10 font-medium py-4 px-8 rounded-xl flex items-center justify-center transition-all duration-300 hover:border-white/30 relative overflow-hidden"
-                    >
-                      <motion.span 
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12"
-                        initial={{ x: '-100%' }}
-                        whileHover={{ 
-                          x: '100%',
-                          transition: { duration: 0.8 }
-                        }}
-                      />
-                      <span className="relative z-10">Contact Our Team</span>
-                    </motion.button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
     </div>

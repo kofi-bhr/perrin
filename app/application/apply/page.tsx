@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -14,6 +14,7 @@ type ProgramInfo = {
 };
 
 export default function ApplicationFormPage() {
+  const jotformContainerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const programIdParam = searchParams.get('program');
   const [loading, setLoading] = useState(true);
@@ -23,7 +24,7 @@ export default function ApplicationFormPage() {
   const programDetails: Record<ProgramKey, ProgramInfo> = {
     '1': {
       title: 'Policy Research Fellowship',
-      formId: '240535192284154' // Replace with your actual JotForm ID for program 1
+      formId: '250707836203050' // Updated with your actual JotForm ID
     },
     '2': {
       title: 'Data Science for Policy Innovation',
@@ -41,22 +42,59 @@ export default function ApplicationFormPage() {
     ? programDetails[programIdParam] 
     : { title: 'Our Program', formId: '240535192284154' }; // Default form
   
-  // Listen for JotForm messages to resize iframe
+  // Add this effect to properly load the JotForm script
   useEffect(() => {
-    window.addEventListener('message', function(event) {
+    // Only run on client side
+    if (!jotformContainerRef.current) return;
+    
+    // Clear previous content first
+    jotformContainerRef.current.innerHTML = '';
+    
+    if (isProgramKey(programIdParam) && programIdParam === '1') {
+      // For program 1, dynamically load the script
+      const script = document.createElement('script');
+      script.src = `https://form.jotform.com/jsform/${programDetails['1'].formId}`;
+      script.type = 'text/javascript';
+      script.async = true;
+      
+      script.onload = () => {
+        setLoading(false);
+      };
+      
+      jotformContainerRef.current.appendChild(script);
+    } else {
+      // For other programs, use iframe
+      const iframe = document.createElement('iframe');
+      iframe.id = 'JotFormIFrame';
+      iframe.title = `Apply for ${currentProgram.title}`;
+      iframe.src = `https://form.jotform.com/${currentProgram.formId}?programName=${encodeURIComponent(currentProgram.title)}&programId=${isProgramKey(programIdParam) ? programIdParam : 'default'}`;
+      iframe.style.width = '100%';
+      iframe.style.height = `${formHeight}px`;
+      iframe.style.border = 'none';
+      iframe.setAttribute('allowFullScreen', 'true');
+      iframe.setAttribute('scrolling', 'no');
+      
+      iframe.onload = () => {
+        setLoading(false);
+      };
+      
+      jotformContainerRef.current.appendChild(iframe);
+    }
+    
+    // Keep the event listener for iframe resizing
+    const handleMessage = (event: MessageEvent) => {
       if (event.data.action === 'setHeight' && event.origin.indexOf('jotform') > -1) {
         setFormHeight(event.data.height);
         setLoading(false);
       }
-    });
+    };
     
-    // Set a fallback loading state
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    window.addEventListener('message', handleMessage);
     
-    return () => clearTimeout(timer);
-  }, []);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [programIdParam, currentProgram, formHeight]);
 
   return (
     <>
@@ -90,21 +128,14 @@ export default function ApplicationFormPage() {
               </div>
             )}
             
-            {/* JotForm iframe */}
-            <iframe
-              id="JotFormIFrame"
-              title={`Apply for ${currentProgram.title}`}
-              onLoad={() => setLoading(false)}
-              src={`https://form.jotform.com/${currentProgram.formId}?programName=${encodeURIComponent(currentProgram.title)}&programId=${isProgramKey(programIdParam) ? programIdParam : 'default'}`}
+            {/* JotForm container - simplified */}
+            <div 
+              ref={jotformContainerRef}
+              className="w-full min-h-[500px]"
               style={{
-                width: '100%',
-                height: `${formHeight}px`,
-                border: 'none',
                 opacity: loading ? 0 : 1,
                 transition: 'opacity 0.5s ease'
               }}
-              allowFullScreen
-              scrolling="no"
             />
           </div>
           
