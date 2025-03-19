@@ -1450,7 +1450,7 @@ export default function Home() {
                   
                   {/* Quote from Senator */}
                   <div className="italic text-amber-100/70 text-xs border-l-2 border-amber-500/30 pl-3 mb-4">
-                    "...exemplary contributions to policy research and fostering a new generation of policy leaders..." <span className="not-italic font-medium">—Senator Chris Van Hollen</span>
+                    "...your initiative sets a powerful example of how passion and purpose can drive meaningful change..." <span className="not-italic font-medium"> — Senator Chris Van Hollen</span>
                   </div>
                   
                   <div className="mt-auto pt-4 border-t border-amber-500/10">
