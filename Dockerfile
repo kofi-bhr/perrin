@@ -13,12 +13,12 @@ COPY .eslintrc.js ./
 RUN npm install
 
 # Copy project files
-COPY api/ ./api/
 COPY app/ ./app/
 COPY components/ ./components/
 COPY lib/ ./lib/
 COPY public/ ./public/
 COPY types/ ./types/
+COPY styles/ ./styles/
 COPY next.config.js ./
 COPY tsconfig.json ./
 COPY postcss.config.js ./
