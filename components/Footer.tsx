@@ -40,16 +40,33 @@ export default function Footer() {
             
             {/* Social links */}
             <div className="flex space-x-4">
-              {['twitter', 'linkedin', 'github', 'instagram'].map((social, index) => (
+              <motion.a
+                href="https://www.tiktok.com/@theperrininstitution?_t=ZT-8ugIWNNxeqw&_r=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -3, color: '#EE1D52' }}
+                className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-white/90 transition-colors"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3 }}
+              >
+                <span className="sr-only">TikTok</span>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                </svg>
+              </motion.a>
+              {/* Placeholder for other social media that may be added later */}
+              {['linkedin', 'instagram'].map((social, index) => (
                 <motion.a
                   key={social}
                   href="#"
-                  whileHover={{ y: -3, color: '#3b82f6' }}
+                  whileHover={{ y: -3, color: social === 'linkedin' ? '#0077B5' : '#E1306C' }}
                   className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-white/90 transition-colors"
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.1 * index }}
+                  transition={{ duration: 0.3, delay: 0.1 * (index + 1) }}
                 >
                   <span className="sr-only">{social}</span>
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -61,7 +78,7 @@ export default function Footer() {
           </motion.div>
           
           <div className="md:col-span-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -70,7 +87,7 @@ export default function Footer() {
               >
                 <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Navigation</h3>
                 <ul className="space-y-3">
-                  {['Home', 'About', 'Research', 'Events', 'Fellows'].map((item, index) => (
+                  {['Home', 'About', 'Labs', 'Events', 'Application'].map((item, index) => (
                     <motion.li 
                       key={item}
                       initial={{ opacity: 0, x: -10 }}
@@ -98,9 +115,9 @@ export default function Footer() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Resources</h3>
+                <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Apply</h3>
                 <ul className="space-y-3">
-                  {['Papers', 'Publications', 'Data', 'Press'].map((item, index) => (
+                  {['Research Fellowship', 'Data Science Program', 'Application FAQ'].map((item, index) => (
                     <motion.li 
                       key={item}
                       initial={{ opacity: 0, x: -10 }}
@@ -109,7 +126,7 @@ export default function Footer() {
                       transition={{ duration: 0.3, delay: 0.4 + 0.05 * index }}
                     >
                       <Link 
-                        href={`/${item.toLowerCase()}`}
+                        href="/application"
                         className="text-white/70 hover:text-white transition-colors flex items-center group"
                       >
                         <motion.span 
@@ -128,88 +145,49 @@ export default function Footer() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Connect</h3>
-                <ul className="space-y-3">
-                  {['Contact', 'Newsletter', 'Careers', 'Support'].map((item, index) => (
-                    <motion.li 
-                      key={item}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: 0.5 + 0.05 * index }}
-                    >
-                      <Link 
-                        href={`/${item.toLowerCase()}`}
-                        className="text-white/70 hover:text-white transition-colors flex items-center group"
-                      >
-                        <motion.span 
-                          className="w-0 h-px bg-blue-500 mr-0 group-hover:w-2 group-hover:mr-2 transition-all duration-300"
-                        />
-                        {item}
-                      </Link>
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              >
                 <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Legal</h3>
                 <ul className="space-y-3">
-                  {['Privacy', 'Terms', 'Cookies', 'Licenses'].map((item, index) => (
-                    <motion.li 
-                      key={item}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: 0.6 + 0.05 * index }}
+                  <motion.li 
+                    key="privacy"
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.5 }}
+                  >
+                    <Link 
+                      href="/privacy-policy"
+                      className="text-white/70 hover:text-white transition-colors flex items-center group"
                     >
-                      <Link 
-                        href={`/${item.toLowerCase()}`}
-                        className="text-white/70 hover:text-white transition-colors flex items-center group"
-                      >
-                        <motion.span 
-                          className="w-0 h-px bg-blue-500 mr-0 group-hover:w-2 group-hover:mr-2 transition-all duration-300"
-                        />
-                        {item}
-                      </Link>
-                    </motion.li>
-                  ))}
+                      <motion.span 
+                        className="w-0 h-px bg-blue-500 mr-0 group-hover:w-2 group-hover:mr-2 transition-all duration-300"
+                      />
+                      Privacy Policy
+                    </Link>
+                  </motion.li>
+                  <motion.li 
+                    key="terms"
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: 0.55 }}
+                  >
+                    <Link 
+                      href="/terms-of-use"
+                      className="text-white/70 hover:text-white transition-colors flex items-center group"
+                    >
+                      <motion.span 
+                        className="w-0 h-px bg-blue-500 mr-0 group-hover:w-2 group-hover:mr-2 transition-all duration-300"
+                      />
+                      Terms of Use
+                    </Link>
+                  </motion.li>
                 </ul>
               </motion.div>
             </div>
           </div>
         </div>
         
-        {/* Newsletter subscription - FAANG style */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-16 pt-8 border-t border-white/10"
-        >
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="text-lg font-medium mb-2">Stay updated with our newsletter</h3>
-              <p className="text-white/60 text-sm">Get the latest research and policy insights delivered to your inbox</p>
-            </div>
-            <div className="flex">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
-                className="bg-white/5 border border-white/10 rounded-l-lg px-4 py-3 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              />
-              <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 rounded-r-lg transition-colors">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </motion.div>
+        {/* Newsletter subscription - Removed as requested */}
         
         {/* Bottom footer with tech elements */}
         <motion.div 
@@ -220,7 +198,7 @@ export default function Footer() {
           className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center"
         >
           <div className="text-white/40 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} Perrin Institute. All rights reserved.
+            © {new Date().getFullYear()} Perrin Institute. All rights reserved. The Perrin Institute is a student organization at the University of Virginia.
           </div>
           
           <div className="flex items-center">

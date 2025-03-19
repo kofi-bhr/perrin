@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useAnimation, Variant } from "framer-motion";
-import { FiArrowRight, FiMenu, FiX, FiCode, FiDatabase, FiServer, FiArrowDown, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiArrowRight, FiMenu, FiX, FiCode, FiDatabase, FiServer, FiArrowDown, FiChevronDown, FiChevronUp, FiActivity } from 'react-icons/fi';
 import { images } from "@/lib/images";
 import TechGrid from "@/components/TechGrid";
 import TechCursor from "@/components/TechCursor";
@@ -981,7 +981,13 @@ export default function Home() {
                 { label: "Supporters", value: "48,000+", icon: FiDatabase, color: "text-blue-400" },
                 { label: "Reached via Socials", value: "75,000,000+", icon: FiCode, color: "text-purple-400" },
                 { label: "Garnered Scholarships", value: "$3,570,000+", icon: FiServer, color: "text-green-400" },
-                { label: "Applicants", value: "3,000+", icon: FiServer, color: "text-yellow-400" }
+                { 
+                  label: "TikTok Followers", 
+                  value: "50K+", 
+                  icon: FiActivity, 
+                  color: "text-pink-400",
+                  link: "https://www.tiktok.com/@theperrininstitution?_t=ZT-8ugIWNNxeqw&_r=1"
+                }
               ].map((stat, index) => (
                 <motion.div 
                   key={index} 
@@ -1478,7 +1484,7 @@ export default function Home() {
                   
                   <h3 className="text-xl font-medium text-white mb-2">SSRN Global Recognition</h3>
                   <p className="text-slate-400 mb-4 text-sm">
-                    Our groundbreaking policy paper on digital governance achieved a remarkable <span className="text-white font-medium">#3 ranking in global downloads</span> on SSRN, competing with research from institutions like Harvard and Oxford.
+                    Our groundbreaking policy paper on digital governance achieved a remarkable <span className="text-white font-medium">#2 ranking in global downloads</span> on SSRN History of Science and Environment eJournal, competing with research from institutions like Harvard and Oxford.
                   </p>
                   
                   {/* Enhanced highlight badge */}
@@ -1486,7 +1492,7 @@ export default function Home() {
                     <div className="text-blue-300 text-xs font-semibold uppercase tracking-wider mb-1">Global Research Impact</div>
                     <div className="text-white font-medium flex items-center">
                       <span className="text-blue-300 text-lg mr-2">📊</span>
-                      <span>#3 Most Downloaded Research Worldwide</span>
+                      <span>Global Top Downloads List, History of Science and Environment eJournal Top 10</span>
                     </div>
                   </div>
                   
