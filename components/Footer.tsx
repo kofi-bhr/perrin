@@ -103,7 +103,7 @@ export default function Footer() {
               >
                 <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Navigation</h3>
                 <ul className="space-y-3">
-                  {['Home', 'About', 'Labs', 'Events', 'Application'].map((item, index) => (
+                  {['Home', 'Labs', 'Events', 'Application'].map((item, index) => (
                     <motion.li 
                       key={item}
                       initial={{ opacity: 0, x: -10 }}
@@ -112,7 +112,7 @@ export default function Footer() {
                       transition={{ duration: 0.3, delay: 0.3 + 0.05 * index }}
                     >
                       <Link 
-                        href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                        href={item === 'Home' ? '/' : item === 'Labs' ? '/Labs' : `/${item.toLowerCase()}`}
                         className="text-white/70 hover:text-white transition-colors flex items-center group"
                       >
                         <motion.span 
