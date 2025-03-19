@@ -70,7 +70,6 @@ const oxfordBlue = 'from-[#002147]'; // Oxford Blue
 const oxfordAccent = 'to-[#8c1515]'; // Oxford Accent (more accurate than "Oxford Red")
 
 export default function EventsPage() {
-  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [activeTab, setActiveTab] = useState('featured');
   const [animateCards, setAnimateCards] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -177,24 +176,24 @@ export default function EventsPage() {
     },
     {
       id: '7',
-      title: 'Oxford-Perrin Policy Forum: Global Governance Innovation',
+      title: 'Oxford Policy Forum: Global Governance Symposium',
       type: 'Conference',
-      date: 'May 25-27, 2024',
+      date: '',
       time: '9:00 AM - 6:00 PM',
       location: 'Blavatnik School of Government, Oxford University',
-      description: "Join us for the inaugural Oxford-Perrin Policy Forum bringing together leading scholars from both institutions to address critical challenges in global governance. This three-day event features keynote addresses, interactive workshops, and research presentations focused on institutional innovation in an age of complex global challenges. Sessions will explore multilateral cooperation frameworks, digital governance models, and emerging approaches to international policy coordination.",
+      description: "A distinguished symposium hosted at Oxford University's Blavatnik School of Government where Perrin Institute researchers presented alongside Oxford faculty on pressing global governance challenges. This three-day event featured keynote addresses, interactive workshops, and research presentations focused on institutional innovation in an age of complex global challenges. Participants engaged in productive discussions on multilateral cooperation frameworks, digital governance models, and emerging approaches to international policy coordination.",
       capacity: '150 participants',
-      registration: 'Application required (deadline: April 15)',
+      registration: 'By invitation only (completed)',
       category: 'oxford',
       icon: FiUsers,
       bgColor: 'from-blue-600/20 to-purple-600/20',
-      image: '/images/oxford-blavatnik.jpg',
+      image: '/IMG_9339.jpg',
       tags: ['Global Policy', 'Governance', 'International Relations'],
       featured: true,
       speakers: [
         { 
           name: 'Professor Louise Richardson', 
-          title: 'Vice-Chancellor, University of Oxford' 
+          title: 'Former Vice-Chancellor, University of Oxford' 
         },
         { 
           name: 'Dr. Thomas Hale', 
@@ -208,14 +207,14 @@ export default function EventsPage() {
     },
     {
       id: '8',
-      title: 'Climate Resilience Policy Workshop',
+      title: 'Climate Resilience Workshop at Oxford',
       type: 'Workshop',
-      date: 'June 10, 2024',
+      date: 'May 26, 2023',
       time: '10:00 AM - 4:00 PM',
       location: 'Smith School of Enterprise and Environment, Oxford',
-      description: "A collaborative workshop co-led by Oxford's Environmental Change Institute and the Perrin Institute's Climate Policy Team. This working session brings together experts in climate adaptation policy to develop shared frameworks for assessing climate resilience initiatives. Participants will exchange methodologies for policy evaluation and discuss comparative approaches to incentivizing local and regional climate adaptation strategies.",
+      description: "A collaborative workshop during our Oxford symposium, focused on climate adaptation policy. Researchers from the Perrin Institute joined experts from Oxford's Environmental Change Institute to discuss frameworks for assessing climate resilience initiatives. Participants exchanged methodologies for policy evaluation and explored comparative approaches to incentivizing local and regional climate adaptation strategies.",
       capacity: '40 researchers',
-      registration: 'By invitation',
+      registration: 'By invitation only (completed)',
       category: 'oxford',
       icon: FiLayers,
       bgColor: 'from-green-700/20 to-blue-600/20',
@@ -341,8 +340,8 @@ export default function EventsPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-white">Perrin at Oxford</h3>
-                    <p className="text-sm text-gray-300">A global policy partnership with Oxford University</p>
+                    <h3 className="text-lg md:text-xl font-bold text-white">Oxford Conference</h3>
+                    <p className="text-sm text-gray-300">Distinguished symposium at Oxford University</p>
                   </div>
                 </div>
                 
@@ -350,7 +349,7 @@ export default function EventsPage() {
                   onClick={() => setActiveTab('oxford')}
                   className="inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-lg"
                 >
-                  Explore Oxford Events
+                  View Oxford Events
                   <FiArrowRight className="ml-2 h-4 w-4" />
                 </button>
               </div>
@@ -377,25 +376,25 @@ export default function EventsPage() {
                 <div className="relative p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center">
                   <div className="w-full md:w-3/5">
                     <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-900/40 text-blue-200 border border-blue-900/70 mb-4">
-                      GLOBAL PARTNERSHIP
+                      DISTINGUISHED SYMPOSIUM
                     </div>
                     <h2 className="text-3xl font-bold text-white mb-4">Perrin at Oxford</h2>
                     <p className="text-gray-300 mb-6">
-                      A dynamic partnership between the Perrin Institute and Oxford University bringing together scholars, policymakers, and students to address global policy challenges. This collaboration facilitates joint research initiatives, student exchanges, and innovative policy programs bridging perspectives from both institutions.
+                      Our distinguished researchers participated in a prestigious academic conference at Oxford University, exchanging ideas with leading scholars in policy and governance. This exclusive symposium facilitated valuable connections between our institute and Oxford's renowned academic community.
                     </p>
                     
                     <div className="flex flex-wrap gap-4 mb-6">
                       <div className="flex items-center text-sm text-gray-400">
                         <FiUsers className="flex-shrink-0 mr-2 h-4 w-4 text-blue-400" />
-                        Joint Research Initiatives
+                        Academic Exchange
                       </div>
                       <div className="flex items-center text-sm text-gray-400">
                         <FiLayers className="flex-shrink-0 mr-2 h-4 w-4 text-blue-400" />
-                        Student Exchanges
+                        Policy Discussions
                       </div>
                       <div className="flex items-center text-sm text-gray-400">
                         <FiMapPin className="flex-shrink-0 mr-2 h-4 w-4 text-blue-400" />
-                        Oxford, UK & Charlottesville, VA
+                        Oxford, UK
                       </div>
                     </div>
                   </div>
@@ -403,15 +402,15 @@ export default function EventsPage() {
                   <div className="w-full md:w-2/5 flex justify-center">
                     <div className="relative w-72 h-72 rounded-2xl overflow-hidden border border-white/10">
                       <Image 
-                        src="/images/oxford-spires.jpg" 
-                        alt="Oxford University Spires" 
+                        src="/IMG_1904.jpg" 
+                        alt="Perrin Institute at Oxford" 
                         fill 
                         className="object-cover" 
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                       <div className="absolute bottom-4 left-0 right-0 text-center">
                         <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-900/70 text-white backdrop-blur-sm">
-                          Established 2023
+                          May 2023
                         </div>
                       </div>
                     </div>
@@ -452,16 +451,6 @@ export default function EventsPage() {
                         {filteredEvents[0].location}
                       </div>
                     </div>
-                    
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setSelectedEvent(filteredEvents[0])}
-                      className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900"
-                    >
-                      Learn More
-                      <FiArrowRight className="ml-2 h-5 w-5" />
-                    </motion.button>
                   </div>
                   
                   <div className="w-full md:w-2/5 flex justify-center">
@@ -564,7 +553,6 @@ export default function EventsPage() {
                 whileHover="hover"
                 transition={{ duration: 0.5, delay: 0.1 * index }}
                 className="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent hover:border-white/20 transition-all duration-300 shadow-xl"
-                onClick={() => setSelectedEvent(event)}
               >
                 {/* Gradient background */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${event.bgColor} opacity-20 transition-opacity group-hover:opacity-30`}></div>
@@ -661,164 +649,6 @@ export default function EventsPage() {
           </motion.div>
         </div>
       </div>
-
-      {/* Event Details Modal */}
-      {selectedEvent && (
-        <div className="fixed inset-0 overflow-y-auto z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-          <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm transition-opacity" 
-              aria-hidden="true" 
-              onClick={() => setSelectedEvent(null)}
-            ></motion.div>
-
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-block align-bottom bg-gradient-to-b from-gray-900 to-black rounded-xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full border border-white/10"
-            >
-              <div className="px-6 pt-6 pb-4 sm:p-8">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/30 text-blue-300 border border-blue-800/50 mb-4">
-                      {selectedEvent.type}
-                    </div>
-                    <h3 className="text-2xl leading-6 font-bold text-white mb-1" id="modal-title">
-                      {selectedEvent.title}
-                    </h3>
-                  </div>
-                  <button
-                    onClick={() => setSelectedEvent(null)}
-                    className="bg-white/5 rounded-full p-2 hover:bg-white/10 transition-colors"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </button>
-                </div>
-                
-                {/* Event Details Modal - continued */}
-                {selectedEvent.category === 'oxford' && (
-                  <div className="absolute top-4 left-4 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-oxford-blue/70 text-white backdrop-blur-sm border border-oxford-blue/80">
-                    Perrin at Oxford
-                  </div>
-                )}
-                  
-                <div className="mt-6 space-y-6">
-                  <div className="flex flex-wrap gap-4 py-4 border-t border-b border-white/5">
-                    <div className="flex items-center text-sm text-gray-400">
-                      <FiCalendar className="flex-shrink-0 mr-2 h-4 w-4 text-blue-400" />
-                      {selectedEvent.date}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-400">
-                      <FiClock className="flex-shrink-0 mr-2 h-4 w-4 text-blue-400" />
-                      {selectedEvent.time}
-                    </div>
-                    <div className="flex items-center text-sm text-gray-400">
-                      <FiMapPin className="flex-shrink-0 mr-2 h-4 w-4 text-blue-400" />
-                      {selectedEvent.location}
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <h4 className="text-lg font-medium text-white mb-3">Event Description</h4>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      {selectedEvent.description}
-                    </p>
-                  </div>
-                  
-                  {/* Speakers section - Only show for events with speakers */}
-                  {selectedEvent.speakers && selectedEvent.speakers.length > 0 && (
-                    <div>
-                      <h4 className="text-lg font-medium text-white mb-3">Featured Speakers</h4>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {selectedEvent.speakers.map((speaker, idx) => (
-                          <div key={idx} className="flex items-center space-x-3 p-3 rounded-lg bg-white/5">
-                            <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
-                              {speaker.image ? (
-                                <Image src={speaker.image} alt={speaker.name} width={48} height={48} className="rounded-full" />
-                              ) : (
-                                <FiUser className="w-6 h-6 text-blue-400" />
-                              )}
-                            </div>
-                            <div>
-                              <p className="text-sm font-medium text-white">{speaker.name}</p>
-                              <p className="text-xs text-gray-400">{speaker.title}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <h4 className="text-lg font-medium text-white mb-3">Capacity</h4>
-                      <p className="text-gray-300 text-sm">
-                        <FiUsers className="inline-block mr-2 h-4 w-4 text-blue-400" />
-                        {selectedEvent.capacity}
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-medium text-white mb-3">Registration</h4>
-                      <p className="text-gray-300 text-sm">
-                        <FiCalendar className="inline-block mr-2 h-4 w-4 text-blue-400" />
-                        {selectedEvent.registration}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* Tags - Only show for events with tags */}
-                  {selectedEvent.tags && selectedEvent.tags.length > 0 && (
-                    <div className="pt-2">
-                      <div className="flex flex-wrap gap-2">
-                        {selectedEvent.tags.map((tag, idx) => (
-                          <span key={idx} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/30 text-blue-300 border border-blue-800/30">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              
-              <div className={`px-6 py-5 sm:px-8 bg-gradient-to-r ${
-                selectedEvent.category === 'oxford' 
-                  ? 'from-oxford-blue/20 to-oxford-red/20' 
-                  : 'from-blue-900/20 to-purple-900/20'
-              } border-t border-white/5`}>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-                  <div className="text-sm text-gray-400">
-                    <span className="font-medium text-white">Questions?</span> Contact events@perrin.institute
-                  </div>
-                  
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white ${
-                      selectedEvent.category === 'oxford'
-                        ? 'bg-gradient-to-r from-oxford-blue to-oxford-red hover:from-oxford-blue/90 hover:to-oxford-red/90'
-                        : 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400'
-                    } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900`}
-                  >
-                    Register Now
-                    <FiArrowRight className="ml-2 h-5 w-5" />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      )}
 
       {/* Animated Background Elements - FAANG level polish */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">

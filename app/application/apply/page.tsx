@@ -112,7 +112,7 @@ export default function ApplicationFormPage() {
               Apply for {currentProgram.title}
             </h1>
             <p className="mt-4 text-xl text-gray-300">
-              Complete the form below to apply. A $15 application fee will be required.
+              Complete the form below to apply.
             </p>
           </div>
         </div>

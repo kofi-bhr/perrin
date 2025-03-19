@@ -14,7 +14,6 @@ interface Program {
   subtitle: string;
   location: string;
   duration: string;
-  applicationFee: number;
   description: string;
   highlights: string[];
   eligibility: string[];
@@ -42,7 +41,6 @@ export default function ApplicationPage() {
       subtitle: 'Advanced Research Program',
       location: 'University of Virginia / Remote',
       duration: '12 weeks (Summer 2024)',
-      applicationFee: 15,
       description: "The Policy Research Fellowship is our flagship program for exceptional students interested in data-driven policy research. Fellows work directly with faculty mentors and policy experts to conduct original research on pressing policy challenges. This immersive experience combines rigorous academic research with practical policy applications, preparing participants for impactful careers in policy analysis, government, and academia.",
       highlights: [
         'Conduct original research with faculty mentors',
@@ -67,7 +65,6 @@ export default function ApplicationPage() {
       subtitle: 'Technical Training Program',
       location: 'Hybrid (In-person workshops + remote collaboration)',
       duration: '8 weeks (Fall 2024)',
-      applicationFee: 15,
       description: "The Data Science for Policy Innovation program trains participants to apply cutting-edge data science techniques to complex policy challenges. This technical program focuses on developing the computational and analytical skills needed to transform large datasets into actionable policy insights. Participants will work in teams on real-world policy projects while receiving specialized training in machine learning, causal inference, and data visualization for policy applications.",
       highlights: [
         'Master advanced data science techniques for policy analysis',
@@ -94,12 +91,8 @@ export default function ApplicationPage() {
       answer: "The application process consists of three stages: (1) Initial application with resume/CV, academic transcripts, and statement of interest; (2) Technical assessment or research proposal relevant to your chosen program; (3) Interview with program faculty and staff. Decisions are typically made within 3-4 weeks after the application deadline."
     },
     {
-      question: "Is the application fee waivable?",
-      answer: "Yes, application fee waivers are available for students with demonstrated financial need. To request a fee waiver, please email your request along with supporting documentation to applications@perrin.institute before submitting your application."
-    },
-    {
       question: "Are these programs paid or unpaid?",
-      answer: "Both programs offer competitive stipends to participants. The Policy Research Fellowship provides a $5,000 stipend for the 12-week program. The Data Science for Policy Innovation program offers a $3,500 stipend for the 8-week program. Additional funding may be available for exceptional candidates."
+      answer: "Select fellows may receive competitive stipends based on merit and project requirements. The Policy Research Fellowship offers stipends of up to $5,000 for exceptional candidates, while the Data Science for Policy Innovation program provides stipends of up to $3,500 for top performers. Stipend awards are determined during the selection process based on qualifications and project assignment."
     },
     {
       question: "Can international students apply?",
@@ -119,11 +112,7 @@ export default function ApplicationPage() {
     },
     {
       question: "Is the program free to participate in?",
-      answer: "Yes, once accepted, participation in the program is free. In fact, we provide stipends to all participants ($5,000 for the Policy Research Fellowship and $3,500 for the Data Science program) to support their time and work. There are no tuition or program fees beyond the initial $15 application fee."
-    },
-    {
-      question: "Why do you have an application fee?",
-      answer: "The $15 application fee helps us manage the high volume of applications we receive and ensures applicants are serious about their interest in the program. The fee contributes to the administrative costs of our thorough review process, which includes multiple stages of evaluation by our faculty and staff. As noted above, we offer fee waivers to ensure the fee is not a barrier for qualified applicants with financial need."
+      answer: "Yes, participation in the program is free. There are no tuition or program fees. Merit-based stipends may be awarded to exceptional candidates who demonstrate outstanding potential and commitment."
     },
     {
       question: "What is the acceptance rate for these programs?",
@@ -205,7 +194,6 @@ export default function ApplicationPage() {
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/30 text-blue-300 border border-blue-800/50">
                         {program.subtitle}
                       </span>
-                      <span className="text-sm text-blue-400 font-mono">${program.applicationFee} fee</span>
                     </div>
                     
                     <h3 className="text-2xl font-medium text-white mb-4">{program.title}</h3>
