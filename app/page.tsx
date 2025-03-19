@@ -11,6 +11,7 @@ import Footer from '@/components/Footer';
 import { Popover, Dialog, Disclosure, Transition } from '@headlessui/react';
 import { useInView } from 'react-intersection-observer' // You may need to install this package
 import AboutSection from '../components/about';
+import SocialSection from "../components/socialsection";
 
 interface Paper {
   id: string;
@@ -978,12 +979,12 @@ export default function Home() {
               className="mt-24 border-t border-white/10 pt-10 grid grid-cols-2 md:grid-cols-4 gap-8"
             >
               {[
-                { label: "Supporters", value: "48,000+", icon: FiDatabase, color: "text-blue-400" },
+                { label: "Applicants", value: "3,000+", icon: FiDatabase, color: "text-blue-400" },
                 { label: "Reached via Socials", value: "75,000,000+", icon: FiCode, color: "text-purple-400" },
                 { label: "Garnered Scholarships", value: "$3,570,000+", icon: FiServer, color: "text-green-400" },
                 { 
                   label: "TikTok Followers", 
-                  value: "50K+", 
+                  value: "48k+", 
                   icon: FiActivity, 
                   color: "text-pink-400",
                   link: "https://www.tiktok.com/@theperrininstitution?_t=ZT-8ugIWNNxeqw&_r=1"
@@ -1714,6 +1715,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Social Media Section - Add this before the CTA */}
+      <SocialSection />
 
       {/* Research Think Tank CTA Section */}
       <section className="py-20 md:py-32 relative overflow-hidden">
