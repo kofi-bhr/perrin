@@ -56,6 +56,22 @@ export default function Footer() {
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
                 </svg>
               </motion.a>
+              <motion.a
+                href="https://www.lemon8-app.com/@theperrininstitution?_r=1&_t=MGcEDJSsUpTM0hN1%2FAEbUQRFyOmB02V%2BMIHsUs9SjlevWPuqEk4jDpyOhGEumD%2FzKwbIEmZiaU%2BM5ZGda7WkaHv6D%2B5aVD6q6JpkfVLEn0B1YoVWT5WqBBAx5G%2FEEKzHpbfZ6FdcsMKf&language=en&region=us&share_platform=copy&ui_language=en"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -3, color: '#FFE135' }}
+                className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/60 hover:text-white/90 transition-colors"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+              >
+                <span className="sr-only">Lemon8</span>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.45 8.19c-1.36-1.36-3.92-1.17-5.72.53l-6.18 6.18c-1.8 1.8-1.99 4.36-.63 5.72 1.36 1.36 3.92 1.17 5.72-.63l6.18-6.18c1.8-1.8 1.99-4.36.63-5.72zm-1.41 1.42c.59.59.59 1.76-.72 3.07l-6.18 6.18c-1.3 1.3-2.48 1.31-3.07.72-.59-.59-.59-1.76.72-3.07l6.18-6.18c1.3-1.3 2.47-1.31 3.07-.72zM6.6 5.89L13.07 6c.19.01.36.11.47.29l1.37 2.28 2.28 1.37c.18.11.28.28.29.47l.1 6.48c.01.17-.05.33-.16.46l-1.57 1.87c-.44.52-1.26.54-1.73.03l-8.8-9.62c-.45-.49-.37-1.26.16-1.65l1.23-.83c.13-.09.28-.14.43-.15l-.7-1.01c-.53-.77-.04-1.83.88-1.91l.18-.01c.13 0 .27.03.4.08z"/>
+                </svg>
+              </motion.a>
               {/* Placeholder for other social media that may be added later */}
               {['linkedin', 'instagram'].map((social, index) => (
                 <motion.a
