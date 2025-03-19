@@ -92,7 +92,7 @@ export default function ApplicationPage() {
     },
     {
       question: "Are these programs paid or unpaid?",
-      answer: "Select fellows may receive competitive stipends based on merit and project requirements. The Policy Research Fellowship offers stipends of up to $5,000 for exceptional candidates, while the Data Science for Policy Innovation program provides stipends of up to $3,500 for top performers. Stipend awards are determined during the selection process based on qualifications and project assignment."
+      answer: "Only our top-performing fellows receive stipends. The Policy Research Fellowship may award stipends of up to $5,000 for exceptional candidates who demonstrate outstanding results, while the Data Science for Policy Innovation program may provide stipends of up to $3,500 for top performers. These merit-based stipends are highly competitive and awarded only to those who consistently exceed expectations."
     },
     {
       question: "Can international students apply?",
@@ -103,16 +103,12 @@ export default function ApplicationPage() {
       answer: "The Policy Research Fellowship requires a full-time commitment (approximately 35-40 hours per week) during the 12-week summer program. The Data Science for Policy Innovation program requires approximately 20-25 hours per week during the 8-week fall program, making it possible to participate alongside other academic commitments."
     },
     {
-      question: "Will I receive academic credit?",
-      answer: "Academic credit arrangements are possible but depend on your home institution's policies. Many past participants have received academic credit for their work in our programs. We can provide detailed program information and evaluations to support credit arrangements with your academic institution."
-    },
-    {
       question: "Can high school students apply?",
       answer: "While our programs are primarily designed for undergraduate and graduate students, exceptional high school students (typically juniors and seniors) with demonstrated research experience and advanced coursework may be considered on a case-by-case basis. High school applicants should include a letter of recommendation from a teacher or mentor who can speak to their readiness for college-level research."
     },
     {
       question: "Is the program free to participate in?",
-      answer: "Yes, participation in the program is free. There are no tuition or program fees. Merit-based stipends may be awarded to exceptional candidates who demonstrate outstanding potential and commitment."
+      answer: "Yes, participation in the program is free. There are no tuition or program fees. However, stipends are reserved exclusively for top performers who demonstrate exceptional talent and commitment throughout the program. The majority of participants should not expect to receive financial compensation."
     },
     {
       question: "What is the acceptance rate for these programs?",
