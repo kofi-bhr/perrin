@@ -436,7 +436,7 @@ export default function EventsPage() {
                 <div className="relative p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center">
                   <div className="w-full md:w-3/5">
                     <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-900/30 text-blue-300 border border-blue-800/50 mb-4">
-                      {activeTab === 'oxford' ? 'OXFORD PARTNERSHIP' : 'FEATURED EVENT'}
+                      {activeTab === 'oxford' ? 'OXFORD' : 'FEATURED EVENT'}
                     </div>
                     <h2 className="text-3xl font-bold text-white mb-4">{filteredEvents[0].title}</h2>
                     <p className="text-gray-300 mb-6">{filteredEvents[0].description.substring(0, 200)}...</p>
