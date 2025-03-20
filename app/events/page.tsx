@@ -176,12 +176,12 @@ export default function EventsPage() {
     },
     {
       id: '7',
-      title: 'Oxford Policy Forum: Global Governance Symposium',
-      type: 'Conference',
+      title: 'Oxford Policy Forum: Global Governance Meetup',
+      type: 'Meetup',
       date: '',
       time: '9:00 AM - 6:00 PM',
       location: 'Blavatnik School of Government, Oxford University',
-      description: "A distinguished symposium hosted at Oxford University's Blavatnik School of Government where Perrin Institute researchers presented alongside Oxford faculty on pressing global governance challenges. This three-day event featured keynote addresses, interactive workshops, and research presentations focused on institutional innovation in an age of complex global challenges. Participants engaged in productive discussions on multilateral cooperation frameworks, digital governance models, and emerging approaches to international policy coordination.",
+      description: "A distinguished meetup hosted at Oxford University's Blavatnik School of Government where Perrin Institute researchers presented alongside Oxford faculty on pressing global governance challenges. This three-day event featured keynote addresses, interactive workshops, and research presentations focused on institutional innovation in an age of complex global challenges. Participants engaged in productive discussions on multilateral cooperation frameworks, digital governance models, and emerging approaches to international policy coordination.",
       capacity: '150 participants',
       registration: 'By invitation only (completed)',
       category: 'oxford',
@@ -212,7 +212,7 @@ export default function EventsPage() {
       date: 'May 26, 2023',
       time: '10:00 AM - 4:00 PM',
       location: 'Smith School of Enterprise and Environment, Oxford',
-      description: "A collaborative workshop during our Oxford symposium, focused on climate adaptation policy. Researchers from the Perrin Institute joined experts from Oxford's Environmental Change Institute to discuss frameworks for assessing climate resilience initiatives. Participants exchanged methodologies for policy evaluation and explored comparative approaches to incentivizing local and regional climate adaptation strategies.",
+      description: "A collaborative workshop during our Oxford meetup, focused on climate adaptation policy. Researchers from the Perrin Institute joined experts from Oxford's Environmental Change Institute to discuss frameworks for assessing climate resilience initiatives. Participants exchanged methodologies for policy evaluation and explored comparative approaches to incentivizing local and regional climate adaptation strategies.",
       capacity: '40 researchers',
       registration: 'By invitation only (completed)',
       category: 'oxford',
@@ -340,8 +340,8 @@ export default function EventsPage() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg md:text-xl font-bold text-white">Oxford Conference</h3>
-                    <p className="text-sm text-gray-300">Distinguished symposium at Oxford University</p>
+                    <h3 className="text-lg md:text-xl font-bold text-white">Oxford Meetup</h3>
+                    <p className="text-sm text-gray-300">Distinguished meetup at Oxford University</p>
                   </div>
                 </div>
                 
@@ -349,7 +349,7 @@ export default function EventsPage() {
                   onClick={() => setActiveTab('oxford')}
                   className="inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-500 transition-colors shadow-lg"
                 >
-                  View Oxford Events
+                  View Oxford Meetup
                   <FiArrowRight className="ml-2 h-4 w-4" />
                 </button>
               </div>
@@ -376,11 +376,11 @@ export default function EventsPage() {
                 <div className="relative p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center">
                   <div className="w-full md:w-3/5">
                     <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-900/40 text-blue-200 border border-blue-900/70 mb-4">
-                      DISTINGUISHED SYMPOSIUM
+                      DISTINGUISHED MEETUP
                     </div>
                     <h2 className="text-3xl font-bold text-white mb-4">Perrin at Oxford</h2>
                     <p className="text-gray-300 mb-6">
-                      Our distinguished researchers participated in a prestigious academic conference at Oxford University, exchanging ideas with leading scholars in policy and governance. This exclusive symposium facilitated valuable connections between our institute and Oxford's renowned academic community.
+                      Our distinguished researchers participated in a prestigious academic meetup at Oxford University, exchanging ideas with leading scholars in policy and governance. This exclusive meetup facilitated valuable connections between our institute and Oxford's renowned academic community.
                     </p>
                     
                     <div className="flex flex-wrap gap-4 mb-6">
@@ -436,7 +436,7 @@ export default function EventsPage() {
                 <div className="relative p-8 md:p-12 flex flex-col md:flex-row gap-8 items-center">
                   <div className="w-full md:w-3/5">
                     <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-900/30 text-blue-300 border border-blue-800/50 mb-4">
-                      {activeTab === 'oxford' ? 'OXFORD' : 'FEATURED EVENT'}
+                      {activeTab === 'oxford' ? 'OXFORD MEETUP' : 'FEATURED EVENT'}
                     </div>
                     <h2 className="text-3xl font-bold text-white mb-4">{filteredEvents[0].title}</h2>
                     <p className="text-gray-300 mb-6">{filteredEvents[0].description.substring(0, 200)}...</p>
@@ -517,7 +517,7 @@ export default function EventsPage() {
                     : 'text-gray-300 hover:text-white'
                 }`}
               >
-                Oxford
+                Oxford Meetup
               </button>
             </div>
           </div>
