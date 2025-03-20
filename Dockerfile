@@ -19,6 +19,7 @@ COPY lib/ ./lib/
 COPY styles/ ./styles/
 COPY public/ ./public/
 COPY types/ ./types/
+COPY styles/ ./styles/
 COPY next.config.js ./
 COPY tsconfig.json ./
 COPY postcss.config.js ./
