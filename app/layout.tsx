@@ -5,6 +5,7 @@ import { Roboto_Condensed } from 'next/font/google'
 import { Inter as InterFont, Playfair_Display } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NewsletterSubscription from "@/components/NewsletterSubscription";
 
 // Initialize the Roboto Condensed font
 const robotoCondensed = Roboto_Condensed({
@@ -64,6 +65,7 @@ export default function RootLayout({
       <body className={`${robotoCondensed.className} ${inter.variable} ${playfair.variable} font-sans`}>
         <Navbar />
         <main className="w-full">{children}</main>
+        <NewsletterSubscription />
         <Footer />
       </body>
     </html>
