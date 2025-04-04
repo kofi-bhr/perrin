@@ -62,25 +62,25 @@ export default function ApplicationPage() {
     {
       id: '2',
       title: 'Data Science for Policy Innovation',
-      subtitle: 'Technical Training Program',
+      subtitle: 'Applications Closed',
       location: 'Hybrid (In-person workshops + remote collaboration)',
-      duration: '8 weeks (Fall 2024)',
-      description: "The Data Science for Policy Innovation program trains participants to apply cutting-edge data science techniques to complex policy challenges. This technical program focuses on developing the computational and analytical skills needed to transform large datasets into actionable policy insights. Participants will work in teams on real-world policy projects while receiving specialized training in machine learning, causal inference, and data visualization for policy applications.",
+      duration: 'Applications Open Spring 2024',
+      description: "Applications for the Fall 2024 cohort are currently closed. The next application cycle will open in Spring 2024. Join our waitlist to be notified when applications reopen for this intensive program that trains participants to apply cutting-edge data science techniques to complex policy challenges.",
       highlights: [
-        'Master advanced data science techniques for policy analysis',
-        'Work on real-world policy datasets and challenges',
-        'Learn from leading experts in data science and policy',
-        'Develop a portfolio of policy-focused data projects',
-        'Receive technical mentorship from data scientists',
-        'Join a community of technically-skilled policy innovators'
+        <s key="1">Master advanced data science techniques for policy analysis</s>,
+        <s key="2">Work on real-world policy datasets and challenges</s>,
+        <s key="3">Learn from leading experts in data science and policy</s>,
+        <s key="4">Develop a portfolio of policy-focused data projects</s>,
+        <s key="5">Receive technical mentorship from data scientists</s>,
+        <s key="6">Join a community of technically-skilled policy innovators</s>
       ],
       eligibility: [
-        'Background in computer science, statistics, or related technical field',
-        'Experience with programming (Python, R, or similar)',
-        'Understanding of basic statistical concepts',
-        'Interest in applying technical skills to policy problems',
-        'Ability to collaborate effectively in interdisciplinary teams',
-        'Commitment to ethical data practices and responsible innovation'
+        <s key="1">Background in computer science, statistics, or related technical field</s>,
+        <s key="2">Experience with programming (Python, R, or similar)</s>,
+        <s key="3">Understanding of basic statistical concepts</s>,
+        <s key="4">Interest in applying technical skills to policy problems</s>,
+        <s key="5">Ability to collaborate effectively in interdisciplinary teams</s>,
+        <s key="6">Commitment to ethical data practices and responsible innovation</s>
       ]
     }
   ];
@@ -226,13 +226,22 @@ export default function ApplicationPage() {
                       </ul>
                     </div>
                     
-                    <a 
-                      href={`/application/apply?program=${program.id}`}
-                      className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900"
-                    >
-                      Apply to Program
-                      <FiArrowRight className="ml-2 h-5 w-5" />
-                    </a>
+                    {program.id === '2' ? (
+                      <button 
+                        disabled
+                        className="w-full inline-flex justify-center items-center px-6 py-3 border border-slate-600 text-base font-medium rounded-lg text-slate-400 bg-slate-800/50 cursor-not-allowed"
+                      >
+                        Applications Closed
+                      </button>
+                    ) : (
+                      <a 
+                        href={`/application/apply?program=${program.id}`}
+                        className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900"
+                      >
+                        Apply to Program
+                        <FiArrowRight className="ml-2 h-5 w-5" />
+                      </a>
+                    )}
                   </div>
                 </motion.div>
               ))}

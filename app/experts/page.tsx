@@ -482,6 +482,259 @@ const EXPERTS: Expert[] = [
     image: "",
     email: "fct4zy@virginia.edu",
     category: "UVA Chapter"
+  },
+  // New Research Associates
+  {
+    id: 50,
+    name: "Soumya Vatti",
+    role: "Research Associate",
+    bio: "Research Associate contributing to policy research and analysis.",
+    image: "",
+    email: "svatti@proton.me",
+    category: "Research Associates"
+  },
+  {
+    id: 51,
+    name: "Aashi Jain",
+    role: "Research Associate",
+    bio: "Research Associate focused on policy development and implementation.",
+    image: "",
+    email: "foreveraashijain@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 52,
+    name: "Shivam Bhatt",
+    role: "Research Associate",
+    bio: "Research Associate specializing in policy analysis and research.",
+    image: "",
+    email: "shivamb0608@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 53,
+    name: "Aashrith Tatineni",
+    role: "Research Associate",
+    bio: "Research Associate examining policy frameworks and outcomes.",
+    image: "",
+    email: "atatineni09@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 54,
+    name: "Matthew Ma",
+    role: "Research Associate",
+    bio: "Research Associate investigating policy impacts and effectiveness.",
+    image: "",
+    email: "matthewma347@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 55,
+    name: "Amrith Ponneth",
+    role: "Research Associate",
+    bio: "Research Associate exploring innovative approaches to policy challenges.",
+    image: "",
+    email: "amrith.ponneth@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 56,
+    name: "Afia Mubashir",
+    role: "Research Associate",
+    bio: "Research Associate conducting policy research and analysis.",
+    image: "",
+    email: "mubashir.afia@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 57,
+    name: "Aiyana Bage",
+    role: "Research Associate",
+    bio: "Research Associate studying policy implications and opportunities.",
+    image: "",
+    email: "aiyanabag10@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 58,
+    name: "Nivriti Deshpande",
+    role: "Research Associate",
+    bio: "Research Associate developing policy recommendations and solutions.",
+    image: "",
+    email: "nivriti.deshpande@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 59,
+    name: "Shreshtha Aggarwal",
+    role: "Research Associate",
+    bio: "Research Associate contributing to policy research initiatives.",
+    image: "",
+    email: "shreshtha.aggarwal01@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 60,
+    name: "Saahir Vazirani",
+    role: "Research Associate",
+    bio: "Research Associate focused on policy analysis and development.",
+    image: "",
+    email: "saahir.vazirani@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 61,
+    name: "Bhavana Karthik",
+    role: "Research Associate",
+    bio: "Research Associate examining policy trends and challenges.",
+    image: "",
+    email: "bhavana22.karthik@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 62,
+    name: "Eva Dubey",
+    role: "Research Associate",
+    bio: "Research Associate specializing in policy research and evaluation.",
+    image: "",
+    email: "evasalt92@Gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 63,
+    name: "Arvind Salem",
+    role: "Research Associate",
+    bio: "Research Associate investigating policy solutions and impacts.",
+    image: "",
+    email: "arvindsalem1613@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 64,
+    name: "Daniel Neuner",
+    role: "Research Associate",
+    bio: "Research Associate focused on policy development and analysis.",
+    image: "",
+    email: "dxneuner08@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 65,
+    name: "Iris Tang",
+    role: "Research Associate",
+    bio: "Research Associate contributing to policy research initiatives.",
+    image: "",
+    email: "tangiris2008@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 66,
+    name: "Tanmay Rai",
+    role: "Research Associate",
+    bio: "Research Associate contributing to policy research and analysis.",
+    image: "",
+    email: "tanmayraisa@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 67,
+    name: "Aaron Kunnikuru",
+    role: "Research Associate",
+    bio: "Research Associate exploring policy development and implementation.",
+    image: "",
+    email: "aaronkunnik@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 68,
+    name: "Jared Rodnick",
+    role: "Research Associate",
+    bio: "Research Associate specializing in policy analysis and research.",
+    image: "",
+    email: "jaredrodnick@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 69,
+    name: "Samarth Pandey",
+    role: "Research Associate",
+    bio: "Research Associate examining policy frameworks and outcomes.",
+    image: "",
+    email: "samarthpan945@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 70,
+    name: "Danielle Kim",
+    role: "Research Associate",
+    bio: "Research Associate investigating policy impacts and effectiveness.",
+    image: "",
+    email: "kimelledani@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 71,
+    name: "Serra Aksoy",
+    role: "Research Associate",
+    bio: "Research Associate exploring innovative approaches to policy challenges.",
+    image: "",
+    email: "serurays@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 72,
+    name: "Mahanth Komuravelli",
+    role: "Research Associate",
+    bio: "Research Associate conducting policy research and analysis.",
+    image: "",
+    email: "mahanthf112@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 73,
+    name: "Vaishnavi Singh",
+    role: "Research Associate",
+    bio: "Research Associate studying policy implications and opportunities.",
+    image: "",
+    email: "vaish2003singh@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 74,
+    name: "Sunkalp Chandra",
+    role: "Research Associate",
+    bio: "Research Associate developing policy recommendations and solutions.",
+    image: "",
+    email: "sunkalp.chandra@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 75,
+    name: "Sophie Glass",
+    role: "Research Associate",
+    bio: "Research Associate contributing to policy research initiatives.",
+    image: "",
+    email: "sophieglass212@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 76,
+    name: "Cason Noll",
+    role: "Research Associate",
+    bio: "Research Associate focused on policy analysis and development.",
+    image: "",
+    email: "casonnoll1@gmail.com",
+    category: "Research Associates"
+  },
+  {
+    id: 77,
+    name: "Neel Iyer",
+    role: "Research Associate",
+    bio: "Research Associate examining policy trends and challenges.",
+    image: "",
+    email: "neeliyer14@gmail.com",
+    category: "Research Associates"
   }
 ]
 
