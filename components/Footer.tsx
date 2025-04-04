@@ -38,6 +38,8 @@ export default function Footer() {
               innovative solutions for complex policy challenges.
             </p>
             
+          
+            
             {/* Social links */}
             <div className="flex space-x-4">
               <motion.a
@@ -93,13 +95,13 @@ export default function Footer() {
             </div>
           </motion.div>
           
-          <div className="md:col-span-8">
+          <div className="md:col-span-4">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
               >
                 <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Navigation</h3>
                 <ul className="space-y-3">
@@ -129,7 +131,7 @@ export default function Footer() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
               >
                 <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Apply</h3>
                 <ul className="space-y-3">
@@ -159,7 +161,7 @@ export default function Footer() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
               >
                 <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Legal</h3>
                 <ul className="space-y-3">
@@ -168,7 +170,7 @@ export default function Footer() {
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.5 }}
+                    transition={{ duration: 0.3, delay: 0.6 }}
                   >
                     <Link 
                       href="/privacy-policy"
@@ -185,7 +187,7 @@ export default function Footer() {
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: 0.55 }}
+                    transition={{ duration: 0.3, delay: 0.65 }}
                   >
                     <Link 
                       href="/terms-of-use"

@@ -613,40 +613,6 @@ export default function EventsPage() {
               </p>
             </motion.div>
           )}
-          
-          {/* Call to Action */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-20"
-          >
-            <div className="relative overflow-hidden rounded-2xl border border-white/10">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-transparent"></div>
-              <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
-              
-              <div className="relative p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
-                <div className="mb-6 md:mb-0 md:mr-8">
-                  <h3 className="text-2xl font-bold text-white mb-4">Stay Updated</h3>
-                  <p className="text-gray-300 max-w-xl">
-                    Subscribe to our newsletter to receive updates about upcoming events, workshops, and opportunities at the Perrin Institute.
-                  </p>
-                </div>
-                
-                <Link href="/contact">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900"
-                  >
-                    Subscribe
-                    <FiExternalLink className="ml-2 h-5 w-5" />
-                  </motion.button>
-                </Link>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </div>
 
