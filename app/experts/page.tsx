@@ -49,6 +49,7 @@ const EXPERTS: Expert[] = [
     role: "Co-Founder & Chief Technology Officer",
     bio: "Co-Founder and Chief Technology Officer leading technical strategy and implementation.",
     image: "",
+    email: "admin@perrin.org",
     category: "Leadership"
   },
   {
@@ -57,6 +58,7 @@ const EXPERTS: Expert[] = [
     role: "Chief Marketing Officer",
     bio: "Chief Marketing Officer responsible for all marketing initiatives.",
     image: "",
+    email: "rgf9kk@virginia.edu",
     category: "Leadership"
   },
   {
@@ -307,14 +309,11 @@ const EXPERTS: Expert[] = [
   {
     id: 33,
     name: "Kiro Moussa",
-    role: "Research Fellow | Massachusetts Institute of Technology",
-    bio: "Research Fellow affiliated with MIT, specializing in technology policy intersection.",
+    role: "Research Fellow",
+    bio: "Research Fellow specializing in technology policy intersection.",
     image: "/experts/kiro.jpg",
     interests: ["Social Justice", "Technology", "Political Science"],
     category: "Research Fellow",
-    affiliations: {
-      education: ["MIT"]
-    },
     socialLinks: {
       linkedin: "https://linkedin.com/in/kiro-moussa",
       website: "https://kiromoussa.com"
@@ -323,8 +322,8 @@ const EXPERTS: Expert[] = [
   {
     id: 34,
     name: "Lexie Hobbs",
-    role: "Research Fellow | Smith College",
-    bio: "Research Fellow affiliated with Smith College, conducting policy research.",
+    role: "Research Fellow",
+    bio: "Research Fellow conducting policy research.",
     image: "/experts/anonymous.jpg",
     interests: ["Government", "Policy Research", "Higher Education"],
     category: "Research Fellow",
@@ -335,8 +334,8 @@ const EXPERTS: Expert[] = [
   {
     id: 35,
     name: "Anaise Lopez-Rodriguez",
-    role: "Research Fellow | Brown University",
-    bio: "Research Fellow affiliated with Brown University, focusing on policy development.",
+    role: "Research Fellow",
+    bio: "Research Fellow focusing on policy development.",
     image: "",
     category: "Research Fellow",
     affiliations: {
@@ -346,8 +345,8 @@ const EXPERTS: Expert[] = [
   {
     id: 36,
     name: "Jawhar Yasin",
-    role: "Research Fellow | Princeton University",
-    bio: "Research Fellow affiliated with Princeton University, studying policy implementation.",
+    role: "Research Fellow",
+    bio: "Research Fellow studying policy implementation.",
     image: "",
     category: "Research Fellow",
     affiliations: {
@@ -357,8 +356,8 @@ const EXPERTS: Expert[] = [
   {
     id: 37,
     name: "Neha Nair",
-    role: "Research Fellow | Not Applicable Yet",
-    bio: "Research Fellow preparing for institutional affiliation, researching policy innovation.",
+    role: "Research Fellow",
+    bio: "Research Fellow researching policy innovation.",
     image: "/girl1.png",
     interests: ["Environmental Policy", "Technology", "Sustainability"],
     category: "Research Fellow"
@@ -366,8 +365,8 @@ const EXPERTS: Expert[] = [
   {
     id: 38,
     name: "Lourdes Ronquillo",
-    role: "Research Fellow | Tufts University",
-    bio: "Research Fellow affiliated with Tufts University, focusing on policy research.",
+    role: "Research Fellow",
+    bio: "Research Fellow focusing on policy research.",
     image: "",
     category: "Research Fellow",
     affiliations: {
@@ -377,8 +376,8 @@ const EXPERTS: Expert[] = [
   {
     id: 39,
     name: "Christian Wang",
-    role: "Research Fellow | University of Oxford",
-    bio: "Research Fellow affiliated with Oxford University, focusing on philosophy, politics, and economics.",
+    role: "Research Fellow",
+    bio: "Research Fellow focusing on philosophy, politics, and economics.",
     image: "",
     interests: ["Philosophy", "Politics", "Economics"],
     category: "Research Fellow",
@@ -389,7 +388,7 @@ const EXPERTS: Expert[] = [
   {
     id: 40,
     name: "Oz Smith",
-    role: "Research Fellow | Not Applicable",
+    role: "Research Fellow",
     bio: "Research Fellow conducting independent policy research.",
     image: "",
     category: "Research Fellow"
@@ -397,8 +396,8 @@ const EXPERTS: Expert[] = [
   {
     id: 41,
     name: "Heba Elkouraichi",
-    role: "Research Fellow | Vassar College",
-    bio: "Research Fellow affiliated with Vassar College, studying policy implementation.",
+    role: "Research Fellow",
+    bio: "Research Fellow studying policy implementation.",
     image: "",
     category: "Research Fellow",
     affiliations: {
@@ -408,8 +407,8 @@ const EXPERTS: Expert[] = [
   {
     id: 42,
     name: "Sophie Sarazin",
-    role: "Research Fellow | Not Applicable Yet",
-    bio: "Research Fellow preparing for institutional affiliation, focusing on policy research.",
+    role: "Research Fellow",
+    bio: "Research Fellow focusing on policy research.",
     image: "/experts/sophie.jpg",
     email: "ssarazin.07@gmail.com",
     category: "Research Fellow",
@@ -484,15 +483,6 @@ const EXPERTS: Expert[] = [
     category: "UVA Chapter"
   },
   // New Research Associates
-  {
-    id: 50,
-    name: "Soumya Vatti",
-    role: "Research Associate",
-    bio: "Research Associate contributing to policy research and analysis.",
-    image: "",
-    email: "svatti@proton.me",
-    category: "Research Associates"
-  },
   {
     id: 51,
     name: "Aashi Jain",
@@ -741,35 +731,12 @@ const EXPERTS: Expert[] = [
 // Get all unique categories
 const allCategories = Array.from(new Set(EXPERTS.map(expert => expert.category || 'Other')));
 
-// Get all unique affiliations
-const getAllAffiliations = () => {
-  const affiliations = new Set<string>();
-  
-  EXPERTS.forEach(expert => {
-    if (expert.affiliations) {
-      if (expert.affiliations.education) {
-        expert.affiliations.education.forEach(edu => affiliations.add(edu));
-      }
-      if (expert.affiliations.workExperience) {
-        expert.affiliations.workExperience.forEach(work => affiliations.add(work));
-      }
-      if (expert.affiliations.organizations) {
-        expert.affiliations.organizations.forEach(org => affiliations.add(org));
-      }
-    }
-  });
-  
-  return Array.from(affiliations).sort();
-};
-
 export default function ExpertsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedAffiliation, setSelectedAffiliation] = useState<string | null>(null);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filteredExperts, setFilteredExperts] = useState(EXPERTS);
   
-  const allAffiliations = getAllAffiliations();
   const totalEmployees = EXPERTS.length;
 
   useEffect(() => {
@@ -789,22 +756,8 @@ export default function ExpertsPage() {
       result = result.filter(expert => expert.category === selectedCategory);
     }
     
-    // Filter by affiliation
-    if (selectedAffiliation) {
-      result = result.filter(expert => {
-        const affiliations = expert.affiliations;
-        if (!affiliations) return false;
-        
-        return (
-          (affiliations.education && affiliations.education.includes(selectedAffiliation)) ||
-          (affiliations.workExperience && affiliations.workExperience.includes(selectedAffiliation)) ||
-          (affiliations.organizations && affiliations.organizations.includes(selectedAffiliation))
-        );
-      });
-    }
-    
     setFilteredExperts(result);
-  }, [searchTerm, selectedCategory, selectedAffiliation]);
+  }, [searchTerm, selectedCategory]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
@@ -924,13 +877,12 @@ export default function ExpertsPage() {
                 <span>Filters</span>
               </motion.button>
               
-              {(selectedCategory || selectedAffiliation || searchTerm) && (
+              {(selectedCategory || searchTerm) && (
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => {
                     setSelectedCategory(null);
-                    setSelectedAffiliation(null);
                     setSearchTerm('');
                   }}
                   className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-blue-600/20 text-blue-300 hover:bg-blue-600/30 rounded-lg transition-colors border border-blue-500/30"
@@ -951,7 +903,7 @@ export default function ExpertsPage() {
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden mt-4"
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-slate-700/50 backdrop-blur-md rounded-lg border border-slate-600">
+                <div className="p-6 bg-slate-700/50 backdrop-blur-md rounded-lg border border-slate-600">
                   <div>
                     <h3 className="text-lg font-medium text-white mb-3 flex items-center gap-2">
                       <HiOutlineUserGroup className="text-blue-400" />
@@ -971,30 +923,6 @@ export default function ExpertsPage() {
                           }`}
                         >
                           {category}
-                        </motion.button>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="mt-6 md:mt-0">
-                    <h3 className="text-lg font-medium text-white mb-3 flex items-center gap-2">
-                      <HiOutlineOfficeBuilding className="text-blue-400" />
-                      Filter by Affiliation
-                    </h3>
-                    <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto pr-2 custom-scrollbar">
-                      {allAffiliations.map(affiliation => (
-                        <motion.button
-                          key={affiliation}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => setSelectedAffiliation(selectedAffiliation === affiliation ? null : affiliation)}
-                          className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                            selectedAffiliation === affiliation
-                              ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/20'
-                              : 'bg-slate-800 border border-slate-600 hover:border-blue-400 text-slate-300'
-                          }`}
-                        >
-                          {affiliation}
                         </motion.button>
                       ))}
                     </div>

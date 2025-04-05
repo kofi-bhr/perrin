@@ -15,11 +15,6 @@ interface Expert {
   mentor?: string
   interests?: string[]
   category?: string
-  affiliations?: {
-    education?: string[]
-    workExperience?: string[]
-    organizations?: string[]
-  }
   socialLinks?: {
     linkedin?: string
     instagram?: string
@@ -48,6 +43,7 @@ const EXPERTS: Expert[] = [
     role: "Co-Founder & Chief Technology Officer",
     bio: "Co-Founder and Chief Technology Officer leading technical strategy and implementation.",
     image: "",
+    email: "admin@perrin.org",
     category: "Leadership"
   },
   {
@@ -56,6 +52,7 @@ const EXPERTS: Expert[] = [
     role: "Chief Marketing Officer",
     bio: "Chief Marketing Officer responsible for all marketing initiatives.",
     image: "",
+    email: "rgf9kk@virginia.edu",
     category: "Leadership"
   },
   {
@@ -311,9 +308,6 @@ const EXPERTS: Expert[] = [
     image: "/experts/kiro.jpg",
     interests: ["Social Justice", "Technology", "Political Science"],
     category: "Research Fellow",
-    affiliations: {
-      education: ["MIT"]
-    },
     socialLinks: {
       linkedin: "https://linkedin.com/in/kiro-moussa",
       website: "https://kiromoussa.com"
@@ -327,9 +321,6 @@ const EXPERTS: Expert[] = [
     image: "/experts/anonymous.jpg",
     interests: ["Government", "Policy Research", "Higher Education"],
     category: "Research Fellow",
-    affiliations: {
-      education: ["Smith College"]
-    }
   },
   {
     id: 35,
@@ -338,9 +329,6 @@ const EXPERTS: Expert[] = [
     bio: "Research Fellow affiliated with Brown University, focusing on policy development.",
     image: "",
     category: "Research Fellow",
-    affiliations: {
-      education: ["Brown University"]
-    }
   },
   {
     id: 36,
@@ -349,9 +337,6 @@ const EXPERTS: Expert[] = [
     bio: "Research Fellow affiliated with Princeton University, studying policy implementation.",
     image: "",
     category: "Research Fellow",
-    affiliations: {
-      education: ["Princeton University"]
-    }
   },
   {
     id: 37,
@@ -369,9 +354,6 @@ const EXPERTS: Expert[] = [
     bio: "Research Fellow affiliated with Tufts University, focusing on policy research.",
     image: "",
     category: "Research Fellow",
-    affiliations: {
-      education: ["Tufts University"]
-    }
   },
   {
     id: 39,
@@ -381,9 +363,6 @@ const EXPERTS: Expert[] = [
     image: "",
     interests: ["Philosophy", "Politics", "Economics"],
     category: "Research Fellow",
-    affiliations: {
-      education: ["Oxford University"]
-    }
   },
   {
     id: 40,
@@ -400,9 +379,6 @@ const EXPERTS: Expert[] = [
     bio: "Research Fellow affiliated with Vassar College, studying policy implementation.",
     image: "",
     category: "Research Fellow",
-    affiliations: {
-      education: ["Vassar College"]
-    }
   },
   {
     id: 42,
@@ -618,36 +594,6 @@ export default function ExpertPage() {
                       </span>
                     ))}
                   </div>
-                </div>
-              )}
-              
-              {/* Affiliations - Simplified */}
-              {expert.affiliations && (
-                <div>
-                  <h3 className="text-lg font-medium text-white mb-3 flex items-center gap-2">
-                    <HiOutlineOfficeBuilding className="text-blue-400" />
-                    Affiliations
-                  </h3>
-                  <ul className="space-y-2">
-                    {expert.affiliations.education && expert.affiliations.education.map((edu, index) => (
-                      <li key={`edu-${index}`} className="flex items-center text-slate-300">
-                        <HiOutlineAcademicCap className="mr-2 text-blue-400" />
-                        {edu}
-                      </li>
-                    ))}
-                    {expert.affiliations.workExperience && expert.affiliations.workExperience.map((work, index) => (
-                      <li key={`work-${index}`} className="flex items-center text-slate-300">
-                        <HiOutlineOfficeBuilding className="mr-2 text-green-400" />
-                        {work}
-                      </li>
-                    ))}
-                    {expert.affiliations.organizations && expert.affiliations.organizations.map((org, index) => (
-                      <li key={`org-${index}`} className="flex items-center text-slate-300">
-                        <HiOutlineUserGroup className="mr-2 text-purple-400" />
-                        {org}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
               )}
             </div>

@@ -1006,28 +1006,6 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-        
-        {/* Scroll indicator - Apple style with enhanced styling */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: animationsReady ? 1 : 0 }}
-          transition={{ delay: 1.8, duration: 1 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
-        >
-          <div className="text-white/40 text-xs uppercase tracking-wider font-medium mb-2">Scroll</div>
-          <motion.div 
-            className="w-0.5 h-8 bg-gradient-to-b from-white/30 to-white/5 rounded-full"
-            animate={{ 
-              scaleY: [1, 0.6, 1],
-              opacity: [0.3, 0.6, 0.3]
-            }}
-            transition={{ 
-              repeat: Infinity,
-              duration: 2,
-              ease: "easeInOut"
-            }}
-          />
-        </motion.div>
       </section>
       
       {/* Partners Showcase Section - Immediately after Hero */}
