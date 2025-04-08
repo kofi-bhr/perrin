@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { FiSearch, FiFilter, FiX, FiUsers, FiExternalLink, FiChevronRight } from 'react-icons/fi'
 import { HiOutlineOfficeBuilding, HiOutlineAcademicCap, HiOutlineUserGroup, HiOutlineChip } from 'react-icons/hi'
+import Head from 'next/head'
 
 interface Expert {
   id: number
@@ -761,6 +762,33 @@ export default function ExpertsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
+      <Head>
+        <title>Expert Directory | The Perrin Institution</title>
+        <meta name="description" content="Meet our team of experts at The Perrin Institution - researchers, policy analysts, and leaders dedicated to technology governance and legal innovation." />
+        <meta name="keywords" content="Perrin Institution experts, Perrin Institute team, policy researchers, technology governance experts" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "name": "Expert Directory - The Perrin Institution",
+              "description": "Meet our team of experts at The Perrin Institution",
+              "url": "https://perrininstitution.com/experts",
+              "isPartOf": {
+                "@type": "WebSite",
+                "name": "The Perrin Institution",
+                "url": "https://perrininstitution.com"
+              },
+              "about": {
+                "@type": "Organization",
+                "name": "The Perrin Institution",
+                "url": "https://perrininstitution.com"
+              }
+            })
+          }}
+        />
+      </Head>
       {/* Tech-inspired Hero Section */}
       <section className="relative py-20 overflow-hidden">
         {/* Animated background elements */}

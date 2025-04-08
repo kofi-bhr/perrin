@@ -24,8 +24,45 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'The Perrin Institute',
-  description: 'AI-Powered Policy Research Lab',
+  title: 'The Perrin Institution | AI-Powered Policy Research Lab at UVA',
+  description: 'The Perrin Institution is a contracted research organization at the University of Virginia dedicated to shaping policy through data-driven research and technology governance.',
+  keywords: 'Perrin Institution, Perrin Institute, policy research, AI policy, technology governance, UVA research, data-driven policy',
+  authors: [{ name: 'Perrin Institution' }],
+  openGraph: {
+    title: 'The Perrin Institution | AI-Powered Policy Research',
+    description: 'Shaping the future of technology governance and legal innovation through data-driven research at UVA',
+    url: 'https://perrininstitution.com',
+    siteName: 'The Perrin Institution',
+    images: [
+      {
+        url: '/perrinlogonewnew.png',
+        width: 1200,
+        height: 630,
+        alt: 'The Perrin Institution'
+      }
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'The Perrin Institution | AI-Powered Policy Research',
+    description: 'Shaping policy through data-driven research at UVA',
+    images: ['/perrinlogonewnew.png'],
+  },
+  alternates: {
+    canonical: 'https://perrininstitution.com',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({
@@ -40,6 +77,25 @@ export default function RootLayout({
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        
+        {/* Structured data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "The Perrin Institution",
+              "alternateName": "Perrin Institute",
+              "url": "https://perrininstitution.com",
+              "logo": "https://perrininstitution.com/perrinlogonewnew.png",
+              "sameAs": [
+                "https://www.tiktok.com/@theperrininstitution"
+              ],
+              "description": "The Perrin Institution is a contracted research organization based at the University of Virginia, dedicated to shaping the future of technology governance and legal innovation."
+            })
+          }}
+        />
         
         {/* Preload critical hero images */}
         <link
