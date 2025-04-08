@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { HiMenu, HiX } from 'react-icons/hi'
+import Image from 'next/image'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -48,13 +49,20 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
-              <Link href="/" className="flex items-center group">
-                <span className={`text-2xl font-serif font-bold ${textColor}`}>
-                  PERRIN
-                </span>
+              <Link href="/" className="flex items-center group relative overflow-hidden">
+                <div className="transition-all duration-300 transform group-hover:scale-105">
+                  <Image 
+                    src="/perrinlogonewnew.png" 
+                    alt="Perrin Institution Logo" 
+                    width={180} 
+                    height={60}
+                    className="h-12 w-auto object-contain my-1 transition-opacity duration-300 group-hover:opacity-95"
+                  />
+                </div>
+                <div className="absolute inset-0 rounded-full bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors duration-300"></div>
               </Link>
 
-              <div className="hidden md:flex items-center space-x-8 ml-12">
+              <div className="hidden md:flex items-center space-x-8 ml-6">
                 <Link
                   href="/experts"
                   className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/experts') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
