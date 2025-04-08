@@ -36,6 +36,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${robotoCondensed.variable} ${playfair.variable}`}>
       <head>
+        {/* Theme color to match site's dark theme on mobile devices */}
+        <meta name="theme-color" content="#000000" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        
         {/* Preload critical hero images */}
         <link
           rel="preload"
@@ -62,7 +67,7 @@ export default function RootLayout({
           type="image/jpeg"
         />
       </head>
-      <body className={`${robotoCondensed.className} ${inter.variable} ${playfair.variable} font-sans`}>
+      <body className={`${robotoCondensed.className} ${inter.className} ${playfair.variable} font-sans`}>
         <Navbar />
         <main className="w-full">{children}</main>
         <NewsletterSubscription />

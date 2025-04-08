@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect, useRef, useMemo } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence, useScroll, useTransform, useAnimation, Variant } from "framer-motion";
 import { FiArrowRight, FiMenu, FiX, FiCode, FiDatabase, FiServer, FiArrowDown, FiChevronDown, FiChevronUp, FiActivity } from 'react-icons/fi';
 import { images } from "@/lib/images";
@@ -304,25 +304,63 @@ const Loader = ({ setIsLoading }: { setIsLoading: (value: boolean) => void }) =>
               }}
               className="mb-16 flex justify-center"
             >
-              <div className="text-3xl font-serif font-bold tracking-tight relative">
-                <motion.span 
-                  className="text-white inline-block"
-                  initial={{ opacity: 0, filter: "blur(8px)" }}
-                  animate={{ 
-                    opacity: 1, 
-                    filter: "blur(0px)",
-                    transition: { duration: 1.5, delay: 0.2 }
-                  }}
-                >
-                  PERRIN
-                </motion.span>
+              <div className="relative">
+                {/* Logo glow effect */}
                 <motion.div 
-                  className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-[1px]"
+                  className="absolute top-1/2 left-1/2 w-40 h-40 rounded-full -translate-x-1/2 -translate-y-1/2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0.05, 0.15, 0.05] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(0,0,0,0) 70%)' }}
+                />
+                
+                {/* Floating particles */}
+                <div className="absolute inset-0 -m-12 pointer-events-none">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <motion.div
+                      key={`particle-${i}`}
+                      className="absolute w-1.5 h-1.5 rounded-full bg-blue-400/30"
+                      style={{
+                        top: `calc(50% + ${Math.sin(i/6 * Math.PI * 2) * 40}px)`,
+                        left: `calc(50% + ${Math.cos(i/6 * Math.PI * 2) * 60}px)`,
+                      }}
+                      animate={{
+                        y: [0, -5, 0, 5, 0],
+                        x: [0, 3, 0, -3, 0],
+                        opacity: [0.2, 0.4, 0.2],
+                        scale: [0.8, 1, 0.8],
+                      }}
+                      transition={{
+                        duration: 4,
+                        delay: i * 0.3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  ))}
+                </div>
+                
+                {/* Logo image with animation */}
+                <motion.div
+                  initial={{ opacity: 0, filter: "blur(8px)", scale: 0.9 }}
+                  animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+                  transition={{ duration: 1.5, delay: 0.2 }}
+                >
+                  <Image 
+                    src="/perrinlogonewnew.png" 
+                    alt="Perrin Institution Logo" 
+                    width={240} 
+                    height={80}
+                    className="h-20 w-auto object-contain"
+                    priority
+                  />
+                </motion.div>
+                
+                {/* Underline animation */}
+                <motion.div 
+                  className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 h-[2px]"
                   initial={{ width: "0%", background: "rgba(59, 130, 246, 0.5)" }}
-                  animate={{ 
-                    width: "100%", 
-                    background: "rgba(59, 130, 246, 1)"
-                  }}
+                  animate={{ width: "120%", background: "rgba(59, 130, 246, 1)" }}
                   transition={{ 
                     width: { duration: 1.5, delay: 0.8, ease: [0.22, 1, 0.36, 1] },
                     background: { duration: 2, delay: 0.8 }
