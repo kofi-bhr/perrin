@@ -1,0 +1,42 @@
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "The Perrin Institution",
+    "alternateName": "Perrin Institute",
+    "url": "https://perrininstitution.com",
+    "logo": "https://perrininstitution.com/perrinlogonewnew.png",
+    "sameAs": [
+      "https://www.tiktok.com/@theperrininstitution"
+    ],
+    "description": "The Perrin Institution is a contracted research organization based at the University of Virginia, dedicated to shaping the future of technology governance and legal innovation.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Charlottesville",
+      "addressRegion": "VA",
+      "addressCountry": "USA"
+    },
+    "member": [
+      {
+        "@type": "Person",
+        "name": "Finn Järvi",
+        "jobTitle": "Founder & President"
+      },
+      {
+        "@type": "Person",
+        "name": "Cash Hilinski",
+        "jobTitle": "Co-Founder & Chief Technology Officer"
+      }
+    ],
+    "knowsAbout": [
+      "Policy Research",
+      "Technology Governance",
+      "Data-Driven Research",
+      "Legal Innovation",
+      "AI Policy"
+    ],
+    "foundingDate": "2023",
+    "foundingLocation": {
+      "@type": "Place",
+      "name": "University of Virginia"
+    }
+  }

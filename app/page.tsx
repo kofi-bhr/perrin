@@ -1669,7 +1669,7 @@ export default function Home() {
                       <div className="w-full h-full bg-gradient-to-br from-indigo-800 to-purple-900"></div>
                     </div>
                     <div>
-                      <div className="text-white font-medium">Kashaf Ahmed</div>
+                      <div className="text-white font-medium">Kashaf Alvi</div>
                       <div className="text-white/60 text-sm">Inclusive Policy Laboratory</div>
                     </div>
                   </motion.div>
@@ -1682,11 +1682,13 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: 0.6 }}
                 >
-                  <p className="leading-relaxed">
-                    The BBC recently spotlighted our trailblazing Inclusive Policy Laboratory Director, Kashaf Ahmed, highlighting her groundbreaking work at the intersection of technology and governance.
+                  <p className="leading-relaxed">The BBC recently spotlighted our Inclusive Policy Lab Director, Kashaf Alvi, recognizing his leadership in advancing equitable governance. In the interview, Kashaf shares insights on designing policy rooted in data, inclusion, and community needs—reflecting the values that drive the Lab’s mission.
+
+
+                    
                   </p>
                   <p className="leading-relaxed">
-                    In this exclusive interview, Kashaf discusses how the Lab's innovative approach to inclusive policy development is reshaping the landscape of public governance and creating more equitable technological solutions.
+                  In this exclusive interview, Kashaf highlights how his strategic leadership in policy development is driving transformative change in housing, public safety, and economic equity. His pragmatic, equity-focused approach reflects a deep understanding of governance and a commitment to building responsive, community-first solutions.
                   </p>
                 </motion.div>
                 
@@ -1699,12 +1701,12 @@ export default function Home() {
                 >
                   <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm flex-1 min-w-[140px]">
                     <div className="text-indigo-400 text-sm font-medium mb-1">Featured Research</div>
-                    <div className="text-white text-lg font-medium">Inclusive AI Governance</div>
+                    <div className="text-white text-lg font-medium">Inclusive Policy</div>
                   </div>
                   
                   <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm flex-1 min-w-[140px]">
-                    <div className="text-indigo-400 text-sm font-medium mb-1">Policy Impact</div>
-                    <div className="text-white text-lg font-medium">12+ National Frameworks</div>
+                    <div className="text-indigo-400 text-sm font-medium mb-1">Honor</div>
+                    <div className="text-white text-lg font-medium">Pride of Pakistan</div>
                   </div>
                 </motion.div>
                 
