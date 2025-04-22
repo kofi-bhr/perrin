@@ -1574,18 +1574,7 @@ export default function Home() {
                     </div>
                   </div>
                   
-                  {/* Added metrics */}
-                  <div className="grid grid-cols-2 gap-2 mb-4">
-                    <div className="bg-white/5 rounded p-2 text-center">
-                      <div className="text-blue-300 text-xs uppercase">Impressions</div>
-                      <div className="text-white font-medium">5,200+</div>
-                    </div>
-                    <div className="bg-white/5 rounded p-2 text-center">
-                      <div className="text-blue-300 text-xs uppercase">Authors</div>
-                      <div className="text-white font-medium">10+</div>
-                    </div>
-                  </div>
-                  
+                  {/* Remove metrics section */}
                   <div className="mt-auto pt-4 border-t border-white/5">
                     <div className="text-blue-400 flex items-center text-sm font-medium">
                       <span>Elite Academic Recognition</span>
