@@ -96,35 +96,63 @@ export default function Footer() {
           </motion.div>
           
           <div className="md:col-span-4">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.3 }}
+                className="col-span-1 md:col-span-2"
               >
                 <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Navigation</h3>
-                <ul className="space-y-3">
-                  {['Home', 'Labs', 'Events', 'Application'].map((item, index) => (
-                    <motion.li 
-                      key={item}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: 0.3 + 0.05 * index }}
-                    >
-                      <Link 
-                        href={item === 'Home' ? '/' : item === 'Labs' ? '/Labs' : `/${item.toLowerCase()}`}
-                        className="text-white/70 hover:text-white transition-colors flex items-center group"
+                <div className="grid grid-cols-2 gap-x-4">
+                  <ul className="space-y-3">
+                    {['Home', 'Directory', 'Labs'].map((item, index) => (
+                      <motion.li 
+                        key={item}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: 0.3 + 0.05 * index }}
                       >
-                        <motion.span 
-                          className="w-0 h-px bg-blue-500 mr-0 group-hover:w-2 group-hover:mr-2 transition-all duration-300"
-                        />
-                        {item}
-                      </Link>
-                    </motion.li>
-                  ))}
-                </ul>
+                        <Link 
+                          href={item === 'Home' ? '/' : item === 'Directory' ? '/experts' : item === 'Labs' ? '/Labs' : `/${item.toLowerCase()}`}
+                          className="text-white/70 hover:text-white transition-colors flex items-center group"
+                        >
+                          <motion.span 
+                            className="w-0 h-px bg-blue-500 mr-0 group-hover:w-2 group-hover:mr-2 transition-all duration-300"
+                          />
+                          {item}
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </ul>
+                  <ul className="space-y-3">
+                    {['Events', 'Programs', 'Careers', 'Underserved Opportunities'].map((item, index) => (
+                      <motion.li 
+                        key={item}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3, delay: 0.45 + 0.05 * index }}
+                      >
+                        <Link 
+                          href={
+                            item === 'Programs' ? '/application' : 
+                            item === 'Opportunities' ? '/scholarship-center' : 
+                            `/${item.toLowerCase()}`
+                          }
+                          className="text-white/70 hover:text-white transition-colors flex items-center group"
+                        >
+                          <motion.span 
+                            className="w-0 h-px bg-blue-500 mr-0 group-hover:w-2 group-hover:mr-2 transition-all duration-300"
+                          />
+                          {item}
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
               
               <motion.div
@@ -216,11 +244,11 @@ export default function Footer() {
           className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center"
         >
           <div className="text-white/40 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} Perrin Institute. All rights reserved. The Perrin Institute is a student organization at the University of Virginia.
+            © {new Date().getFullYear()} Perrin Institute. All rights reserved.
           </div>
           
           <div className="flex items-center">
-            <div className="text-xs font-mono text-white/40 mr-4">Made with ❤️ at UVA</div>
+            <div className="text-xs font-mono text-white/40 mr-4">Founded by Cash Hilinski & Finn Jarvi</div>
             <div className="flex items-center bg-white/5 px-3 py-1 rounded-full">
               <motion.div 
                 className="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"
