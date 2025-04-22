@@ -41,7 +41,7 @@ const EXPERTS: Expert[] = [
     role: "Founder & President",
     bio: "Founder and President of Perrin Institute.",
     image: "",
-    email: "founderperrin@gmail.com",
+    email: "finnjarvi@perrininstitution.org",
     category: "Leadership"
   },
   {
@@ -50,7 +50,7 @@ const EXPERTS: Expert[] = [
     role: "Co-Founder & Chief Technology Officer",
     bio: "Co-Founder and Chief Technology Officer leading technical strategy and implementation.",
     image: "",
-    email: "admin@perrin.org",
+    email: "admin@perrininstitution.org",
     category: "Leadership"
   },
   {

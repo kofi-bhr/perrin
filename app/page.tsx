@@ -1180,7 +1180,13 @@ export default function Home() {
                 label: "Garnered Scholarships",
                 description: "Total tution value garnered in merit-based scholarships, study abroad oppurunties, and research stipends by the Perrin Institution's employees",
                 icon: "money",
-                color: "green"
+                color: "green",
+                hasBreakdown: true, // Added property
+                breakdown: [
+                  { label: "Merit-based scholarships", value: "$1,450,000" },
+                  { label: "Study abroad opportunities", value: "$850,000" },
+                  { label: "Research stipends", value: "$700,000" }
+                ]
               },
               {
                 value: "10+",
@@ -1291,6 +1297,61 @@ export default function Home() {
                   
                   {/* Description */}
                   <p className="text-white/60 text-sm flex-grow">{metric.description}</p>
+                  
+                  {/* Breakdown section for scholarship card */}
+                  {metric.hasBreakdown && (
+                    <div className="mt-4">
+                      <button 
+                        onClick={() => {
+                          const element = document.getElementById(`breakdown-${index}`);
+                          const chevron = document.getElementById(`chevron-${index}`);
+                          if (element) {
+                            const isHidden = element.classList.contains('max-h-0');
+                            if (isHidden) {
+                              element.classList.remove('max-h-0', 'opacity-0');
+                              element.classList.add('max-h-[500px]', 'opacity-100');
+                              if (chevron) {
+                                chevron.style.transform = 'rotate(180deg)';
+                              }
+                            } else {
+                              element.classList.add('max-h-0', 'opacity-0');
+                              element.classList.remove('max-h-[500px]', 'opacity-100');
+                              if (chevron) {
+                                chevron.style.transform = 'rotate(0deg)';
+                              }
+                            }
+                          }
+                        }} 
+                        className="flex items-center gap-1 text-green-400 text-sm font-medium group"
+                      >
+                        <span>See how we calculated this</span>
+                        <motion.div 
+                          id={`chevron-${index}`}
+                          className="w-4 h-4 transition-transform duration-300 ease-in-out"
+                        >
+                          <FiChevronDown className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                        </motion.div>
+                      </button>
+                      
+                      <div 
+                        id={`breakdown-${index}`} 
+                        className="overflow-hidden max-h-0 opacity-0 transition-all duration-500 ease-in-out"
+                      >
+                        <div className="mt-3 pt-3 border-t border-white/10">
+                          {metric.breakdown.map((item, i) => (
+                            <div key={i} className="flex justify-between mb-2 text-sm">
+                              <span className="text-white/70">{item.label}:</span>
+                              <span className="text-white font-medium">{item.value}</span>
+                            </div>
+                          ))}
+                          <div className="flex justify-between mt-2 pt-2 border-t border-white/10 text-sm font-medium">
+                            <span className={`text-${metric.color}-400`}>Total:</span>
+                            <span className={`text-${metric.color}-400`}>$3,000,000+</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   
                   {/* Animated data visualization */}
                   <div className="mt-6 pt-6 border-t border-white/10">
@@ -1501,7 +1562,7 @@ export default function Home() {
                   
                   <h3 className="text-xl font-medium text-white mb-2">SSRN Global Recognition</h3>
                   <p className="text-slate-400 mb-4 text-sm">
-                    Our groundbreaking policy paper on digital governance achieved a remarkable <span className="text-white font-medium">#2 ranking in global downloads</span> on SSRN History of Science and Environment eJournal, competing with research from institutions like Harvard and Oxford.
+                    Our groundbreaking policy paper on digital governance achieved a remarkable <span className="text-white font-medium">#2 ranking in global downloads</span> on SSRN History of Science and Environment eJournal.
                   </p>
                   
                   {/* Enhanced highlight badge */}
@@ -1682,7 +1743,7 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.7, delay: 0.6 }}
                 >
-                  <p className="leading-relaxed">The BBC recently spotlighted our Inclusive Policy Lab Director, Kashaf Alvi, recognizing his leadership in advancing equitable governance. In the interview, Kashaf shares insights on designing policy rooted in data, inclusion, and community needs—reflecting the values that drive the Lab’s mission.
+                  <p className="leading-relaxed">The BBC recently spotlighted our Inclusive Policy Lab Director, Kashaf Alvi, recognizing his leadership in advancing equitable governance. In the interview, Kashaf shares insights on designing policy rooted in data, inclusion, and community needs—reflecting the values that drive the Lab's mission.
 
 
                     

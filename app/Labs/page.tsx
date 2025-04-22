@@ -207,6 +207,7 @@ const staggerContainer = {
 
 export default function LabsPage() {
   const [activeLabId, setActiveLabId] = useState<string | null>(null)
+  const [hoveredLabId, setHoveredLabId] = useState<string | null>(null)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-[#0a0a18] to-black text-white">
@@ -307,25 +308,25 @@ export default function LabsPage() {
           <div className="flex flex-col items-center">
             {/* Enhanced badge with 3D hover effect */}
             <motion.div 
-              className="relative group mb-12"
+              className="relative group mb-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{ filter: "blur(15px)" }}
               />
               <motion.div 
-                className="inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-4 py-2 rounded-full border border-white/10 shadow-lg shadow-blue-900/5"
+                className="inline-flex items-center bg-white/[0.05] backdrop-blur-sm px-5 py-2.5 rounded-full border border-white/10 shadow-lg shadow-blue-900/10"
                 whileHover={{ 
                   scale: 1.05, 
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  backgroundColor: "rgba(255, 255, 255, 0.08)",
                   boxShadow: "0 0 20px 2px rgba(59, 130, 246, 0.3)" 
                 }}
               >
                 <motion.div 
-                  className="w-2.5 h-2.5 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full mr-3 relative"
+                  className="w-3 h-3 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full mr-3 relative"
                   animate={{ 
                     scale: [1, 1.5, 1],
                     opacity: [0.7, 1, 0.7]
@@ -349,78 +350,212 @@ export default function LabsPage() {
                     }}
                   />
                 </motion.div>
-                <span className="text-blue-300 text-sm uppercase tracking-widest font-medium">Research Labs</span>
+                <span className="text-blue-100 text-sm uppercase tracking-widest font-medium">Innovation Hubs</span>
               </motion.div>
             </motion.div>
             
             {/* Title with animated highlight */}
             <motion.div 
-              className="text-center mb-12"
+              className="text-center mb-16"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                Cutting-Edge <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-500 relative">Research Labs</span>
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-500 relative">Research Labs</span>
               </h1>
               <motion.div 
-                className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full mb-8"
+                className="w-32 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full mb-8"
                 initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 96, opacity: 1 }}
+                animate={{ width: 128, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               />
-              <p className="max-w-3xl mx-auto text-lg text-blue-100/70 leading-relaxed">
-                Our specialized labs bring together researchers, policy experts, and technologists 
-                to address the most challenging problems at the intersection of technology and public policy.
+              <p className="max-w-3xl mx-auto text-xl text-blue-100/80 leading-relaxed">
+                Pioneering the future of policy through world-class research and 
+                groundbreaking innovation across our specialized labs.
               </p>
             </motion.div>
             
-            {/* Research Areas Stats */}
+            {/* Lab quick access buttons */}
             <motion.div
-              className="flex flex-wrap justify-center gap-6 mt-8 mb-16"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              className="flex flex-wrap justify-center gap-3 mt-4 mb-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
             >
-              {[
-                { label: "Research Labs", value: "9" },
-                { label: "Policy Researchers", value: "250+" },
-                { label: "Specialized Teams", value: "15" },
-                { label: "Focus Areas", value: "30+" }
-              ].map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  className="bg-white/[0.03] backdrop-blur-sm border border-white/10 px-6 py-4 rounded-xl flex flex-col items-center relative overflow-hidden group"
-                  whileHover={{ 
-                    y: -5,
-                    backgroundColor: "rgba(255, 255, 255, 0.05)",
-                    borderColor: "rgba(59, 130, 246, 0.3)",
-                    transition: { duration: 0.2 }
-                  }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
+              {LABS.slice(0, 5).map((lab) => (
+                <Link 
+                  key={lab.id} 
+                  href={`/labs/${lab.id}`} 
+                  className={`px-4 py-2.5 rounded-full border text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                    hoveredLabId === lab.id 
+                    ? `border-${lab.textColor.split('-')[1]}-400/50 bg-${lab.textColor.split('-')[1]}-500/10 ${lab.textColor}` 
+                    : 'border-white/10 bg-white/5 text-white hover:bg-white/10'
+                  }`}
+                  onMouseEnter={() => setHoveredLabId(lab.id)}
+                  onMouseLeave={() => setHoveredLabId(null)}
                 >
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-blue-500/0 opacity-0 group-hover:opacity-100"
-                    initial={{ x: '-100%' }}
-                    whileHover={{ x: '100%' }}
-                    transition={{ duration: 1 }}
-                  />
-                  <span className="text-3xl font-bold text-white mb-1">{stat.value}</span>
-                  <span className="text-sm text-blue-300/70">{stat.label}</span>
-                </motion.div>
+                  <div className={`w-5 h-5 rounded-full bg-gradient-to-br ${lab.color} flex items-center justify-center`}>
+                    <div className="text-white text-xs">
+                      {lab.icon}
+                    </div>
+                  </div>
+                  {lab.title}
+                </Link>
               ))}
+              <Link 
+                href="/labs" 
+                className="px-4 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium transition-all duration-300 flex items-center gap-2"
+              >
+                View All
+                <FiArrowRight className="ml-1 h-3.5 w-3.5" />
+              </Link>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Labs Showcase Section */}
-      <section className="py-20 relative">
+      {/* Featured Labs Section */}
+      <section className="relative py-16 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/10 via-transparent to-transparent"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <motion.div 
+              className="inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-3 py-1.5 rounded-full mb-4 border border-white/10"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <span className="text-blue-300 text-xs uppercase tracking-widest font-medium">Featured Labs</span>
+            </motion.div>
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-8"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Spotlight on <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Innovation</span>
+            </motion.h2>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {LABS.slice(0, 3).map((lab, index) => (
+              <Link 
+                key={lab.id}
+                href={`/labs/${lab.id}`}
+              >
+                <motion.div 
+                  className="relative group h-full"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
+                  whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                >
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 blur-xl transition-all duration-300"></div>
+                  
+                  <div className="h-full rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.03] border border-white/10 overflow-hidden backdrop-blur-sm relative z-10 transition-all duration-300 group-hover:border-blue-500/30 group-hover:shadow-lg group-hover:shadow-blue-500/10">
+                    {/* Lab card header with gradient */}
+                    <div className={`h-3 w-full bg-gradient-to-r ${lab.color}`}></div>
+                    
+                    <div className="p-8">
+                      {/* Icon and title row */}
+                      <div className="flex items-center mb-5">
+                        <div className={`w-14 h-14 rounded-lg bg-gradient-to-br ${lab.color} flex items-center justify-center mr-5 shadow-lg`}>
+                          <div className="text-white text-xl">
+                            {lab.icon}
+                          </div>
+                        </div>
+                        <h3 className="text-2xl font-bold text-white">{lab.title}</h3>
+                      </div>
+                      
+                      {/* Description */}
+                      <p className="text-gray-300 mb-8 leading-relaxed text-lg">{lab.description}</p>
+                      
+                      {/* Projects teaser */}
+                      <div className="space-y-1 mb-6">
+                        <h4 className="font-medium text-white mb-3">Key Projects:</h4>
+                        <ul className="space-y-2">
+                          {lab.projects.slice(0, 2).map((project, i) => (
+                            <li key={i} className="flex items-start">
+                              <span className={`inline-block w-1.5 h-1.5 rounded-full ${lab.textColor} mt-1.5 mr-2`}></span>
+                              <span className="text-gray-300 text-sm">{project}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      {/* Action link */}
+                      <div className="mt-8">
+                        <div className={`text-sm ${lab.textColor} flex items-center transition-all group-hover:translate-x-1`}>
+                          <span>Explore Lab</span>
+                          <FiArrowRight className="ml-2" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* All Labs Showcase Section */}
+      <section className="py-24 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-blue-900/5 via-transparent to-transparent"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+            <div>
+              <motion.div 
+                className="inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-3 py-1.5 rounded-full mb-4 border border-white/10"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <span className="text-blue-300 text-xs uppercase tracking-widest font-medium">All Research Labs</span>
+              </motion.div>
+              <motion.h2 
+                className="text-3xl md:text-5xl font-bold mb-4"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                Explore Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Full Ecosystem</span>
+              </motion.h2>
+              <motion.p
+                className="text-gray-300 max-w-2xl"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                Each lab drives breakthrough policy research through multidisciplinary collaboration, cutting-edge methodologies, and a focus on real-world impact.
+              </motion.p>
+            </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <Link 
+                href="/about/labs" 
+                className="inline-flex items-center px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 text-white"
+              >
+                About Our Research
+                <FiArrowRight className="ml-2" />
+              </Link>
+            </motion.div>
+          </div>
+          
           <motion.div
             variants={staggerContainer}
             initial="hidden"
@@ -457,16 +592,6 @@ export default function LabsPage() {
                     {/* Description */}
                     <p className="text-gray-300 mb-6 leading-relaxed">{lab.description}</p>
                     
-                    {/* Stats grid */}
-                    <div className="grid grid-cols-3 gap-2 mb-6">
-                      {lab.stats.map((stat, i) => (
-                        <div key={i} className="bg-white/5 rounded-lg p-3 text-center">
-                          <div className={`text-lg font-bold ${lab.textColor}`}>{stat.value}</div>
-                          <div className="text-gray-400 text-xs">{stat.label}</div>
-                        </div>
-                      ))}
-                    </div>
-                    
                     {/* Projects list - only visible when active */}
                     <motion.div 
                       className="space-y-2 mb-6"
@@ -491,133 +616,33 @@ export default function LabsPage() {
                     
                     {/* Action link */}
                     <div className="flex justify-between items-center">
-                      <button 
-                        className={`text-sm ${lab.textColor} flex items-center transition-all hover:opacity-80`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveLabId(activeLabId === lab.id ? null : lab.id);
-                        }}
-                      >
-                        <span>{activeLabId === lab.id ? 'View Less' : 'View Details'}</span>
-                        <FiArrowRight className="ml-1" />
-                      </button>
-                      
-                      <div className="text-xs text-gray-500">Lab ID: {lab.id}</div>
+                      <div className="flex gap-4">
+                        <button 
+                          className={`text-sm ${lab.textColor} flex items-center transition-all hover:opacity-80`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setActiveLabId(activeLabId === lab.id ? null : lab.id);
+                          }}
+                        >
+                          <span>{activeLabId === lab.id ? 'View Less' : 'Quick View'}</span>
+                          <FiArrowRight className="ml-1" />
+                        </button>
+                        
+                        <Link
+                          href={`/labs/${lab.id}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-sm text-white flex items-center transition-all hover:opacity-80"
+                        >
+                          <span>Full Details</span>
+                          <FiArrowRight className="ml-1" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
               </motion.div>
             ))}
           </motion.div>
-        </div>
-      </section>
-
-      {/* Technologies Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/10 to-slate-950"></div>
-        
-        {/* Animated grid lines */}
-        <div className="absolute inset-0" 
-          style={{
-            backgroundImage: 'linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px)',
-            backgroundSize: '60px 60px'
-          }}>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.div 
-              className="inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-3 py-1.5 rounded-full mb-6 border border-white/10"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.05)" }}
-            >
-              <motion.div 
-                className="w-2 h-2 bg-gradient-to-r from-indigo-400 to-blue-500 rounded-full mr-2"
-                animate={{ 
-                  scale: [1, 1.5, 1],
-                  opacity: [0.7, 1, 0.7]
-                }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity,
-                  ease: "easeInOut" 
-                }}
-              />
-              <span className="text-blue-300 text-xs uppercase tracking-widest font-medium">Technologies</span>
-            </motion.div>
-            
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Cutting-Edge <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Research Technologies</span>
-            </h2>
-            
-            <p className="max-w-3xl mx-auto text-gray-300 mb-4">
-              Our labs leverage advanced technologies and methodologies to push the boundaries of policy research and analysis.
-            </p>
-          </motion.div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                title: "Advanced Data Analytics",
-                description: "Utilizing big data techniques to uncover patterns and insights in complex policy datasets",
-                icon: "📊",
-                color: "from-blue-500 to-cyan-500"
-              },
-              {
-                title: "Machine Learning Models",
-                description: "Developing predictive models to forecast policy outcomes and scenario planning",
-                icon: "🧠",
-                color: "from-purple-500 to-pink-500"
-              },
-              {
-                title: "Natural Language Processing",
-                description: "Analyzing policy documents and public discourse to extract meaningful insights",
-                icon: "📝",
-                color: "from-amber-500 to-orange-500"
-              },
-              {
-                title: "Visualization Tools",
-                description: "Creating interactive data visualizations to communicate complex policy concepts",
-                icon: "📈",
-                color: "from-emerald-500 to-teal-500"
-              },
-              {
-                title: "Simulation Frameworks",
-                description: "Building policy simulations to test intervention strategies before implementation",
-                icon: "🔬",
-                color: "from-red-500 to-pink-500"
-              },
-              {
-                title: "Network Analysis",
-                description: "Mapping relationship networks to understand stakeholder dynamics in policy ecosystems",
-                icon: "🌐",
-                color: "from-indigo-500 to-blue-500"
-              }
-            ].map((tech, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white/[0.03] border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm hover:border-blue-500/30 transition-all duration-300 group"
-                whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              >
-                <div className="p-6">
-                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${tech.color} flex items-center justify-center mb-4 text-2xl`}>
-                    {tech.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">{tech.title}</h3>
-                  <p className="text-gray-400">{tech.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
     </div>

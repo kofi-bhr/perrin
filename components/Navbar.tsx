@@ -4,11 +4,17 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import { HiMenu, HiX } from 'react-icons/hi'
 import Image from 'next/image'
+import { DM_Sans } from 'next/font/google'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FiMenu, FiX } from 'react-icons/fi'
+
+const dmSans = DM_Sans({ subsets: ['latin'] })
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const isTransparentPage = ['/'].includes(pathname)
   const isExpertsPage = pathname.includes('/experts')
@@ -42,6 +48,12 @@ export default function Navbar() {
   const hoverEffect = isExpertsPage
     ? 'hover:text-blue-400'
     : 'hover:opacity-75'
+
+  const isActive = (path: string) => {
+    if (path === '/' && pathname === '/') return true
+    if (path !== '/' && pathname?.startsWith(path)) return true
+    return false
+  }
 
   return (
     <>
@@ -85,7 +97,19 @@ export default function Navbar() {
                   href="/application"
                   className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/application') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
                 >
-                  Apply
+                  Programs
+                </Link>
+                <Link
+                  href="/careers"
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/careers') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                >
+                  Careers
+                </Link>
+                <Link
+                  href="/scholarship-center"
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/scholarship-center') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                >
+                  Underserved Opportunities
                 </Link>
               </div>
             </div>
@@ -156,11 +180,110 @@ export default function Navbar() {
               } ${pathname.includes('/application') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
-              Apply
+              Programs
+            </Link>
+            <Link
+              href="/careers"
+              className={`block px-3 py-4 rounded-md text-base font-medium ${
+                isExpertsPage 
+                  ? 'text-white hover:text-blue-400' 
+                  : 'text-gray-900 hover:bg-gray-50'
+              } ${pathname.includes('/careers') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Careers
+            </Link>
+            <Link
+              href="/scholarship-center"
+              className={`block px-3 py-4 rounded-md text-base font-medium ${
+                isExpertsPage 
+                  ? 'text-white hover:text-blue-400' 
+                  : 'text-gray-900 hover:bg-gray-50'
+              } ${pathname.includes('/scholarship-center') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Underserved Opportunities
             </Link>
           </div>
         </div>
       )}
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-black/90 backdrop-blur-lg overflow-hidden"
+          >
+            <div className="px-4 pt-2 pb-6 space-y-1 sm:px-6">
+              <Link
+                href="/"
+                className={`block py-2 text-base font-medium ${
+                  isActive('/') ? 'text-white' : 'text-gray-300'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                href="/labs"
+                className={`block py-2 text-base font-medium ${
+                  isActive('/labs') ? 'text-white' : 'text-gray-300'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Labs
+              </Link>
+              <Link
+                href="/Programs"
+                className={`block py-2 text-base font-medium ${
+                  isActive('/Programs') ? 'text-white' : 'text-gray-300'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Programs
+              </Link>
+              <Link
+                href="/about"
+                className={`block py-2 text-base font-medium ${
+                  isActive('/about') ? 'text-white' : 'text-gray-300'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                href="/careers"
+                className={`block py-2 text-base font-medium ${
+                  isActive('/careers') ? 'text-white' : 'text-gray-300'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Careers
+              </Link>
+              <Link
+                href="/scholarship-center"
+                className={`block py-2 text-base font-medium ${
+                  isActive('/scholarship-center') ? 'text-white' : 'text-gray-300'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Underserved Opportunities
+              </Link>
+              <Link
+                href="/contact"
+                className="block mt-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg text-base font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Contact Us
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }
