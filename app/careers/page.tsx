@@ -13,7 +13,6 @@ interface Job {
   description: string;
   requirements: string[];
   benefits: string[];
-  salary?: string;
   postedDate: string;
 }
 
@@ -25,52 +24,39 @@ export default function CareersPage() {
   const jobs: Job[] = [
     {
       id: '1',
-      title: 'Policy Research Analyst',
+      title: 'Marketing Specialist',
       type: 'Full-time',
       location: 'Charlottesville, VA / Remote',
-      description: "Join our team as a Policy Research Analyst, where you'll work on cutting-edge research projects at the intersection of technology and policy. You'll analyze data, write reports, and contribute to policy recommendations that shape the future of technology governance.",
-      requirements: [
-        'Bachelor\'s or Master\'s degree in Public Policy, Political Science, or related field',
-        'Strong analytical and research skills',
-        'Excellent written and verbal communication',
-        'Experience with policy analysis and research',
-        'Ability to work independently and in teams'
-      ],
+      description: "Join our team as a Marketing Specialist and help us promote our policy research and initiatives. You'll develop creative content, manage our social media presence, and design engaging campaigns to increase the visibility and impact of our work.",
+      requirements: [],
       benefits: [
-        'Competitive salary and benefits package',
         'Flexible work arrangements',
         'Professional development opportunities',
         'Collaborative work environment',
-        'Impactful work on important policy issues'
+        'Impactful work on important policy issues',
+        'Health and wellness benefits'
       ],
-      salary: '$60,000 - $80,000',
-      postedDate: '2024-04-10'
+      postedDate: '2024-04-15'
     },
     {
       id: '2',
-      title: 'Data Science Fellow',
-      type: 'Fellowship',
+      title: 'Graphic Designer',
+      type: 'Full-time',
       location: 'Remote',
-      description: "Our Data Science Fellowship program offers an opportunity to work on real-world policy challenges using data science techniques. Fellows will collaborate with policy experts and develop innovative solutions to complex problems.",
-      requirements: [
-        'Background in Data Science, Computer Science, or related field',
-        'Proficiency in Python or R',
-        'Experience with data analysis and visualization',
-        'Interest in policy and social impact',
-        'Strong problem-solving skills'
-      ],
+      description: "We're looking for a creative Graphic Designer to help visualize complex policy concepts and create engaging visual content for our reports, presentations, and digital platforms. You'll work closely with our research and communication teams to translate policy insights into compelling visual stories.",
+      requirements: [],
       benefits: [
-        'Stipend and professional development budget',
-        'Mentorship from industry experts',
-        'Networking opportunities',
-        'Portfolio-building projects',
-        'Flexible schedule'
+        'Flexible work arrangements',
+        'Creative freedom and autonomy',
+        'Professional development budget',
+        'Collaborative, supportive team',
+        'Work that makes a real-world impact'
       ],
-      postedDate: '2024-04-10'
+      postedDate: '2024-04-12'
     }
   ];
 
-  const jobTypes = ['All', 'Full-time', 'Fellowship', 'Internship'];
+  const jobTypes = ['All', 'Full-time', 'Part-time', 'Contract'];
 
   const filteredJobs = jobs.filter(job => {
     const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -177,12 +163,6 @@ export default function CareersPage() {
                           <FiClock className="mr-1" />
                           {job.type}
                         </span>
-                        {job.salary && (
-                          <span className="flex items-center">
-                            <FiDollarSign className="mr-1" />
-                            {job.salary}
-                          </span>
-                        )}
                       </div>
                     </div>
                     <div className="text-gray-400">
@@ -206,17 +186,19 @@ export default function CareersPage() {
                       <p className="text-gray-300">{job.description}</p>
                     </div>
 
-                    <div>
-                      <h4 className="text-lg font-medium text-white mb-2">Requirements</h4>
-                      <ul className="space-y-2">
-                        {job.requirements.map((req, index) => (
-                          <li key={index} className="flex items-start text-gray-300">
-                            <span className="text-blue-400 mr-2">•</span>
-                            {req}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    {job.requirements.length > 0 && (
+                      <div>
+                        <h4 className="text-lg font-medium text-white mb-2">Requirements</h4>
+                        <ul className="space-y-2">
+                          {job.requirements.map((req, index) => (
+                            <li key={index} className="flex items-start text-gray-300">
+                              <span className="text-blue-400 mr-2">•</span>
+                              {req}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
                     <div>
                       <h4 className="text-lg font-medium text-white mb-2">Benefits</h4>
