@@ -129,7 +129,7 @@ export const LABS_DATA: Lab[] = [
       }
     ],
     methodology: "Our lab combines technical expertise with policy analysis to bridge the gap between AI capabilities and governance frameworks. We employ interdisciplinary approaches including stakeholder analysis, risk assessment, scenario planning, and technical auditing to develop comprehensive governance solutions for AI systems.",
-    contactEmail: "ai.governance@example.org"
+    contactEmail: "admin@perrininstitute.org"
   },
   {
     id: "inclusive-policy",
@@ -179,7 +179,7 @@ export const LABS_DATA: Lab[] = [
       }
     ],
     methodology: "Our lab employs community-based participatory research methods, intersectional analysis, and equity impact assessments. We believe in 'nothing about us without us' as a core principle, ensuring that those most affected by policies are central to their development and evaluation.",
-    contactEmail: "inclusive.policy@example.org"
+    contactEmail: "admin@perrininstitute.org"
   },
   {
     id: "climate-technology",
@@ -229,7 +229,7 @@ export const LABS_DATA: Lab[] = [
       }
     ],
     methodology: "Our lab combines technical and policy expertise to bridge the gap between climate technology innovation and implementation. We employ systems thinking, scenario analysis, techno-economic assessment, and stakeholder engagement to develop comprehensive approaches to climate technology deployment.",
-    contactEmail: "climate.tech@example.org"
+    contactEmail: "admin@perrininstitute.org"
   },
   {
     id: "deliberative-democracy",
@@ -279,7 +279,7 @@ export const LABS_DATA: Lab[] = [
       }
     ],
     methodology: "Our lab employs mixed methods research combining empirical analysis of deliberative processes with normative democratic theory. We design, implement, and evaluate deliberative forums in partnership with communities and institutions, drawing on facilitation expertise, institutional design, and democratic theory.",
-    contactEmail: "deliberative.democracy@example.org"
+    contactEmail: "admin@perrininstitute.org"
   },
   {
     id: "special-projects",
@@ -329,7 +329,7 @@ export const LABS_DATA: Lab[] = [
       }
     ],
     methodology: "Our lab takes a highly adaptive approach, developing bespoke methodologies for each project based on its specific context and constraints. We emphasize rapid iteration, cross-disciplinary collaboration, and pragmatic application while maintaining methodological rigor.",
-    contactEmail: "special.projects@example.org"
+    contactEmail: "admin@perrininstitute.org"
   },
   {
     id: "foreign-affairs",
@@ -379,7 +379,7 @@ export const LABS_DATA: Lab[] = [
       }
     ],
     methodology: "Our lab combines traditional diplomatic expertise with innovative research methods, including network analysis, scenario planning, and multi-stakeholder dialogues. We engage directly with diplomatic practitioners, international organizations, and civil society to ensure our research addresses practical challenges.",
-    contactEmail: "foreign.affairs@example.org"
+    contactEmail: "admin@perrininstitute.org"
   },
   {
     id: "economic-policy",
@@ -429,7 +429,7 @@ export const LABS_DATA: Lab[] = [
       }
     ],
     methodology: "Our lab combines quantitative economic modeling with qualitative policy analysis. We employ microsimulation, distributional impact assessment, and case study approaches to develop and evaluate economic policies that promote inclusive prosperity.",
-    contactEmail: "economic.policy@example.org"
+    contactEmail: "admin@perrininstitute.org"
   },
   {
     id: "legal-research",
@@ -479,7 +479,7 @@ export const LABS_DATA: Lab[] = [
       }
     ],
     methodology: "Our lab employs doctrinal legal analysis, comparative law methodologies, and interdisciplinary approaches that integrate technical and social science perspectives. We engage with legal practitioners, judges, regulators, and civil society to ensure our research addresses practical legal challenges.",
-    contactEmail: "legal.research@example.org"
+    contactEmail: "admin@perrininstitute.org"
   },
   {
     id: "policy-entrepreneurship",
@@ -529,7 +529,7 @@ export const LABS_DATA: Lab[] = [
       }
     ],
     methodology: "Our lab combines political science theories with practical implementation strategies. We employ process tracing, network analysis, and case study approaches to identify successful policy entrepreneurship strategies that can be adapted across different contexts.",
-    contactEmail: "policy.entrepreneurship@example.org"
+    contactEmail: "admin@perrininstitute.org"
   }
 ];
 

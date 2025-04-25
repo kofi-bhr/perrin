@@ -222,51 +222,47 @@ export default function LabDetailPage() {
               </div>
             </section>
             
-            {/* Publications section with prestigious styling */}
-            {lab.publications && lab.publications.length > 0 && (
-              <motion.section 
-                variants={itemVariants}
-                className="bg-gradient-to-br from-gray-900/70 to-gray-900/50 rounded-xl backdrop-blur-sm p-10 shadow-xl border border-gray-800/40 relative overflow-hidden"
-              >
-                {/* Prestigious accent corners */}
-                <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-blue-500/30"></div>
-                <div className="absolute bottom-0 left-0 w-16 h-16 border-b border-l border-blue-500/30"></div>
-                
-                <div className="relative z-10">
-                  <div className="flex items-start mb-10">
-                    <FiFileText className="text-blue-400 mr-4 text-2xl mt-1" />
-                    <div>
-                      <h2 className="text-3xl font-bold tracking-tight">Featured Publications</h2>
-                      <div className="h-px w-32 bg-blue-500/50 mt-3"></div>
-                    </div>
-                  </div>
-                  <div className="space-y-12">
-                    {lab.publications.map((pub, index) => (
-                      <div 
-                        key={index} 
-                        className="border-b border-gray-800/60 pb-12 last:border-0 last:pb-0"
-                      >
-                        <h3 className="text-xl font-semibold mb-3 text-white">{pub.title}</h3>
-                        <p className="text-gray-400 mb-4 font-light">
-                          {pub.authors.join(", ")} • {pub.date}
-                        </p>
-                        <p className="text-gray-300 mb-5 leading-relaxed">{pub.abstract}</p>
-                        {pub.link && (
-                          <a 
-                            href={pub.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors group"
-                          >
-                            Read Publication <FiExternalLink className="ml-2 transition-transform group-hover:translate-x-1" />
-                          </a>
-                        )}
-                      </div>
-                    ))}
+            {/* Research papers section with formal request information */}
+            <motion.section 
+              variants={itemVariants}
+              className="bg-gradient-to-br from-gray-900/70 to-gray-900/50 rounded-xl backdrop-blur-sm p-10 shadow-xl border border-gray-800/40 relative overflow-hidden"
+            >
+              {/* Prestigious accent corners */}
+              <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-blue-500/30"></div>
+              <div className="absolute bottom-0 left-0 w-16 h-16 border-b border-l border-blue-500/30"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-start mb-10">
+                  <FiFileText className="text-blue-400 mr-4 text-2xl mt-1" />
+                  <div>
+                    <h2 className="text-3xl font-bold tracking-tight">Research Papers</h2>
+                    <div className="h-px w-32 bg-blue-500/50 mt-3"></div>
                   </div>
                 </div>
-              </motion.section>
-            )}
+                
+                <div className="bg-black/20 border border-blue-500/10 rounded-lg p-6 mb-6">
+                  <h3 className="text-xl font-semibold mb-4 text-white">Request Our Research</h3>
+                  <p className="text-gray-300 mb-4 leading-relaxed">
+                    The Perrin Institute publishes research findings through official channels including the Federal Register. 
+                    Due to the sensitive and proprietary nature of our research, publications are available upon formal request.
+                  </p>
+                  <p className="text-gray-300 mb-6 leading-relaxed">
+                    To request access to papers and publications from the {lab.title} Lab, please submit a formal request 
+                    through our secure portal with your credentials and research purpose.
+                  </p>
+                  <Link 
+                    href="/research-request" 
+                    className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-md transition-colors duration-300"
+                  >
+                    Submit Research Request <FiArrowRight className="ml-2" />
+                  </Link>
+                </div>
+                
+                <div className="text-gray-400 text-sm italic border-t border-gray-800/30 pt-6 mt-6">
+                  <p>Note: Research requests are typically processed within 5-7 business days. Some materials may require additional verification or clearance due to confidentiality agreements with our partners.</p>
+                </div>
+              </div>
+            </motion.section>
             
             {/* Call to action section with prestigious styling */}
             <motion.section 
@@ -298,8 +294,6 @@ export default function LabDetailPage() {
           
           {/* Sidebar - 1/3 width */}
           <motion.div variants={containerVariants} className="space-y-10">
-            {/* Team members section - Removed as we don't want to show fake people */}
-            
             {/* Contact section with prestigious styling */}
             <motion.section 
               variants={itemVariants}
@@ -325,7 +319,37 @@ export default function LabDetailPage() {
               </div>
             </motion.section>
             
-            {/* Related research or resources section with prestigious styling */}
+            {/* Research areas section */}
+            <motion.section 
+              variants={itemVariants}
+              className="bg-gradient-to-br from-gray-900/70 to-gray-900/50 rounded-xl backdrop-blur-sm p-8 shadow-xl border border-gray-800/40 relative overflow-hidden"
+            >
+              {/* Prestigious accent elements */}
+              <div className="absolute top-0 left-0 w-12 h-12 border-t border-l border-blue-500/30"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center mb-6">
+                  <FiActivity className="text-blue-400 mr-3 text-xl" />
+                  <h2 className="text-2xl font-bold tracking-tight">Research Areas</h2>
+                </div>
+                <div className="space-y-4">
+                  <div className="bg-black/30 p-4 rounded-lg border border-white/5">
+                    <h3 className="font-medium text-white mb-2">Policy Analysis</h3>
+                    <p className="text-sm text-gray-400">Evidence-based analysis of existing and proposed policy frameworks</p>
+                  </div>
+                  <div className="bg-black/30 p-4 rounded-lg border border-white/5">
+                    <h3 className="font-medium text-white mb-2">Data-Driven Research</h3>
+                    <p className="text-sm text-gray-400">Leveraging quantitative and qualitative methodologies</p>
+                  </div>
+                  <div className="bg-black/30 p-4 rounded-lg border border-white/5">
+                    <h3 className="font-medium text-white mb-2">Strategic Consulting</h3>
+                    <p className="text-sm text-gray-400">Advisory services for public and private sector clients</p>
+                  </div>
+                </div>
+              </div>
+            </motion.section>
+            
+            {/* Related research labs section with prestigious styling */}
             <motion.section 
               variants={itemVariants}
               className="bg-gradient-to-br from-gray-900/70 to-gray-900/50 rounded-xl backdrop-blur-sm p-8 shadow-xl border border-gray-800/40 relative overflow-hidden"
