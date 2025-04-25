@@ -69,6 +69,7 @@ export default function CareerApplicationPage() {
   const params = useParams();
   const jobId = params.id as string;
   const [job, setJob] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -90,8 +91,11 @@ export default function CareerApplicationPage() {
   
   useEffect(() => {
     if (jobId) {
-      const jobData = getJobById(jobId);
-      setJob(jobData);
+      setTimeout(() => {
+        const jobData = getJobById(jobId);
+        setJob(jobData);
+        setLoading(false);
+      }, 100);
     }
   }, [jobId]);
   
@@ -128,6 +132,17 @@ export default function CareerApplicationPage() {
       }
     }, 2000);
   };
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white pt-32 pb-20 px-4 flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          <div className="w-16 h-16 border-t-4 border-r-4 border-blue-500 border-l-transparent border-b-transparent rounded-full animate-spin mb-6"></div>
+          <p className="text-blue-500 animate-pulse font-light tracking-wider">Loading application form...</p>
+        </div>
+      </div>
+    );
+  }
   
   if (!job) {
     return (
