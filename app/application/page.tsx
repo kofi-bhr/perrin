@@ -37,11 +37,11 @@ export default function ApplicationPage() {
   const programs: Program[] = [
     {
       id: '1',
-      title: 'Policy Research Fellowship',
+      title: 'Research Internship, Technology Policy Group',
       subtitle: 'Advanced Research Program',
       location: 'University of Virginia / Remote',
       duration: '12 weeks (Summer 2024)',
-      description: "The Policy Research Fellowship is our flagship program for exceptional students interested in data-driven policy research. Fellows work directly with faculty mentors and policy experts to conduct original research on pressing policy challenges. This immersive experience combines rigorous academic research with practical policy applications, preparing participants for impactful careers in policy analysis, government, and academia.",
+      description: "The Research Internship is our flagship program for exceptional students interested in data-driven policy research. Fellows work directly with faculty mentors and policy experts to conduct original research on pressing policy challenges. This immersive experience combines rigorous academic research with practical policy applications, preparing participants for impactful careers in policy analysis, government, and academia.",
       highlights: [
         'Conduct original research with faculty mentors',
         'Present findings to policy stakeholders',
@@ -92,7 +92,7 @@ export default function ApplicationPage() {
     },
     {
       question: "Are these programs paid or unpaid?",
-      answer: "Only our top-performing fellows receive stipends. The Policy Research Fellowship may award stipends of up to $5,000 for exceptional candidates who demonstrate outstanding results, while the Data Science for Policy Innovation program may provide stipends of up to $3,500 for top performers. These merit-based stipends are highly competitive and awarded only to those who consistently exceed expectations."
+      answer: "Only our top-performing fellows receive stipends. The Research Internship may award stipends of up to $5,000 for exceptional candidates who demonstrate outstanding results, while the News Department Correspondent may provide stipends of up to $3,500 for top performers. These merit-based stipends are highly competitive and awarded only to those who consistently exceed expectations."
     },
     {
       question: "Can international students apply?",
@@ -100,7 +100,7 @@ export default function ApplicationPage() {
     },
     {
       question: "What is the time commitment?",
-      answer: "The Policy Research Fellowship requires a full-time commitment (approximately 35-40 hours per week) during the 12-week summer program. The Data Science for Policy Innovation program requires approximately 20-25 hours per week during the 8-week fall program, making it possible to participate alongside other academic commitments."
+      answer: "The Research Internship requires a full-time commitment (approximately 35-40 hours per week) during the 12-week summer program. The News Department Correspondent requires approximately 20-25 hours per week during the 8-week fall program, making it possible to participate alongside other academic commitments."
     },
     {
       question: "Can high school students apply?",
@@ -112,7 +112,7 @@ export default function ApplicationPage() {
     },
     {
       question: "What is the acceptance rate for these programs?",
-      answer: "Our programs are highly selective, with an acceptance rate of approximately 4-6% for the Policy Research Fellowship and 7-9% for the Data Science program. This level of selectivity is comparable to the most elite graduate programs at Ivy League institutions. For high school applicants, the acceptance rate is even more competitive at less than 1%, as we only admit truly exceptional students who demonstrate college or graduate-level capabilities. We receive applications from top students at leading universities worldwide, and our selection committee—composed of distinguished faculty and industry leaders—employs a rigorous evaluation process to identify candidates with exceptional potential. Many of our alumni have gone on to prestigious positions at top research institutions, policy organizations, and technology companies."
+      answer: "Our programs are highly selective, with an acceptance rate of approximately 4-6% for the Research Internship and 7-9% for the News Department Correspondent. For high school applicants, the acceptance rate is even more competitive at less than 1%, as we only admit truly exceptional students who demonstrate college or graduate-level capabilities. We receive applications from top students at leading universities worldwide, and our selection committee—composed of distinguished faculty and industry leaders—employs a rigorous evaluation process to identify candidates with exceptional potential. Many of our alumni have gone on to prestigious positions at top research institutions, policy organizations, and technology companies."
     }
   ];
 

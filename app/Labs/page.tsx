@@ -279,13 +279,6 @@ export default function Labs() {
                         </span>
                         <FiChevronRight className="ml-2 transition-transform group-hover:translate-x-1" />
                       </Link>
-                      
-                      {lab.publications && lab.publications.length > 0 && (
-                        <span className="text-xs text-gray-300 flex items-center bg-black/30 px-3 py-1.5 rounded-full border border-white/5">
-                          <FiExternalLink className="mr-1.5 h-3 w-3" />
-                          {lab.publications.length} Publication{lab.publications.length !== 1 ? 's' : ''}
-                        </span>
-                      )}
                     </div>
                   </div>
                 </div>

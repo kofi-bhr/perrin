@@ -23,7 +23,7 @@ export default function ApplicationFormPage() {
   // Define program details with proper typing
   const programDetails: Record<ProgramKey, ProgramInfo> = {
     '1': {
-      title: 'Policy Research Fellowship',
+      title: 'Research Internship, Technology Policy Group',
       formId: '250707836203050' // Updated with your actual JotForm ID
     },
     '2': {

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { FiArrowLeft, FiCalendar, FiClock, FiUser, FiMail, FiCheck, FiChevronDown, FiInfo, FiMessageSquare } from 'react-icons/fi'
+import { FiArrowLeft, FiCalendar, FiClock, FiUser, FiMail, FiCheck, FiChevronDown, FiInfo, FiMessageSquare, FiArrowRight } from 'react-icons/fi'
 
 // Animation variants
 const fadeIn = {
@@ -186,24 +186,9 @@ export default function BookAdvisorPage() {
               animate="visible"
               variants={fadeIn}
             >
-              <div className="inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-4 py-2 rounded-full border border-white/10 shadow-lg shadow-indigo-900/5 mb-6">
-                <motion.div 
-                  className="w-2.5 h-2.5 bg-gradient-to-r from-indigo-400 to-blue-600 rounded-full mr-3 relative"
-                  animate={{ 
-                    scale: [1, 1.5, 1],
-                    opacity: [0.7, 1, 0.7]
-                  }}
-                  transition={{ 
-                    duration: 2, 
-                    repeat: Infinity,
-                    ease: "easeInOut" 
-                  }}
-                />
-                <span className="text-indigo-300 text-sm uppercase tracking-widest font-medium">Free Consultation</span>
-              </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-6">Schedule Your Personalized Session</h1>
               <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-                Our advisors provide one-on-one guidance to help you navigate scholarships and opportunities tailored to your unique background and goals.
+                Our scholarship advisors provide one-on-one guidance to help low-income students find and apply for scholarships tailored to your unique background and educational goals.
               </p>
             </motion.div>
             
@@ -603,24 +588,24 @@ export default function BookAdvisorPage() {
             <div className="mt-16">
               <div className="text-center mb-8">
                 <h3 className="text-lg font-medium text-white mb-1">What to expect from your consultation</h3>
-                <p className="text-gray-400 text-sm">Your session with our advisors is completely free and confidential</p>
+                <p className="text-gray-400 text-sm">Your session with our advisors is completely free for eligible low-income students and entirely confidential</p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
                   {
-                    title: 'Personalized Guidance',
-                    description: 'Our advisors tailor advice to your specific background, goals, and circumstances',
+                    title: 'Personalized Scholarship Guidance',
+                    description: 'Our advisors tailor scholarship recommendations to your specific background, financial situation, and academic goals',
                     icon: FiUser
                   },
                   {
-                    title: 'Action Plan',
-                    description: 'You\'ll leave with concrete next steps and resources to help you move forward',
+                    title: 'Application Action Plan',
+                    description: 'You\'ll leave with concrete next steps and resources to help you apply for scholarships designed for low-income students',
                     icon: FiCheck
                   },
                   {
                     title: 'Follow-up Support',
-                    description: 'We provide email support following your consultation to answer additional questions',
+                    description: 'We provide email support following your consultation to ensure you can access every financial opportunity available',
                     icon: FiMessageSquare
                   }
                 ].map((feature, index) => (
@@ -639,6 +624,16 @@ export default function BookAdvisorPage() {
                   </motion.div>
                 ))}
               </div>
+            </div>
+            
+            <div className="mt-12 text-center">
+              <Link 
+                href="/scholarship-center/book-advisor"
+                className="inline-flex items-center bg-white/10 hover:bg-white/15 text-white px-8 py-4 rounded-xl transition-all text-base font-medium border border-white/10 hover:border-indigo-500/30"
+              >
+                Book Your Free Low-Income Scholarship Session
+                <FiArrowRight className="ml-2" />
+              </Link>
             </div>
           </div>
         )}

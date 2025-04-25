@@ -142,32 +142,6 @@ export default function UnderservedOpportunitiesPage() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col items-center">
-            {/* Badge */}
-            <motion.div 
-              className="relative group mb-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <motion.div 
-                className="inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-4 py-2 rounded-full border border-white/10 shadow-lg shadow-indigo-900/5"
-              >
-                <motion.div 
-                  className="w-2.5 h-2.5 bg-gradient-to-r from-indigo-400 to-blue-600 rounded-full mr-3 relative"
-                  animate={{ 
-                    scale: [1, 1.5, 1],
-                    opacity: [0.7, 1, 0.7]
-                  }}
-                  transition={{ 
-                    duration: 2, 
-                    repeat: Infinity,
-                    ease: "easeInOut" 
-                  }}
-                />
-                <span className="text-indigo-300 text-sm uppercase tracking-widest font-medium">Always Free</span>
-              </motion.div>
-            </motion.div>
-            
             {/* Title with animated highlight */}
             <motion.div 
               className="text-center mb-10"
@@ -176,7 +150,8 @@ export default function UnderservedOpportunitiesPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                Underserved <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-indigo-500 relative">Opportunities</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-blue-400 to-indigo-500 relative">Scholarships</span>
+                <span className="block text-2xl md:text-3xl mt-2 text-white font-medium">for Low-Income Students</span>
               </h1>
               <motion.div 
                 className="w-24 h-1 bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto rounded-full mb-8"
@@ -185,9 +160,9 @@ export default function UnderservedOpportunitiesPage() {
                 transition={{ duration: 0.6, delay: 0.6 }}
               />
               <p className="max-w-3xl mx-auto text-lg text-indigo-100/70 leading-relaxed">
-                We understand the challenges facing students today. Our advisors know how hard it can be to navigate college 
-                and career opportunities without family connections or financial resources. 
-                Let's find your path together — no cost, no catch.
+                We understand the financial barriers facing low-income students. Our advisors can help you discover 
+                scholarships and grants specifically designed for students from economically disadvantaged backgrounds,
+                and guide you through the application process. Let's find your path together — no cost, no catch.
               </p>
             </motion.div>
             
@@ -201,7 +176,7 @@ export default function UnderservedOpportunitiesPage() {
                 href="/scholarship-center/book-advisor"
                 className="bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white px-8 py-4 rounded-xl transition-colors text-lg font-medium shadow-lg shadow-indigo-900/20"
               >
-                Talk to a Peer Advisor
+                Talk to a Scholarship Advisor
               </Link>
             </motion.div>
           </div>
@@ -220,7 +195,7 @@ export default function UnderservedOpportunitiesPage() {
                   <h2 className="text-3xl font-bold mb-6">We're Here to Help</h2>
                   <p className="text-lg text-gray-300 mb-6">
                     Our community includes first-generation graduates and policy experts who understand the barriers to opportunity.
-                    We've developed insights and connections that can help you access resources that might otherwise remain hidden.
+                    We've developed insights and connections that can help low-income students access resources that might otherwise remain hidden.
                   </p>
                   
                   <div className="space-y-4">
@@ -241,7 +216,7 @@ export default function UnderservedOpportunitiesPage() {
                     <Link href="/scholarship-center/book-advisor"
                       className="text-indigo-300 flex items-center group hover:text-indigo-200 transition-colors text-lg"
                     >
-                      Let's chat about your goals
+                      Let's chat about your scholarship goals
                       <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
@@ -272,7 +247,7 @@ export default function UnderservedOpportunitiesPage() {
                         <p className="text-xl font-semibold text-white">$3 Million+ in Scholarships</p>
                       </div>
                       <p className="text-gray-300">
-                        That's how much our community members have secured so far in scholarships and financial aid. Our advisors share proven strategies that have worked for countless students.
+                        That's how much our community of low-income students has secured so far in scholarships and financial aid. Our advisors share proven strategies that have worked for countless students with financial need.
                       </p>
                       <motion.div 
                         className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mt-2" 
@@ -294,7 +269,7 @@ export default function UnderservedOpportunitiesPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">How It Works</h2>
             <p className="max-w-2xl mx-auto text-gray-300">
-              Getting started is simple. Our process is straightforward and personal, and we keep everything casual and friendly.
+              Getting started with our scholarship consultation is simple. Our process is straightforward and personal.
             </p>
           </div>
           
@@ -303,7 +278,7 @@ export default function UnderservedOpportunitiesPage() {
               <div className="bg-indigo-500/20 rounded-full h-12 w-12 flex items-center justify-center mr-4">
                 <span className="text-xl font-bold text-indigo-300">1</span>
               </div>
-              <p className="text-white">Schedule a 30-minute chat with a peer advisor</p>
+              <p className="text-white">Schedule a 30-minute chat with a scholarship advisor</p>
             </div>
             
             <div className="hidden md:block text-indigo-500">

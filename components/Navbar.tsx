@@ -109,7 +109,7 @@ export default function Navbar() {
                   href="/scholarship-center"
                   className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/scholarship-center') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
                 >
-                  Underserved Opportunities
+                  Scholarships
                 </Link>
               </div>
             </div>
@@ -202,7 +202,7 @@ export default function Navbar() {
               } ${pathname.includes('/scholarship-center') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
-              Underserved Opportunities
+              Scholarships
             </Link>
           </div>
         </div>
@@ -271,7 +271,7 @@ export default function Navbar() {
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Underserved Opportunities
+                Scholarships
               </Link>
               <Link
                 href="/contact"
