@@ -1022,7 +1022,7 @@ export default function Home() {
                 { label: "Garnered Scholarships", value: "$3,570,000+", icon: FiServer, color: "text-green-400" },
                 { 
                   label: "TikTok Followers", 
-                  value: "48k+", 
+                  value: "48,000+", 
                   icon: FiActivity, 
                   color: "text-pink-400",
                   link: "https://www.tiktok.com/@theperrininstitution?_t=ZT-8ugIWNNxeqw&_r=1"

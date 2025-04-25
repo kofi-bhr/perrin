@@ -40,7 +40,7 @@ export default function ApplicationPage() {
       title: 'Research Internship, Technology Policy Group',
       subtitle: 'Advanced Research Program',
       location: 'University of Virginia / Remote',
-      duration: '12 weeks (Summer 2024)',
+      duration: '12 weeks (Summer 2025)',
       description: "The Research Internship is our flagship program for exceptional students interested in data-driven policy research. Fellows work directly with faculty mentors and policy experts to conduct original research on pressing policy challenges. This immersive experience combines rigorous academic research with practical policy applications, preparing participants for impactful careers in policy analysis, government, and academia.",
       highlights: [
         'Conduct original research with faculty mentors',
