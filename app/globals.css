@@ -56,4 +56,19 @@ main {
   .institution-text {
     font-size: 0.5rem; /* Adjust the size as needed */
   }
+}
+
+@layer utilities {
+  .animate-shimmer {
+    animation: shimmer 3s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
 } 

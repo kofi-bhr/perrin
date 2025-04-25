@@ -30,12 +30,12 @@ export default function NewsletterSubscription() {
             <div className="w-full md:w-auto min-w-[300px]">
               <div className="group rounded-lg transition-all duration-300">
                 <div className="bg-transparent rounded-lg ring-1 ring-zinc-800 hover:ring-blue-500/50 transition-all duration-300">
-                  <iframe 
-                    src="https://embeds.beehiiv.com/a208b3ed-1ed4-4adc-9bd4-668b3341f5fd?slim=true" 
-                    data-test-id="beehiiv-embed" 
-                    height="52" 
-                    frameBorder="0" 
-                    scrolling="no" 
+              <iframe 
+                src="https://embeds.beehiiv.com/a208b3ed-1ed4-4adc-9bd4-668b3341f5fd?slim=true" 
+                data-test-id="beehiiv-embed" 
+                height="52" 
+                frameBorder="0" 
+                scrolling="no" 
                     style={{
                       margin: 0,
                       borderRadius: '0.5rem',

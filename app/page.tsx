@@ -324,7 +324,7 @@ const Loader = ({ setIsLoading }: { setIsLoading: (value: boolean) => void }) =>
                         top: `calc(50% + ${Math.sin(i/6 * Math.PI * 2) * 40}px)`,
                         left: `calc(50% + ${Math.cos(i/6 * Math.PI * 2) * 60}px)`,
                       }}
-                      animate={{
+                  animate={{ 
                         y: [0, -5, 0, 5, 0],
                         x: [0, 3, 0, -3, 0],
                         opacity: [0.2, 0.4, 0.2],
@@ -1407,16 +1407,16 @@ export default function Home() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
               {/* Section header */}
               <div className="text-center mb-16">
-                <motion.div 
+              <motion.div
                   className="inline-flex items-center px-3 py-1 bg-blue-500/10 rounded-full border border-blue-400/30 mb-4"
                   initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                   transition={{ duration: 0.5 }}
                 >
                   <span className="text-blue-400 text-sm font-medium">Global Prestige</span>
-                </motion.div>
-                
+                    </motion.div>
+                    
                 <motion.h2
                   className="text-3xl md:text-4xl font-bold mb-4 text-white"
                   initial={{ opacity: 0, y: 10 }}
@@ -1436,12 +1436,12 @@ export default function Home() {
                 >
                   Our groundbreaking research has received prestigious recognition from world-renowned institutions, placing us among elite policy think tanks
                 </motion.p>
-              </div>
-              
+                          </div>
+                      
               {/* Recognition cards - with reordered cards and enhanced styling */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Stanford Card - Now first position */}
-                <motion.div
+                        <motion.div 
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -1457,9 +1457,9 @@ export default function Home() {
                         fill
                         style={{ objectFit: 'contain', objectPosition: 'left' }}
                       />
+                      </div>
                     </div>
-                  </div>
-                  
+                    
                   <h3 className="text-xl font-medium text-white mb-2">Stanford University</h3>
                   <p className="text-slate-400 mb-4 text-sm">
                     Our revolutionary case study earned the prestigious <span className="text-white font-medium">#1 Best Case Study Award</span> at Stanford's International Young Researchers' Conference, surpassing submissions from elite global universities.
@@ -1471,24 +1471,24 @@ export default function Home() {
                     <div className="text-white font-medium flex items-center">
                       <span className="text-blue-300 text-lg mr-2">🏆</span>
                       <span className="text-gradient-blue">#1 Best Case Study Award</span>
+                        </div>
                     </div>
-                  </div>
-                  
+                    
                   <div className="mt-auto pt-4 border-t border-white/5">
                     <div className="text-blue-400 flex items-center text-sm font-medium">
                       <span>Globally Recognized Research Excellence</span>
                       <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-                
+                        </motion.div>
+                      
                 {/* US Senate Card - Now in middle position with gold glow */}
-                <motion.div
+                          <motion.div
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="bg-white/[0.03] backdrop-blur-sm border border-amber-500/20 rounded-xl p-6 hover:border-amber-500/40 transition-all duration-300 flex flex-col h-full relative shadow-[0_0_15px_0_rgba(245,158,11,0.15)]"
                   style={{
@@ -1507,8 +1507,8 @@ export default function Home() {
                         fill
                         style={{ objectFit: 'contain', objectPosition: 'left' }}
                       />
-                    </div>
-                  </div>
+                </div>
+                        </div>
                   
                   <h3 className="text-xl font-medium text-white mb-2">
                     <span className="text-amber-300">U.S. Senate Commendation</span>
@@ -1523,29 +1523,29 @@ export default function Home() {
                     <div className="text-white font-medium flex items-center">
                       <span className="text-amber-300 text-lg mr-2">🏛️</span>
                       <span>Official Senatorial Commendation</span>
-                    </div>
-                  </div>
+                          </div>
+                        </div>
                   
                   {/* Quote from Senator */}
                   <div className="italic text-amber-100/70 text-xs border-l-2 border-amber-500/30 pl-3 mb-4">
                     "...your initiative sets a powerful example of how passion and purpose can drive meaningful change..." <span className="not-italic font-medium"> — Senator Chris Van Hollen</span>
-                  </div>
-                  
+                    </div>
+                    
                   <div className="mt-auto pt-4 border-t border-amber-500/10">
                     <div className="text-amber-300 flex items-center text-sm font-medium">
                       <span>Congressional Recognition</span>
                       <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </div>
-                  </div>
-                </motion.div>
+                            </svg>
+                          </div>
+                        </div>
+                      </motion.div>
                 
                 {/* SSRN Card - Now in last position */}
-                <motion.div
+                        <motion.div 
                   initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                   className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-300 flex flex-col h-full"
                 >
@@ -1557,8 +1557,8 @@ export default function Home() {
                         fill
                         style={{ objectFit: 'contain', objectPosition: 'left' }}
                       />
-                    </div>
-                  </div>
+                </div>
+                        </div>
                   
                   <h3 className="text-xl font-medium text-white mb-2">SSRN Global Recognition</h3>
                   <p className="text-slate-400 mb-4 text-sm">
@@ -1571,8 +1571,8 @@ export default function Home() {
                     <div className="text-white font-medium flex items-center">
                       <span className="text-blue-300 text-lg mr-2">📊</span>
                       <span>Global Top Downloads List, History of Science and Environment eJournal Top 10</span>
-                    </div>
-                  </div>
+                          </div>
+                        </div>
                   
                   {/* Remove metrics section */}
                   <div className="mt-auto pt-4 border-t border-white/5">
@@ -1580,13 +1580,13 @@ export default function Home() {
                       <span>Elite Academic Recognition</span>
                       <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
+                            </svg>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-            
+                      </motion.div>
+                      </div>
+                    </div>
+                    
             {/* Add some custom styling for the text gradients */}
             <style jsx global>{`
               .text-gradient-blue {
@@ -1603,186 +1603,186 @@ export default function Home() {
       {/* About Section - placed right after Global Recognition */}
       <AboutSection />
 
-      {/* Featured in BBC Section */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"></div>
-        <div className="absolute inset-0 opacity-30" 
-          style={{
-            backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
-          }}></div>
+{/* Featured in BBC Section */}
+<section className="py-24 relative overflow-hidden">
+  <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950"></div>
+  <div className="absolute inset-0 opacity-30" 
+    style={{
+      backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.12'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+    }}></div>
+    
+  <div className="container mx-auto px-6 relative z-10">
+    <div className="max-w-7xl mx-auto">
+      {/* BBC media badge */}
+      <motion.div 
+        className="flex justify-center mb-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="bg-white/5 border border-white/10 rounded-full py-2 px-5 backdrop-blur-sm inline-flex items-center gap-2">
+          <motion.div 
+            className="text-red-500 font-bold text-sm"
+            animate={{ 
+              opacity: [0.8, 1, 0.8],
+              scale: [0.98, 1, 0.98],
+            }}
+            transition={{ 
+              duration: 3, 
+              repeat: Infinity,
+              ease: "easeInOut" 
+            }}
+          >
+            <div className="flex items-center">
+              <span className="font-bold text-lg tracking-wider">BBC</span>
+              <span className="ml-1 tracking-wide">NEWS</span>
+            </div>
+          </motion.div>
+          <span className="text-white/70 text-xs tracking-wider font-medium uppercase">Featured Interview</span>
+        </div>
+      </motion.div>
+    
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* Video/image left side */}
+        <motion.div 
+          className="relative rounded-2xl overflow-hidden aspect-video bg-slate-800 shadow-xl shadow-blue-900/10"
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Embedded YouTube video with autoplay */}
+          <iframe 
+            src="https://www.youtube.com/embed/xS_3pUX3Qvg?autoplay=1&mute=1&loop=1&playlist=xS_3pUX3Qvg&controls=1&modestbranding=1&rel=0"
+            title="BBC Interview with Director Kashaf"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full z-10"
+          ></iframe>
           
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-7xl mx-auto">
-            {/* BBC media badge */}
+          {/* BBC logo watermark */}
+          <div className="absolute top-4 left-4 z-20 pointer-events-none bg-black/50 px-2 py-1 rounded">
+            <span className="font-bold text-lg text-red-600 tracking-wider">BBC</span>
+          </div>
+        </motion.div>
+        
+        {/* Content right side */}
+        <motion.div 
+          className="flex flex-col"
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="mb-4">
             <motion.div 
-              className="flex justify-center mb-16"
-              initial={{ opacity: 0, y: 20 }}
+              className="inline-flex items-center px-3 py-1 mb-4 bg-indigo-500/10 rounded-full border border-indigo-500/30"
+              initial={{ opacity: 0, y: -10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <div className="bg-white/5 border border-white/10 rounded-full py-2 px-5 backdrop-blur-sm inline-flex items-center gap-2">
-                <motion.div 
-                  className="text-red-500 font-bold text-sm"
-                  animate={{ 
-                    opacity: [0.8, 1, 0.8],
-                    scale: [0.98, 1, 0.98],
-                  }}
-                  transition={{ 
-                    duration: 3, 
-                    repeat: Infinity,
-                    ease: "easeInOut" 
-                  }}
-                >
-                  <div className="flex items-center">
-                    <span className="font-bold text-lg tracking-wider">BBC</span>
-                    <span className="ml-1 tracking-wide">NEWS</span>
-                  </div>
-                </motion.div>
-                <span className="text-white/70 text-xs tracking-wider font-medium uppercase">Featured Interview</span>
+              <motion.div 
+                className="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2"
+                animate={{ 
+                  scale: [1, 1.5, 1],
+                  opacity: [0.7, 1, 0.7]
+                }}
+                transition={{ 
+                  duration: 2, 
+                  repeat: Infinity,
+                  ease: "easeInOut" 
+                }}
+              />
+              <span className="text-xs font-mono text-indigo-400 tracking-wider">LEADERSHIP SPOTLIGHT</span>
+            </motion.div>
+            
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold mb-2 text-white"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              Meet Our Inclusive Policy Laboratory Director
+            </motion.h2>
+            
+            <motion.div 
+              className="flex items-center gap-3 mb-6"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500/30">
+                <div className="w-full h-full bg-gradient-to-br from-indigo-800 to-purple-900"></div>
+              </div>
+              <div>
+                      <div className="text-white font-medium">Kashaf Alvi</div>
+                <div className="text-white/60 text-sm">Inclusive Policy Laboratory</div>
               </div>
             </motion.div>
+          </div>
           
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Video/image left side */}
-              <motion.div 
-                className="relative rounded-2xl overflow-hidden aspect-video bg-slate-800 shadow-xl shadow-blue-900/10"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              >
-                {/* Embedded YouTube video with autoplay */}
-                <iframe 
-                  src="https://www.youtube.com/embed/xS_3pUX3Qvg?autoplay=1&mute=1&loop=1&playlist=xS_3pUX3Qvg&controls=1&modestbranding=1&rel=0"
-                  title="BBC Interview with Director Kashaf"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full z-10"
-                ></iframe>
-                
-                {/* BBC logo watermark */}
-                <div className="absolute top-4 left-4 z-20 pointer-events-none bg-black/50 px-2 py-1 rounded">
-                  <span className="font-bold text-lg text-red-600 tracking-wider">BBC</span>
-                </div>
-              </motion.div>
-              
-              {/* Content right side */}
-              <motion.div 
-                className="flex flex-col"
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <div className="mb-4">
-                  <motion.div 
-                    className="inline-flex items-center px-3 py-1 mb-4 bg-indigo-500/10 rounded-full border border-indigo-500/30"
-                    initial={{ opacity: 0, y: -10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                  >
-                    <motion.div 
-                      className="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2"
-                      animate={{ 
-                        scale: [1, 1.5, 1],
-                        opacity: [0.7, 1, 0.7]
-                      }}
-                      transition={{ 
-                        duration: 2, 
-                        repeat: Infinity,
-                        ease: "easeInOut" 
-                      }}
-                    />
-                    <span className="text-xs font-mono text-indigo-400 tracking-wider">LEADERSHIP SPOTLIGHT</span>
-                  </motion.div>
-                  
-                  <motion.h2 
-                    className="text-3xl md:text-4xl font-bold mb-2 text-white"
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                  >
-                    Meet Our Inclusive Policy Laboratory Director
-                  </motion.h2>
-                  
-                  <motion.div 
-                    className="flex items-center gap-3 mb-6"
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
-                  >
-                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-indigo-500/30">
-                      <div className="w-full h-full bg-gradient-to-br from-indigo-800 to-purple-900"></div>
-                    </div>
-                    <div>
-                      <div className="text-white font-medium">Kashaf Alvi</div>
-                      <div className="text-white/60 text-sm">Inclusive Policy Laboratory</div>
-                    </div>
-                  </motion.div>
-                </div>
-                
-                <motion.div 
-                  className="space-y-4 text-white/80"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: 0.6 }}
-                >
+          <motion.div 
+            className="space-y-4 text-white/80"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.6 }}
+          >
                   <p className="leading-relaxed">The BBC recently spotlighted our Inclusive Policy Lab Director, Kashaf Alvi, recognizing his leadership in advancing equitable governance. In the interview, Kashaf shares insights on designing policy rooted in data, inclusion, and community needs—reflecting the values that drive the Lab's mission.
 
 
                     
-                  </p>
-                  <p className="leading-relaxed">
+            </p>
+            <p className="leading-relaxed">
                   In this exclusive interview, Kashaf highlights how his strategic leadership in policy development is driving transformative change in housing, public safety, and economic equity. His pragmatic, equity-focused approach reflects a deep understanding of governance and a commitment to building responsive, community-first solutions.
-                  </p>
-                </motion.div>
-                
-                <motion.div 
-                  className="mt-8 flex flex-wrap gap-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: 0.7 }}
-                >
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm flex-1 min-w-[140px]">
-                    <div className="text-indigo-400 text-sm font-medium mb-1">Featured Research</div>
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="mt-8 flex flex-wrap gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.7 }}
+          >
+            <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm flex-1 min-w-[140px]">
+              <div className="text-indigo-400 text-sm font-medium mb-1">Featured Research</div>
                     <div className="text-white text-lg font-medium">Inclusive Policy</div>
-                  </div>
-                  
-                  <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm flex-1 min-w-[140px]">
+            </div>
+            
+            <div className="bg-white/5 border border-white/10 rounded-lg p-4 backdrop-blur-sm flex-1 min-w-[140px]">
                     <div className="text-indigo-400 text-sm font-medium mb-1">Honor</div>
                     <div className="text-white text-lg font-medium">Pride of Pakistan</div>
-                  </div>
-                </motion.div>
-                
-                <motion.div 
-                  className="mt-8"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: 0.8 }}
-                >
-                  <a 
-                    href="https://www.youtube.com/watch?v=xS_3pUX3Qvg" 
-                    target="_blank" 
-                    className="inline-flex items-center text-indigo-400 font-medium hover:text-indigo-300 transition-colors"
-                  >
-                    Open in YouTube
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-1">
-                      <path fillRule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clipRule="evenodd" />
-                    </svg>
-                  </a>
-                </motion.div>
-              </motion.div>
             </div>
-          </div>
-        </div>
-      </section>
+          </motion.div>
+          
+          <motion.div 
+            className="mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.8 }}
+          >
+            <a 
+              href="https://www.youtube.com/watch?v=xS_3pUX3Qvg" 
+              target="_blank" 
+              className="inline-flex items-center text-indigo-400 font-medium hover:text-indigo-300 transition-colors"
+            >
+              Open in YouTube
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 ml-1">
+                <path fillRule="evenodd" d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z" clipRule="evenodd" />
+              </svg>
+            </a>
+          </motion.div>
+        </motion.div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Social Media Section - Add this before the CTA */}
       <SocialSection />

@@ -61,26 +61,26 @@ export default function ApplicationPage() {
     },
     {
       id: '2',
-      title: 'Data Science for Policy Innovation',
-      subtitle: 'Applications Closed',
-      location: 'Hybrid (In-person workshops + remote collaboration)',
-      duration: 'Applications Open Spring 2024',
-      description: "Applications for the Fall 2024 cohort are currently closed. The next application cycle will open in Spring 2024. Join our waitlist to be notified when applications reopen for this intensive program that trains participants to apply cutting-edge data science techniques to complex policy challenges.",
+      title: 'News Department Correspondent',
+      subtitle: 'Now Accepting Applications',
+      location: 'Remote',
+      duration: 'Ongoing',
+      description: "Apply to be a correspondent reporting publicly to our audience of 48,000+ on news in cross-sector policy entrepreneurship. Correspondents will write a 600-1100-word article per week to be published on the Perrin website. Highly qualified applicants may be asked to lead as an editor of a particular news category (e.g. foreign policy, climate action, AI) and will make edits on 1-2 other articles each week.",
       highlights: [
-        <s key="1">Master advanced data science techniques for policy analysis</s>,
-        <s key="2">Work on real-world policy datasets and challenges</s>,
-        <s key="3">Learn from leading experts in data science and policy</s>,
-        <s key="4">Develop a portfolio of policy-focused data projects</s>,
-        <s key="5">Receive technical mentorship from data scientists</s>,
-        <s key="6">Join a community of technically-skilled policy innovators</s>
+        'Write 600-1100 word articles on policy topics weekly',
+        'Publish on the Perrin website to 48k+ audience',
+        'Develop expertise in specific policy areas',
+        'Build a professional portfolio of published work',
+        'Connect with policy experts and thought leaders',
+        'Opportunity to advance to editorial leadership roles'
       ],
       eligibility: [
-        <s key="1">Background in computer science, statistics, or related technical field</s>,
-        <s key="2">Experience with programming (Python, R, or similar)</s>,
-        <s key="3">Understanding of basic statistical concepts</s>,
-        <s key="4">Interest in applying technical skills to policy problems</s>,
-        <s key="5">Ability to collaborate effectively in interdisciplinary teams</s>,
-        <s key="6">Commitment to ethical data practices and responsible innovation</s>
+        'Strong writing and research skills',
+        'Interest in policy entrepreneurship and innovation',
+        'Ability to meet weekly deadlines consistently',
+        'Knowledge in one or more policy domains',
+        'Analytical thinking and attention to detail',
+        'Editorial experience a plus for leadership roles'
       ]
     }
   ];
@@ -227,12 +227,13 @@ export default function ApplicationPage() {
                     </div>
                     
                     {program.id === '2' ? (
-                      <button 
-                        disabled
-                        className="w-full inline-flex justify-center items-center px-6 py-3 border border-slate-600 text-base font-medium rounded-lg text-slate-400 bg-slate-800/50 cursor-not-allowed"
+                      <a 
+                        href={`/application/apply?program=${program.id}`}
+                        className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900"
                       >
-                        Applications Closed
-                      </button>
+                        Apply to Program
+                        <FiArrowRight className="ml-2 h-5 w-5" />
+                      </a>
                     ) : (
                       <a 
                         href={`/application/apply?program=${program.id}`}

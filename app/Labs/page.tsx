@@ -1,650 +1,338 @@
-'use client'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import Link from 'next/link'
-import { FiArrowRight, FiDatabase, FiGlobe, FiCpu, FiBarChart2, FiLayers, FiUsers, FiMessageCircle, FiStar, FiBookOpen, FiZap } from 'react-icons/fi'
-import { useState } from 'react'
+"use client";
 
-// Lab data
-const LABS = [
-  {
-    id: 'ai-governance',
-    title: 'AI Governance',
-    icon: <FiCpu className="h-6 w-6" />,
-    color: 'from-blue-500 to-indigo-600',
-    textColor: 'text-blue-400',
-    description: 'Developing ethical frameworks and policy recommendations for responsible AI deployment, focusing on transparency, fairness, and accountability in algorithmic systems.',
-    stats: [
-      { label: 'Focus Areas', value: '4' },
-      { label: 'Projects', value: '7' },
-      { label: 'Partnerships', value: '5' }
-    ],
-    image: '/lab-ai-policy.jpg',
-    defaultImage: '/default-lab.jpg',
-    projects: [
-      'Algorithmic Impact Assessment Framework',
-      'AI Governance Models for Public Sector',
-      'Ethics in Machine Learning Research'
-    ]
-  },
-  {
-    id: 'inclusive-policy',
-    title: 'Inclusive Policy',
-    icon: <FiUsers className="h-6 w-6" />,
-    color: 'from-purple-500 to-pink-600',
-    textColor: 'text-purple-400',
-    description: 'Creating policy frameworks that ensure equitable access and representation, addressing systemic barriers and promoting diversity across public policy initiatives.',
-    stats: [
-      { label: 'Focus Areas', value: '3' },
-      { label: 'Projects', value: '6' },
-      { label: 'Case Studies', value: '8' }
-    ],
-    image: '/lab-inclusive-policy.jpg',
-    defaultImage: '/default-lab.jpg',
-    projects: [
-      'Equity Impact Assessment Tools',
-      'Inclusive Public Engagement Models',
-      'Accessibility Policy Framework'
-    ]
-  },
-  {
-    id: 'climate-technology',
-    title: 'Climate Technology',
-    icon: <FiGlobe className="h-6 w-6" />,
-    color: 'from-emerald-500 to-teal-600',
-    textColor: 'text-emerald-400',
-    description: 'Researching policy frameworks that accelerate the deployment of climate technologies while ensuring equitable access and implementation.',
-    stats: [
-      { label: 'Focus Areas', value: '5' },
-      { label: 'Projects', value: '9' },
-      { label: 'Policy Briefs', value: '12' }
-    ],
-    image: '/lab-climate-tech.jpg',
-    defaultImage: '/default-lab.jpg',
-    projects: [
-      'Carbon Capture Policy Framework',
-      'Green Energy Transition Models',
-      'Climate Tech Equity Assessment'
-    ]
-  },
-  {
-    id: 'deliberative-democracy',
-    title: 'Deliberative Democracy',
-    icon: <FiMessageCircle className="h-6 w-6" />,
-    color: 'from-amber-500 to-orange-600',
-    textColor: 'text-amber-400',
-    description: 'Exploring innovative approaches to democratic participation, focusing on citizen assemblies, participatory budgeting, and digital deliberation tools.',
-    stats: [
-      { label: 'Focus Areas', value: '3' },
-      { label: 'Projects', value: '5' },
-      { label: 'Case Studies', value: '7' }
-    ],
-    image: '/lab-democracy.jpg',
-    defaultImage: '/default-lab.jpg',
-    projects: [
-      'Digital Citizens Assembly Framework',
-      'Cross-Partisan Dialogue Models',
-      'Participatory Policy Design'
-    ]
-  },
-  {
-    id: 'special-projects',
-    title: 'Special Projects Lab',
-    icon: <FiStar className="h-6 w-6" />,
-    color: 'from-cyan-500 to-blue-600',
-    textColor: 'text-cyan-400',
-    description: 'Tackling high-impact, time-sensitive policy challenges through rapid response research and innovative cross-disciplinary approaches.',
-    stats: [
-      { label: 'Focus Areas', value: 'Varies' },
-      { label: 'Projects', value: '10+' },
-      { label: 'Response Time', value: 'Rapid' }
-    ],
-    image: '/lab-special-projects.jpg',
-    defaultImage: '/default-lab.jpg',
-    projects: [
-      'Rapid Response Policy Analysis',
-      'Cross-Disciplinary Crisis Solutions',
-      'Emerging Challenges Assessment'
-    ]
-  },
-  {
-    id: 'foreign-affairs',
-    title: 'Foreign Affairs Lab',
-    icon: <FiGlobe className="h-6 w-6" />,
-    color: 'from-indigo-500 to-purple-600',
-    textColor: 'text-indigo-400',
-    description: 'Analyzing global policy trends and developing frameworks for international cooperation, diplomatic engagement, and transnational governance.',
-    stats: [
-      { label: 'Focus Areas', value: '4' },
-      { label: 'Projects', value: '6' },
-      { label: 'Partnerships', value: 'Global' }
-    ],
-    image: '/lab-foreign-affairs.jpg',
-    defaultImage: '/default-lab.jpg',
-    projects: [
-      'Transnational Governance Models',
-      'Digital Diplomacy Framework',
-      'Global Cooperation Mechanisms'
-    ]
-  },
-  {
-    id: 'economic-policy',
-    title: 'Economic Policy Lab',
-    icon: <FiBarChart2 className="h-6 w-6" />,
-    color: 'from-green-500 to-emerald-600',
-    textColor: 'text-green-400',
-    description: 'Developing innovative economic policy solutions that promote sustainable growth, equitable prosperity, and financial stability.',
-    stats: [
-      { label: 'Focus Areas', value: '5' },
-      { label: 'Projects', value: '8' },
-      { label: 'Economic Models', value: '6' }
-    ],
-    image: '/lab-economic.jpg',
-    defaultImage: '/default-lab.jpg',
-    projects: [
-      'Inclusive Growth Framework',
-      'Green Economy Transition Models',
-      'Digital Economy Regulation'
-    ]
-  },
-  {
-    id: 'legal-research',
-    title: 'Legal Research Lab',
-    icon: <FiBookOpen className="h-6 w-6" />,
-    color: 'from-red-500 to-rose-600',
-    textColor: 'text-red-400',
-    description: 'Analyzing legal frameworks and developing policy recommendations at the intersection of law, technology, and public governance.',
-    stats: [
-      { label: 'Focus Areas', value: '3' },
-      { label: 'Projects', value: '7' },
-      { label: 'Legal Analyses', value: '15+' }
-    ],
-    image: '/lab-legal.jpg',
-    defaultImage: '/default-lab.jpg',
-    projects: [
-      'Digital Rights Framework',
-      'Regulatory Innovation Models',
-      'Technology Law Assessment'
-    ]
-  },
-  {
-    id: 'policy-entrepreneurship',
-    title: 'Policy Entrepreneurship Lab',
-    icon: <FiZap className="h-6 w-6" />,
-    color: 'from-yellow-500 to-amber-600',
-    textColor: 'text-yellow-400',
-    description: 'Incubating innovative policy solutions and developing frameworks for effective implementation and scaling of successful initiatives.',
-    stats: [
-      { label: 'Focus Areas', value: '4' },
-      { label: 'Projects', value: '9' },
-      { label: 'Pilot Programs', value: '5' }
-    ],
-    image: '/lab-entrepreneurship.jpg',
-    defaultImage: '/default-lab.jpg',
-    projects: [
-      'Policy Innovation Incubator',
-      'Implementation Science Framework',
-      'Policy Scaling Models'
-    ]
-  }
-]
+import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { FiArrowRight, FiLayers, FiChevronRight, FiExternalLink, FiAward, FiMapPin } from "react-icons/fi";
+import { LABS_DATA, ICONS_MAP, Lab } from "../data/labs";
+import { useRouter } from "next/navigation";
 
 // Animation variants
 const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-}
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { 
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+};
 
-const staggerContainer = {
+const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
+      staggerChildren: 0.15,
+      delayChildren: 0.3,
+      ease: [0.22, 1, 0.36, 1]
     }
   }
-}
+};
 
-export default function LabsPage() {
-  const [activeLabId, setActiveLabId] = useState<string | null>(null)
-  const [hoveredLabId, setHoveredLabId] = useState<string | null>(null)
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+};
+
+const scaleUp = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+};
+
+// Subtle hover effect for cards
+const cardHover = {
+  rest: { y: 0, boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)" },
+  hover: { 
+    y: -8, 
+    boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2)", 
+    transition: { type: "spring", stiffness: 300, damping: 20 } 
+  }
+};
+
+// Shimmer animation
+const shimmerAnimation = {
+  hidden: { backgroundPosition: "200% 0" },
+  visible: { 
+    backgroundPosition: "-200% 0",
+    transition: {
+      repeat: Infinity,
+      duration: 3,
+      ease: "linear"
+    }
+  }
+};
+
+export default function Labs() {
+  const router = useRouter();
+  const [labs, setLabs] = useState<Lab[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const headerTranslateY = useTransform(scrollYProgress, [0, 0.2], [0, -50]);
+  const parallaxBackground = useTransform(scrollYProgress, [0, 1], [0, 100]);
+
+  // Initialize labs with icons on client side
+  useEffect(() => {
+    setLabs(LABS_DATA);
+  }, []);
+
+  // Group labs by first letter of category for the category filter
+  const categories = Array.from(new Set(LABS_DATA.map(lab => lab.title.split(' ')[0])));
+
+  const filteredLabs = activeCategory 
+    ? labs.filter(lab => lab.title.startsWith(activeCategory))
+    : labs;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-[#0a0a18] to-black text-white">
-      {/* Hero Section with 3D tech elements */}
-      <section className="relative pt-28 pb-20 overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Animated grid background */}
-          <div className="absolute w-full h-full opacity-[0.03]">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <motion.div 
-                key={`h-line-${i}`} 
-                className="absolute h-px w-full bg-gradient-to-r from-transparent via-blue-500 to-transparent" 
-                style={{ top: `${i * 5}%` }}
-                initial={{ opacity: 0.1 }}
-                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                transition={{
-                  duration: 3 + (i % 3),
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.1
-                }}
-              />
-            ))}
-            {Array.from({ length: 20 }).map((_, i) => (
-              <motion.div 
-                key={`v-line-${i}`} 
-                className="absolute w-px h-full bg-gradient-to-b from-transparent via-blue-500 to-transparent" 
-                style={{ left: `${i * 5}%` }}
-                initial={{ opacity: 0.1 }}
-                animate={{ opacity: [0.1, 0.3, 0.1] }}
-                transition={{
-                  duration: 4 + (i % 4),
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.1
-                }}
-              />
-            ))}
-          </div>
+    <div ref={containerRef} className="min-h-screen bg-black text-white">
+      {/* Hero section with parallax effect */}
+      <div className="relative h-[70vh] overflow-hidden">
+        {/* Background gradient and pattern */}
+        <motion.div 
+          style={{ y: parallaxBackground }}
+          className="absolute inset-0 bg-gradient-to-br from-blue-900/40 to-black"
+        >
+          {/* Prestigious background elements */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-transparent"></div>
+          <div className="absolute inset-0 opacity-10 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_40%,rgba(59,130,246,0.4)_0%,rgba(0,0,0,0)_70%)]"></div>
           
-          {/* Enhanced floating particles with 3D depth effect */}
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={`particle-${i}`}
-              className="absolute bg-blue-400 rounded-full"
-              style={{
-                width: Math.random() * 4 + (i % 3) + "px",
-                height: Math.random() * 4 + (i % 3) + "px",
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                filter: `blur(${i % 2 ? 1 : 0}px)`,
-                opacity: 0.1 + (i % 10) * 0.01,
-                zIndex: i % 3
-              }}
-              animate={{
-                y: [0, Math.random() * -30 - 10, 0],
-                x: [0, Math.random() * 20 - 10, 0],
-                scale: [1, Math.random() * 0.5 + 1.2, 1],
-                opacity: [0.1 + (i % 10) * 0.01, 0.3 + (i % 10) * 0.01, 0.1 + (i % 10) * 0.01],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 15,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
+          {/* Subtle grid pattern overlay */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(50,50,50,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(50,50,50,0.05)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
           
-          {/* Glowing orbs in background for depth */}
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={`orb-${i}`}
-              className="absolute rounded-full"
-              style={{
-                background: `radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 40%, rgba(59, 130, 246, 0) 70%)`,
-                width: `${Math.random() * 300 + 200}px`,
-                height: `${Math.random() * 300 + 200}px`,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                opacity: 0.2,
-                filter: "blur(40px)",
-                transform: "translate(-50%, -50%)",
-              }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.1, 0.2, 0.1],
-              }}
-              transition={{
-                duration: 8 + i * 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
-        </div>
+          {/* Prestigious accent line */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-white/0 via-white/30 to-white/0"></div>
+        </motion.div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col items-center">
-            {/* Enhanced badge with 3D hover effect */}
+        {/* Hero content */}
+        <motion.div 
+          style={{ opacity: headerOpacity, y: headerTranslateY }}
+          className="absolute inset-0 flex flex-col justify-center px-4 sm:px-6 lg:px-8 z-10"
+        >
+          <div className="max-w-6xl mx-auto w-full">
             <motion.div 
-              className="relative group mb-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+              className="space-y-6"
             >
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ filter: "blur(15px)" }}
-              />
-              <motion.div 
-                className="inline-flex items-center bg-white/[0.05] backdrop-blur-sm px-5 py-2.5 rounded-full border border-white/10 shadow-lg shadow-blue-900/10"
-                whileHover={{ 
-                  scale: 1.05, 
-                  backgroundColor: "rgba(255, 255, 255, 0.08)",
-                  boxShadow: "0 0 20px 2px rgba(59, 130, 246, 0.3)" 
-                }}
-              >
-                <motion.div 
-                  className="w-3 h-3 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full mr-3 relative"
-                  animate={{ 
-                    scale: [1, 1.5, 1],
-                    opacity: [0.7, 1, 0.7]
-                  }}
-                  transition={{ 
-                    duration: 2, 
-                    repeat: Infinity,
-                    ease: "easeInOut" 
-                  }}
-                >
-                  <motion.div
-                    className="absolute inset-0 rounded-full bg-blue-400"
-                    animate={{
-                      scale: [1, 1.8, 1],
-                      opacity: [0.3, 0, 0.3]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeOut"
-                    }}
-                  />
-                </motion.div>
-                <span className="text-blue-100 text-sm uppercase tracking-widest font-medium">Innovation Hubs</span>
+              {/* Institute badge */}
+              <motion.div variants={itemVariants} className="hidden md:flex items-center mb-4">
+                <div className="h-px w-10 bg-blue-500/50 mr-3"></div>
+                <p className="text-xs uppercase tracking-widest text-white/60 font-light">Perrin Institute</p>
               </motion.div>
-            </motion.div>
             
-            {/* Title with animated highlight */}
-            <motion.div 
-              className="text-center mb-16"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-500 relative">Research Labs</span>
-              </h1>
-              <motion.div 
-                className="w-32 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full mb-8"
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 128, opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              />
-              <p className="max-w-3xl mx-auto text-xl text-blue-100/80 leading-relaxed">
-                Pioneering the future of policy through world-class research and 
-                groundbreaking innovation across our specialized labs.
-              </p>
-            </motion.div>
-            
-            {/* Lab quick access buttons */}
-            <motion.div
-              className="flex flex-wrap justify-center gap-3 mt-4 mb-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              {LABS.slice(0, 5).map((lab) => (
-                <Link 
-                  key={lab.id} 
-                  href={`/labs/${lab.id}`} 
-                  className={`px-4 py-2.5 rounded-full border text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                    hoveredLabId === lab.id 
-                    ? `border-${lab.textColor.split('-')[1]}-400/50 bg-${lab.textColor.split('-')[1]}-500/10 ${lab.textColor}` 
-                    : 'border-white/10 bg-white/5 text-white hover:bg-white/10'
-                  }`}
-                  onMouseEnter={() => setHoveredLabId(lab.id)}
-                  onMouseLeave={() => setHoveredLabId(null)}
-                >
-                  <div className={`w-5 h-5 rounded-full bg-gradient-to-br ${lab.color} flex items-center justify-center`}>
-                    <div className="text-white text-xs">
-                      {lab.icon}
-                    </div>
-                  </div>
-                  {lab.title}
-                </Link>
-              ))}
-              <Link 
-                href="/labs" 
-                className="px-4 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium transition-all duration-300 flex items-center gap-2"
-              >
-                View All
-                <FiArrowRight className="ml-1 h-3.5 w-3.5" />
-              </Link>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Labs Section */}
-      <section className="relative py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/10 via-transparent to-transparent"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <motion.div 
-              className="inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-3 py-1.5 rounded-full mb-4 border border-white/10"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="text-blue-300 text-xs uppercase tracking-widest font-medium">Featured Labs</span>
-            </motion.div>
-            <motion.h2 
-              className="text-3xl md:text-4xl font-bold mb-8"
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              Spotlight on <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Innovation</span>
-            </motion.h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {LABS.slice(0, 3).map((lab, index) => (
-              <Link 
-                key={lab.id}
-                href={`/labs/${lab.id}`}
-              >
-                <motion.div 
-                  className="relative group h-full"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
-                  whileHover={{ y: -10, transition: { duration: 0.2 } }}
-                >
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 blur-xl transition-all duration-300"></div>
-                  
-                  <div className="h-full rounded-2xl bg-gradient-to-b from-white/[0.08] to-white/[0.03] border border-white/10 overflow-hidden backdrop-blur-sm relative z-10 transition-all duration-300 group-hover:border-blue-500/30 group-hover:shadow-lg group-hover:shadow-blue-500/10">
-                    {/* Lab card header with gradient */}
-                    <div className={`h-3 w-full bg-gradient-to-r ${lab.color}`}></div>
-                    
-                    <div className="p-8">
-                      {/* Icon and title row */}
-                      <div className="flex items-center mb-5">
-                        <div className={`w-14 h-14 rounded-lg bg-gradient-to-br ${lab.color} flex items-center justify-center mr-5 shadow-lg`}>
-                          <div className="text-white text-xl">
-                            {lab.icon}
-                          </div>
-                        </div>
-                        <h3 className="text-2xl font-bold text-white">{lab.title}</h3>
-                      </div>
-                      
-                      {/* Description */}
-                      <p className="text-gray-300 mb-8 leading-relaxed text-lg">{lab.description}</p>
-                      
-                      {/* Projects teaser */}
-                      <div className="space-y-1 mb-6">
-                        <h4 className="font-medium text-white mb-3">Key Projects:</h4>
-                        <ul className="space-y-2">
-                          {lab.projects.slice(0, 2).map((project, i) => (
-                            <li key={i} className="flex items-start">
-                              <span className={`inline-block w-1.5 h-1.5 rounded-full ${lab.textColor} mt-1.5 mr-2`}></span>
-                              <span className="text-gray-300 text-sm">{project}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      
-                      {/* Action link */}
-                      <div className="mt-8">
-                        <div className={`text-sm ${lab.textColor} flex items-center transition-all group-hover:translate-x-1`}>
-                          <span>Explore Lab</span>
-                          <FiArrowRight className="ml-2" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* All Labs Showcase Section */}
-      <section className="py-24 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-900/5 via-transparent to-transparent"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
-            <div>
-              <motion.div 
-                className="inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-3 py-1.5 rounded-full mb-4 border border-white/10"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
-                <span className="text-blue-300 text-xs uppercase tracking-widest font-medium">All Research Labs</span>
+              <motion.div variants={itemVariants} className="flex items-center">
+                <div className="bg-blue-600/20 backdrop-blur-sm rounded-lg p-3 mr-4 shadow-lg shadow-blue-500/10 border border-blue-500/20">
+                  <FiLayers className="h-7 w-7 text-blue-400" />
+                </div>
+                <div>
+                  <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
+                    Research Labs
+                  </h1>
+                  <div className="h-1 w-32 bg-blue-500/50 mt-3 rounded-full"></div>
+                </div>
               </motion.div>
-              <motion.h2 
-                className="text-3xl md:text-5xl font-bold mb-4"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 }}
+              
+              <motion.p 
+                variants={itemVariants}
+                className="text-xl md:text-2xl text-white/80 max-w-3xl font-light leading-relaxed"
               >
-                Explore Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Full Ecosystem</span>
-              </motion.h2>
-              <motion.p
-                className="text-gray-300 max-w-2xl"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                Each lab drives breakthrough policy research through multidisciplinary collaboration, cutting-edge methodologies, and a focus on real-world impact.
+                Our specialized research labs tackle complex policy challenges through innovation, data, and interdisciplinary collaboration.
               </motion.p>
-            </div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <Link 
-                href="/about/labs" 
-                className="inline-flex items-center px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 text-white"
+              
+              {/* Category filters with prestigious styling */}
+              <motion.div 
+                variants={itemVariants}
+                className="flex flex-wrap gap-3 pt-10"
               >
-                About Our Research
-                <FiArrowRight className="ml-2" />
-              </Link>
+                <button
+                  onClick={() => setActiveCategory(null)}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeCategory === null
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20 border border-blue-500/30"
+                      : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white border border-white/5"
+                  }`}
+                >
+                  All Labs
+                </button>
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                    className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                      activeCategory === category
+                        ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20 border border-blue-500/30"
+                        : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white border border-white/5"
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </motion.div>
             </motion.div>
           </div>
-          
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-          >
-            {LABS.map((lab, index) => (
-              <motion.div 
+        </motion.div>
+        
+        {/* Decorative gradient overlay */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent"></div>
+      </div>
+      
+      {/* Main content with lab cards */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 -mt-24 relative z-10">
+        {/* Institute description for prestigious tone */}
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn}
+          className="text-center mb-16 max-w-3xl mx-auto"
+        >
+          <div className="flex items-center justify-center mb-4">
+            <div className="h-px w-8 bg-blue-500/50 mr-4"></div>
+            <p className="text-sm uppercase tracking-widest text-blue-400/80 font-light">Excellence in Research</p>
+            <div className="h-px w-8 bg-blue-500/50 ml-4"></div>
+          </div>
+          <p className="text-gray-400 text-sm md:text-base font-light italic">
+            Explore our world-class research labs where policy meets innovation
+          </p>
+        </motion.div>
+      
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+        >
+          {filteredLabs.map((lab) => {
+            // Create icon component dynamically
+            const IconComponent = ICONS_MAP[lab.iconName];
+            
+            return (
+              <motion.div
                 key={lab.id}
-                variants={fadeIn}
-                transition={{ delay: index * 0.1 }}
-                className="relative group"
-                whileHover={{ y: -10, transition: { duration: 0.2 } }}
-                onClick={() => setActiveLabId(activeLabId === lab.id ? null : lab.id)}
+                initial="rest"
+                animate="rest"
+                whileHover="hover"
+                variants={cardHover}
+                className="group backdrop-blur-sm rounded-xl overflow-hidden transition-all duration-300 shadow-2xl relative"
               >
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-600/10 to-purple-600/10 opacity-0 group-hover:opacity-100 blur-xl transition-all duration-300"></div>
+                {/* Clean white border for prestigious look */}
+                <div className="absolute inset-0 rounded-xl border border-white/10 z-20 pointer-events-none"></div>
                 
-                <div className={`h-full rounded-2xl bg-gradient-to-b from-white/[0.07] to-white/[0.03] border border-white/10 overflow-hidden backdrop-blur-sm relative z-10 transition-all duration-300 ${activeLabId === lab.id ? 'ring-2 ring-blue-500/50' : 'group-hover:border-blue-500/30'}`}>
-                  {/* Lab card header with gradient */}
-                  <div className={`h-2 w-full bg-gradient-to-r ${lab.color}`}></div>
-                  
-                  <div className="p-6">
-                    {/* Icon and title row */}
-                    <div className="flex items-center mb-4">
-                      <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${lab.color} flex items-center justify-center mr-4 shadow-lg`}>
-                        <div className="text-white">
-                          {lab.icon}
-                        </div>
-                      </div>
-                      <h3 className="text-xl font-bold text-white">{lab.title}</h3>
+                {/* Primary content area */}
+                <div className="relative overflow-hidden">
+                  {/* Header with lab color and improved visuals */}
+                  <div className={`${lab.color} relative px-7 pt-8 pb-10`}>
+                    {/* Decorative pattern in background */}
+                    <div className="absolute inset-0 opacity-8 bg-[linear-gradient(135deg,rgba(255,255,255,0)_25%,rgba(255,255,255,0.05)_50%,rgba(255,255,255,0)_75%)] bg-[length:250%_250%] animate-shimmer"></div>
+                    
+                    {/* Prestigious corner accent */}
+                    <div className="absolute top-0 right-0 w-24 h-24">
+                      <div className="absolute top-3 right-3 w-10 h-10 border-t border-r border-white/20"></div>
                     </div>
                     
-                    {/* Description */}
-                    <p className="text-gray-300 mb-6 leading-relaxed">{lab.description}</p>
-                    
-                    {/* Projects list - only visible when active */}
-                    <motion.div 
-                      className="space-y-2 mb-6"
-                      initial={{ height: 0, opacity: 0, marginBottom: 0 }}
-                      animate={{ 
-                        height: activeLabId === lab.id ? 'auto' : 0,
-                        opacity: activeLabId === lab.id ? 1 : 0,
-                        marginBottom: activeLabId === lab.id ? 24 : 0
-                      }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <h4 className="font-medium text-white mb-2">Current Projects:</h4>
-                      <ul className="space-y-1">
-                        {lab.projects.map((project, i) => (
-                          <li key={i} className="flex items-start">
-                            <span className={`inline-block w-1.5 h-1.5 rounded-full ${lab.textColor} mt-1.5 mr-2`}></span>
-                            <span className="text-gray-300 text-sm">{project}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                    
-                    {/* Action link */}
-                    <div className="flex justify-between items-center">
-                      <div className="flex gap-4">
-                        <button 
-                          className={`text-sm ${lab.textColor} flex items-center transition-all hover:opacity-80`}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setActiveLabId(activeLabId === lab.id ? null : lab.id);
-                          }}
-                        >
-                          <span>{activeLabId === lab.id ? 'View Less' : 'Quick View'}</span>
-                          <FiArrowRight className="ml-1" />
-                        </button>
-                        
-                        <Link
-                          href={`/labs/${lab.id}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="text-sm text-white flex items-center transition-all hover:opacity-80"
-                        >
-                          <span>Full Details</span>
-                          <FiArrowRight className="ml-1" />
-                        </Link>
+                    {/* Lab icon with improved styling */}
+                    <div className="inline-flex items-center">
+                      <div className={`rounded-lg p-3 ${lab.textColor} bg-black/20 backdrop-blur-sm shadow-xl border border-white/10 group-hover:scale-105 transition-transform duration-500`}>
+                        {IconComponent && <IconComponent className="h-7 w-7" />}
                       </div>
+                      <div className="ml-4">
+                        <h2 className={`text-xl font-semibold ${lab.textColor} tracking-tight`}>{lab.title}</h2>
+                        <div className="h-0.5 w-12 bg-white/30 mt-1.5"></div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Content area with improved styling */}
+                  <div className="px-7 py-8 bg-gradient-to-br from-gray-900/90 to-gray-900/70">
+                    <p className="text-gray-300 leading-relaxed mb-6 line-clamp-3">{lab.description}</p>
+                    
+                    <div className="flex justify-between items-center">
+                      <Link
+                        href={`/Labs/${lab.id}`}
+                        className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors group"
+                      >
+                        <span className="relative">
+                          <span className="relative z-10">Explore Lab</span>
+                          <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-400/30 group-hover:bg-blue-400/50 transition-colors"></span>
+                        </span>
+                        <FiChevronRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                      </Link>
+                      
+                      {lab.publications && lab.publications.length > 0 && (
+                        <span className="text-xs text-gray-300 flex items-center bg-black/30 px-3 py-1.5 rounded-full border border-white/5">
+                          <FiExternalLink className="mr-1.5 h-3 w-3" />
+                          {lab.publications.length} Publication{lab.publications.length !== 1 ? 's' : ''}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
               </motion.div>
-            ))}
+            );
+          })}
+        </motion.div>
+        
+        {/* Empty state if no labs match filter */}
+        {filteredLabs.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex flex-col items-center justify-center p-12 text-center"
+          >
+            <div className="w-20 h-20 bg-blue-900/30 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-blue-900/10 border border-blue-500/20">
+              <FiLayers className="h-8 w-8 text-blue-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">No Labs Found</h3>
+            <p className="text-gray-400 mb-6">No labs match your current filter criteria.</p>
+            <button
+              onClick={() => setActiveCategory(null)}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl border border-blue-500/30"
+            >
+              Show All Labs
+            </button>
           </motion.div>
-        </div>
-      </section>
+        )}
+        
+        {/* Prestigious footer element */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeIn}
+          className="mt-20 border-t border-gray-800/50 pt-12 text-center"
+        >
+          <div className="flex items-center justify-center mb-5">
+            <div className="h-px w-12 bg-blue-500/50 mr-5"></div>
+            <FiAward className="text-blue-400 mx-1" />
+            <FiMapPin className="text-blue-400 mx-1" />
+            <div className="h-px w-12 bg-blue-500/50 ml-5"></div>
+          </div>
+          <p className="text-sm text-gray-400 font-light max-w-xl mx-auto leading-relaxed">
+            The Perrin Institute's research labs are centers of excellence dedicated to advancing the knowledge frontier and shaping policy outcomes through rigorous research and innovative methodologies.
+          </p>
+        </motion.div>
+      </div>
     </div>
-  )
+  );
 }

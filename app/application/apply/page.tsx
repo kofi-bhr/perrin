@@ -27,8 +27,8 @@ export default function ApplicationFormPage() {
       formId: '250707836203050' // Updated with your actual JotForm ID
     },
     '2': {
-      title: 'Data Science for Policy Innovation',
-      formId: '240535343187155' // Replace with your actual JotForm ID for program 2
+      title: 'News Department Correspondent',
+      formId: '250988455059067' // Replace with your actual JotForm ID for program 2
     }
   };
   
@@ -72,7 +72,7 @@ export default function ApplicationFormPage() {
       iframe.style.height = `${formHeight}px`;
       iframe.style.border = 'none';
       iframe.setAttribute('allowFullScreen', 'true');
-      iframe.setAttribute('scrolling', 'no');
+      iframe.setAttribute('scrolling', 'yes');
       
       iframe.onload = () => {
         setLoading(false);
@@ -84,7 +84,7 @@ export default function ApplicationFormPage() {
     // Keep the event listener for iframe resizing
     const handleMessage = (event: MessageEvent) => {
       if (event.data.action === 'setHeight' && event.origin.indexOf('jotform') > -1) {
-        setFormHeight(event.data.height);
+        setFormHeight(event.data.height + 100); // Add extra height to prevent scrolling issues
         setLoading(false);
       }
     };
@@ -121,7 +121,7 @@ export default function ApplicationFormPage() {
       {/* JotForm Integration */}
       <div className="bg-black min-h-screen py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-b from-white/[0.03] to-transparent border border-white/5 rounded-xl overflow-hidden">
+          <div className="bg-gradient-to-b from-white/[0.03] to-transparent border border-white/5 rounded-xl overflow-visible">
             {loading && (
               <div className="flex justify-center items-center py-20">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
