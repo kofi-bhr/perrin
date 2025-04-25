@@ -128,7 +128,7 @@ export default function Footer() {
                     ))}
                   </ul>
                   <ul className="space-y-3">
-                    {['Events', 'Programs', 'Careers', 'Underserved Opportunities'].map((item, index) => (
+                    {['Events', 'Programs', 'Careers', 'Scholarships'].map((item, index) => (
                       <motion.li 
                         key={item}
                         initial={{ opacity: 0, x: -10 }}
@@ -139,7 +139,7 @@ export default function Footer() {
                         <Link 
                           href={
                             item === 'Programs' ? '/application' : 
-                            item === 'Opportunities' ? '/scholarship-center' : 
+                            item === 'Scholarships' ? '/scholarship-center' : 
                             `/${item.toLowerCase()}`
                           }
                           className="text-white/70 hover:text-white transition-colors flex items-center group"
