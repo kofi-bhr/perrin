@@ -64,7 +64,7 @@ export default function Navbar() {
               <Link href="/" className="flex items-center group relative overflow-hidden">
                 <div className="transition-all duration-300 transform group-hover:scale-105">
                   <Image 
-                    src="/perrinlogonewnew.png" 
+                    src="/moretechperrin-removebg-preview.png" 
                     alt="Perrin Institution Logo" 
                     width={180} 
                     height={60}

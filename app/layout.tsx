@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: 'The Perrin Institution',
     images: [
       {
-        url: '/perrinlogonewnew.png',
+        url: '/moretechperrin-removebg-preview.png',
         width: 1200,
         height: 630,
         alt: 'The Perrin Institution'
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'The Perrin Institution | AI-Powered Policy Research',
     description: 'Shaping policy through data-driven research at UVA',
-    images: ['/perrinlogonewnew.png'],
+    images: ['/moretechperrin-removebg-preview.png'],
   },
   alternates: {
     canonical: 'https://perrininstitution.com',
@@ -88,7 +88,7 @@ export default function RootLayout({
               "name": "The Perrin Institution",
               "alternateName": "Perrin Institute",
               "url": "https://perrininstitution.com",
-              "logo": "https://perrininstitution.com/perrinlogonewnew.png",
+              "logo": "https://perrininstitution.com/moretechperrin-removebg-preview.png",
               "sameAs": [
                 "https://www.tiktok.com/@theperrininstitution"
               ],

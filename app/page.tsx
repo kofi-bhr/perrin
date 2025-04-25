@@ -347,7 +347,7 @@ const Loader = ({ setIsLoading }: { setIsLoading: (value: boolean) => void }) =>
                   transition={{ duration: 1.5, delay: 0.2 }}
                 >
                   <Image 
-                    src="/perrinlogonewnew.png" 
+                    src="/moretechperrin-removebg-preview.png" 
                     alt="Perrin Institution Logo" 
                     width={240} 
                     height={80}
