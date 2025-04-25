@@ -271,7 +271,7 @@ export default function LabDetailPage() {
             {/* Call to action section with prestigious styling */}
             <motion.section 
               variants={itemVariants}
-              className={`${lab.color} bg-opacity-95 rounded-xl p-12 text-center shadow-2xl shadow-blue-900/20 border border-white/10 relative overflow-hidden`}
+              className={`${lab.color} bg-opacity-95 rounded-xl p-10 text-center shadow-2xl shadow-blue-900/20 border border-white/10 relative overflow-hidden`}
             >
               {/* Prestigious accent elements */}
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-white/0 via-white/40 to-white/0"></div>
@@ -280,26 +280,18 @@ export default function LabDetailPage() {
               <div className="absolute inset-0 opacity-10 bg-[linear-gradient(135deg,rgba(255,255,255,0)_25%,rgba(255,255,255,0.1)_50%,rgba(255,255,255,0)_75%)] bg-[length:200%_200%] animate-shimmer"></div>
               
               <div className="relative z-10">
-                <h2 className={`text-3xl font-bold mb-4 ${lab.textColor} tracking-tight`}>
-                  Partner With Our Research Team
+                <h2 className={`text-2xl font-bold mb-4 ${lab.textColor} tracking-tight`}>
+                  Join Our Team
                 </h2>
-                <p className={`${lab.textColor} text-opacity-90 mb-10 max-w-2xl mx-auto text-lg font-light leading-relaxed`}>
-                  We're actively seeking research partners, collaborators, and talented individuals to join our mission of driving innovation in {lab.title.toLowerCase()}.
+                <p className={`${lab.textColor} text-opacity-90 mb-6 max-w-2xl mx-auto text-base font-light leading-relaxed`}>
+                  We're looking for talented individuals to join our mission of driving innovation in policy research.
                 </p>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                  <a 
-                    href={`mailto:${lab.contactEmail}`}
-                    className="px-8 py-3 bg-white text-gray-900 rounded-lg font-medium hover:bg-white/90 transition-all duration-300 flex items-center shadow-lg hover:shadow-xl"
-                  >
-                    <FiMail className="mr-2" /> Contact Research Team
-                  </a>
-                  <Link
-                    href="/careers"
-                    className="px-8 py-3 bg-black/20 hover:bg-black/30 text-white rounded-lg font-medium transition-all duration-300 flex items-center border border-white/10 hover:border-white/20 shadow-lg hover:shadow-xl"
-                  >
-                    Careers at Perrin <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </div>
+                <Link
+                  href="/careers"
+                  className="inline-flex items-center px-6 py-2 bg-black/20 hover:bg-black/30 text-white rounded-lg font-medium transition-all duration-300 border border-white/10 hover:border-white/20 shadow-md hover:shadow-lg text-sm"
+                >
+                  Careers at Perrin <FiArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                </Link>
               </div>
             </motion.section>
           </motion.div>
