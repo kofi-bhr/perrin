@@ -107,7 +107,7 @@ export default function Footer() {
                 <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider font-medium">Navigation</h3>
                 <div className="grid grid-cols-2 gap-x-4">
                   <ul className="space-y-3">
-                    {['Home', 'Directory', 'Labs'].map((item, index) => (
+                    {['Home', 'Directory', 'Labs', 'News'].map((item, index) => (
                       <motion.li 
                         key={item}
                         initial={{ opacity: 0, x: -10 }}
@@ -116,7 +116,11 @@ export default function Footer() {
                         transition={{ duration: 0.3, delay: 0.3 + 0.05 * index }}
                       >
                         <Link 
-                          href={item === 'Home' ? '/' : item === 'Directory' ? '/experts' : item === 'Labs' ? '/Labs' : `/${item.toLowerCase()}`}
+                          href={item === 'Home' ? '/' : 
+                               item === 'Directory' ? '/experts' : 
+                               item === 'Labs' ? '/Labs' : 
+                               item === 'News' ? '/news' : 
+                               `/${item.toLowerCase()}`}
                           className="text-white/70 hover:text-white transition-colors flex items-center group"
                         >
                           <motion.span 
