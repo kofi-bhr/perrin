@@ -449,17 +449,20 @@ export default function News() {
         </div>
       </div>
 
-      {/* Market data ticker - WSJ style */}
+      {/* Market data ticker - WSJ style, with mobile improvements */}
       <div className="border-b border-gray-800 bg-gray-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-          <div className="overflow-x-auto">
-            <div className="flex space-x-6 py-1 min-w-max">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2">
+          <div className="overflow-x-auto -mx-3 px-3 custom-stocks-scrollbar">
+            <div className="flex space-x-4 sm:space-x-6 py-1 min-w-max">
               {marketData.map((item, index) => (
-                <div key={index} className="flex items-center space-x-1.5 group">
-                  <span className="text-sm font-medium text-gray-400">{item.name}</span>
-                  <span className="text-sm font-bold text-white">{item.value}</span>
+                <div 
+                  key={index} 
+                  className="flex items-center space-x-1.5 group bg-gray-800/20 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-gray-700/20"
+                >
+                  <span className="text-xs sm:text-sm font-medium text-gray-400 truncate" style={{ maxWidth: '80px' }}>{item.name}</span>
+                  <span className="text-xs sm:text-sm font-bold text-white">{item.value}</span>
                   <span className={`text-xs flex items-center ${item.isPositive ? 'text-green-400' : 'text-red-400'}`}>
-                    {item.isPositive ? <FiTrendingUp className="mr-0.5" size={12} /> : <FiTrendingDown className="mr-0.5" size={12} />}
+                    {item.isPositive ? <FiTrendingUp className="mr-0.5" size={10} /> : <FiTrendingDown className="mr-0.5" size={10} />}
                     {item.change}
                   </span>
                 </div>
@@ -468,9 +471,9 @@ export default function News() {
                 href="https://www.google.com/finance/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center cursor-pointer group"
+                className="flex items-center cursor-pointer group bg-blue-900/20 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-blue-700/20"
               >
-                <span className="text-xs text-blue-400 group-hover:text-blue-300">More Markets</span>
+                <span className="text-xs text-blue-400 group-hover:text-blue-300">More</span>
                 <FiExternalLink className="ml-1 h-3 w-3 text-blue-400 group-hover:text-blue-300" />
               </a>
             </div>
@@ -478,15 +481,41 @@ export default function News() {
         </div>
       </div>
 
-      {/* Category navigation - FAANG-inspired tabs */}
-      <div className={`border-b border-gray-800 sticky top-[60px] z-30 ${isScrolled ? 'bg-black/95 shadow-xl shadow-black/50' : 'bg-black/80 backdrop-blur-sm'} transition-all duration-300`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex space-x-8 overflow-x-auto scrollbar-hide" aria-label="Categories">
+      {/* Add custom scrollbar styles */}
+      <style jsx global>{`
+        /* FAANG-inspired scrollbar styles */
+        .custom-stocks-scrollbar::-webkit-scrollbar {
+          height: 4px;
+          background: transparent;
+        }
+        
+        .custom-stocks-scrollbar::-webkit-scrollbar-track {
+          background: rgba(30, 41, 59, 0.1);
+          border-radius: 100px;
+          margin: 0 20px;
+        }
+        
+        .custom-stocks-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(59, 130, 246, 0.6);
+          border-radius: 100px;
+          background-image: linear-gradient(to right, rgba(59, 130, 246, 0.7), rgba(79, 70, 229, 0.7));
+          box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .custom-stocks-scrollbar::-webkit-scrollbar-thumb:hover {
+          background-image: linear-gradient(to right, rgba(59, 130, 246, 0.9), rgba(79, 70, 229, 0.9));
+        }
+      `}</style>
+
+      {/* Category navigation - FAANG-inspired tabs without sticky behavior */}
+      <div className="border-b border-gray-800 bg-black/80 backdrop-blur-sm transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto scrollbar-hide" aria-label="Categories">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveCategory(category === "All" ? null : category)}
-                className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`whitespace-nowrap py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                   (category === "All" && activeCategory === null) || category === activeCategory
                     ? "border-blue-500 text-blue-400"
                     : "border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-700"
@@ -499,21 +528,21 @@ export default function News() {
         </div>
       </div>
 
-      {/* Main content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+      {/* Main content - improved for mobile */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-12 sm:pb-16">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-5 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
         
         {/* Blue accent glow */}
         <div className="absolute top-24 right-0 w-1/3 h-1/3 bg-blue-700/20 rounded-full filter blur-3xl opacity-30 pointer-events-none"></div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 relative z-10">
           {/* Main column */}
           <div className="col-span-2">
-            {/* Featured story - WSJ/Apple News style */}
-            <div className="mb-12">
+            {/* Featured story - WSJ/Apple News style with mobile improvements */}
+            <div className="mb-8 sm:mb-12">
               <Link href={featuredNews.link} className="group">
-                <div className="relative aspect-[16/9] overflow-hidden rounded-xl mb-6">
+                <div className="relative aspect-[16/9] overflow-hidden rounded-xl mb-4 sm:mb-6">
                   <Image
                     src={featuredNews.image}
                     alt={featuredNews.title}
@@ -521,35 +550,35 @@ export default function News() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                  <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-medium px-3 py-1 m-3 rounded-md">
+                  <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-medium px-2 sm:px-3 py-1 m-2 sm:m-3 rounded-md">
                     {featuredNews.category}
                   </div>
-                  <div className="absolute bottom-0 left-0 p-6">
-                    <h2 className="text-3xl font-serif font-bold text-white mb-3 leading-tight group-hover:text-blue-300 transition-colors">
+                  <div className="absolute bottom-0 left-0 p-3 sm:p-6">
+                    <h2 className="text-xl sm:text-3xl font-serif font-bold text-white mb-2 sm:mb-3 leading-tight group-hover:text-blue-300 transition-colors line-clamp-2 sm:line-clamp-none">
                       {featuredNews.title}
                     </h2>
-                    <span className="flex items-center text-sm text-gray-300 mb-2">
+                    <span className="flex items-center text-xs sm:text-sm text-gray-300 mb-1 sm:mb-2">
                       <FiCalendar className="mr-2" size={14} />
                       {featuredNews.date}
                     </span>
                   </div>
                 </div>
-                <p className="text-gray-300 mb-4 leading-relaxed text-lg">
+                <p className="text-gray-300 mb-4 leading-relaxed text-sm sm:text-lg line-clamp-3 sm:line-clamp-none">
                   {featuredNews.excerpt}
                 </p>
-                <div className="inline-flex items-center text-blue-400 font-medium group-hover:text-blue-300 transition-colors">
+                <div className="inline-flex items-center text-blue-400 font-medium group-hover:text-blue-300 transition-colors text-sm sm:text-base">
                   Continue reading
                   <FiArrowRight className="ml-2" />
                 </div>
               </Link>
             </div>
 
-            {/* News grid - FAANG-inspired cards */}
+            {/* News grid - FAANG-inspired cards with mobile improvements */}
             <div>
-              <h2 className="text-2xl font-serif font-bold text-white mb-6 pb-2 border-b border-gray-800">
+              <h2 className="text-xl sm:text-2xl font-serif font-bold text-white mb-4 sm:mb-6 pb-2 border-b border-gray-800">
                 Latest Articles
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                 {filteredNews.map((news) => (
                   <motion.div
                     key={news.id}
@@ -559,7 +588,7 @@ export default function News() {
                     className="group"
                   >
                     <Link href={`/news/${news.id}`} className="block">
-                      <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-4">
+                      <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-3 sm:mb-4">
                         <Image
                           src={news.image}
                           alt={news.title}
@@ -570,17 +599,17 @@ export default function News() {
                         <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-medium px-2 py-1 m-2 rounded-md">
                           {news.category}
                         </div>
-                        <div className="absolute bottom-0 left-0 p-4">
+                        <div className="absolute bottom-0 left-0 p-3 sm:p-4">
                           <span className="flex items-center text-xs text-gray-300 mb-1">
                             <FiCalendar className="mr-1" size={12} />
                             {news.date}
                           </span>
                         </div>
                       </div>
-                      <h3 className="font-serif font-bold text-lg text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
+                      <h3 className="font-serif font-bold text-base sm:text-lg text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
                         {news.title}
                       </h3>
-                      <p className="text-gray-400 text-sm line-clamp-3">
+                      <p className="text-gray-400 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">
                         {news.excerpt}
                       </p>
                     </Link>
@@ -588,9 +617,9 @@ export default function News() {
                 ))}
               </div>
               
-              {/* Load more button - Apple-style */}
-              <div className="mt-10 text-center">
-                <button className="inline-flex items-center px-6 py-3 border border-gray-700 shadow-sm text-base font-medium rounded-md text-gray-300 bg-gray-900/50 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+              {/* Load more button - Apple-style with mobile improvements */}
+              <div className="mt-8 sm:mt-10 text-center">
+                <button className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-gray-700 shadow-sm text-sm sm:text-base font-medium rounded-md text-gray-300 bg-gray-900/50 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                   Load more articles
                 </button>
               </div>

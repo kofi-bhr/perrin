@@ -145,52 +145,54 @@ export default function Labs() {
               </motion.div>
             
               <motion.div variants={itemVariants} className="flex items-center">
-                <div className="bg-blue-600/20 backdrop-blur-sm rounded-lg p-3 mr-4 shadow-lg shadow-blue-500/10 border border-blue-500/20">
-                  <FiLayers className="h-7 w-7 text-blue-400" />
+                <div className="bg-blue-600/20 backdrop-blur-sm rounded-lg p-2 sm:p-3 mr-3 sm:mr-4 shadow-lg shadow-blue-500/10 border border-blue-500/20">
+                  <FiLayers className="h-5 w-5 sm:h-7 sm:w-7 text-blue-400" />
                 </div>
                 <div>
-                  <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
+                  <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight">
                     Research Labs
                   </h1>
-                  <div className="h-1 w-32 bg-blue-500/50 mt-3 rounded-full"></div>
+                  <div className="h-1 w-20 sm:w-32 bg-blue-500/50 mt-2 sm:mt-3 rounded-full"></div>
                 </div>
               </motion.div>
               
               <motion.p 
                 variants={itemVariants}
-                className="text-xl md:text-2xl text-white/80 max-w-3xl font-light leading-relaxed"
+                className="text-base sm:text-xl md:text-2xl text-white/80 max-w-3xl font-light leading-relaxed"
               >
                 Our specialized research labs tackle complex policy challenges through innovation, data, and interdisciplinary collaboration.
               </motion.p>
               
-              {/* Category filters with prestigious styling */}
+              {/* Category filters with prestigious styling - mobile friendly */}
               <motion.div 
                 variants={itemVariants}
-                className="flex flex-wrap gap-3 pt-10"
+                className="pt-6 sm:pt-10 overflow-hidden"
               >
-                <button
-                  onClick={() => setActiveCategory(null)}
-                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                    activeCategory === null
-                      ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20 border border-blue-500/30"
-                      : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white border border-white/5"
-                  }`}
-                >
-                  All Labs
-                </button>
-                {categories.map((category) => (
+                <div className="flex space-x-2 sm:space-x-3 overflow-x-auto pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap md:gap-2 md:space-x-0 no-scrollbar">
                   <button
-                    key={category}
-                    onClick={() => setActiveCategory(category)}
-                    className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                      activeCategory === category
+                    onClick={() => setActiveCategory(null)}
+                    className={`whitespace-nowrap flex-shrink-0 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+                      activeCategory === null
                         ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20 border border-blue-500/30"
                         : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white border border-white/5"
                     }`}
                   >
-                    {category}
+                    All Labs
                   </button>
-                ))}
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setActiveCategory(category)}
+                      className={`whitespace-nowrap flex-shrink-0 px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+                        activeCategory === category
+                          ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20 border border-blue-500/30"
+                          : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white border border-white/5"
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
               </motion.div>
             </motion.div>
           </div>
@@ -201,7 +203,7 @@ export default function Labs() {
       </div>
       
       {/* Featured Associates - Apple/FAANG inspired design */}
-      <div className="relative z-20 -mt-24">
+      <div className="relative z-20 -mt-12 sm:-mt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Refined label with subtle styling */}
           <div className="flex items-center justify-center mb-4">
@@ -219,10 +221,10 @@ export default function Labs() {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="group bg-black/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgba(59,130,246,0.15)] transition-all duration-300 overflow-hidden"
             >
-              <div className="p-5">
-                <div className="flex">
+              <div className="p-4 sm:p-5">
+                <div className="flex flex-col sm:flex-row">
                   {/* Photo with clean styling */}
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-sm mr-4 border border-white/5">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-sm mb-4 sm:mb-0 sm:mr-4 border border-white/5 mx-auto sm:mx-0">
                     <Image 
                       src="/dara-mohd.jpeg" 
                       alt="Dara Mohd" 
@@ -233,25 +235,25 @@ export default function Labs() {
                   </div>
                   
                   {/* Content with precise typography */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
+                  <div className="flex-1 min-w-0 text-center sm:text-left">
+                    <div className="flex items-center justify-center sm:justify-between">
                       <h3 className="text-base font-medium text-white tracking-tight">Dara Mohd</h3>
                       <a 
                         href="https://www.tiktok.com/@ladywellington_" 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-white/40 hover:text-white/80 transition-all duration-300"
+                        className="hidden sm:block text-white/40 hover:text-white/80 transition-all duration-300"
                       >
                         <FiExternalLink className="h-3.5 w-3.5" />
                       </a>
                     </div>
-                    <p className="text-sm text-white/50 mb-4">Senior Research Fellow, Legal Lab</p>
+                    <p className="text-sm text-white/50 mb-3 sm:mb-4">Senior Research Fellow, Legal Lab</p>
                     
                     <p className="text-sm text-white/70 mb-3 line-clamp-2">
                       Palestinian-Canadian author of 'A Darker Side of Dorcha' studying Philosophy at Oxford.
                     </p>
                     
-                    <div className="flex items-center space-x-1.5">
+                    <div className="flex items-center justify-center sm:justify-start space-x-1.5">
                       <div className="inline-flex items-center py-1 px-2 bg-white/5 rounded-md">
                         <FiBookOpen className="h-3 w-3 mr-1.5 text-blue-400/70" />
                         <span className="text-xs text-white/60">Oxford University</span>
@@ -269,10 +271,10 @@ export default function Labs() {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
               className="group bg-black/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgba(16,185,129,0.15)] transition-all duration-300 overflow-hidden"
             >
-              <div className="p-5">
-                <div className="flex">
+              <div className="p-4 sm:p-5">
+                <div className="flex flex-col sm:flex-row">
                   {/* Photo with clean styling */}
-                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-sm mr-4 border border-white/5">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-sm mb-4 sm:mb-0 sm:mr-4 border border-white/5 mx-auto sm:mx-0">
                     <Image 
                       src="/kashaf-alvi.jpg" 
                       alt="Kashaf Alvi" 
@@ -283,15 +285,15 @@ export default function Labs() {
                   </div>
                   
                   {/* Content with precise typography */}
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 text-center sm:text-left">
                     <h3 className="text-base font-medium text-white tracking-tight">Kashaf Alvi</h3>
-                    <p className="text-sm text-white/50 mb-4">Inclusive Policy Lab Director</p>
+                    <p className="text-sm text-white/50 mb-3 sm:mb-4">Inclusive Policy Lab Director</p>
                     
                     <p className="text-sm text-white/70 mb-3 line-clamp-2">
                       Author of 'The Language of Paradise' and Pakistan's first Microsoft Associate with a disability.
                     </p>
                     
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-1.5 justify-center sm:justify-start">
                       <div className="inline-flex items-center py-1 px-2 bg-white/5 rounded-md">
                         <FiAward className="h-3 w-3 mr-1.5 text-emerald-400/70" />
                         <span className="text-xs text-white/60">Pride of Pakistan</span>
@@ -353,7 +355,7 @@ export default function Labs() {
                 {/* Primary content area */}
                 <div className="relative overflow-hidden">
                   {/* Header with lab color and improved visuals */}
-                  <div className={`${lab.color} relative px-7 pt-8 pb-10`}>
+                  <div className={`${lab.color} relative px-5 sm:px-7 pt-6 sm:pt-8 pb-8 sm:pb-10`}>
                     {/* Decorative pattern in background */}
                     <div className="absolute inset-0 opacity-8 bg-[linear-gradient(135deg,rgba(255,255,255,0)_25%,rgba(255,255,255,0.05)_50%,rgba(255,255,255,0)_75%)] bg-[length:250%_250%] animate-shimmer"></div>
                     
@@ -363,20 +365,20 @@ export default function Labs() {
                     </div>
                     
                     {/* Lab icon with improved styling */}
-                    <div className="inline-flex items-center">
-                      <div className={`rounded-lg p-3 ${lab.textColor} bg-black/20 backdrop-blur-sm shadow-xl border border-white/10 group-hover:scale-105 transition-transform duration-500`}>
-                        {IconComponent && <IconComponent className="h-7 w-7" />}
+                    <div className="inline-flex flex-col sm:flex-row items-center sm:items-start">
+                      <div className={`rounded-lg p-2.5 sm:p-3 ${lab.textColor} bg-black/20 backdrop-blur-sm shadow-xl border border-white/10 group-hover:scale-105 transition-transform duration-500 mb-3 sm:mb-0`}>
+                        {IconComponent && <IconComponent className="h-5 w-5 sm:h-7 sm:w-7" />}
                       </div>
-                      <div className="ml-4">
-                        <h2 className={`text-xl font-semibold ${lab.textColor} tracking-tight`}>{lab.title}</h2>
-                        <div className="h-0.5 w-12 bg-white/30 mt-1.5"></div>
+                      <div className="sm:ml-4 text-center sm:text-left">
+                        <h2 className={`text-lg sm:text-xl font-semibold ${lab.textColor} tracking-tight`}>{lab.title}</h2>
+                        <div className="h-0.5 w-12 bg-white/30 mt-1.5 mx-auto sm:mx-0"></div>
                       </div>
                     </div>
                   </div>
                   
                   {/* Content area with improved styling */}
-                  <div className="px-7 py-8 bg-gradient-to-br from-gray-900/90 to-gray-900/70">
-                    <p className="text-gray-300 leading-relaxed mb-6 line-clamp-3">{lab.description}</p>
+                  <div className="px-4 sm:px-7 py-6 sm:py-8 bg-gradient-to-br from-gray-900/90 to-gray-900/70">
+                    <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-6 line-clamp-3">{lab.description}</p>
                     
                     <div className="flex justify-between items-center">
                       <Link
