@@ -304,109 +304,109 @@ export default function News() {
   
   // Placeholder news data
   const featuredNews = {
-    title: "Perrin Institution Launches New Research Initiative on Sustainable Technology",
+    title: "EU Announces Major Climate Legislation Targeting Carbon-Neutral Economy by 2050",
     date: "June 15, 2023",
-    excerpt: "The initiative aims to bridge policy gaps and develop frameworks for responsible innovation in emerging technologies, with a focus on environmental sustainability and ethical governance.",
+    excerpt: "The landmark legislation introduces binding emission targets, carbon pricing reforms, and significant investments in green technology to position Europe as a global climate leader.",
     image: "/news/placeholder-news.jpg",
-    link: "/news/perrin-research-initiative",
-    category: "Research"
+    link: "/news/eu-climate-legislation",
+    category: "Climate Action"
   };
 
   // Opinion pieces data
   const opinionPieces = [
     {
       id: 1,
-      title: "The False Promise of Unregulated AI Development",
+      title: "AI Regulation Must Balance Innovation and Risk",
       author: "Dr. Amara Singh",
-      position: "Senior Policy Fellow",
-      excerpt: "We need to dispel the myth that innovation thrives without guardrails...",
+      position: "AI Ethics Expert",
+      excerpt: "As AI capabilities accelerate, we need regulatory frameworks that enable innovation while...",
       date: "June 10, 2023",
-      link: "/opinions/false-promise-ai"
+      link: "/opinions/ai-regulation-balance"
     },
     {
       id: 2,
-      title: "Why Digital Privacy Should Be Considered a Human Right",
+      title: "Why Digital Privacy Is Critical for Democracy",
       author: "Marcus Chen",
       position: "Technology Ethics Researcher",
-      excerpt: "As our lives become increasingly digitized, we must reconsider...",
+      excerpt: "In an increasingly surveilled world, privacy protections are not just personal concerns but...",
       date: "June 5, 2023",
-      link: "/opinions/privacy-human-right"
+      link: "/opinions/privacy-democracy"
     },
     {
       id: 3,
-      title: "Bridging the Digital Divide: More Than Just Access",
+      title: "The Growing Tech Divide Between US and China",
       author: "Leila Mwangi",
-      position: "Inclusive Design Advocate",
-      excerpt: "Access alone doesn't solve systematic exclusion in our digital...",
+      position: "Foreign Policy Analyst",
+      excerpt: "Technological decoupling between global powers is reshaping international relations and...",
       date: "May 28, 2023",
-      link: "/opinions/digital-divide"
+      link: "/opinions/tech-divide-us-china"
     },
     {
       id: 4,
-      title: "The Case for Decentralized Technologies in Democratic Societies",
+      title: "How Climate Tech Startups Are Leading Innovation",
       author: "Dr. Kashaf Alvi",
-      position: "Inclusive Policy Lab Director",
-      excerpt: "Decentralized systems offer a pathway to more accountable...",
+      position: "Climate Technology Advisor",
+      excerpt: "A new generation of startups is pioneering solutions to our most pressing climate challenges...",
       date: "May 20, 2023",
-      link: "/opinions/decentralized-tech"
+      link: "/opinions/climate-tech-startups"
     }
   ];
 
-  const categories = ["All", "Research", "Events", "Publications", "Policy", "Announcements"];
+  const categories = ["All", "Climate Action", "Foreign Policy", "AI", "Startups", "Technology"];
 
   const recentNews = [
     {
       id: 1,
-      title: "Dr. Alvi Presents at International Policy Conference",
+      title: "India-US Tech Partnership Summit Focuses on AI Collaboration",
       date: "May 22, 2023",
-      excerpt: "Inclusive Policy Lab Director Dr. Kashaf Alvi presented groundbreaking research on inclusive policy frameworks at the Geneva Convention on Technology Ethics.",
+      excerpt: "Leaders from both nations converged in New Delhi to discuss AI development standards, joint research initiatives, and market access for emerging technologies.",
       image: "/news/placeholder-thumb-1.jpg",
-      category: "Events",
+      category: "Foreign Policy",
       featured: false
     },
     {
       id: 2,
-      title: "Legal Lab Publishes New Working Paper Series",
+      title: "Breakthrough Carbon Capture Technology Shows 40% Efficiency Increase",
       date: "May 10, 2023",
-      excerpt: "The Legal Lab, under the guidance of Senior Fellow Dara Mohd, has published a new series of working papers examining regulatory frameworks for artificial intelligence deployment.",
+      excerpt: "A new direct air capture method developed by researchers at MIT demonstrates significantly improved efficiency at lower costs, potentially accelerating climate mitigation efforts.",
       image: "/news/placeholder-thumb-2.jpg",
-      category: "Publications",
+      category: "Climate Action",
       featured: true
     },
     {
       id: 3,
-      title: "Perrin Institution Announces New Scholarship Program",
+      title: "Y Combinator's Latest Batch Shows Surge in AI Startups",
       date: "April 28, 2023",
-      excerpt: "A new scholarship program aimed at supporting underrepresented students in technology policy has been announced, with applications opening next month.",
+      excerpt: "Nearly 40% of startups in Y Combinator's latest cohort are leveraging artificial intelligence, with focus areas including healthcare diagnostics, legal tech, and content generation.",
       image: "/news/placeholder-thumb-3.jpg",
-      category: "Announcements",
+      category: "Startups",
       featured: false
     },
     {
       id: 4,
-      title: "Technology Lab Hosts Industry Roundtable",
+      title: "UN Climate Panel Warns Critical Tipping Points May Be Reached By 2030",
       date: "April 15, 2023",
-      excerpt: "Leading technologists and policymakers gathered to discuss the future of AI governance and regulation at our quarterly industry roundtable.",
+      excerpt: "The latest IPCC report highlights accelerating climate impacts and emphasizes the need for immediate action to prevent irreversible damage to global ecosystems.",
       image: "/news/placeholder-thumb-4.jpg",
-      category: "Events",
+      category: "Climate Action",
       featured: false
     },
     {
       id: 5,
-      title: "Policy Brief: The Future of Digital Identity",
+      title: "OpenAI Releases Research on AI Alignment Challenges",
       date: "April 8, 2023",
-      excerpt: "Our latest policy brief examines the ethical implications and technological challenges of digital identity systems in an increasingly connected world.",
+      excerpt: "The research outlines key technical and governance challenges in ensuring advanced AI systems remain aligned with human values and beneficial goals.",
       image: "/news/placeholder-thumb-1.jpg",
-      category: "Policy",
+      category: "AI",
       featured: false
     },
     {
       id: 6,
-      title: "Research Partnership with Oxford Internet Institute Announced",
+      title: "African Tech Ecosystem Sees Record $4.8B Investment",
       date: "March 30, 2023",
-      excerpt: "The Perrin Institution has established a new research partnership with the Oxford Internet Institute to collaborate on digital governance projects.",
+      excerpt: "Venture capital flowing into African startups reached an all-time high, with fintech, cleantech, and logistics attracting significant international investment.",
       image: "/news/placeholder-thumb-2.jpg",
-      category: "Research",
+      category: "Startups",
       featured: true
     }
   ];
@@ -425,8 +425,8 @@ export default function News() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-serif font-bold text-white">News & Updates</h1>
-              <p className="text-gray-400 text-sm mt-1">The latest from the Perrin Institution</p>
+              <h1 className="text-4xl font-serif font-bold text-white">Global News</h1>
+              <p className="text-gray-400 text-sm mt-1">Analysis and reporting on global policy and technology trends</p>
             </div>
             <div className="hidden md:flex items-center space-x-4">
               <div className="relative">
