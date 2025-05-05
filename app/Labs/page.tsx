@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { FiArrowRight, FiLayers, FiChevronRight, FiExternalLink, FiAward, FiMapPin } from "react-icons/fi";
+import { FiArrowRight, FiLayers, FiChevronRight, FiExternalLink, FiAward, FiMapPin, FiBookOpen, FiUser } from "react-icons/fi";
 import { LABS_DATA, ICONS_MAP, Lab } from "../data/labs";
 import { useRouter } from "next/navigation";
 
@@ -199,8 +200,117 @@ export default function Labs() {
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent"></div>
       </div>
       
-      {/* Main content with lab cards */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 -mt-24 relative z-10">
+      {/* Featured Associates - Apple/FAANG inspired design */}
+      <div className="relative z-20 -mt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Refined label with subtle styling */}
+          <div className="flex items-center justify-center mb-4">
+            <div className="h-px w-8 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+            <p className="text-xs uppercase tracking-wide text-white/60 font-light px-3">Featured Authors</p>
+            <div className="h-px w-8 bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+          </div>
+          
+          {/* Apple/FAANG-style card grid with increased white space */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {/* Dara Mohd - Apple/FAANG styled card */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="group bg-black/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgba(59,130,246,0.15)] transition-all duration-300 overflow-hidden"
+            >
+              <div className="p-5">
+                <div className="flex">
+                  {/* Photo with clean styling */}
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-sm mr-4 border border-white/5">
+                    <Image 
+                      src="/dara-mohd.jpeg" 
+                      alt="Dara Mohd" 
+                      width={64}
+                      height={64}
+                      className="object-cover w-full h-full" 
+                    />
+                  </div>
+                  
+                  {/* Content with precise typography */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-base font-medium text-white tracking-tight">Dara Mohd</h3>
+                      <a 
+                        href="https://www.tiktok.com/@ladywellington_" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-white/40 hover:text-white/80 transition-all duration-300"
+                      >
+                        <FiExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    </div>
+                    <p className="text-sm text-white/50 mb-4">Senior Research Fellow, Legal Lab</p>
+                    
+                    <p className="text-sm text-white/70 mb-3 line-clamp-2">
+                      Palestinian-Canadian author of 'A Darker Side of Dorcha' studying Philosophy at Oxford.
+                    </p>
+                    
+                    <div className="flex items-center space-x-1.5">
+                      <div className="inline-flex items-center py-1 px-2 bg-white/5 rounded-md">
+                        <FiBookOpen className="h-3 w-3 mr-1.5 text-blue-400/70" />
+                        <span className="text-xs text-white/60">Oxford University</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Kashaf Alvi - Apple/FAANG styled card */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+              className="group bg-black/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgba(16,185,129,0.15)] transition-all duration-300 overflow-hidden"
+            >
+              <div className="p-5">
+                <div className="flex">
+                  {/* Photo with clean styling */}
+                  <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 shadow-sm mr-4 border border-white/5">
+                    <Image 
+                      src="/kashaf-alvi.jpg" 
+                      alt="Kashaf Alvi" 
+                      width={64}
+                      height={64}
+                      className="object-cover w-full h-full" 
+                    />
+                  </div>
+                  
+                  {/* Content with precise typography */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base font-medium text-white tracking-tight">Kashaf Alvi</h3>
+                    <p className="text-sm text-white/50 mb-4">Inclusive Policy Lab Director</p>
+                    
+                    <p className="text-sm text-white/70 mb-3 line-clamp-2">
+                      Author of 'The Language of Paradise' and Pakistan's first Microsoft Associate with a disability.
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-1.5">
+                      <div className="inline-flex items-center py-1 px-2 bg-white/5 rounded-md">
+                        <FiAward className="h-3 w-3 mr-1.5 text-emerald-400/70" />
+                        <span className="text-xs text-white/60">Pride of Pakistan</span>
+                      </div>
+                      <div className="inline-flex items-center py-1 px-2 bg-white/5 rounded-md">
+                        <FiUser className="h-3 w-3 mr-1.5 text-emerald-400/70" />
+                        <span className="text-xs text-white/60">Global Shaper</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Main content with lab cards - Moved up */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         {/* Institute description for prestigious tone */}
         <motion.div 
           initial="hidden"

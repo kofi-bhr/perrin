@@ -106,6 +106,12 @@ export default function Navbar() {
                   Careers
                 </Link>
                 <Link
+                  href="/news"
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/news') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                >
+                  News
+                </Link>
+                <Link
                   href="/scholarship-center"
                   className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/scholarship-center') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
                 >
@@ -194,6 +200,17 @@ export default function Navbar() {
               Careers
             </Link>
             <Link
+              href="/news"
+              className={`block px-3 py-4 rounded-md text-base font-medium ${
+                isExpertsPage 
+                  ? 'text-white hover:text-blue-400' 
+                  : 'text-gray-900 hover:bg-gray-50'
+              } ${pathname.includes('/news') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              News
+            </Link>
+            <Link
               href="/scholarship-center"
               className={`block px-3 py-4 rounded-md text-base font-medium ${
                 isExpertsPage 
@@ -263,6 +280,15 @@ export default function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Careers
+              </Link>
+              <Link
+                href="/news"
+                className={`block py-2 text-base font-medium ${
+                  isActive('/news') ? 'text-white' : 'text-gray-300'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                News
               </Link>
               <Link
                 href="/scholarship-center"
