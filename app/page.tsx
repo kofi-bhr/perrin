@@ -1178,7 +1178,7 @@ export default function Home() {
               {
                 value: "$3M+",
                 label: "Garnered Scholarships",
-                description: "Total tution value garnered in merit-based scholarships, study abroad oppurunties, and research stipends by the Perrin Institution's employees",
+                description: "Total tution value garnered in merit-based scholarships, study abroad opportunities, and research stipends by the Perrin Institution's employees",
                 icon: "money",
                 color: "green",
                 hasBreakdown: true, // Added property
