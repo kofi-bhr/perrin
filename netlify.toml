@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "chmod +x ./netlify-setup.sh && ./netlify-setup.sh && npm run build"
   publish = ".next"
 
 [build.environment]
@@ -8,10 +8,6 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-# Custom plugin to install Python distutils
-[[plugins]]
-  package = "./netlify-build-plugin.js"
 
 # Create uploads directory during build
 [[plugins]]
