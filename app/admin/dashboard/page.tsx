@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { addArticle } from "../../../lib/articles";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 // Dynamically import React Quill to avoid SSR issues
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
@@ -253,13 +254,13 @@ export default function AdminDashboard() {
           </div>
           
           {/* Page Navigation Tabs */}
-          <div className="flex border-b border-gray-800 mb-6">
+          <div className="flex mb-6 text-sm border-b border-gray-800">
             <div className="px-4 py-2 border-b-2 border-blue-500 text-blue-400 font-medium">
               Create Article
             </div>
-            <div className="px-4 py-2 text-gray-500 hover:text-gray-300 cursor-pointer transition-colors">
+            <Link href="/news" className="px-4 py-2 text-gray-500 hover:text-gray-300 cursor-pointer transition-colors">
               View Articles
-            </div>
+            </Link>
           </div>
           
           <div className="bg-gray-900 rounded-lg p-6 border border-gray-800 shadow-xl">
@@ -498,16 +499,52 @@ export default function AdminDashboard() {
                 
                 {editorLoaded ? (
                   <div>
-                    <div className="bg-white rounded-md overflow-hidden mb-2">
+                    <div className="bg-gray-800 rounded-md overflow-hidden mb-2">
                       <ReactQuill
                         theme="snow"
                         value={articleContent}
                         onChange={setArticleContent}
                         modules={modules}
                         formats={formats}
-                        className="h-80 bg-white text-black" 
+                        className="h-80" 
                         placeholder="Write your article content here..."
                       />
+                      <style jsx global>{`
+                        .ql-toolbar {
+                          background-color: #1f2937;
+                          border-color: #374151 !important;
+                        }
+                        .ql-container {
+                          background-color: #1f2937;
+                          border-color: #374151 !important;
+                        }
+                        .ql-editor {
+                          color: white;
+                          background-color: #1f2937;
+                        }
+                        .ql-editor.ql-blank::before {
+                          color: #9ca3af;
+                        }
+                        .ql-toolbar .ql-picker-label {
+                          color: white;
+                        }
+                        .ql-toolbar .ql-picker-options {
+                          background-color: #1f2937;
+                        }
+                        .ql-toolbar .ql-picker-item {
+                          color: white;
+                        }
+                        .ql-toolbar button svg {
+                          fill: white;
+                          stroke: white;
+                        }
+                        .ql-snow .ql-stroke {
+                          stroke: white;
+                        }
+                        .ql-snow .ql-fill {
+                          fill: white;
+                        }
+                      `}</style>
                     </div>
                     <p className="text-xs text-gray-400">
                       Use the formatting toolbar to style your content. You can add headings, lists, links, images, and more.

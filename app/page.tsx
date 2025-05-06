@@ -771,7 +771,7 @@ export default function Home() {
                   animate={{ opacity: animationsReady ? 1 : 0, y: animationsReady ? 0 : 20 }}
                   transition={{ duration: 0.8, delay: 0.4 }}
                 >
-                  The Perrin Institution is a contracted research organization based at the University of Virginia, dedicated to shaping the future of technology governance and legal innovation.
+                  The Perrin Institution is a <a href="https://virginia.presence.io/organization/the-perrin-institution-at-uva" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors">contracted research organization</a> based at the University of Virginia, dedicated to shaping the future of technology governance and legal innovation.
                 </motion.p>
                 
                 {/* Google/Apple-style feature highlight with enhanced styling */}
@@ -1045,11 +1045,11 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
+
       {/* Partners Showcase Section - Immediately after Hero */}
       <section className="relative py-24 overflow-hidden">
         {/* Animated background gradient */}
-        <motion.div 
+            <motion.div
           className="absolute inset-0 opacity-30"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.3 }}
@@ -1063,7 +1063,7 @@ export default function Home() {
           {/* Section heading */}
           <motion.div 
             className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
@@ -1106,7 +1106,7 @@ export default function Home() {
                   />
                   
                   <div className="mb-4 flex items-center justify-center h-20">
-                    <Image 
+                <Image 
                       src={partner.logo} 
                       alt={partner.name}
                       width={120} 
