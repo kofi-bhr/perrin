@@ -9,8 +9,22 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+# Create uploads directory during build
+[[plugins]]
+  package = "netlify-plugin-cache"
+  [plugins.inputs]
+    paths = ["public/uploads"]
+
 # Remove the redirects section as Next.js handles routing
 # [[redirects]]
 #   from = "/*"
 #   to = "/index.html"
 #   status = 200 
+
+# Environment variables needed:
+# MONGODB_URI - MongoDB Atlas connection string (set this in Netlify UI)
+#   Format: mongodb+srv://<username>:<password>@<cluster-url>/<database>?retryWrites=true&w=majority
+#
+# CLOUDINARY_CLOUD_NAME - Your Cloudinary cloud name (set this in Netlify UI)
+# CLOUDINARY_API_KEY - Your Cloudinary API key (set this in Netlify UI)
+# CLOUDINARY_API_SECRET - Your Cloudinary API secret (set this in Netlify UI) 

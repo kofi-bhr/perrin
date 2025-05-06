@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { FiArrowRight, FiExternalLink, FiClock, FiCalendar, FiBookmark, FiSearch, FiTrendingUp, FiTrendingDown, FiMail } from "react-icons/fi";
+import { getArticles, Article } from "../../lib/articles";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
@@ -29,6 +30,58 @@ export default function News() {
   ]);
   const [lastUpdated, setLastUpdated] = useState("");
   
+  // Get articles from our articles utility instead of hardcoded data
+  const [recentNews, setRecentNews] = useState<Article[]>([]);
+  
+  // Opinion pieces data
+  const opinionPieces = [
+    {
+      id: 1,
+      title: "AI Regulation Must Balance Innovation and Risk",
+      author: "Dr. Amara Singh",
+      position: "AI Ethics Expert",
+      excerpt: "As AI capabilities accelerate, we need regulatory frameworks that enable innovation while...",
+      date: "June 10, 2023",
+      link: "/opinions/ai-regulation-balance"
+    },
+    {
+      id: 2,
+      title: "Why Digital Privacy Is Critical for Democracy",
+      author: "Marcus Chen",
+      position: "Technology Ethics Researcher",
+      excerpt: "In an increasingly surveilled world, privacy protections are not just personal concerns but...",
+      date: "June 5, 2023",
+      link: "/opinions/privacy-democracy"
+    },
+    {
+      id: 3,
+      title: "The Growing Tech Divide Between US and China",
+      author: "Leila Mwangi",
+      position: "Foreign Policy Analyst",
+      excerpt: "Technological decoupling between global powers is reshaping international relations and...",
+      date: "May 28, 2023",
+      link: "/opinions/tech-divide-us-china"
+    },
+    {
+      id: 4,
+      title: "How Climate Tech Startups Are Leading Innovation",
+      author: "Dr. Kashaf Alvi",
+      position: "Climate Technology Advisor",
+      excerpt: "A new generation of startups is pioneering solutions to our most pressing climate challenges...",
+      date: "May 20, 2023",
+      link: "/opinions/climate-tech-startups"
+    }
+  ];
+  
+  useEffect(() => {
+    async function fetchArticles() {
+      const articles = await getArticles();
+      setRecentNews(articles);
+    }
+    
+    fetchArticles();
+  }, []);
+
   // Add scroll effect for the category navbar
   useEffect(() => {
     const handleScroll = () => {
@@ -302,114 +355,7 @@ export default function News() {
     }
   };
   
-  // Placeholder news data
-  const featuredNews = {
-    title: "EU Announces Major Climate Legislation Targeting Carbon-Neutral Economy by 2050",
-    date: "June 15, 2023",
-    excerpt: "The landmark legislation introduces binding emission targets, carbon pricing reforms, and significant investments in green technology to position Europe as a global climate leader.",
-    image: "/news/placeholder-news.jpg",
-    link: "/news/eu-climate-legislation",
-    category: "Climate Action"
-  };
-
-  // Opinion pieces data
-  const opinionPieces = [
-    {
-      id: 1,
-      title: "AI Regulation Must Balance Innovation and Risk",
-      author: "Dr. Amara Singh",
-      position: "AI Ethics Expert",
-      excerpt: "As AI capabilities accelerate, we need regulatory frameworks that enable innovation while...",
-      date: "June 10, 2023",
-      link: "/opinions/ai-regulation-balance"
-    },
-    {
-      id: 2,
-      title: "Why Digital Privacy Is Critical for Democracy",
-      author: "Marcus Chen",
-      position: "Technology Ethics Researcher",
-      excerpt: "In an increasingly surveilled world, privacy protections are not just personal concerns but...",
-      date: "June 5, 2023",
-      link: "/opinions/privacy-democracy"
-    },
-    {
-      id: 3,
-      title: "The Growing Tech Divide Between US and China",
-      author: "Leila Mwangi",
-      position: "Foreign Policy Analyst",
-      excerpt: "Technological decoupling between global powers is reshaping international relations and...",
-      date: "May 28, 2023",
-      link: "/opinions/tech-divide-us-china"
-    },
-    {
-      id: 4,
-      title: "How Climate Tech Startups Are Leading Innovation",
-      author: "Dr. Kashaf Alvi",
-      position: "Climate Technology Advisor",
-      excerpt: "A new generation of startups is pioneering solutions to our most pressing climate challenges...",
-      date: "May 20, 2023",
-      link: "/opinions/climate-tech-startups"
-    }
-  ];
-
   const categories = ["All", "Climate Action", "Foreign Policy", "AI", "Startups", "Technology"];
-
-  const recentNews = [
-    {
-      id: 1,
-      title: "India-US Tech Partnership Summit Focuses on AI Collaboration",
-      date: "May 22, 2023",
-      excerpt: "Leaders from both nations converged in New Delhi to discuss AI development standards, joint research initiatives, and market access for emerging technologies.",
-      image: "/news/placeholder-thumb-1.jpg",
-      category: "Foreign Policy",
-      featured: false
-    },
-    {
-      id: 2,
-      title: "Breakthrough Carbon Capture Technology Shows 40% Efficiency Increase",
-      date: "May 10, 2023",
-      excerpt: "A new direct air capture method developed by researchers at MIT demonstrates significantly improved efficiency at lower costs, potentially accelerating climate mitigation efforts.",
-      image: "/news/placeholder-thumb-2.jpg",
-      category: "Climate Action",
-      featured: true
-    },
-    {
-      id: 3,
-      title: "Y Combinator's Latest Batch Shows Surge in AI Startups",
-      date: "April 28, 2023",
-      excerpt: "Nearly 40% of startups in Y Combinator's latest cohort are leveraging artificial intelligence, with focus areas including healthcare diagnostics, legal tech, and content generation.",
-      image: "/news/placeholder-thumb-3.jpg",
-      category: "Startups",
-      featured: false
-    },
-    {
-      id: 4,
-      title: "UN Climate Panel Warns Critical Tipping Points May Be Reached By 2030",
-      date: "April 15, 2023",
-      excerpt: "The latest IPCC report highlights accelerating climate impacts and emphasizes the need for immediate action to prevent irreversible damage to global ecosystems.",
-      image: "/news/placeholder-thumb-4.jpg",
-      category: "Climate Action",
-      featured: false
-    },
-    {
-      id: 5,
-      title: "OpenAI Releases Research on AI Alignment Challenges",
-      date: "April 8, 2023",
-      excerpt: "The research outlines key technical and governance challenges in ensuring advanced AI systems remain aligned with human values and beneficial goals.",
-      image: "/news/placeholder-thumb-1.jpg",
-      category: "AI",
-      featured: false
-    },
-    {
-      id: 6,
-      title: "African Tech Ecosystem Sees Record $4.8B Investment",
-      date: "March 30, 2023",
-      excerpt: "Venture capital flowing into African startups reached an all-time high, with fintech, cleantech, and logistics attracting significant international investment.",
-      image: "/news/placeholder-thumb-2.jpg",
-      category: "Startups",
-      featured: true
-    }
-  ];
 
   const filteredNews = activeCategory && activeCategory !== "All" 
     ? recentNews.filter(news => news.category === activeCategory)
@@ -417,6 +363,21 @@ export default function News() {
 
   // Featured articles (excluding the main featured news)
   const featuredArticles = recentNews.filter(news => news.featured);
+  
+  // Use the first featured article as main featured, or first article if none are featured
+  const featuredNews = featuredArticles.length > 0 
+    ? featuredArticles[0] 
+    : recentNews.length > 0 ? recentNews[0] : {
+        id: "0",
+        title: "No articles available",
+        date: "Today",
+        excerpt: "Check back later for new content.",
+        content: "No content available.",
+        image: "/news/placeholder-thumb-1.jpg",
+        category: "News",
+        type: "news" as const,
+        featured: false
+      };
   
   return (
     <main className="min-h-screen bg-black pt-24">
@@ -541,7 +502,7 @@ export default function News() {
           <div className="col-span-2">
             {/* Featured story - WSJ/Apple News style with mobile improvements */}
             <div className="mb-8 sm:mb-12">
-              <Link href={featuredNews.link} className="group">
+              <Link href={`/news/${featuredNews.id}`} className="group">
                 <div className="relative aspect-[16/9] overflow-hidden rounded-xl mb-4 sm:mb-6">
                   <Image
                     src={featuredNews.image}

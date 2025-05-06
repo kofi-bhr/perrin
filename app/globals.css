@@ -4,6 +4,46 @@
 
 /* Font variables are now handled through next/font in layout.tsx */
 
+/* React Quill Editor Styles */
+@import 'react-quill/dist/quill.snow.css';
+
+/* Custom Quill Styles */
+.quill {
+  background-color: white;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.ql-container {
+  min-height: 200px;
+  font-size: 1rem;
+  font-family: var(--font-roboto-condensed), system-ui, sans-serif;
+}
+
+.ql-editor {
+  min-height: 200px;
+  max-height: 500px;
+  overflow-y: auto;
+  font-family: var(--font-roboto-condensed), system-ui, sans-serif;
+}
+
+.ql-toolbar {
+  background-color: #f3f4f6;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.ql-toolbar button {
+  margin: 0 0.25rem;
+}
+
+.ql-toolbar button:hover {
+  color: #3b82f6;
+}
+
+.ql-toolbar .ql-active {
+  color: #3b82f6;
+}
+
 @layer base {
   html {
     font-size: 95%; /* Slightly smaller default font size */
@@ -80,4 +120,101 @@ main {
       background-position: -200% 0;
     }
   }
+}
+
+/* Rich text content styles for article display */
+.article-content {
+  color: white !important;
+}
+
+.article-content * {
+  color: white !important;
+}
+
+.article-content p,
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6,
+.article-content ul,
+.article-content ol,
+.article-content li,
+.article-content a,
+.article-content blockquote,
+.article-content span,
+.article-content strong,
+.article-content em,
+.article-content code,
+.article-content div {
+  color: white !important;
+}
+
+/* Override any inline styles */
+.article-content [style*="color"] {
+  color: white !important;
+}
+
+.article-content a {
+  color: #60a5fa !important;
+  text-decoration: underline;
+}
+
+.article-content blockquote {
+  border-left: 4px solid #3b82f6;
+  padding-left: 1rem;
+  color: #e2e8f0 !important;
+}
+
+.article-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.article-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
+/* Additional styles for React Quill content */
+.ql-editor p,
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6,
+.ql-editor ul,
+.ql-editor ol,
+.ql-editor li,
+.ql-editor a,
+.ql-editor blockquote,
+.ql-editor span,
+.ql-editor strong,
+.ql-editor em,
+.ql-editor code,
+.ql-editor div {
+  color: white !important;
+}
+
+/* Specific styling for article display */
+.prose.prose-invert p,
+.prose.prose-invert h1,
+.prose.prose-invert h2,
+.prose.prose-invert h3,
+.prose.prose-invert h4,
+.prose.prose-invert h5,
+.prose.prose-invert h6,
+.prose.prose-invert ul,
+.prose.prose-invert ol,
+.prose.prose-invert li,
+.prose.prose-invert a,
+.prose.prose-invert blockquote,
+.prose.prose-invert span,
+.prose.prose-invert strong,
+.prose.prose-invert em,
+.prose.prose-invert code,
+.prose.prose-invert div {
+  color: white !important;
 } 
