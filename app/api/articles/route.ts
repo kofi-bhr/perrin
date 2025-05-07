@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Error retrieving articles:', error);
     return NextResponse.json(
-      { message: 'Error retrieving articles' },
+      { message: 'Error retrieving articles', error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
@@ -39,8 +39,18 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Connect to MongoDB
-    const client = await clientPromise;
+    // Connect to MongoDB with better error handling
+    let client;
+    try {
+      client = await clientPromise;
+    } catch (error) {
+      console.error('MongoDB connection error:', error);
+      return NextResponse.json(
+        { message: 'Database connection error', error: error instanceof Error ? error.message : 'Unknown error' },
+        { status: 500 }
+      );
+    }
+    
     const db = client.db("perrindb");
     
     // Create a new article
@@ -58,14 +68,22 @@ export async function POST(request: NextRequest) {
       featured: featured || false
     };
     
-    // Insert the article into MongoDB
-    await db.collection("articles").insertOne(newArticle);
+    // Insert the article into MongoDB with better error handling
+    try {
+      await db.collection("articles").insertOne(newArticle);
+    } catch (error) {
+      console.error('MongoDB insert error:', error);
+      return NextResponse.json(
+        { message: 'Error inserting article', error: error instanceof Error ? error.message : 'Unknown error' },
+        { status: 500 }
+      );
+    }
     
     return NextResponse.json(newArticle);
   } catch (error) {
     console.error('Error creating article:', error);
     return NextResponse.json(
-      { message: 'Error creating article' },
+      { message: 'Error creating article', error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
