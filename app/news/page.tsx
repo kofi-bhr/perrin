@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { DM_Sans } from "next/font/google";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { FiArrowRight, FiExternalLink, FiClock, FiCalendar, FiBookmark, FiSearch, FiTrendingUp, FiTrendingDown, FiMail } from "react-icons/fi";
 import { getArticles, Article } from "../../lib/articles";
@@ -16,6 +16,36 @@ interface MarketDataItem {
   change: string;
   isPositive: boolean;
 }
+
+// Add animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const scaleUp = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] }
+  }
+};
 
 export default function News() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -382,14 +412,38 @@ export default function News() {
   return (
     <main className="min-h-screen bg-black pt-24">
       {/* Header section - WSJ-inspired masthead */}
-      <div className="border-b border-gray-800">
+      <motion.div 
+        initial="hidden"
+        animate="visible"
+        variants={fadeInUp}
+        className="border-b border-gray-800"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-serif font-bold text-white">Global News</h1>
-              <p className="text-gray-400 text-sm mt-1">Analysis and reporting on global policy and technology trends</p>
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-4xl font-serif font-bold text-white"
+              >
+                Global News
+              </motion.h1>
+              <motion.p 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-gray-400 text-sm mt-1"
+              >
+                Analysis and reporting on global policy and technology trends
+              </motion.p>
             </div>
-            <div className="hidden md:flex items-center space-x-4">
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="hidden md:flex items-center space-x-4"
+            >
               <div className="relative">
                 <input
                   type="text"
@@ -405,13 +459,18 @@ export default function News() {
                 <FiMail className="mr-1.5" size={14} />
                 Subscribe
               </button>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Market data ticker - WSJ style, with mobile improvements */}
-      <div className="border-b border-gray-800 bg-gray-900/30">
+      <motion.div 
+        initial="hidden"
+        animate="visible"
+        variants={fadeInUp}
+        className="border-b border-gray-800 bg-gray-900/30"
+      >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2">
           <div className="overflow-x-auto -mx-3 px-3 custom-stocks-scrollbar">
             <div className="flex space-x-4 sm:space-x-6 py-1 min-w-max">
@@ -440,7 +499,7 @@ export default function News() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Add custom scrollbar styles */}
       <style jsx global>{`
@@ -468,8 +527,13 @@ export default function News() {
         }
       `}</style>
 
-      {/* Category navigation - FAANG-inspired tabs without sticky behavior */}
-      <div className="border-b border-gray-800 bg-black/80 backdrop-blur-sm transition-all duration-300">
+      {/* Category navigation - FAANG-inspired tabs */}
+      <motion.div 
+        initial="hidden"
+        animate="visible"
+        variants={fadeInUp}
+        className="border-b border-gray-800 bg-black/80 backdrop-blur-sm transition-all duration-300"
+      >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto scrollbar-hide" aria-label="Categories">
             {categories.map((category) => (
@@ -487,7 +551,7 @@ export default function News() {
             ))}
           </nav>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main content - improved for mobile */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-12 sm:pb-16">
@@ -497,13 +561,25 @@ export default function News() {
         {/* Blue accent glow */}
         <div className="absolute top-24 right-0 w-1/3 h-1/3 bg-blue-700/20 rounded-full filter blur-3xl opacity-30 pointer-events-none"></div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 relative z-10">
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 relative z-10"
+        >
           {/* Main column */}
           <div className="col-span-2">
             {/* Featured story - WSJ/Apple News style with mobile improvements */}
-            <div className="mb-8 sm:mb-12">
+            <motion.div 
+              variants={scaleUp}
+              className="mb-8 sm:mb-12"
+            >
               <Link href={`/news/${featuredNews.id}`} className="group">
-                <div className="relative aspect-[16/9] overflow-hidden rounded-xl mb-4 sm:mb-6">
+                <motion.div 
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative aspect-[16/9] overflow-hidden rounded-xl mb-4 sm:mb-6"
+                >
                   <Image
                     src={featuredNews.image}
                     alt={featuredNews.title}
@@ -523,7 +599,7 @@ export default function News() {
                       {featuredNews.date}
                     </span>
                   </div>
-                </div>
+                </motion.div>
                 <p className="text-gray-300 mb-4 leading-relaxed text-sm sm:text-lg line-clamp-3 sm:line-clamp-none">
                   {featuredNews.excerpt}
                 </p>
@@ -532,24 +608,31 @@ export default function News() {
                   <FiArrowRight className="ml-2" />
                 </div>
               </Link>
-            </div>
+            </motion.div>
 
             {/* News grid - FAANG-inspired cards with mobile improvements */}
-            <div>
+            <motion.div variants={fadeInUp}>
               <h2 className="text-xl sm:text-2xl font-serif font-bold text-white mb-4 sm:mb-6 pb-2 border-b border-gray-800">
                 Latest Articles
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-                {filteredNews.map((news) => (
+              <motion.div 
+                variants={staggerContainer}
+                className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8"
+              >
+                {filteredNews.map((news, index) => (
                   <motion.div
                     key={news.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
+                    variants={fadeInUp}
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.3 }}
                     className="group"
                   >
                     <Link href={`/news/${news.id}`} className="block">
-                      <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-3 sm:mb-4">
+                      <motion.div 
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative aspect-[4/3] overflow-hidden rounded-lg mb-3 sm:mb-4"
+                      >
                         <Image
                           src={news.image}
                           alt={news.title}
@@ -566,7 +649,7 @@ export default function News() {
                             {news.date}
                           </span>
                         </div>
-                      </div>
+                      </motion.div>
                       <h3 className="font-serif font-bold text-base sm:text-lg text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
                         {news.title}
                       </h3>
@@ -576,22 +659,38 @@ export default function News() {
                     </Link>
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
               
               {/* Load more button - Apple-style with mobile improvements */}
-              <div className="mt-8 sm:mt-10 text-center">
-                <button className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-gray-700 shadow-sm text-sm sm:text-base font-medium rounded-md text-gray-300 bg-gray-900/50 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mt-8 sm:mt-10 text-center"
+              >
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-gray-700 shadow-sm text-sm sm:text-base font-medium rounded-md text-gray-300 bg-gray-900/50 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                >
                   Load more articles
-                </button>
-              </div>
-            </div>
+                </motion.button>
+              </motion.div>
+            </motion.div>
           </div>
 
           {/* Sidebar - WSJ style */}
-          <div className="col-span-1">
+          <motion.div 
+            variants={fadeInUp}
+            className="col-span-1"
+          >
             <div className="sticky top-36">
               {/* Market summary */}
-              <div className="bg-gray-900/50 rounded-xl p-6 mb-8 border border-gray-800">
+              <motion.div 
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+                className="bg-gray-900/50 rounded-xl p-6 mb-8 border border-gray-800"
+              >
                 <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-800">
                   <h3 className="text-lg font-serif font-bold text-white">Market Summary</h3>
                   <span className="text-xs text-gray-400">Last updated: {lastUpdated}</span>
@@ -616,10 +715,14 @@ export default function News() {
                     <FiArrowRight className="ml-1 h-3 w-3" />
                   </Link>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Opinion section - replacing What's Trending */}
-              <div className="bg-gray-900/50 rounded-xl p-6 mb-8 border border-gray-800">
+              <motion.div 
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+                className="bg-gray-900/50 rounded-xl p-6 mb-8 border border-gray-800"
+              >
                 <div className="flex items-center mb-4 pb-2 border-b border-gray-800">
                   <h3 className="text-lg font-serif font-bold text-white">Opinion</h3>
                   <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-blue-900/50 text-blue-300 border border-blue-800/50">
@@ -656,10 +759,14 @@ export default function News() {
                     <FiArrowRight className="ml-1 h-3 w-3" />
                   </Link>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Featured articles */}
-              <div className="mb-8">
+              <motion.div 
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.3 }}
+                className="mb-8"
+              >
                 <h3 className="text-lg font-serif font-bold text-white mb-4 pb-2 border-b border-gray-800">
                   Featured Articles
                 </h3>
@@ -685,10 +792,10 @@ export default function News() {
                     </Link>
                   </div>
                 ))}
-              </div>
+              </motion.div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </main>
   );
