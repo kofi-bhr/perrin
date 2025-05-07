@@ -12,11 +12,13 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 // Define categories matching the news page
 const ARTICLE_CATEGORIES = [
-  "Climate Action", 
   "Foreign Policy", 
   "AI", 
   "Startups", 
-  "Technology"
+  "Technology",
+  "Education",
+  "Economics",
+  "Climate Action"
 ];
 
 // Quill editor formats

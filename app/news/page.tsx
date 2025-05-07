@@ -355,7 +355,7 @@ export default function News() {
     }
   };
   
-  const categories = ["All", "Climate Action", "Foreign Policy", "AI", "Startups", "Technology"];
+  const categories = ["All", "Foreign Policy", "AI", "Startups", "Technology", "Education", "Economics", "Climate Action"];
 
   const filteredNews = activeCategory && activeCategory !== "All" 
     ? recentNews.filter(news => news.category === activeCategory)
