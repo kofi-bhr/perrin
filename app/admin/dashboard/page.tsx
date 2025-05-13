@@ -53,6 +53,7 @@ const modules = {
 
 export default function AdminDashboard() {
   const [articleTitle, setArticleTitle] = useState("");
+  const [articleSubtitle, setArticleSubtitle] = useState("");
   const [articleContent, setArticleContent] = useState("");
   const [articleCategory, setArticleCategory] = useState(ARTICLE_CATEGORIES[0]);
   const [articleType, setArticleType] = useState("news"); // "news" or "opinion"
@@ -170,6 +171,7 @@ export default function AdminDashboard() {
       // Create article data
       const articleData = {
         title: articleTitle,
+        subtitle: articleSubtitle,
         content: articleContent,
         category: articleCategory,
         type: articleType as 'news' | 'opinion',
@@ -194,6 +196,7 @@ export default function AdminDashboard() {
       // Reset form after some time
       setTimeout(() => {
         setArticleTitle("");
+        setArticleSubtitle("");
         setArticleContent("");
         setArticleCategory(ARTICLE_CATEGORIES[0]);
         setArticleType("news");
@@ -339,6 +342,25 @@ export default function AdminDashboard() {
                   placeholder="Enter article title"
                   required
                 />
+              </div>
+              
+              {/* Article Subtitle - NEW WSJ-style field */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Article Subtitle (WSJ-style) <span className="text-red-500">*</span>
+                  <span className="ml-2 text-xs text-gray-400">Appears below the title to explain the main point</span>
+                </label>
+                <input
+                  type="text"
+                  value={articleSubtitle}
+                  onChange={(e) => setArticleSubtitle(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                  placeholder="Officials are puzzling over whether to focus on the risks of higher prices or weaker hiring"
+                  required
+                />
+                <p className="mt-1 text-xs text-gray-400">
+                  In WSJ style, this is a one-sentence explanation that appears under the headline
+                </p>
               </div>
               
               {/* Category */}

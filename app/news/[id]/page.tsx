@@ -21,6 +21,7 @@ export default function ArticlePage() {
   const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [processedContent, setProcessedContent] = useState("");
+  const [email, setEmail] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -46,11 +47,11 @@ export default function ArticlePage() {
           if (fetchedArticle.content) {
             // Format content with clean typography styles
             const enhancedContent = fetchedArticle.content
-              .replace(/<p>/g, '<p class="mb-6 text-gray-200 leading-relaxed text-base font-normal">')
-              .replace(/<h2>/g, '<h2 class="text-2xl font-medium text-white mt-10 mb-4">')
-              .replace(/<h3>/g, '<h3 class="text-xl font-medium text-white mt-8 mb-4">')
-              .replace(/<blockquote>/g, '<blockquote class="border-l-2 border-gray-500 pl-4 my-6 text-gray-300 text-base italic">')
-              .replace(/<ul>/g, '<ul class="list-disc list-inside space-y-2 mb-6 text-gray-200">');
+              .replace(/<p>/g, '<p class="mb-6 text-gray-800 leading-relaxed text-base font-normal">')
+              .replace(/<h2>/g, '<h2 class="text-2xl font-medium text-gray-900 mt-10 mb-4">')
+              .replace(/<h3>/g, '<h3 class="text-xl font-medium text-gray-900 mt-8 mb-4">')
+              .replace(/<blockquote>/g, '<blockquote class="border-l-2 border-blue-300 pl-4 my-6 text-gray-700 text-base italic">')
+              .replace(/<ul>/g, '<ul class="list-disc list-inside space-y-2 mb-6 text-gray-800">');
               
             setProcessedContent(enhancedContent);
           }
@@ -71,10 +72,10 @@ export default function ArticlePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="flex flex-col items-center">
-          <div className="w-6 h-6 border-t border-r border-white border-l-transparent border-b-transparent rounded-full animate-spin mb-3"></div>
-          <p className="text-gray-400 text-sm">Loading</p>
+          <div className="w-6 h-6 border-t border-r border-blue-500 border-l-transparent border-b-transparent rounded-full animate-spin mb-3"></div>
+          <p className="text-gray-700 text-sm">Loading</p>
         </div>
       </div>
     );
@@ -82,14 +83,14 @@ export default function ArticlePage() {
 
   if (!article) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-black text-white">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-white text-gray-900">
         <h1 className="text-2xl font-medium mb-4">Article Not Found</h1>
-        <p className="mb-8 text-gray-400 max-w-md text-center">
+        <p className="mb-8 text-gray-700 max-w-md text-center">
           The article you're looking for doesn't exist or has been removed.
         </p>
         <Link 
           href="/news" 
-          className="flex items-center text-gray-300 hover:text-white transition-colors"
+          className="flex items-center text-gray-800 hover:text-blue-700 transition-colors"
         >
           <FiArrowLeft className="mr-2" /> Return to News
         </Link>
@@ -98,33 +99,26 @@ export default function ArticlePage() {
   }
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-black text-white pt-24">
-      {/* Professional background elements */}
+    <div ref={containerRef} className="min-h-screen bg-white text-gray-900 pt-24">
+      {/* Sophisticated background elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {/* Sophisticated gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/90 via-black/95 to-black animate-gradient-shift"></div>
+        {/* Simplified background with less opacity */}
+        <div className="absolute inset-0 bg-white"></div>
         
-        {/* Refined grid pattern */}
-        <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:32px_32px] animate-grid-shift"></div>
+        {/* Very subtle paper texture */}
+        <div className="absolute inset-0 opacity-[0.01] mix-blend-multiply bg-[url('/subtle-paper-texture.png')] bg-repeat"></div>
         
-        {/* Subtle diagonal pattern */}
-        <div className="absolute inset-0 opacity-[0.015] bg-[linear-gradient(45deg,rgba(255,255,255,0.05)_25%,transparent_25%,transparent_75%,rgba(255,255,255,0.05)_75%)] bg-[size:64px_64px]"></div>
+        {/* Very subtle grid pattern */}
+        <div className="absolute inset-0 opacity-[0.01] bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         
-        {/* Professional accent elements */}
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-500/5 rounded-full filter blur-[120px] animate-float"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-[700px] h-[700px] bg-purple-500/5 rounded-full filter blur-[140px] animate-float-delayed"></div>
-        
-        {/* Subtle radial gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.05)_0%,rgba(0,0,0,0)_70%)]"></div>
-        
-        {/* Accent lines */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+        {/* Very subtle accent elements */}
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-100/10 rounded-full filter blur-[140px]"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-[700px] h-[700px] bg-purple-100/10 rounded-full filter blur-[160px]"></div>
       </div>
 
-      {/* Main content with enhanced professional styling */}
+      {/* Main content with elegant professional styling */}
       <div className="relative">
-        <div className="max-w-3xl mx-auto px-6 py-12">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 py-10">
           {/* Article content with refined animations */}
           <motion.article 
             initial="hidden"
@@ -132,77 +126,211 @@ export default function ArticlePage() {
             variants={fadeIn}
             className="relative"
           >
-            {/* Article title with professional typography */}
+            {/* WSJ-style category and section */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center mb-6 border-b border-gray-200 pb-3"
+            >
+              <Link href="/news" className="text-blue-600 hover:text-blue-800 uppercase text-sm font-medium">
+                {article.category}
+              </Link>
+              <span className="mx-2 text-gray-400">|</span>
+              <span className="text-gray-600 uppercase text-sm font-medium">
+                {article.type === 'opinion' ? 'OPINION' : 'ANALYSIS'}
+              </span>
+            </motion.div>
+            
+            {/* Article title with elegant typography */}
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-8 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-300"
+              className="text-4xl sm:text-5xl font-serif font-bold text-gray-900 leading-tight mb-4"
             >
               {article.title}
             </motion.h1>
             
-            {/* Article metadata with refined styling */}
+            {/* WSJ-style subtitle */}
+            {article.subtitle && (
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+                className="text-xl sm:text-2xl text-gray-700 font-serif mb-8 leading-relaxed"
+              >
+                {article.subtitle}
+              </motion.h2>
+            )}
+            
+            {/* Author and date info in WSJ style */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-wrap items-center gap-4 mb-12"
+              className="flex flex-wrap items-center gap-4 mb-8"
             >
-              <div className="flex items-center bg-white/5 backdrop-blur-md px-5 py-2.5 rounded-lg hover:bg-white/10 transition-all duration-300 border border-white/5">
-                <FiCalendar className="mr-2.5 text-gray-400" size={14} />
-                <span className="text-gray-300 font-medium">{article.date}</span>
+              <div className="flex items-center text-gray-700">
+                <span className="text-sm font-medium mr-1">By</span>
+                <span className="text-sm font-medium text-blue-600 hover:text-blue-800">
+                  {article.authorName || "Perrin Institute Staff"}
+                </span>
               </div>
               
-              {article.authorName && (
-                <div className="flex items-center bg-white/5 backdrop-blur-md px-5 py-2.5 rounded-lg hover:bg-white/10 transition-all duration-300 border border-white/5">
-                  <FiUser className="mr-2.5 text-gray-400" size={14} />
-                  <span className="text-gray-300 font-medium">{article.authorName}</span>
-                </div>
-              )}
+              <div className="text-gray-500 text-sm">
+                Updated {article.date}
+              </div>
               
-              <div className="flex items-center bg-white/5 backdrop-blur-md px-5 py-2.5 rounded-lg hover:bg-white/10 transition-all duration-300 border border-white/5">
-                <FiClock className="mr-2.5 text-gray-400" size={14} />
-                <span className="text-gray-300 font-medium">5 min read</span>
+              <div className="flex items-center text-gray-500 text-sm">
+                <FiClock className="mr-1.5" size={14} />
+                <span>5 min read</span>
               </div>
             </motion.div>
-            
-            {/* Lead paragraph with sophisticated styling */}
-            <motion.div 
+
+            {/* WSJ-style main article image */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="relative mb-16"
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-10"
             >
-              <div className="absolute -left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/50 via-purple-500/50 to-blue-500/50 rounded-full animate-pulse-slow"></div>
-              <p className="text-xl sm:text-2xl text-gray-200 leading-relaxed pl-6 font-light">
-                {article.excerpt}
-              </p>
+              <div className="relative aspect-[16/9] md:aspect-[21/9] w-full rounded-sm overflow-hidden shadow-lg">
+                <Image
+                  src={article.image}
+                  alt={article.title}
+                  fill
+                  priority
+                  className="object-cover"
+                />
+              </div>
+              <div className="mt-2 text-xs text-gray-500 flex justify-between">
+                <span>Photo: The Perrin Institution</span>
+                <span className="text-xs text-gray-400 italic">{article.date}</span>
+              </div>
             </motion.div>
             
-            {/* Article content with enhanced typography */}
+            {/* WSJ-style social sharing row */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex items-center mb-8 border-b border-gray-200 pb-4"
+            >
+              <span className="text-sm font-medium text-gray-700 mr-4">Share</span>
+              <div className="flex space-x-3">
+                <a 
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}&text=${encodeURIComponent(article.title)}`}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+                <a 
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg>
+                </a>
+                <a 
+                  href={`mailto:?subject=${encodeURIComponent(article.title)}&body=${encodeURIComponent(`Check out this article: ${typeof window !== 'undefined' ? window.location.href : ''}`)}`}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                >
+                  <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </a>
+                <button 
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                  onClick={() => {
+                    if (navigator.clipboard) {
+                      navigator.clipboard.writeText(typeof window !== 'undefined' ? window.location.href : '');
+                      alert('Link copied to clipboard!');
+                    }
+                  }}
+                >
+                  <svg className="w-4 h-4 text-gray-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                </button>
+              </div>
+            </motion.div>
+            
+            {/* Article content with elegant typography */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="prose prose-invert max-w-none prose-headings:text-white prose-p:text-gray-300 prose-a:text-blue-400 prose-strong:text-white prose-headings:font-medium prose-p:leading-relaxed prose-p:text-base sm:prose-p:text-lg"
+              className="relative z-10 mb-12"
             >
+              {/* WSJ style article content */}
               <div 
                 dangerouslySetInnerHTML={{ __html: processedContent }} 
-                className="relative z-10"
+                className="prose max-w-none prose-headings:text-gray-900 prose-a:text-blue-700 prose-strong:text-gray-900 prose-headings:font-serif prose-p:leading-relaxed prose-p:text-base prose-p:text-gray-800 sm:prose-p:text-lg relative z-10 prose-p:mb-6"
               />
             </motion.div>
             
-            {/* Back button with refined styling */}
+            {/* Newsletter subscription - WSJ style (smaller and more subtle) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="my-12 border border-gray-200 rounded-lg overflow-hidden shadow-sm"
+            >
+              <div className="p-6 relative bg-gray-50">
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  <div className="flex-1">
+                    <h4 className="text-lg font-medium text-gray-900 mb-1">Stay informed</h4>
+                    <p className="text-gray-600 text-sm mb-0">
+                      Get the latest policy insights delivered to your inbox
+                    </p>
+                  </div>
+                  
+                  <div className="w-full sm:w-auto flex flex-col sm:flex-row gap-2">
+                    <input 
+                      type="email"
+                      placeholder="Your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="px-3 py-2 rounded border border-gray-300 text-sm flex-grow focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                    <button
+                      className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded transition-colors"
+                      onClick={() => {
+                        if (email.trim() && email.includes('@')) {
+                          alert(`Thank you for subscribing with ${email}! You'll receive our newsletter soon.`);
+                          setEmail("");
+                        } else {
+                          alert("Please enter a valid email address.");
+                        }
+                      }}
+                    >
+                      Subscribe
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Back button with elegant styling */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-20 pt-8 border-t border-gray-800/50"
+              className="mt-20 pt-8 border-t border-gray-200"
             >
               <Link 
                 href="/news"
-                className="inline-flex items-center px-8 py-3.5 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-white/5 border border-white/5 hover:border-white/10"
+                className="inline-flex items-center px-8 py-3.5 bg-gray-100 hover:bg-gray-200 text-gray-800 hover:text-gray-900 rounded-lg transition-all duration-300 hover:shadow-md border border-gray-200 hover:border-gray-300 group"
               >
                 <FiArrowLeft className="mr-3 transition-transform group-hover:-translate-x-1" size={16} />
                 <span className="text-sm font-medium">Back to Articles</span>
@@ -210,7 +338,7 @@ export default function ArticlePage() {
             </motion.div>
           </motion.article>
           
-          {/* Related articles with enhanced styling */}
+          {/* Related articles with elegant styling */}
           {relatedArticles.length > 0 && (
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -218,8 +346,9 @@ export default function ArticlePage() {
               transition={{ duration: 0.8, delay: 1, ease: [0.22, 1, 0.36, 1] }}
               className="mt-20"
             >
-              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-10">
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-10 relative inline-block">
                 More Articles
+                <div className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-transparent"></div>
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 {relatedArticles.map((relatedArticle, index) => (
@@ -231,7 +360,7 @@ export default function ArticlePage() {
                   >
                     <Link 
                       href={`/news/${relatedArticle.id}`} 
-                      className="group relative overflow-hidden rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 hover:shadow-xl hover:shadow-white/5 border border-white/5 hover:border-white/10"
+                      className="group relative overflow-hidden rounded-xl bg-white hover:bg-gray-50 transition-all duration-300 hover:shadow-lg border border-gray-200 hover:border-gray-300 block"
                     >
                       <div className="aspect-video relative overflow-hidden">
                         <Image
@@ -240,13 +369,13 @@ export default function ArticlePage() {
                           fill
                           className="object-cover transition-transform duration-700 group-hover:scale-110"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-gray-100/50 to-transparent opacity-70 group-hover:opacity-60 transition-opacity duration-300"></div>
                       </div>
                       <div className="p-8">
-                        <h4 className="font-bold text-white group-hover:text-gray-300 transition-colors mb-3 text-lg">
+                        <h4 className="font-bold text-gray-900 group-hover:text-blue-700 transition-colors mb-3 text-lg">
                           {relatedArticle.title}
                         </h4>
-                        <p className="text-sm text-gray-400 font-medium">{relatedArticle.date}</p>
+                        <p className="text-sm text-gray-700 font-medium">{relatedArticle.date}</p>
                       </div>
                     </Link>
                   </motion.div>
@@ -257,45 +386,90 @@ export default function ArticlePage() {
         </div>
       </div>
 
-      {/* Enhanced custom animations */}
+      {/* Enhanced custom typography */}
       <style jsx global>{`
-        @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+        /* Typography enhancements for better readability */
+        .prose h2 {
+          font-size: 1.75rem;
+          margin-top: 2.5rem;
+          margin-bottom: 1.25rem;
+          letter-spacing: -0.02em;
+          position: relative;
+          padding-bottom: 0.75rem;
+          color: #1a202c;
         }
         
-        @keyframes grid-shift {
-          0% { transform: translateY(0); }
-          100% { transform: translateY(32px); }
+        .prose h2:after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 80px;
+          height: 2px;
+          background: linear-gradient(to right, rgba(37, 99, 235, 0.5), transparent);
+          border-radius: 2px;
         }
         
-        @keyframes float {
-          0% { transform: translateY(0) scale(1); opacity: 0.5; }
-          50% { transform: translateY(-40px) scale(1.05); opacity: 0.7; }
-          100% { transform: translateY(0) scale(1); opacity: 0.5; }
+        .prose p {
+          margin-bottom: 1.5rem;
+          font-weight: 300;
+          line-height: 1.8;
+          color: #1f2937;
         }
         
-        .animate-gradient-shift {
-          animation: gradient-shift 25s ease infinite;
-          background-size: 200% 200%;
+        .prose strong {
+          color: #111827;
+          font-weight: 600;
         }
         
-        .animate-grid-shift {
-          animation: grid-shift 40s linear infinite;
+        .prose a {
+          text-decoration: none;
+          position: relative;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          color: #1d4ed8;
         }
         
-        .animate-float {
-          animation: float 12s ease-in-out infinite;
+        .prose a:hover {
+          color: #1e40af;
         }
         
-        .animate-float-delayed {
-          animation: float 12s ease-in-out infinite;
-          animation-delay: -6s;
+        .prose a:after {
+          content: "";
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: rgba(37, 99, 235, 0.4);
+          transition: all 0.2s ease;
         }
         
-        .animate-pulse-slow {
-          animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .prose a:hover:after {
+          background: rgba(37, 99, 235, 0.8);
+        }
+        
+        .prose blockquote {
+          border-left-color: rgba(37, 99, 235, 0.5);
+          background: rgba(237, 242, 247, 0.5);
+          border-radius: 0.25rem;
+          padding: 1rem 1.5rem;
+          margin: 2rem 0;
+          font-style: italic;
+          color: #374151;
+        }
+        
+        .prose blockquote p {
+          margin-bottom: 0;
+        }
+        
+        .prose ul {
+          margin-bottom: 1.5rem;
+          color: #1f2937;
+        }
+        
+        .prose li {
+          margin-bottom: 0.5rem;
         }
       `}</style>
     </div>

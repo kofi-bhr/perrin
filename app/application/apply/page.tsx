@@ -28,7 +28,7 @@ export default function ApplicationFormPage() {
     },
     '2': {
       title: 'News Department Correspondent',
-      formId: '250988455059067' // Replace with your actual JotForm ID for program 2
+      formId: '251317514581050' // Policy Journalism Department Application
     }
   };
   

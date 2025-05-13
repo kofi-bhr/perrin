@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react";
 import { FiArrowRight, FiExternalLink, FiClock, FiCalendar, FiBookmark, FiSearch, FiTrendingUp, FiTrendingDown, FiMail } from "react-icons/fi";
 import { getArticles, Article } from "../../lib/articles";
+import NewsletterSubscription from "@/components/NewsletterSubscription";
 
 const dmSans = DM_Sans({ subsets: ["latin"] });
 
@@ -380,7 +381,7 @@ export default function News() {
     // Find the existing NewsletterSubscription component and scroll to it
     const newsletterElement = document.querySelector('[data-test-id="beehiiv-embed"]');
     if (newsletterElement) {
-      const parentElement = newsletterElement.closest('.bg-black.py-12') || newsletterElement;
+      const parentElement = newsletterElement.closest('.bg-black.py-16') || newsletterElement;
       parentElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
@@ -400,6 +401,7 @@ export default function News() {
     : recentNews.length > 0 ? recentNews[0] : {
         id: "0",
         title: "No articles available",
+        subtitle: "Check back later for news updates",
         date: "Today",
         excerpt: "Check back later for new content.",
         content: "No content available.",
@@ -416,7 +418,7 @@ export default function News() {
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
-        className="border-b border-gray-800"
+        className="border-b border-gray-900"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
@@ -448,7 +450,7 @@ export default function News() {
                 <input
                   type="text"
                   placeholder="Search news..."
-                  className="pl-9 pr-4 py-2 bg-gray-900 border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-gray-200 placeholder-gray-500"
+                  className="pl-9 pr-4 py-2 bg-gray-950 border border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-gray-200 placeholder-gray-500"
                 />
                 <FiSearch className="absolute left-3 top-2.5 text-gray-500" />
               </div>
@@ -469,7 +471,7 @@ export default function News() {
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
-        className="border-b border-gray-800 bg-gray-900/30"
+        className="border-b border-gray-900 bg-black"
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2">
           <div className="overflow-x-auto -mx-3 px-3 custom-stocks-scrollbar">
@@ -477,10 +479,10 @@ export default function News() {
               {marketData.map((item, index) => (
                 <div 
                   key={index} 
-                  className="flex items-center space-x-1.5 group bg-gray-800/20 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-gray-700/20"
+                  className="flex items-center space-x-1.5 group bg-gray-950 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-gray-800 shadow-sm"
                 >
-                  <span className="text-xs sm:text-sm font-medium text-gray-400 truncate" style={{ maxWidth: '80px' }}>{item.name}</span>
-                  <span className="text-xs sm:text-sm font-bold text-white">{item.value}</span>
+                  <span className="text-xs sm:text-sm font-medium text-gray-300 truncate" style={{ maxWidth: '80px' }}>{item.name}</span>
+                  <span className="text-xs sm:text-sm font-bold text-gray-100">{item.value}</span>
                   <span className={`text-xs flex items-center ${item.isPositive ? 'text-green-400' : 'text-red-400'}`}>
                     {item.isPositive ? <FiTrendingUp className="mr-0.5" size={10} /> : <FiTrendingDown className="mr-0.5" size={10} />}
                     {item.change}
@@ -491,10 +493,10 @@ export default function News() {
                 href="https://www.google.com/finance/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center cursor-pointer group bg-blue-900/20 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-blue-700/20"
+                className="flex items-center cursor-pointer group bg-blue-900 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-blue-800 shadow-sm"
               >
-                <span className="text-xs text-blue-400 group-hover:text-blue-300">More</span>
-                <FiExternalLink className="ml-1 h-3 w-3 text-blue-400 group-hover:text-blue-300" />
+                <span className="text-xs text-blue-300 group-hover:text-blue-200">More</span>
+                <FiExternalLink className="ml-1 h-3 w-3 text-blue-300 group-hover:text-blue-200" />
               </a>
             </div>
           </div>
@@ -510,7 +512,7 @@ export default function News() {
         }
         
         .custom-stocks-scrollbar::-webkit-scrollbar-track {
-          background: rgba(30, 41, 59, 0.1);
+          background: rgba(0, 0, 0, 0.6);
           border-radius: 100px;
           margin: 0 20px;
         }
@@ -532,7 +534,7 @@ export default function News() {
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
-        className="border-b border-gray-800 bg-black/80 backdrop-blur-sm transition-all duration-300"
+        className="border-b border-gray-900 bg-black shadow-sm sticky top-0 z-20"
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto scrollbar-hide" aria-label="Categories">
@@ -543,7 +545,7 @@ export default function News() {
                 className={`whitespace-nowrap py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm ${
                   (category === "All" && activeCategory === null) || category === activeCategory
                     ? "border-blue-500 text-blue-400"
-                    : "border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-700"
+                    : "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-700"
                 } transition-colors duration-200`}
               >
                 {category}
@@ -559,7 +561,7 @@ export default function News() {
         <div className="absolute inset-0 opacity-5 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
         
         {/* Blue accent glow */}
-        <div className="absolute top-24 right-0 w-1/3 h-1/3 bg-blue-700/20 rounded-full filter blur-3xl opacity-30 pointer-events-none"></div>
+        <div className="absolute top-24 right-0 w-1/3 h-1/3 bg-blue-900 rounded-full filter blur-3xl opacity-10 pointer-events-none"></div>
         
         <motion.div 
           initial="hidden"
@@ -600,7 +602,12 @@ export default function News() {
                     </span>
                   </div>
                 </motion.div>
-                <p className="text-gray-300 mb-4 leading-relaxed text-sm sm:text-lg line-clamp-3 sm:line-clamp-none">
+                {featuredNews.subtitle && (
+                  <p className="text-gray-300 font-serif mb-3 leading-relaxed text-sm sm:text-xl">
+                    {featuredNews.subtitle}
+                  </p>
+                )}
+                <p className="text-gray-400 mb-4 leading-relaxed text-sm sm:text-lg line-clamp-3 sm:line-clamp-none">
                   {featuredNews.excerpt}
                 </p>
                 <div className="inline-flex items-center text-blue-400 font-medium group-hover:text-blue-300 transition-colors text-sm sm:text-base">
@@ -650,9 +657,14 @@ export default function News() {
                           </span>
                         </div>
                       </motion.div>
-                      <h3 className="font-serif font-bold text-base sm:text-lg text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
+                      <h3 className="font-serif font-bold text-base sm:text-lg text-gray-100 mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
                         {news.title}
                       </h3>
+                      {news.subtitle && (
+                        <p className="text-gray-300 font-serif text-xs sm:text-sm mb-2 leading-relaxed line-clamp-2">
+                          {news.subtitle}
+                        </p>
+                      )}
                       <p className="text-gray-400 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">
                         {news.excerpt}
                       </p>
@@ -671,7 +683,7 @@ export default function News() {
                 <motion.button 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-gray-700 shadow-sm text-sm sm:text-base font-medium rounded-md text-gray-300 bg-gray-900/50 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                  className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-gray-800 shadow-sm text-sm sm:text-base font-medium rounded-md text-gray-300 bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                 >
                   Load more articles
                 </motion.button>
@@ -689,7 +701,7 @@ export default function News() {
               <motion.div 
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
-                className="bg-gray-900/50 rounded-xl p-6 mb-8 border border-gray-800"
+                className="bg-gray-950 rounded-xl p-6 mb-8 border border-gray-800 shadow-sm"
               >
                 <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-800">
                   <h3 className="text-lg font-serif font-bold text-white">Market Summary</h3>
@@ -699,7 +711,7 @@ export default function News() {
                   {marketData.slice(0, 4).map((item, index) => (
                     <div key={index} className="flex items-center justify-between pb-2 border-b border-gray-800/50 last:border-0 last:pb-0">
                       <div>
-                        <div className="text-gray-300 font-medium">{item.name}</div>
+                        <div className="text-gray-200 font-medium">{item.name}</div>
                         <div className="text-sm text-gray-400">{item.value}</div>
                       </div>
                       <div className={`flex items-center ${item.isPositive ? 'text-green-400' : 'text-red-400'} font-medium`}>
@@ -721,11 +733,11 @@ export default function News() {
               <motion.div 
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
-                className="bg-gray-900/50 rounded-xl p-6 mb-8 border border-gray-800"
+                className="bg-gray-950 rounded-xl p-6 mb-8 border border-gray-800 shadow-sm"
               >
                 <div className="flex items-center mb-4 pb-2 border-b border-gray-800">
                   <h3 className="text-lg font-serif font-bold text-white">Opinion</h3>
-                  <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-blue-900/50 text-blue-300 border border-blue-800/50">
+                  <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-blue-900 text-blue-300 border border-blue-800">
                     Perspectives
                   </span>
                 </div>
@@ -733,18 +745,18 @@ export default function News() {
                   {opinionPieces.map((piece) => (
                     <div key={piece.id} className="pb-5 border-b border-gray-800/50 last:border-0 last:pb-0">
                       <Link href={piece.link} className="group">
-                        <h4 className="font-serif font-bold text-white group-hover:text-blue-400 transition-colors mb-1">
+                        <h4 className="font-serif font-bold text-gray-200 group-hover:text-blue-400 transition-colors mb-1">
                           {piece.title}
                         </h4>
-                        <p className="text-gray-300 text-sm mb-1.5">
+                        <p className="text-gray-400 text-sm mb-1.5">
                           {piece.excerpt}
                         </p>
-                        <div className="flex items-center text-xs text-gray-400">
+                        <div className="flex items-center text-xs text-gray-500">
                           <span className="font-medium text-gray-300">
                             {piece.author}
                           </span>
                           <span className="mx-1.5">•</span>
-                          <span>{piece.position}</span>
+                          <span className="text-gray-500">{piece.position}</span>
                         </div>
                         <p className="text-xs text-gray-500 mt-1">
                           {piece.date}
@@ -785,9 +797,14 @@ export default function News() {
                           {article.category}
                         </div>
                       </div>
-                      <h4 className="font-serif font-bold text-white group-hover:text-blue-400 transition-colors">
+                      <h4 className="font-serif font-bold text-gray-200 group-hover:text-blue-400 transition-colors">
                         {article.title}
                       </h4>
+                      {article.subtitle && (
+                        <p className="text-gray-300 font-serif text-xs leading-relaxed mt-1 mb-1.5">
+                          {article.subtitle}
+                        </p>
+                      )}
                       <p className="text-sm text-gray-400 mt-1">{article.date}</p>
                     </Link>
                   </div>
@@ -797,6 +814,9 @@ export default function News() {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Add NewsletterSubscription at the bottom of the page */}
+      <NewsletterSubscription />
     </main>
   );
 } 

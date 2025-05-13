@@ -18,6 +18,14 @@ export default function Navbar() {
 
   const isTransparentPage = ['/'].includes(pathname)
   const isExpertsPage = pathname.includes('/experts')
+  const isLabsPage = pathname.includes('/Labs')
+  const isNewsPage = pathname.includes('/news')
+  
+  // For pages with dark backgrounds
+  const isDarkPage = isExpertsPage || isLabsPage
+  
+  // For pages with light backgrounds - all news pages should be light
+  const isLightPage = isNewsPage
 
   useEffect(() => {
     // Scroll handler
@@ -37,15 +45,15 @@ export default function Navbar() {
   }, [pathname])
 
   // Determine navbar styling based on current page and scroll state
-  const navbarBg = isExpertsPage 
-    ? isScrolled ? 'bg-slate-800/90 backdrop-blur-md border-b border-slate-700/50' : 'bg-transparent' 
-    : isScrolled ? 'bg-white shadow-md' : 'bg-transparent'
+  const navbarBg = isDarkPage 
+    ? isScrolled ? 'bg-slate-900/90 backdrop-blur-md border-b border-slate-800/50' : 'bg-transparent' 
+    : isScrolled ? 'bg-white shadow-md' : isLightPage ? 'bg-white shadow-md' : 'bg-transparent'
   
-  const textColor = isExpertsPage
+  const textColor = isDarkPage
     ? 'text-white'
-    : isScrolled ? 'text-gray-900' : 'text-white'
+    : isScrolled || isLightPage ? 'text-gray-900' : 'text-white'
   
-  const hoverEffect = isExpertsPage
+  const hoverEffect = isDarkPage
     ? 'hover:text-blue-400'
     : 'hover:opacity-75'
 
@@ -77,43 +85,43 @@ export default function Navbar() {
               <div className="hidden md:flex items-center space-x-8 ml-6">
                 <Link
                   href="/experts"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/experts') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/experts') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
                 >
                   Directory
                 </Link>
                 <Link
                   href="/Labs"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/Labs') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/Labs') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
                 >
                   Labs
                 </Link>
                 <Link
                   href="/events"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/events') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/events') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
                 >
                   Events
                 </Link>
                 <Link
                   href="/application"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/application') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/application') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
                 >
                   Programs
                 </Link>
                 <Link
                   href="/careers"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/careers') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/careers') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
                 >
                   Careers
                 </Link>
                 <Link
                   href="/news"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/news') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/news') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
                 >
                   News
                 </Link>
                 <Link
                   href="/scholarship-center"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/scholarship-center') ? isExpertsPage ? 'text-blue-400' : 'opacity-75' : ''}`}
+                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/scholarship-center') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
                 >
                   Scholarships
                 </Link>
@@ -140,17 +148,17 @@ export default function Navbar() {
       {/* Mobile menu, separate from nav */}
       {isMenuOpen && (
         <div 
-          className={`fixed inset-0 z-40 ${isExpertsPage ? 'bg-slate-900' : 'bg-white'}`}
+          className={`fixed inset-0 z-40 ${isDarkPage ? 'bg-slate-900' : 'bg-white'}`}
           style={{ top: '60px' }} // Adjust based on your navbar height
         >
           <div className="px-4 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               href="/experts"
               className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isExpertsPage 
+                isDarkPage 
                   ? 'text-white hover:text-blue-400 border-slate-700' 
                   : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/experts') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              } ${pathname.includes('/experts') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Directory
@@ -158,10 +166,10 @@ export default function Navbar() {
             <Link
               href="/Labs"
               className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isExpertsPage 
+                isDarkPage 
                   ? 'text-white hover:text-blue-400 border-slate-700' 
                   : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/Labs') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              } ${pathname.includes('/Labs') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Labs
@@ -169,43 +177,43 @@ export default function Navbar() {
             <Link
               href="/events"
               className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isExpertsPage 
+                isDarkPage 
                   ? 'text-white hover:text-blue-400 border-slate-700' 
                   : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/events') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              } ${pathname.includes('/events') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Events
             </Link>
             <Link
               href="/application"
-              className={`block px-3 py-4 rounded-md text-base font-medium ${
-                isExpertsPage 
-                  ? 'text-white hover:text-blue-400' 
-                  : 'text-gray-900 hover:bg-gray-50'
-              } ${pathname.includes('/application') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
+                isDarkPage 
+                  ? 'text-white hover:text-blue-400 border-slate-700' 
+                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
+              } ${pathname.includes('/application') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Programs
             </Link>
             <Link
               href="/careers"
-              className={`block px-3 py-4 rounded-md text-base font-medium ${
-                isExpertsPage 
-                  ? 'text-white hover:text-blue-400' 
-                  : 'text-gray-900 hover:bg-gray-50'
-              } ${pathname.includes('/careers') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
+                isDarkPage 
+                  ? 'text-white hover:text-blue-400 border-slate-700' 
+                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
+              } ${pathname.includes('/careers') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Careers
             </Link>
             <Link
               href="/news"
-              className={`block px-3 py-4 rounded-md text-base font-medium ${
-                isExpertsPage 
-                  ? 'text-white hover:text-blue-400' 
-                  : 'text-gray-900 hover:bg-gray-50'
-              } ${pathname.includes('/news') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
+                isDarkPage 
+                  ? 'text-white hover:text-blue-400 border-slate-700' 
+                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
+              } ${pathname.includes('/news') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
               News
@@ -213,10 +221,10 @@ export default function Navbar() {
             <Link
               href="/scholarship-center"
               className={`block px-3 py-4 rounded-md text-base font-medium ${
-                isExpertsPage 
+                isDarkPage 
                   ? 'text-white hover:text-blue-400' 
                   : 'text-gray-900 hover:bg-gray-50'
-              } ${pathname.includes('/scholarship-center') ? (isExpertsPage ? 'text-blue-400' : 'bg-gray-50') : ''}`}
+              } ${pathname.includes('/scholarship-center') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Scholarships

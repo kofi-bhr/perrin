@@ -29,10 +29,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, content, excerpt, category, type, authorName, authorPosition, date, image, featured } = body;
+    const { title, subtitle, content, excerpt, category, type, authorName, authorPosition, date, image, featured } = body;
     
     // Validate required fields
-    if (!title || !content || !category || !type) {
+    if (!title || !content || !category || !type || !subtitle) {
       return NextResponse.json(
         { message: 'Missing required fields' },
         { status: 400 }
@@ -57,6 +57,7 @@ export async function POST(request: NextRequest) {
     const newArticle: Article = {
       id: Date.now().toString(),
       title,
+      subtitle,
       content,
       excerpt: excerpt || content.substring(0, 150) + (content.length > 150 ? '...' : ''),
       category,
@@ -104,6 +105,7 @@ export async function init() {
         {
           id: "1",
           title: "India-US Tech Partnership Summit Focuses on AI Collaboration",
+          subtitle: "Leaders from both nations aim to set global standards for artificial intelligence development",
           date: "May 22, 2023",
           excerpt: "Leaders from both nations converged in New Delhi to discuss AI development standards, joint research initiatives, and market access for emerging technologies.",
           content: "Leaders from both nations converged in New Delhi to discuss AI development standards, joint research initiatives, and market access for emerging technologies.",
@@ -115,6 +117,7 @@ export async function init() {
         {
           id: "2",
           title: "Breakthrough Carbon Capture Technology Shows 40% Efficiency Increase",
+          subtitle: "MIT researchers develop new method that could accelerate climate change mitigation efforts",
           date: "May 10, 2023",
           excerpt: "A new direct air capture method developed by researchers at MIT demonstrates significantly improved efficiency at lower costs, potentially accelerating climate mitigation efforts.",
           content: "A new direct air capture method developed by researchers at MIT demonstrates significantly improved efficiency at lower costs, potentially accelerating climate mitigation efforts.",
