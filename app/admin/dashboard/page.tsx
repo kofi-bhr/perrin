@@ -269,7 +269,18 @@ export default function AdminDashboard() {
           </div>
           
           <div className="bg-gray-900 rounded-lg p-6 border border-gray-800 shadow-xl">
-            <h2 className="text-xl font-medium text-white mb-6 border-b border-gray-800 pb-3">Create New Article</h2>
+            <div className="flex justify-between items-center mb-6">
+              <h1 className="text-2xl font-bold text-white">Add New Article</h1>
+              <Link 
+                href="/admin/dashboard/articles" 
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors flex items-center space-x-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                <span>Manage Existing Articles</span>
+              </Link>
+            </div>
             
             {isSuccess && (
               <div className="mb-6 p-4 bg-green-900/30 border border-green-800 text-green-300 rounded-md flex items-center">

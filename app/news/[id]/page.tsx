@@ -45,13 +45,20 @@ export default function ArticlePage() {
         if (fetchedArticle) {
           setArticle(fetchedArticle);
           if (fetchedArticle.content) {
-            // Format content with clean typography styles
+            // Format content with enhanced typography styles
+            // Only include transformations for standard Quill formats
             const enhancedContent = fetchedArticle.content
               .replace(/<p>/g, '<p class="mb-6 text-gray-800 leading-relaxed text-base font-normal">')
               .replace(/<h2>/g, '<h2 class="text-2xl font-medium text-gray-900 mt-10 mb-4">')
               .replace(/<h3>/g, '<h3 class="text-xl font-medium text-gray-900 mt-8 mb-4">')
               .replace(/<blockquote>/g, '<blockquote class="border-l-2 border-blue-300 pl-4 my-6 text-gray-700 text-base italic">')
-              .replace(/<ul>/g, '<ul class="list-disc list-inside space-y-2 mb-6 text-gray-800">');
+              .replace(/<ul>/g, '<ul class="list-disc list-inside space-y-2 mb-6 text-gray-800">')
+              .replace(/<ol>/g, '<ol class="list-decimal list-inside space-y-2 mb-6 text-gray-800">')
+              .replace(/<li>/g, '<li class="mb-1 text-gray-800">')
+              .replace(/<strong>/g, '<strong class="font-semibold text-gray-900">')
+              .replace(/<em>/g, '<em class="italic text-gray-700">')
+              .replace(/<a /g, '<a class="text-blue-600 hover:text-blue-800 underline" ')
+              .replace(/<img /g, '<img class="my-6 rounded-md shadow-md max-w-full h-auto" ');
               
             setProcessedContent(enhancedContent);
           }
@@ -275,7 +282,7 @@ export default function ArticlePage() {
               {/* WSJ style article content */}
               <div 
                 dangerouslySetInnerHTML={{ __html: processedContent }} 
-                className="prose max-w-none prose-headings:text-gray-900 prose-a:text-blue-700 prose-strong:text-gray-900 prose-headings:font-serif prose-p:leading-relaxed prose-p:text-base prose-p:text-gray-800 sm:prose-p:text-lg relative z-10 prose-p:mb-6"
+                className="prose max-w-none prose-headings:text-gray-900 prose-a:text-blue-700 prose-strong:text-gray-900 prose-headings:font-serif prose-p:leading-relaxed prose-p:text-base prose-p:text-gray-800 sm:prose-p:text-lg relative z-10 prose-p:mb-6 prose-img:rounded-md prose-img:my-8 prose-li:text-gray-800 prose-li:mb-2 prose-ol:mb-6 prose-ol:list-decimal prose-ol:list-inside prose-ul:mb-6 prose-ul:list-disc prose-ul:list-inside"
               />
             </motion.div>
             
@@ -422,6 +429,11 @@ export default function ArticlePage() {
           font-weight: 600;
         }
         
+        .prose em {
+          font-style: italic;
+          color: #4b5563;
+        }
+        
         .prose a {
           text-decoration: none;
           position: relative;
@@ -466,10 +478,37 @@ export default function ArticlePage() {
         .prose ul {
           margin-bottom: 1.5rem;
           color: #1f2937;
+          list-style-type: disc;
+          padding-left: 1.5rem;
+        }
+        
+        .prose ol {
+          margin-bottom: 1.5rem;
+          color: #1f2937;
+          list-style-type: decimal;
+          padding-left: 1.5rem;
         }
         
         .prose li {
           margin-bottom: 0.5rem;
+        }
+        
+        .prose li::marker {
+          color: #6b7280;
+        }
+        
+        .prose img {
+          border-radius: 0.375rem;
+          margin: 2rem 0;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .prose h3 {
+          font-size: 1.5rem;
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+          color: #1a202c;
+          font-weight: 600;
         }
       `}</style>
     </div>
