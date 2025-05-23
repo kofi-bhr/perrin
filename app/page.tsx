@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { FiArrowRight, FiArrowUpRight, FiBook, FiGlobe, FiLayers, FiUsers, FiChevronDown, FiArrowDown, FiExternalLink, FiClock, FiPlay } from 'react-icons/fi';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { RESEARCH_CATEGORIES } from '@/lib/constants';
-import { getArticles, Article } from '@/lib/articles';
 import MorphingShape from '@/components/MorphingShape';
 import FloatingElement from '@/components/FloatingElement';
 import Parallax from '@/components/Parallax';
@@ -13,6 +12,21 @@ import Transform3D from '@/components/Transform3D';
 
 // Dynamic import for Spline
 const Spline = React.lazy(() => import('@splinetool/react-spline'));
+
+// Article interface (copied locally to avoid import issues)
+interface Article {
+  id: string;
+  title: string;
+  subtitle?: string;
+  excerpt: string;
+  category: string;
+  type: 'news' | 'opinion';
+  authorName?: string;
+  authorPosition?: string;
+  date: string;
+  image: string;
+  featured: boolean;
+}
 
 // Animation variants
 const fadeIn = {
@@ -142,17 +156,19 @@ export default function Home() {
       if (typeof window === 'undefined') return;
       
       try {
+        // Dynamic import to avoid SSR issues
+        const { getArticles } = await import('@/lib/articles');
         const fetchedArticles = await getArticles()
         setArticles(fetchedArticles)
         
         if (fetchedArticles && fetchedArticles.length > 0) {
           // Find featured articles first
-          const featured = fetchedArticles.filter(article => article.featured);
+          const featured = fetchedArticles.filter((article: Article) => article.featured);
           
           // If we have featured articles, use those, otherwise use the most recent
           if (featured.length > 0) {
             setFeaturedArticles(featured.slice(0, 4));
-            setRegularArticles(fetchedArticles.filter(a => !featured.slice(0, 4).some(f => f.id === a.id)));
+            setRegularArticles(fetchedArticles.filter((a: Article) => !featured.slice(0, 4).some((f: Article) => f.id === a.id)));
           } else {
             // Just use the most recent articles as featured
             setFeaturedArticles(fetchedArticles.slice(0, 4));
@@ -181,17 +197,19 @@ export default function Home() {
     if (typeof window === 'undefined') return;
     
     try {
+      // Dynamic import to avoid SSR issues
+      const { getArticles } = await import('@/lib/articles');
       const fetchedArticles = await getArticles()
       setArticles(fetchedArticles)
       
       if (fetchedArticles && fetchedArticles.length > 0) {
         // Find featured articles first
-        const featured = fetchedArticles.filter(article => article.featured);
+        const featured = fetchedArticles.filter((article: Article) => article.featured);
         
         // If we have featured articles, use those, otherwise use the most recent
         if (featured.length > 0) {
           setFeaturedArticles(featured.slice(0, 4));
-          setRegularArticles(fetchedArticles.filter(a => !featured.slice(0, 4).some(f => f.id === a.id)));
+          setRegularArticles(fetchedArticles.filter((a: Article) => !featured.slice(0, 4).some((f: Article) => f.id === a.id)));
         } else {
           // Just use the most recent articles as featured
           setFeaturedArticles(fetchedArticles.slice(0, 4));

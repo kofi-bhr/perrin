@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiChevronDown, FiChevronUp, FiExternalLink, FiSearch, FiMenu, FiX, FiFileText, FiLayers, FiBook, FiArrowRight } from 'react-icons/fi'
-import { getArticles, Article } from '../lib/articles'
 
 // Define search result types
 interface SearchResult {
@@ -16,6 +15,21 @@ interface SearchResult {
   url: string
   description?: string
   category?: string
+}
+
+// Article interface (copied locally to avoid import issues)
+interface Article {
+  id: string;
+  title: string;
+  subtitle?: string;
+  excerpt: string;
+  category: string;
+  type: 'news' | 'opinion';
+  authorName?: string;
+  authorPosition?: string;
+  date: string;
+  image: string;
+  featured: boolean;
 }
 
 // Simple lab data for navbar (avoid importing the full labs.ts with React components)
@@ -103,6 +117,8 @@ export default function Navbar() {
       if (typeof window === 'undefined') return;
       
       try {
+        // Dynamic import to avoid SSR issues
+        const { getArticles } = await import('../lib/articles');
         const fetchedArticles = await getArticles()
         setArticles(fetchedArticles)
       } catch (error) {
