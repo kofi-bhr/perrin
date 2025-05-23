@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useEffect, useRef, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { FiArrowRight, FiArrowUpRight, FiBook, FiGlobe, FiLayers, FiUsers, FiChevronDown, FiArrowDown, FiExternalLink, FiClock, FiPlay } from 'react-icons/fi';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { RESEARCH_CATEGORIES } from '@/lib/constants';
@@ -10,8 +11,8 @@ import FloatingElement from '@/components/FloatingElement';
 import Parallax from '@/components/Parallax';
 import Transform3D from '@/components/Transform3D';
 
-// Dynamic import for Spline
-const Spline = React.lazy(() => import('@splinetool/react-spline'));
+// React.lazy import for Spline (was working before)
+const Spline = lazy(() => import('@splinetool/react-spline'));
 
 // Article interface (copied locally to avoid import issues)
 interface Article {
@@ -113,6 +114,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [splineLoaded, setSplineLoaded] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   
   // Refs for scroll-driven animations
   const heroRef = useRef(null);
@@ -130,6 +132,11 @@ export default function Home() {
   const heroOpacity = useTransform(heroProgress, [0, 0.5], [1, 0]);
   const headerTranslateY = useTransform(heroProgress, [0, 0.2], [0, -50]);
   const parallaxBackground = useTransform(heroProgress, [0, 1], [0, 100]);
+  
+  // Set mounted state after hydration
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   // Function to handle slide changing
   const nextSlide = () => {
@@ -259,19 +266,19 @@ export default function Home() {
         ref={heroRef}
         className="relative min-h-screen flex items-center overflow-hidden bg-white"
       >
-        {/* Spline 3D Scene - More Visible, Less Blurry */}
+        {/* Spline 3D Scene - Using React.lazy with Suspense */}
         <div className="absolute inset-0 z-5">
-          <Suspense fallback={
-            <div className="absolute inset-0 flex items-center justify-center bg-white">
-              <div className="text-center">
-                <div className="w-8 h-8 border border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-3"></div>
-                <p className="text-gray-400 text-sm">Loading</p>
-              </div>
-            </div>
-          }>
-            <div className="w-full h-full relative">
-              {/* Re-enable Spline component after Next.js upgrade */}
-              {typeof window !== 'undefined' && (
+          <div className="w-full h-full relative">
+            {/* Only render Spline after component is mounted to prevent hydration errors */}
+            {isMounted && (
+              <Suspense fallback={
+                <div className="absolute inset-0 flex items-center justify-center bg-white">
+                  <div className="text-center">
+                    <div className="w-8 h-8 border border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-3"></div>
+                    <p className="text-gray-400 text-sm">Loading 3D Scene</p>
+                  </div>
+                </div>
+              }>
                 <Spline 
                   scene="https://prod.spline.design/N-7Bwb97Q2XUmz3O/scene.splinecode"
                   onLoad={onSplineLoad}
@@ -281,13 +288,13 @@ export default function Home() {
                     background: 'transparent'
                   }}
                 />
-              )}
-              {/* White box to cover Spline watermark */}
-              <div className="absolute bottom-1 right-1 w-48 h-16 bg-white z-10"></div>
-              {/* Lighter overlay - more refined, less blurry */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/75 via-white/65 to-white/80"></div>
-            </div>
-          </Suspense>
+              </Suspense>
+            )}
+            {/* White box to cover Spline watermark */}
+            <div className="absolute bottom-1 right-1 w-48 h-16 bg-white z-10"></div>
+            {/* Lighter overlay - more refined, less blurry */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/75 via-white/65 to-white/80"></div>
+          </div>
         </div>
         
         {/* Refined Content Layout */}

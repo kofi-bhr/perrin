@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FiArrowLeft } from 'react-icons/fi';
@@ -13,7 +13,8 @@ type ProgramInfo = {
   formId: string;
 };
 
-export default function ApplicationFormPage() {
+// Create a separate component for the form content that uses useSearchParams
+function ApplicationFormContent() {
   const jotformContainerRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
   const programIdParam = searchParams.get('program');
@@ -98,8 +99,6 @@ export default function ApplicationFormPage() {
 
   return (
     <>
-      <Navbar />
-      
       {/* Header */}
       <div className="bg-gradient-to-b from-gray-900 via-[#0a0a18] to-black pt-28 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -144,6 +143,49 @@ export default function ApplicationFormPage() {
           </div>
         </div>
       </div>
+    </>
+  );
+}
+
+// Loading fallback component
+function ApplicationFormLoading() {
+  return (
+    <>
+      <div className="bg-gradient-to-b from-gray-900 via-[#0a0a18] to-black pt-28 pb-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <Link href="/application" className="inline-flex items-center text-blue-400 hover:text-blue-300 mb-6">
+              <FiArrowLeft className="mr-2" />
+              Back to Programs
+            </Link>
+            <h1 className="text-3xl font-serif font-bold text-white sm:text-4xl sm:tracking-tight lg:text-5xl">
+              Loading Application...
+            </h1>
+            <p className="mt-4 text-xl text-gray-300">
+              Preparing your application form.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div className="bg-black min-h-screen py-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-center items-center py-20">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default function ApplicationFormPage() {
+  return (
+    <>
+      <Navbar />
+      <Suspense fallback={<ApplicationFormLoading />}>
+        <ApplicationFormContent />
+      </Suspense>
     </>
   );
 } 
