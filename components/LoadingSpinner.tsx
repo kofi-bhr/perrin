@@ -15,7 +15,42 @@ export default function LoadingSpinner() {
 }
 
 // New sophisticated loading screen for initial website load
-export function PerrinLoadingScreen() {
+export function PerrinLoadingScreen({ isFirstVisit = true }: { isFirstVisit?: boolean }) {
+  // For returning visitors, show a minimal loading screen
+  if (!isFirstVisit) {
+    return (
+      <motion.div
+        initial={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="fixed inset-0 z-[9999] bg-white flex items-center justify-center"
+      >
+        <div className="relative flex flex-col items-center">
+          <Image
+            src="/moretechperrin-removebg-preview.png"
+            alt="Perrin Institution"
+            width={200}
+            height={60}
+            className="h-12 w-auto object-contain mx-auto mb-6"
+            priority
+          />
+          
+          {/* Simple spinner for returning visitors */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{
+              duration: 2.0,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="w-8 h-8 border-2 border-slate-200 border-t-slate-600 rounded-full"
+          />
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Full loading experience for first-time visitors
   return (
     <motion.div
       initial={{ opacity: 1 }}
