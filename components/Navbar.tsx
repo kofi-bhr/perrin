@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiChevronDown, FiChevronUp, FiExternalLink, FiSearch, FiMenu, FiX, FiFileText, FiLayers, FiBook, FiArrowRight } from 'react-icons/fi'
-// import { getArticles, Article } from '../lib/articles'
+import { getArticles, Article } from '../lib/articles'
 
 // Define search result types
 interface SearchResult {
@@ -16,15 +16,6 @@ interface SearchResult {
   url: string
   description?: string
   category?: string
-}
-
-// Temporary article interface
-interface Article {
-  id: string;
-  title: string;
-  subtitle?: string;
-  excerpt: string;
-  category: string;
 }
 
 // Simple lab data for navbar (avoid importing the full labs.ts with React components)
@@ -108,9 +99,8 @@ export default function Navbar() {
   // Fetch articles on component mount
   useEffect(() => {
     async function fetchArticles() {
-      // const fetchedArticles = await getArticles()
-      // setArticles(fetchedArticles)
-      setArticles([]) // Temporary: use empty array to test build
+      const fetchedArticles = await getArticles()
+      setArticles(fetchedArticles)
     }
     fetchArticles()
   }, [])
@@ -156,25 +146,25 @@ export default function Navbar() {
     const query = searchQuery.toLowerCase()
     const results: SearchResult[] = []
 
-    // Search articles (temporarily disabled)
-    // const matchingArticles = articles.filter(article => 
-    //   article.title.toLowerCase().includes(query) ||
-    //   article.subtitle?.toLowerCase().includes(query) ||
-    //   article.excerpt.toLowerCase().includes(query) ||
-    //   article.category.toLowerCase().includes(query)
-    // ).slice(0, 3) // Limit to 3 results
+    // Search articles
+    const matchingArticles = articles.filter(article => 
+      article.title.toLowerCase().includes(query) ||
+      article.subtitle?.toLowerCase().includes(query) ||
+      article.excerpt.toLowerCase().includes(query) ||
+      article.category.toLowerCase().includes(query)
+    ).slice(0, 3) // Limit to 3 results
 
-    // matchingArticles.forEach(article => {
-    //   results.push({
-    //     id: article.id,
-    //     title: article.title,
-    //     subtitle: article.subtitle,
-    //     type: 'article',
-    //     url: `/news/${article.id}`,
-    //     description: article.excerpt,
-    //     category: article.category
-    //   })
-    // })
+    matchingArticles.forEach(article => {
+      results.push({
+        id: article.id,
+        title: article.title,
+        subtitle: article.subtitle,
+        type: 'article',
+        url: `/news/${article.id}`,
+        description: article.excerpt,
+        category: article.category
+      })
+    })
 
     // Search labs
     const matchingLabs = ALL_LABS.filter(lab =>

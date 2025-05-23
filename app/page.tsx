@@ -795,41 +795,18 @@ export default function Home() {
             </div>
           )}
           
-          {/* Region/Topic Tabs */}
-          <div className="mb-8 sm:mb-12">
-            <div className="border-b border-slate-200">
-              <div className="flex space-x-2 overflow-x-auto pb-3 no-scrollbar">
-                <button className="px-4 sm:px-5 py-2 rounded-lg bg-slate-900 text-white font-medium text-xs sm:text-sm whitespace-nowrap font-roboto transition-colors">
-                  All Topics
-                </button>
-                <button className="px-4 sm:px-5 py-2 rounded-lg bg-white text-slate-700 font-medium text-xs sm:text-sm hover:bg-slate-50 whitespace-nowrap font-roboto transition-colors border border-slate-200">
-                  Europe
-                </button>
-                <button className="px-4 sm:px-5 py-2 rounded-lg bg-white text-slate-700 font-medium text-xs sm:text-sm hover:bg-slate-50 whitespace-nowrap font-roboto transition-colors border border-slate-200">
-                  United States
-                </button>
-                <button className="px-4 sm:px-5 py-2 rounded-lg bg-white text-slate-700 font-medium text-xs sm:text-sm hover:bg-slate-50 whitespace-nowrap font-roboto transition-colors border border-slate-200">
-                  AI Policy
-                </button>
-                <button className="px-4 sm:px-5 py-2 rounded-lg bg-white text-slate-700 font-medium text-xs sm:text-sm hover:bg-slate-50 whitespace-nowrap font-roboto transition-colors border border-slate-200">
-                  Democracy
-                </button>
-                <button className="px-4 sm:px-5 py-2 rounded-lg bg-white text-slate-700 font-medium text-xs sm:text-sm hover:bg-slate-50 whitespace-nowrap font-roboto transition-colors border border-slate-200">
-                  Global Governance
-                </button>
-              </div>
-            </div>
-          </div>
-          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {/* Article 1 - Large feature (left) */}
-            <div className="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200 transition-shadow hover:shadow-md">
+            <Link 
+              href={featuredArticles[0] ? `/news/${featuredArticles[0].id}` : "#"}
+              className="block bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200 transition-shadow hover:shadow-md group"
+            >
               <div className="relative aspect-[16/9] overflow-hidden">
                 <Image
                   src={featuredArticles[0]?.image || "/uva-stock-3.jpg"}
                   alt={featuredArticles[0]?.title || "Featured article"}
                   fill
-                  className="object-cover transition-transform duration-500 hover:scale-105"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
               <div className="p-4 sm:p-6">
@@ -838,7 +815,7 @@ export default function Home() {
                     Paper
                   </span>
                 </div>
-                <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 hover:text-slate-700 transition-colors font-roboto leading-tight">
+                <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 group-hover:text-slate-700 transition-colors font-roboto leading-tight">
                   {featuredArticles[0]?.title || "The Key to AI Governance: A Balanced Approach"}
                 </h3>
                 <p className="text-sm sm:text-base text-slate-600 mb-4 line-clamp-2 font-roboto font-light">
@@ -851,19 +828,23 @@ export default function Home() {
                   <span className="text-xs sm:text-sm text-slate-500 font-roboto">{featuredArticles[0]?.authorName || "Perrin Researcher"}</span>
                 </div>
               </div>
-            </div>
+            </Link>
             
             {/* Articles right column */}
             <div className="space-y-4 sm:space-y-6">
               {featuredArticles.slice(1, 4).map((article, index) => (
-                <div key={article.id || index} className="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200 transition-shadow hover:shadow-md">
+                <Link 
+                  key={article.id || index}
+                  href={article ? `/news/${article.id}` : "#"}
+                  className="block bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200 transition-shadow hover:shadow-md group"
+                >
                   <div className="p-4 sm:p-6">
                     <div className="mb-3 sm:mb-4">
                       <span className="bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-lg font-roboto">
                         {index % 2 === 0 ? "Commentary" : "Paper"}
                       </span>
                     </div>
-                    <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 hover:text-slate-700 transition-colors font-roboto leading-tight">
+                    <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 group-hover:text-slate-700 transition-colors font-roboto leading-tight">
                       {article.title}
                     </h3>
                     <div className="flex items-center">
@@ -873,7 +854,7 @@ export default function Home() {
                       <span className="text-xs sm:text-sm text-slate-500 font-roboto">{article.authorName || "Perrin Researcher"}</span>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
