@@ -99,8 +99,16 @@ export default function Navbar() {
   // Fetch articles on component mount
   useEffect(() => {
     async function fetchArticles() {
-      const fetchedArticles = await getArticles()
-      setArticles(fetchedArticles)
+      // Only fetch articles on the client side
+      if (typeof window === 'undefined') return;
+      
+      try {
+        const fetchedArticles = await getArticles()
+        setArticles(fetchedArticles)
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+        setArticles([])
+      }
     }
     fetchArticles()
   }, [])

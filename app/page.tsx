@@ -137,36 +137,73 @@ export default function Home() {
   
   // Fetch articles when component mounts
   useEffect(() => {
-    fetchArticles();
-  }, []);
-
-  async function fetchArticles() {
-    try {
-      setIsLoading(true);
-      const data = await getArticles();
+    async function fetchArticles() {
+      // Only fetch articles on the client side
+      if (typeof window === 'undefined') return;
       
-      if (data && data.length > 0) {
-        setArticles(data);
+      try {
+        const fetchedArticles = await getArticles()
+        setArticles(fetchedArticles)
         
+        if (fetchedArticles && fetchedArticles.length > 0) {
+          // Find featured articles first
+          const featured = fetchedArticles.filter(article => article.featured);
+          
+          // If we have featured articles, use those, otherwise use the most recent
+          if (featured.length > 0) {
+            setFeaturedArticles(featured.slice(0, 4));
+            setRegularArticles(fetchedArticles.filter(a => !featured.slice(0, 4).some(f => f.id === a.id)));
+          } else {
+            // Just use the most recent articles as featured
+            setFeaturedArticles(fetchedArticles.slice(0, 4));
+            setRegularArticles(fetchedArticles.slice(4));
+          }
+        } else {
+          setError("No articles available");
+        }
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+        setError("Failed to load articles");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    
+    fetchArticles()
+  }, [])
+
+  // Retry function for error state
+  const retryFetchArticles = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    // Only fetch articles on the client side
+    if (typeof window === 'undefined') return;
+    
+    try {
+      const fetchedArticles = await getArticles()
+      setArticles(fetchedArticles)
+      
+      if (fetchedArticles && fetchedArticles.length > 0) {
         // Find featured articles first
-        const featured = data.filter(article => article.featured);
+        const featured = fetchedArticles.filter(article => article.featured);
         
         // If we have featured articles, use those, otherwise use the most recent
         if (featured.length > 0) {
           setFeaturedArticles(featured.slice(0, 4));
-          setRegularArticles(data.filter(a => !featured.slice(0, 4).some(f => f.id === a.id)));
+          setRegularArticles(fetchedArticles.filter(a => !featured.slice(0, 4).some(f => f.id === a.id)));
         } else {
           // Just use the most recent articles as featured
-          setFeaturedArticles(data.slice(0, 4));
-          setRegularArticles(data.slice(4));
+          setFeaturedArticles(fetchedArticles.slice(0, 4));
+          setRegularArticles(fetchedArticles.slice(4));
         }
       } else {
         setError("No articles available");
       }
-      setIsLoading(false);
     } catch (error) {
       console.error('Error fetching articles:', error);
       setError("Failed to load articles");
+    } finally {
       setIsLoading(false);
     }
   }
@@ -787,7 +824,7 @@ export default function Home() {
             <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
               <p className="font-roboto text-sm sm:text-base">{error}</p>
               <button 
-                onClick={fetchArticles}
+                onClick={retryFetchArticles}
                 className="mt-2 sm:mt-3 text-sm font-medium text-red-600 hover:text-red-800 underline font-roboto"
               >
                 Retry
