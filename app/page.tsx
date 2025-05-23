@@ -248,15 +248,17 @@ export default function Home() {
             </div>
           }>
             <div className="w-full h-full relative">
-              <Spline 
-                scene="https://prod.spline.design/N-7Bwb97Q2XUmz3O/scene.splinecode"
-                onLoad={onSplineLoad}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  background: 'transparent'
-                }}
-              />
+              {typeof window !== 'undefined' && (
+                <Spline 
+                  scene="https://prod.spline.design/N-7Bwb97Q2XUmz3O/scene.splinecode"
+                  onLoad={onSplineLoad}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    background: 'transparent'
+                  }}
+                />
+              )}
               {/* White box to cover Spline watermark */}
               <div className="absolute bottom-1 right-1 w-48 h-16 bg-white z-10"></div>
               {/* Lighter overlay - more refined, less blurry */}
