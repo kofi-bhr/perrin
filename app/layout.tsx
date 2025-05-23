@@ -64,10 +64,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${roboto.variable}`}>
       <head>
-        {/* Theme color to match site's teal theme on mobile devices */}
-        <meta name="theme-color" content="#215f68" />
+        {/* Theme color to match site's white theme on mobile devices */}
+        <meta name="theme-color" content="#ffffff" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         
         {/* Structured data for SEO */}
         <script
