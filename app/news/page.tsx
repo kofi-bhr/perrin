@@ -1,14 +1,11 @@
 'use client'
 import Image from "next/image";
-import { DM_Sans } from "next/font/google";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { FiArrowRight, FiExternalLink, FiClock, FiCalendar, FiBookmark, FiSearch, FiTrendingUp, FiTrendingDown, FiMail } from "react-icons/fi";
 import { getArticles, Article } from "../../lib/articles";
 import NewsletterSubscription from "@/components/NewsletterSubscription";
-
-const dmSans = DM_Sans({ subsets: ["latin"] });
 
 // Define market data type for better type safety
 interface MarketDataItem {
@@ -412,13 +409,13 @@ export default function News() {
       };
   
   return (
-    <main className="min-h-screen bg-black pt-24">
-      {/* Header section - WSJ-inspired masthead */}
+    <main className="min-h-screen bg-white pt-24">
+      {/* Header section - Professional light theme */}
       <motion.div 
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
-        className="border-b border-gray-900"
+        className="border-b border-slate-200"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
@@ -427,7 +424,7 @@ export default function News() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-4xl font-serif font-bold text-white"
+                className="text-4xl font-bold text-slate-900 font-roboto"
               >
                 Global News
               </motion.h1>
@@ -435,7 +432,7 @@ export default function News() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-gray-400 text-sm mt-1"
+                className="text-slate-600 text-sm mt-1 font-roboto"
               >
                 Analysis and reporting on global policy and technology trends
               </motion.p>
@@ -450,13 +447,13 @@ export default function News() {
                 <input
                   type="text"
                   placeholder="Search news..."
-                  className="pl-9 pr-4 py-2 bg-gray-950 border border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm text-gray-200 placeholder-gray-500"
+                  className="pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-500 text-sm text-slate-700 placeholder-slate-400 font-roboto"
                 />
-                <FiSearch className="absolute left-3 top-2.5 text-gray-500" />
+                <FiSearch className="absolute left-3 top-2.5 text-slate-500" />
               </div>
               <button 
                 onClick={scrollToNewsletter}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors flex items-center"
+                className="bg-slate-900 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-slate-800 transition-colors flex items-center font-roboto"
               >
                 <FiMail className="mr-1.5" size={14} />
                 Subscribe
@@ -466,12 +463,12 @@ export default function News() {
         </div>
       </motion.div>
 
-      {/* Market data ticker - WSJ style, with mobile improvements */}
+      {/* Market data ticker - Light theme with mobile improvements */}
       <motion.div 
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
-        className="border-b border-gray-900 bg-black"
+        className="border-b border-slate-200 bg-slate-50"
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2">
           <div className="overflow-x-auto -mx-3 px-3 custom-stocks-scrollbar">
@@ -479,11 +476,11 @@ export default function News() {
               {marketData.map((item, index) => (
                 <div 
                   key={index} 
-                  className="flex items-center space-x-1.5 group bg-gray-950 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-gray-800 shadow-sm"
+                  className="flex items-center space-x-1.5 group bg-white rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-slate-200 shadow-sm"
                 >
-                  <span className="text-xs sm:text-sm font-medium text-gray-300 truncate" style={{ maxWidth: '80px' }}>{item.name}</span>
-                  <span className="text-xs sm:text-sm font-bold text-gray-100">{item.value}</span>
-                  <span className={`text-xs flex items-center ${item.isPositive ? 'text-green-400' : 'text-red-400'}`}>
+                  <span className="text-xs sm:text-sm font-medium text-slate-700 truncate font-roboto" style={{ maxWidth: '80px' }}>{item.name}</span>
+                  <span className="text-xs sm:text-sm font-bold text-slate-900 font-roboto">{item.value}</span>
+                  <span className={`text-xs flex items-center font-roboto ${item.isPositive ? 'text-green-600' : 'text-red-600'}`}>
                     {item.isPositive ? <FiTrendingUp className="mr-0.5" size={10} /> : <FiTrendingDown className="mr-0.5" size={10} />}
                     {item.change}
                   </span>
@@ -493,48 +490,48 @@ export default function News() {
                 href="https://www.google.com/finance/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center cursor-pointer group bg-blue-900 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-blue-800 shadow-sm"
+                className="flex items-center cursor-pointer group bg-slate-900 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-slate-800 shadow-sm"
               >
-                <span className="text-xs text-blue-300 group-hover:text-blue-200">More</span>
-                <FiExternalLink className="ml-1 h-3 w-3 text-blue-300 group-hover:text-blue-200" />
+                <span className="text-xs text-slate-100 group-hover:text-white font-roboto">More</span>
+                <FiExternalLink className="ml-1 h-3 w-3 text-slate-100 group-hover:text-white" />
               </a>
             </div>
           </div>
         </div>
       </motion.div>
 
-      {/* Add custom scrollbar styles */}
+      {/* Add custom scrollbar styles - Light theme */}
       <style jsx global>{`
-        /* FAANG-inspired scrollbar styles */
+        /* Professional light theme scrollbar styles */
         .custom-stocks-scrollbar::-webkit-scrollbar {
           height: 4px;
           background: transparent;
         }
         
         .custom-stocks-scrollbar::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.6);
+          background: rgba(148, 163, 184, 0.2);
           border-radius: 100px;
           margin: 0 20px;
         }
         
         .custom-stocks-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(59, 130, 246, 0.6);
+          background: rgba(148, 163, 184, 0.6);
           border-radius: 100px;
-          background-image: linear-gradient(to right, rgba(59, 130, 246, 0.7), rgba(79, 70, 229, 0.7));
+          background-image: linear-gradient(to right, rgba(148, 163, 184, 0.7), rgba(100, 116, 139, 0.7));
           box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
         }
         
         .custom-stocks-scrollbar::-webkit-scrollbar-thumb:hover {
-          background-image: linear-gradient(to right, rgba(59, 130, 246, 0.9), rgba(79, 70, 229, 0.9));
+          background-image: linear-gradient(to right, rgba(148, 163, 184, 0.9), rgba(100, 116, 139, 0.9));
         }
       `}</style>
 
-      {/* Category navigation - FAANG-inspired tabs */}
+      {/* Category navigation - Professional light theme tabs */}
       <motion.div 
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
-        className="border-b border-gray-900 bg-black shadow-sm sticky top-0 z-20"
+        className="border-b border-slate-200 bg-white shadow-sm sticky top-0 z-20"
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto scrollbar-hide" aria-label="Categories">
@@ -542,10 +539,10 @@ export default function News() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category === "All" ? null : category)}
-                className={`whitespace-nowrap py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm ${
+                className={`whitespace-nowrap py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm font-roboto ${
                   (category === "All" && activeCategory === null) || category === activeCategory
-                    ? "border-blue-500 text-blue-400"
-                    : "border-transparent text-gray-400 hover:text-gray-300 hover:border-gray-700"
+                    ? "border-slate-900 text-slate-900"
+                    : "border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300"
                 } transition-colors duration-200`}
               >
                 {category}
@@ -558,10 +555,10 @@ export default function News() {
       {/* Main content - improved for mobile */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-12 sm:pb-16">
         {/* Background pattern */}
-        <div className="absolute inset-0 opacity-5 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+        <div className="absolute inset-0 opacity-5 bg-[linear-gradient(rgba(148,163,184,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
         
-        {/* Blue accent glow */}
-        <div className="absolute top-24 right-0 w-1/3 h-1/3 bg-blue-900 rounded-full filter blur-3xl opacity-10 pointer-events-none"></div>
+        {/* Slate accent glow */}
+        <div className="absolute top-24 right-0 w-1/3 h-1/3 bg-slate-300 rounded-full filter blur-3xl opacity-10 pointer-events-none"></div>
         
         <motion.div 
           initial="hidden"
@@ -571,7 +568,7 @@ export default function News() {
         >
           {/* Main column */}
           <div className="col-span-2">
-            {/* Featured story - WSJ/Apple News style with mobile improvements */}
+            {/* Featured story - Professional light theme with mobile improvements */}
             <motion.div 
               variants={scaleUp}
               className="mb-8 sm:mb-12"
@@ -580,46 +577,43 @@ export default function News() {
                 <motion.div 
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
-                  className="relative aspect-[16/9] overflow-hidden rounded-xl mb-4 sm:mb-6"
+                  className="relative aspect-[16/9] sm:aspect-[21/9] overflow-hidden rounded-xl mb-4 sm:mb-6 shadow-lg"
                 >
                   <Image
                     src={featuredNews.image}
                     alt={featuredNews.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
-                  <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-medium px-2 sm:px-3 py-1 m-2 sm:m-3 rounded-md">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                  <div className="absolute top-0 right-0 bg-slate-900 text-white text-xs font-medium px-3 py-1.5 m-3 sm:m-4 rounded-lg shadow-lg font-roboto">
                     {featuredNews.category}
                   </div>
-                  <div className="absolute bottom-0 left-0 p-3 sm:p-6">
-                    <h2 className="text-xl sm:text-3xl font-serif font-bold text-white mb-2 sm:mb-3 leading-tight group-hover:text-blue-300 transition-colors line-clamp-2 sm:line-clamp-none">
-                      {featuredNews.title}
-                    </h2>
-                    <span className="flex items-center text-xs sm:text-sm text-gray-300 mb-1 sm:mb-2">
+                  <div className="absolute bottom-0 left-0 p-4 sm:p-6">
+                    <span className="flex items-center text-xs text-white/90 mb-2 font-roboto">
                       <FiCalendar className="mr-2" size={14} />
                       {featuredNews.date}
                     </span>
                   </div>
                 </motion.div>
                 {featuredNews.subtitle && (
-                  <p className="text-gray-300 font-serif mb-3 leading-relaxed text-sm sm:text-xl">
+                  <p className="text-slate-700 mb-3 leading-relaxed text-sm sm:text-xl font-roboto">
                     {featuredNews.subtitle}
                   </p>
                 )}
-                <p className="text-gray-400 mb-4 leading-relaxed text-sm sm:text-lg line-clamp-3 sm:line-clamp-none">
+                <p className="text-slate-600 mb-4 leading-relaxed text-sm sm:text-lg line-clamp-3 sm:line-clamp-none font-roboto">
                   {featuredNews.excerpt}
                 </p>
-                <div className="inline-flex items-center text-blue-400 font-medium group-hover:text-blue-300 transition-colors text-sm sm:text-base">
+                <div className="inline-flex items-center text-slate-900 font-medium group-hover:text-slate-700 transition-colors text-sm sm:text-base font-roboto">
                   Continue reading
                   <FiArrowRight className="ml-2" />
                 </div>
               </Link>
             </motion.div>
 
-            {/* News grid - FAANG-inspired cards with mobile improvements */}
+            {/* News grid - Professional light theme with mobile improvements */}
             <motion.div variants={fadeInUp}>
-              <h2 className="text-xl sm:text-2xl font-serif font-bold text-white mb-4 sm:mb-6 pb-2 border-b border-gray-800">
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 pb-2 border-b border-slate-200 font-roboto">
                 Latest Articles
               </h2>
               <motion.div 
@@ -638,7 +632,7 @@ export default function News() {
                       <motion.div 
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.3 }}
-                        className="relative aspect-[4/3] overflow-hidden rounded-lg mb-3 sm:mb-4"
+                        className="relative aspect-[4/3] overflow-hidden rounded-lg mb-3 sm:mb-4 shadow-md"
                       >
                         <Image
                           src={news.image}
@@ -647,25 +641,25 @@ export default function News() {
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-medium px-2 py-1 m-2 rounded-md">
+                        <div className="absolute top-0 right-0 bg-slate-900 text-white text-xs font-medium px-2 py-1 m-2 rounded-md font-roboto">
                           {news.category}
                         </div>
                         <div className="absolute bottom-0 left-0 p-3 sm:p-4">
-                          <span className="flex items-center text-xs text-gray-300 mb-1">
+                          <span className="flex items-center text-xs text-white/90 mb-1 font-roboto">
                             <FiCalendar className="mr-1" size={12} />
                             {news.date}
                           </span>
                         </div>
                       </motion.div>
-                      <h3 className="font-serif font-bold text-base sm:text-lg text-gray-100 mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
+                      <h3 className="font-bold text-base sm:text-lg text-slate-900 mb-2 group-hover:text-slate-700 transition-colors line-clamp-2 font-roboto">
                         {news.title}
                       </h3>
                       {news.subtitle && (
-                        <p className="text-gray-300 font-serif text-xs sm:text-sm mb-2 leading-relaxed line-clamp-2">
+                        <p className="text-slate-700 text-xs sm:text-sm mb-2 leading-relaxed line-clamp-2 font-roboto">
                           {news.subtitle}
                         </p>
                       )}
-                      <p className="text-gray-400 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3">
+                      <p className="text-slate-600 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 font-roboto">
                         {news.excerpt}
                       </p>
                     </Link>
@@ -673,7 +667,7 @@ export default function News() {
                 ))}
               </motion.div>
               
-              {/* Load more button - Apple-style with mobile improvements */}
+              {/* Load more button - Professional light theme with mobile improvements */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -683,7 +677,7 @@ export default function News() {
                 <motion.button 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-gray-800 shadow-sm text-sm sm:text-base font-medium rounded-md text-gray-300 bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                  className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-slate-300 shadow-sm text-sm sm:text-base font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-colors font-roboto"
                 >
                   Load more articles
                 </motion.button>
@@ -691,7 +685,7 @@ export default function News() {
             </motion.div>
           </div>
 
-          {/* Sidebar - WSJ style */}
+          {/* Sidebar - Professional light theme */}
           <motion.div 
             variants={fadeInUp}
             className="col-span-1"
@@ -701,28 +695,28 @@ export default function News() {
               <motion.div 
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
-                className="bg-gray-950 rounded-xl p-6 mb-8 border border-gray-800 shadow-sm"
+                className="bg-white rounded-xl p-6 mb-8 border border-slate-200 shadow-lg"
               >
-                <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-800">
-                  <h3 className="text-lg font-serif font-bold text-white">Market Summary</h3>
-                  <span className="text-xs text-gray-400">Last updated: {lastUpdated}</span>
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-200">
+                  <h3 className="text-lg font-bold text-slate-900 font-roboto">Market Summary</h3>
+                  <span className="text-xs text-slate-500 font-roboto">Last updated: {lastUpdated}</span>
                 </div>
                 <div className="space-y-4">
                   {marketData.slice(0, 4).map((item, index) => (
-                    <div key={index} className="flex items-center justify-between pb-2 border-b border-gray-800/50 last:border-0 last:pb-0">
+                    <div key={index} className="flex items-center justify-between pb-2 border-b border-slate-100 last:border-0 last:pb-0">
                       <div>
-                        <div className="text-gray-200 font-medium">{item.name}</div>
-                        <div className="text-sm text-gray-400">{item.value}</div>
+                        <div className="text-slate-900 font-medium font-roboto">{item.name}</div>
+                        <div className="text-sm text-slate-600 font-roboto">{item.value}</div>
                       </div>
-                      <div className={`flex items-center ${item.isPositive ? 'text-green-400' : 'text-red-400'} font-medium`}>
+                      <div className={`flex items-center ${item.isPositive ? 'text-green-600' : 'text-red-600'} font-medium font-roboto`}>
                         {item.isPositive ? <FiTrendingUp className="mr-1.5" size={16} /> : <FiTrendingDown className="mr-1.5" size={16} />}
                         {item.change}
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 pt-2 border-t border-gray-800/50">
-                  <Link href="#" className="text-blue-400 text-sm hover:text-blue-300 transition-colors flex items-center">
+                <div className="mt-4 pt-2 border-t border-slate-100">
+                  <Link href="#" className="text-slate-900 text-sm hover:text-slate-700 transition-colors flex items-center font-roboto">
                     View all markets
                     <FiArrowRight className="ml-1 h-3 w-3" />
                   </Link>
@@ -733,40 +727,40 @@ export default function News() {
               <motion.div 
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.3 }}
-                className="bg-gray-950 rounded-xl p-6 mb-8 border border-gray-800 shadow-sm"
+                className="bg-white rounded-xl p-6 mb-8 border border-slate-200 shadow-lg"
               >
-                <div className="flex items-center mb-4 pb-2 border-b border-gray-800">
-                  <h3 className="text-lg font-serif font-bold text-white">Opinion</h3>
-                  <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-blue-900 text-blue-300 border border-blue-800">
+                <div className="flex items-center mb-4 pb-2 border-b border-slate-200">
+                  <h3 className="text-lg font-bold text-slate-900 font-roboto">Opinion</h3>
+                  <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-slate-100 text-slate-700 border border-slate-200 font-roboto">
                     Perspectives
                   </span>
                 </div>
                 <div className="space-y-5">
                   {opinionPieces.map((piece) => (
-                    <div key={piece.id} className="pb-5 border-b border-gray-800/50 last:border-0 last:pb-0">
+                    <div key={piece.id} className="pb-5 border-b border-slate-100 last:border-0 last:pb-0">
                       <Link href={piece.link} className="group">
-                        <h4 className="font-serif font-bold text-gray-200 group-hover:text-blue-400 transition-colors mb-1">
+                        <h4 className="font-bold text-slate-900 group-hover:text-slate-700 transition-colors mb-1 font-roboto">
                           {piece.title}
                         </h4>
-                        <p className="text-gray-400 text-sm mb-1.5">
+                        <p className="text-slate-600 text-sm mb-1.5 font-roboto">
                           {piece.excerpt}
                         </p>
-                        <div className="flex items-center text-xs text-gray-500">
-                          <span className="font-medium text-gray-300">
+                        <div className="flex items-center text-xs text-slate-500 font-roboto">
+                          <span className="font-medium text-slate-700">
                             {piece.author}
                           </span>
                           <span className="mx-1.5">•</span>
-                          <span className="text-gray-500">{piece.position}</span>
+                          <span className="text-slate-500">{piece.position}</span>
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-slate-500 mt-1 font-roboto">
                           {piece.date}
                         </p>
                       </Link>
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 pt-2 border-t border-gray-800/50">
-                  <Link href="/opinions" className="text-blue-400 text-sm hover:text-blue-300 transition-colors flex items-center">
+                <div className="mt-4 pt-2 border-t border-slate-100">
+                  <Link href="/opinions" className="text-slate-900 text-sm hover:text-slate-700 transition-colors flex items-center font-roboto">
                     View all opinions
                     <FiArrowRight className="ml-1 h-3 w-3" />
                   </Link>
@@ -779,13 +773,13 @@ export default function News() {
                 transition={{ duration: 0.3 }}
                 className="mb-8"
               >
-                <h3 className="text-lg font-serif font-bold text-white mb-4 pb-2 border-b border-gray-800">
+                <h3 className="text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-200 font-roboto">
                   Featured Articles
                 </h3>
                 {featuredArticles.map((article) => (
-                  <div key={article.id} className="mb-5 pb-5 border-b border-gray-800 last:border-0 last:pb-0">
+                  <div key={article.id} className="mb-5 pb-5 border-b border-slate-200 last:border-0 last:pb-0">
                     <Link href={`/news/${article.id}`} className="group">
-                      <div className="relative aspect-[16/9] overflow-hidden rounded-lg mb-3">
+                      <div className="relative aspect-[16/9] overflow-hidden rounded-lg mb-3 shadow-md">
                         <Image
                           src={article.image}
                           alt={article.title}
@@ -793,19 +787,22 @@ export default function News() {
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-medium px-2 py-1 m-2 rounded-md">
+                        <div className="absolute top-0 right-0 bg-slate-900 text-white text-xs font-medium px-2 py-1 m-2 rounded-md font-roboto">
                           {article.category}
                         </div>
                       </div>
-                      <h4 className="font-serif font-bold text-gray-200 group-hover:text-blue-400 transition-colors">
+                      <h4 className="font-bold text-slate-900 group-hover:text-slate-700 transition-colors mb-1 font-roboto">
                         {article.title}
                       </h4>
                       {article.subtitle && (
-                        <p className="text-gray-300 font-serif text-xs leading-relaxed mt-1 mb-1.5">
+                        <p className="text-slate-700 text-sm mb-1 font-roboto">
                           {article.subtitle}
                         </p>
                       )}
-                      <p className="text-sm text-gray-400 mt-1">{article.date}</p>
+                      <span className="flex items-center text-xs text-slate-500 font-roboto">
+                        <FiCalendar className="mr-1" size={12} />
+                        {article.date}
+                      </span>
                     </Link>
                   </div>
                 ))}
@@ -815,7 +812,7 @@ export default function News() {
         </motion.div>
       </div>
 
-      {/* Add NewsletterSubscription at the bottom of the page */}
+      {/* Newsletter section */}
       <NewsletterSubscription />
     </main>
   );

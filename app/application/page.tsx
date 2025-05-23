@@ -121,21 +121,45 @@ export default function ApplicationPage() {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-b from-white to-slate-50 text-slate-900 font-roboto">
       {/* Keep the Navbar component */}
       <Navbar />
       
-      {/* Premium dark hero section */}
-      <div className="bg-gradient-to-b from-gray-900 via-[#0a0a18] to-black pt-28 pb-16">
+      {/* Professional light hero section */}
+      <div className="bg-gradient-to-b from-slate-50 to-white pt-28 pb-16 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          {/* Subtle tech grid background */}
+          {/* Subtle background pattern */}
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute w-full h-full opacity-[0.03]">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <div key={i} className="absolute h-px w-full bg-gradient-to-r from-transparent via-blue-500 to-transparent" style={{ top: `${i * 10}%` }}></div>
+            <div className="absolute w-full h-full opacity-[0.02]">
+              {Array.from({ length: 20 }).map((_, i) => (
+                <motion.div 
+                  key={`h-line-${i}`} 
+                  className="absolute h-px w-full bg-gradient-to-r from-transparent via-slate-400 to-transparent" 
+                  style={{ top: `${i * 5}%` }}
+                  initial={{ opacity: 0.05 }}
+                  animate={{ opacity: [0.05, 0.1, 0.05] }}
+                  transition={{
+                    duration: 3 + (i % 3),
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.1
+                  }}
+                />
               ))}
-              {Array.from({ length: 10 }).map((_, i) => (
-                <div key={i} className="absolute w-px h-full bg-gradient-to-b from-transparent via-blue-500 to-transparent" style={{ left: `${i * 10}%` }}></div>
+              {Array.from({ length: 20 }).map((_, i) => (
+                <motion.div 
+                  key={`v-line-${i}`} 
+                  className="absolute w-px h-full bg-gradient-to-b from-transparent via-slate-400 to-transparent" 
+                  style={{ left: `${i * 5}%` }}
+                  initial={{ opacity: 0.05 }}
+                  animate={{ opacity: [0.05, 0.1, 0.05] }}
+                  transition={{
+                    duration: 4 + (i % 4),
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.1
+                  }}
+                />
               ))}
             </div>
           </div>
@@ -147,16 +171,16 @@ export default function ApplicationPage() {
               transition={{ duration: 0.6 }}
               className="text-center"
             >
-              <div className="inline-flex items-center bg-white/[0.03] backdrop-blur-sm px-3 py-1.5 rounded-full mb-6">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
-                <span className="text-blue-400 text-xs uppercase tracking-widest">Application Portal</span>
+              <div className="inline-flex items-center bg-slate-100 px-3 py-1.5 rounded-full mb-6 border border-slate-200">
+                <div className="w-2 h-2 bg-slate-600 rounded-full mr-2 animate-pulse"></div>
+                <span className="text-slate-700 text-xs uppercase tracking-widest font-medium">Application Portal</span>
               </div>
               
-              <h1 className="text-4xl font-serif font-bold text-white sm:text-5xl sm:tracking-tight lg:text-6xl mb-6">
+              <h1 className="text-4xl font-roboto font-light text-slate-900 sm:text-5xl sm:tracking-tight lg:text-6xl mb-6">
                 Research Programs
               </h1>
               
-              <p className="mt-5 max-w-2xl mx-auto text-xl text-gray-300">
+              <p className="mt-5 max-w-2xl mx-auto text-xl text-slate-600 font-light">
                 Present Research at Conferences, Universities, and Summits
               </p>
             </motion.div>
@@ -165,7 +189,7 @@ export default function ApplicationPage() {
       </div>
       
       {/* Main content area */}
-      <div className="bg-black min-h-screen">
+      <div className="bg-white min-h-screen">
         <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
           {/* Programs Section */}
           <motion.div
@@ -174,7 +198,7 @@ export default function ApplicationPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-20"
           >
-            <h2 className="text-3xl font-bold text-white mb-12 text-center">Available Programs</h2>
+            <h2 className="text-3xl font-light text-slate-900 mb-12 text-center">Available Programs</h2>
             
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
               {programs.map((program, index) => (
@@ -183,43 +207,43 @@ export default function ApplicationPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 * index }}
-                  className="bg-gradient-to-b from-white/[0.03] to-transparent border border-white/5 rounded-xl overflow-hidden hover:border-white/10 transition-all duration-300 hover:shadow-xl hover:shadow-blue-900/5"
+                  className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-slate-300 transition-all duration-300 hover:shadow-xl shadow-lg"
                 >
                   <div className="p-8">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/30 text-blue-300 border border-blue-800/50">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200">
                         {program.subtitle}
                       </span>
                     </div>
                     
-                    <h3 className="text-2xl font-medium text-white mb-4">{program.title}</h3>
+                    <h3 className="text-2xl font-medium text-slate-900 mb-4">{program.title}</h3>
                     
                     <div className="space-y-3 mb-6">
-                      <div className="flex items-center text-sm text-gray-400">
-                        <FiMapPin className="flex-shrink-0 mr-2 h-4 w-4 text-gray-500" />
+                      <div className="flex items-center text-sm text-slate-600">
+                        <FiMapPin className="flex-shrink-0 mr-2 h-4 w-4 text-slate-500" />
                         {program.location}
                       </div>
-                      <div className="flex items-center text-sm text-gray-400">
-                        <FiCalendar className="flex-shrink-0 mr-2 h-4 w-4 text-gray-500" />
+                      <div className="flex items-center text-sm text-slate-600">
+                        <FiCalendar className="flex-shrink-0 mr-2 h-4 w-4 text-slate-500" />
                         {program.duration}
                       </div>
                     </div>
                     
-                    <p className="text-sm text-gray-300 mb-8 leading-relaxed">
+                    <p className="text-sm text-slate-700 mb-8 leading-relaxed font-light">
                       {program.description}
                     </p>
                     
                     <div className="mb-8">
-                      <h4 className="text-md font-medium text-white mb-3 flex items-center">
-                        <span className="w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center mr-2">
-                          <FiCheck className="h-3 w-3 text-blue-400" />
+                      <h4 className="text-md font-medium text-slate-900 mb-3 flex items-center">
+                        <span className="w-5 h-5 rounded-full bg-slate-100 flex items-center justify-center mr-2 border border-slate-200">
+                          <FiCheck className="h-3 w-3 text-slate-600" />
                         </span>
                         Program Highlights
                       </h4>
                       <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         {program.highlights.map((highlight, idx) => (
-                          <li key={idx} className="flex items-start text-sm text-gray-300">
-                            <span className="text-blue-400 mr-2">•</span>
+                          <li key={idx} className="flex items-start text-sm text-slate-700">
+                            <span className="text-slate-600 mr-2">•</span>
                             {highlight}
                           </li>
                         ))}
@@ -229,7 +253,7 @@ export default function ApplicationPage() {
                     {program.id === '2' ? (
                       <a 
                         href={`/application/apply?program=${program.id}`}
-                        className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900"
+                        className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 focus:ring-offset-white transition-colors"
                       >
                         Apply to Program
                         <FiArrowRight className="ml-2 h-5 w-5" />
@@ -237,7 +261,7 @@ export default function ApplicationPage() {
                     ) : (
                       <a 
                         href={`/application/apply?program=${program.id}`}
-                        className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-gray-900"
+                        className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 focus:ring-offset-white transition-colors"
                       >
                         Apply to Program
                         <FiArrowRight className="ml-2 h-5 w-5" />
@@ -256,25 +280,25 @@ export default function ApplicationPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mb-20"
           >
-            <h2 className="text-3xl font-bold text-white mb-12 text-center">Frequently Asked Questions</h2>
+            <h2 className="text-3xl font-light text-slate-900 mb-12 text-center">Frequently Asked Questions</h2>
             
-            <div className="max-w-3xl mx-auto bg-gradient-to-b from-white/[0.03] to-transparent border border-white/5 rounded-xl overflow-hidden">
+            <div className="max-w-3xl mx-auto bg-white border border-slate-200 rounded-xl overflow-hidden shadow-lg">
               {faqs.map((faq, index) => (
-                <div key={index} className="border-b border-white/5 last:border-b-0">
+                <div key={index} className="border-b border-slate-200 last:border-b-0">
                   <button
                     onClick={() => toggleFAQ(index)}
-                    className="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none"
+                    className="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none hover:bg-slate-50 transition-colors"
                   >
-                    <span className="text-lg font-medium text-white">{faq.question}</span>
+                    <span className="text-lg font-medium text-slate-900">{faq.question}</span>
                     {expandedFAQ === index ? (
-                      <FiChevronUp className="h-5 w-5 text-gray-400" />
+                      <FiChevronUp className="h-5 w-5 text-slate-600" />
                     ) : (
-                      <FiChevronDown className="h-5 w-5 text-gray-400" />
+                      <FiChevronDown className="h-5 w-5 text-slate-600" />
                     )}
                   </button>
                   
                   <div 
-                    className={`px-6 pb-5 text-gray-300 text-sm leading-relaxed transition-all duration-300 ${
+                    className={`px-6 pb-5 text-slate-700 text-sm leading-relaxed transition-all duration-300 font-light ${
                       expandedFAQ === index ? 'block opacity-100' : 'hidden opacity-0'
                     }`}
                   >
@@ -288,6 +312,6 @@ export default function ApplicationPage() {
       </div>
       
       {/* Completely removed the Program Details Modal */}
-    </>
+    </div>
   );
 }

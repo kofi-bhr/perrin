@@ -7,12 +7,27 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        teal: {
+          50: '#effcfc',
+          100: '#d7f6f6',
+          200: '#b4eeef',
+          300: '#7ee2e5',
+          400: '#41cfd4',
+          500: '#26b4bb',
+          600: '#1e929d',
+          700: '#1e7680',
+          800: '#215f68',
+          900: '#204f58',
+          950: '#10333d',
+        },
+      },
       fontFamily: {
-        sans: ['var(--font-roboto-condensed)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-roboto-condensed)', 'Georgia', 'serif'],
-        mono: ['var(--font-roboto-condensed)', 'monospace'],
-        display: ['var(--font-roboto-condensed)', 'system-ui', 'sans-serif'],
-        body: ['var(--font-roboto-condensed)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-roboto)', 'system-ui', 'sans-serif'],
+        serif: ['Georgia', 'serif'],
+        mono: ['monospace'],
+        display: ['var(--font-roboto)', 'system-ui', 'sans-serif'],
+        body: ['var(--font-roboto)', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -22,6 +37,11 @@ module.exports = {
       animation: {
         'blink': 'blink 1s step-end infinite',
         'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+        'float-slow': 'float-slow 20s ease-in-out infinite',
+        'float-slow-reverse': 'float-slow-reverse 25s ease-in-out infinite',
+        'float-particle': 'float-particle 15s linear infinite',
+        'wave': 'wave 8s ease-in-out infinite',
+        'rotate-slow': 'rotate 12s linear infinite',
       },
       keyframes: {
         blink: {
@@ -32,6 +52,31 @@ module.exports = {
           '0%, 100%': { transform: 'translateX(0)' },
           '10%, 30%, 50%, 70%, 90%': { transform: 'translateX(-5px)' },
           '20%, 40%, 60%, 80%': { transform: 'translateX(5px)' },
+        },
+        'float-slow': {
+          '0%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(-30px, 20px) scale(1.05)' },
+          '100%': { transform: 'translate(0, 0) scale(1)' },
+        },
+        'float-slow-reverse': {
+          '0%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(30px, -20px) scale(1.05)' },
+          '100%': { transform: 'translate(0, 0) scale(1)' },
+        },
+        'float-particle': {
+          '0%': { transform: 'translateY(0)', opacity: 0 },
+          '10%': { opacity: 1 },
+          '90%': { opacity: 1 },
+          '100%': { transform: 'translateY(-100vh)', opacity: 0 },
+        },
+        'wave': {
+          '0%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-15px)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        'rotate': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
         },
       },
     },

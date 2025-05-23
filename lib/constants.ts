@@ -1,8 +1,28 @@
 export const RESEARCH_CATEGORIES = [
-  'Human-Centered AI Laboratory',
-  'Policy Entrepreneurship Laboratory',
-  'Governance Technology Laboratory',
-  'International Studies Laboratory'
+  {
+    name: 'Human-Centered AI Laboratory',
+    slug: 'human-centered-ai-laboratory',
+    description: 'Research on human-centered artificial intelligence and the ethical implications of AI technologies',
+    icon: null
+  },
+  {
+    name: 'Policy Entrepreneurship Laboratory',
+    slug: 'policy-entrepreneurship-laboratory',
+    description: 'Exploring innovative approaches to policy development and implementation',
+    icon: null
+  },
+  {
+    name: 'Governance Technology Laboratory',
+    slug: 'governance-technology-laboratory',
+    description: 'Advancing technology solutions for more effective and transparent governance',
+    icon: null
+  },
+  {
+    name: 'International Studies Laboratory',
+    slug: 'international-studies-laboratory',
+    description: 'Analyzing global trends, international relations, and cross-border policy challenges',
+    icon: null
+  }
 ] as const
 
 export type ResearchCategory = typeof RESEARCH_CATEGORIES[number]

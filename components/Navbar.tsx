@@ -1,143 +1,515 @@
 'use client'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
-import { HiMenu, HiX } from 'react-icons/hi'
+import { useState, useEffect, useRef } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { DM_Sans } from 'next/font/google'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiMenu, FiX } from 'react-icons/fi'
+import { FiChevronDown, FiChevronUp, FiExternalLink, FiSearch, FiMenu, FiX, FiFileText, FiLayers, FiBook, FiArrowRight } from 'react-icons/fi'
+import { getArticles, Article } from '../lib/articles'
+import { LABS_DATA } from '../app/data/labs'
 
-const dmSans = DM_Sans({ subsets: ['latin'] })
+// Define search result types
+interface SearchResult {
+  id: string
+  title: string
+  subtitle?: string
+  type: 'article' | 'lab' | 'page'
+  url: string
+  description?: string
+  category?: string
+}
+
+// Define static pages for search
+const STATIC_PAGES: SearchResult[] = [
+  {
+    id: 'events',
+    title: 'Events',
+    subtitle: 'Academic exchanges and research symposiums',
+    type: 'page',
+    url: '/events',
+    description: 'Explore academic exchanges, research symposiums, and policy discussions hosted by the Perrin Institute.'
+  },
+  {
+    id: 'experts',
+    title: 'Experts',
+    subtitle: 'Our research team and fellows',
+    type: 'page',
+    url: '/experts',
+    description: 'Meet our distinguished research team and expert fellows working on cutting-edge policy research.'
+  },
+  {
+    id: 'scholarship-center',
+    title: 'Scholarship Center',
+    subtitle: 'Educational opportunities and funding',
+    type: 'page',
+    url: '/scholarship-center',
+    description: 'Discover scholarship opportunities and educational programs for students and researchers.'
+  },
+  {
+    id: 'application',
+    title: 'Application',
+    subtitle: 'Research programs and applications',
+    type: 'page',
+    url: '/application',
+    description: 'Apply to our research programs and academic initiatives.'
+  },
+  {
+    id: 'news',
+    title: 'News',
+    subtitle: 'Latest updates and insights',
+    type: 'page',
+    url: '/news',
+    description: 'Stay updated with the latest news, research findings, and policy insights from the Perrin Institute.'
+  }
+]
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const router = useRouter()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [articles, setArticles] = useState<Article[]>([])
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const searchRef = useRef<HTMLDivElement>(null)
 
-  const isTransparentPage = ['/'].includes(pathname)
-  const isExpertsPage = pathname.includes('/experts')
-  const isLabsPage = pathname.includes('/Labs')
-  const isNewsPage = pathname.includes('/news')
-  
-  // For pages with dark backgrounds
-  const isDarkPage = isExpertsPage || isLabsPage
-  
-  // For pages with light backgrounds - all news pages should be light
-  const isLightPage = isNewsPage
-
+  // Fetch articles on component mount
   useEffect(() => {
-    // Scroll handler
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0)
+    async function fetchArticles() {
+      const fetchedArticles = await getArticles()
+      setArticles(fetchedArticles)
     }
+    fetchArticles()
+  }, [])
 
-    setIsScrolled(!isTransparentPage && window.scrollY > 0)
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActiveDropdown(null)
+      }
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
+  // Scroll handler
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10)
+    }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [isTransparentPage])
+  }, [])
 
   // Close menu when changing pages
   useEffect(() => {
-    setIsMenuOpen(false)
+    setMobileMenuOpen(false)
+    setActiveDropdown(null)
+    setIsSearchOpen(false)
+    setSearchQuery('')
   }, [pathname])
 
-  // Determine navbar styling based on current page and scroll state
-  const navbarBg = isDarkPage 
-    ? isScrolled ? 'bg-slate-900/90 backdrop-blur-md border-b border-slate-800/50' : 'bg-transparent' 
-    : isScrolled ? 'bg-white shadow-md' : isLightPage ? 'bg-white shadow-md' : 'bg-transparent'
-  
-  const textColor = isDarkPage
-    ? 'text-white'
-    : isScrolled || isLightPage ? 'text-gray-900' : 'text-white'
-  
-  const hoverEffect = isDarkPage
-    ? 'hover:text-blue-400'
-    : 'hover:opacity-75'
+  // Search functionality
+  useEffect(() => {
+    if (searchQuery.length < 2) {
+      setSearchResults([])
+      return
+    }
 
-  const isActive = (path: string) => {
-    if (path === '/' && pathname === '/') return true
-    if (path !== '/' && pathname?.startsWith(path)) return true
-    return false
+    const query = searchQuery.toLowerCase()
+    const results: SearchResult[] = []
+
+    // Search articles
+    const matchingArticles = articles.filter(article => 
+      article.title.toLowerCase().includes(query) ||
+      article.subtitle?.toLowerCase().includes(query) ||
+      article.excerpt.toLowerCase().includes(query) ||
+      article.category.toLowerCase().includes(query)
+    ).slice(0, 3) // Limit to 3 results
+
+    matchingArticles.forEach(article => {
+      results.push({
+        id: article.id,
+        title: article.title,
+        subtitle: article.subtitle,
+        type: 'article',
+        url: `/news/${article.id}`,
+        description: article.excerpt,
+        category: article.category
+      })
+    })
+
+    // Search labs
+    const matchingLabs = LABS_DATA.filter(lab =>
+      lab.title.toLowerCase().includes(query) ||
+      lab.description.toLowerCase().includes(query)
+    ).slice(0, 3) // Limit to 3 results
+
+    matchingLabs.forEach(lab => {
+      results.push({
+        id: lab.id,
+        title: lab.title,
+        subtitle: 'Research Lab',
+        type: 'lab',
+        url: `/Labs/${lab.id}`,
+        description: lab.description
+      })
+    })
+
+    // Search static pages
+    const matchingPages = STATIC_PAGES.filter(page =>
+      page.title.toLowerCase().includes(query) ||
+      page.subtitle?.toLowerCase().includes(query) ||
+      page.description?.toLowerCase().includes(query)
+    ).slice(0, 2) // Limit to 2 results
+
+    matchingPages.forEach(page => {
+      results.push(page)
+    })
+
+    setSearchResults(results.slice(0, 8)) // Total limit of 8 results
+  }, [searchQuery, articles])
+
+  const toggleDropdown = (name: string) => {
+    if (activeDropdown === name) {
+      setActiveDropdown(null)
+    } else {
+      setActiveDropdown(name)
+    }
+  }
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchResults.length > 0) {
+      router.push(searchResults[0].url)
+      setIsSearchOpen(false)
+      setSearchQuery('')
+    } else if (searchQuery.length > 0) {
+      // Redirect to news page with search query
+      router.push(`/news?search=${encodeURIComponent(searchQuery)}`)
+      setIsSearchOpen(false)
+      setSearchQuery('')
+    }
+  }
+
+  const getResultIcon = (type: string) => {
+    switch (type) {
+      case 'article':
+        return <FiFileText className="h-4 w-4 text-slate-500" />
+      case 'lab':
+        return <FiLayers className="h-4 w-4 text-slate-500" />
+      case 'page':
+        return <FiBook className="h-4 w-4 text-slate-500" />
+      default:
+        return <FiSearch className="h-4 w-4 text-slate-500" />
+    }
   }
 
   return (
     <>
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${navbarBg} py-3`}>
-        <div className="max-w-7xl mx-auto px-4">
+      <nav 
+        className={`fixed w-full z-50 transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-white/95 backdrop-blur-sm shadow-lg py-3' 
+            : 'bg-transparent py-5'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
-            <div className="flex items-center">
-              <Link href="/" className="flex items-center group relative overflow-hidden">
-                <div className="transition-all duration-300 transform group-hover:scale-105">
-                  <Image 
-                    src="/moretechperrin-removebg-preview.png" 
-                    alt="Perrin Institution Logo" 
-                    width={180} 
-                    height={60}
-                    className="h-12 w-auto object-contain my-1 transition-opacity duration-300 group-hover:opacity-95"
-                  />
-                </div>
-                <div className="absolute inset-0 rounded-full bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors duration-300"></div>
+            {/* Logo */}
+            <Link href="/" className="flex items-center group">
+              <Image 
+                src="/moretechperrin-removebg-preview.png" 
+                alt="Perrin Institution Logo" 
+                width={180} 
+                height={60}
+                className="h-10 w-auto object-contain transition-all duration-300 group-hover:opacity-80"
+              />
+            </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-8">
+              {/* Research */}
+              <div className="relative" ref={dropdownRef}>
+                <button 
+                  onClick={() => toggleDropdown('research')}
+                  className={`flex items-center px-0.5 font-medium transition-colors ${
+                    activeDropdown === 'research' 
+                      ? 'text-teal-600' 
+                      : isScrolled 
+                        ? 'text-gray-800 hover:text-teal-600' 
+                        : 'text-gray-800 hover:text-teal-500'
+                  }`}
+                >
+                  <span>Research</span>
+                  {activeDropdown === 'research' ? (
+                    <FiChevronUp className="ml-1" size={16} />
+                  ) : (
+                    <FiChevronDown className="ml-1" size={16} />
+                  )}
+                </button>
+                
+                {/* Research Dropdown */}
+                <AnimatePresence>
+                  {activeDropdown === 'research' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-0 mt-2 w-64 bg-white border border-gray-100 rounded-xl shadow-soft py-2 z-50"
+                    >
+                      <div className="py-1 px-3 text-xs text-gray-500 font-medium uppercase border-b border-gray-100 mb-1">Labs</div>
+                      {LABS_DATA.slice(0, 4).map((lab) => (
+                        <Link 
+                          key={lab.id}
+                          href={`/Labs/${lab.id}`} 
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-teal-600"
+                        >
+                          {lab.title}
+                        </Link>
+                      ))}
+                      <div className="border-t border-gray-100 mt-1 pt-1">
+                        <Link href="/Labs" className="block px-4 py-2 text-teal-600 font-medium hover:bg-gray-50">
+                          See all research areas
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Experts/Directory */}
+              <Link 
+                href="/experts" 
+                className={`font-medium transition-colors ${
+                  pathname.includes('/experts') 
+                    ? 'text-teal-600' 
+                    : isScrolled 
+                      ? 'text-gray-800 hover:text-teal-600' 
+                      : 'text-gray-800 hover:text-teal-500'
+                }`}
+              >
+                Experts
+              </Link>
+              
+              {/* Programs */}
+              <div className="relative" ref={dropdownRef}>
+                <button 
+                  onClick={() => toggleDropdown('programs')}
+                  className={`flex items-center px-0.5 font-medium transition-colors ${
+                    activeDropdown === 'programs' 
+                      ? 'text-teal-600' 
+                      : isScrolled 
+                        ? 'text-gray-800 hover:text-teal-600' 
+                        : 'text-gray-800 hover:text-teal-500'
+                  }`}
+                >
+                  <span>Programs</span>
+                  {activeDropdown === 'programs' ? (
+                    <FiChevronUp className="ml-1" size={16} />
+                  ) : (
+                    <FiChevronDown className="ml-1" size={16} />
+                  )}
+                </button>
+                
+                {/* Programs Dropdown */}
+                <AnimatePresence>
+                  {activeDropdown === 'programs' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-0 mt-2 w-64 bg-white border border-gray-100 rounded-xl shadow-soft py-2 z-50"
+                    >
+                      <Link href="/application" className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
+                        Application
+                      </Link>
+                      <Link href="/scholarship-center" className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
+                        Scholarship Center
+                      </Link>
+                      <Link href="/events" className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
+                        Events
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Scholarship Center */}
+              <Link 
+                href="/scholarship-center" 
+                className={`font-medium transition-colors ${
+                  pathname.includes('/scholarship-center') 
+                    ? 'text-teal-600' 
+                    : isScrolled 
+                      ? 'text-gray-800 hover:text-teal-600' 
+                      : 'text-gray-800 hover:text-teal-500'
+                }`}
+              >
+                Scholarship Center
               </Link>
 
-              <div className="hidden md:flex items-center space-x-8 ml-6">
-                <Link
-                  href="/experts"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/experts') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
+              {/* News */}
+              <Link 
+                href="/news" 
+                className={`font-medium transition-colors ${
+                  pathname.includes('/news') 
+                    ? 'text-teal-600' 
+                    : isScrolled 
+                      ? 'text-gray-800 hover:text-teal-600' 
+                      : 'text-gray-800 hover:text-teal-500'
+                }`}
+              >
+                News
+              </Link>
+
+              {/* Search */}
+              <div className="relative" ref={searchRef}>
+                <button 
+                  onClick={() => setIsSearchOpen(true)}
+                  className="p-2 rounded-full text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
                 >
-                  Directory
-                </Link>
-                <Link
-                  href="/Labs"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/Labs') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
-                >
-                  Labs
-                </Link>
-                <Link
-                  href="/events"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/events') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
-                >
-                  Events
-                </Link>
-                <Link
-                  href="/application"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/application') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
-                >
-                  Programs
-                </Link>
-                <Link
-                  href="/careers"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/careers') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
-                >
-                  Careers
-                </Link>
-                <Link
-                  href="/news"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/news') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
-                >
-                  News
-                </Link>
-                <Link
-                  href="/scholarship-center"
-                  className={`font-medium ${textColor} ${hoverEffect} transition-colors ${pathname.includes('/scholarship-center') ? isDarkPage ? 'text-blue-400' : 'text-blue-600' : ''}`}
-                >
-                  Scholarships
-                </Link>
+                  <FiSearch size={20} />
+                </button>
+
+                {/* Search Dropdown */}
+                <AnimatePresence>
+                  {isSearchOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 mt-2 w-96 bg-white border border-gray-100 rounded-xl shadow-soft py-3 z-50"
+                    >
+                      <form onSubmit={handleSearchSubmit} className="px-4 mb-3">
+                        <div className="relative">
+                          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                          <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search articles, labs, and pages..."
+                            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-sm"
+                            autoFocus
+                          />
+                        </div>
+                      </form>
+
+                      {searchQuery.length >= 2 && (
+                        <div className="border-t border-gray-100 pt-2">
+                          {searchResults.length > 0 ? (
+                            <>
+                              <div className="px-4 py-1 text-xs text-gray-500 font-medium uppercase">Results</div>
+                              <div className="max-h-80 overflow-y-auto">
+                                {searchResults.map((result) => (
+                                  <Link
+                                    key={`${result.type}-${result.id}`}
+                                    href={result.url}
+                                    className="block px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0"
+                                    onClick={() => {
+                                      setIsSearchOpen(false)
+                                      setSearchQuery('')
+                                    }}
+                                  >
+                                    <div className="flex items-start space-x-3">
+                                      <div className="flex-shrink-0 mt-1">
+                                        {getResultIcon(result.type)}
+                                      </div>
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-center justify-between">
+                                          <p className="text-sm font-medium text-gray-900 truncate">
+                                            {result.title}
+                                          </p>
+                                          <span className="text-xs text-gray-500 capitalize ml-2">
+                                            {result.type}
+                                          </span>
+                                        </div>
+                                        {result.subtitle && (
+                                          <p className="text-xs text-gray-600 truncate">
+                                            {result.subtitle}
+                                          </p>
+                                        )}
+                                        {result.description && (
+                                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                                            {result.description}
+                                          </p>
+                                        )}
+                                        {result.category && (
+                                          <span className="inline-block mt-1 px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
+                                            {result.category}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </Link>
+                                ))}
+                              </div>
+                              {searchResults.length >= 8 && (
+                                <div className="px-4 py-2 border-t border-gray-100">
+                                  <button
+                                    onClick={() => {
+                                      router.push(`/news?search=${encodeURIComponent(searchQuery)}`)
+                                      setIsSearchOpen(false)
+                                      setSearchQuery('')
+                                    }}
+                                    className="flex items-center text-sm text-teal-600 hover:text-teal-700 transition-colors"
+                                  >
+                                    View all results <FiArrowRight className="ml-1 h-3 w-3" />
+                                  </button>
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <div className="px-4 py-6 text-center">
+                              <FiSearch className="h-8 w-8 text-gray-300 mx-auto mb-2" />
+                              <p className="text-sm text-gray-500">No results found</p>
+                              <p className="text-xs text-gray-400 mt-1">Try different keywords</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {searchQuery.length < 2 && (
+                        <div className="px-4 py-6 text-center border-t border-gray-100">
+                          <FiSearch className="h-8 w-8 text-gray-300 mx-auto mb-2" />
+                          <p className="text-sm text-gray-500">Start typing to search</p>
+                          <p className="text-xs text-gray-400 mt-1">Articles, labs, and pages</p>
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
-
-            <div className="md:hidden">
+            
+            {/* Mobile Menu Button */}
+            <div className="lg:hidden flex items-center">
+              <button 
+                onClick={() => setIsSearchOpen(true)}
+                className="p-2 mr-2 rounded-full text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
+              >
+                <FiSearch size={20} />
+              </button>
+              
               <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`p-2 focus:outline-none ${textColor}`}
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 text-gray-700 rounded-full hover:bg-gray-100 focus:outline-none transition-colors"
                 aria-label="Toggle menu"
               >
-                {isMenuOpen ? (
-                  <HiX className="h-6 w-6" />
+                {mobileMenuOpen ? (
+                  <FiX size={24} />
                 ) : (
-                  <HiMenu className="h-6 w-6" />
+                  <FiMenu size={24} />
                 )}
               </button>
             </div>
@@ -145,93 +517,108 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu, separate from nav */}
-      {isMenuOpen && (
-        <div 
-          className={`fixed inset-0 z-40 ${isDarkPage ? 'bg-slate-900' : 'bg-white'}`}
-          style={{ top: '60px' }} // Adjust based on your navbar height
-        >
-          <div className="px-4 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link
-              href="/experts"
-              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isDarkPage 
-                  ? 'text-white hover:text-blue-400 border-slate-700' 
-                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/experts') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Directory
-            </Link>
-            <Link
-              href="/Labs"
-              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isDarkPage 
-                  ? 'text-white hover:text-blue-400 border-slate-700' 
-                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/Labs') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Labs
-            </Link>
-            <Link
-              href="/events"
-              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isDarkPage 
-                  ? 'text-white hover:text-blue-400 border-slate-700' 
-                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/events') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Events
-            </Link>
-            <Link
-              href="/application"
-              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isDarkPage 
-                  ? 'text-white hover:text-blue-400 border-slate-700' 
-                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/application') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Programs
-            </Link>
-            <Link
-              href="/careers"
-              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isDarkPage 
-                  ? 'text-white hover:text-blue-400 border-slate-700' 
-                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/careers') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Careers
-            </Link>
-            <Link
-              href="/news"
-              className={`block px-3 py-4 rounded-md text-base font-medium border-b ${
-                isDarkPage 
-                  ? 'text-white hover:text-blue-400 border-slate-700' 
-                  : 'text-gray-900 hover:bg-gray-50 border-gray-200'
-              } ${pathname.includes('/news') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              News
-            </Link>
-            <Link
-              href="/scholarship-center"
-              className={`block px-3 py-4 rounded-md text-base font-medium ${
-                isDarkPage 
-                  ? 'text-white hover:text-blue-400' 
-                  : 'text-gray-900 hover:bg-gray-50'
-              } ${pathname.includes('/scholarship-center') ? (isDarkPage ? 'text-blue-400' : 'text-blue-600') : ''}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Scholarships
-            </Link>
-          </div>
-        </div>
-      )}
+      {/* Mobile Search Overlay */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="lg:hidden fixed inset-0 z-50 bg-white"
+          >
+            <div className="p-4 border-b border-gray-200">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-medium text-gray-900">Search</h3>
+                <button
+                  onClick={() => setIsSearchOpen(false)}
+                  className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
+            </div>
+            
+            <div className="p-4">
+              <form onSubmit={handleSearchSubmit} className="mb-4">
+                <div className="relative">
+                  <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search articles, labs, and pages..."
+                    className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
+                    autoFocus
+                  />
+                </div>
+              </form>
+
+              {searchQuery.length >= 2 && searchResults.length > 0 && (
+                <div className="space-y-2">
+                  {searchResults.map((result) => (
+                    <Link
+                      key={`${result.type}-${result.id}`}
+                      href={result.url}
+                      className="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      onClick={() => {
+                        setIsSearchOpen(false)
+                        setSearchQuery('')
+                      }}
+                    >
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-shrink-0 mt-0.5">
+                          {getResultIcon(result.type)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <p className="font-medium text-gray-900 truncate">
+                              {result.title}
+                            </p>
+                            <span className="text-xs text-gray-500 capitalize ml-2">
+                              {result.type}
+                            </span>
+                          </div>
+                          {result.subtitle && (
+                            <p className="text-sm text-gray-600 truncate">
+                              {result.subtitle}
+                            </p>
+                          )}
+                          {result.description && (
+                            <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                              {result.description}
+                            </p>
+                          )}
+                          {result.category && (
+                            <span className="inline-block mt-2 px-2 py-0.5 bg-gray-200 text-gray-600 text-xs rounded-full">
+                              {result.category}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              {searchQuery.length >= 2 && searchResults.length === 0 && (
+                <div className="text-center py-8">
+                  <FiSearch className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                  <p className="text-gray-500">No results found</p>
+                  <p className="text-sm text-gray-400 mt-1">Try different keywords</p>
+                </div>
+              )}
+
+              {searchQuery.length < 2 && (
+                <div className="text-center py-8">
+                  <FiSearch className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                  <p className="text-gray-500">Start typing to search</p>
+                  <p className="text-sm text-gray-400 mt-1">Articles, labs, and pages</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Mobile menu */}
       <AnimatePresence>
@@ -241,79 +628,48 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-black/90 backdrop-blur-lg overflow-hidden"
+            className="lg:hidden fixed top-[60px] inset-x-0 z-40 bg-white border-b border-gray-200 shadow-lg overflow-hidden"
           >
-            <div className="px-4 pt-2 pb-6 space-y-1 sm:px-6">
-              <Link
-                href="/"
-                className={`block py-2 text-base font-medium ${
-                  isActive('/') ? 'text-white' : 'text-gray-300'
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                href="/labs"
-                className={`block py-2 text-base font-medium ${
-                  isActive('/labs') ? 'text-white' : 'text-gray-300'
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Labs
-              </Link>
-              <Link
-                href="/Programs"
-                className={`block py-2 text-base font-medium ${
-                  isActive('/Programs') ? 'text-white' : 'text-gray-300'
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Programs
-              </Link>
-              <Link
-                href="/about"
-                className={`block py-2 text-base font-medium ${
-                  isActive('/about') ? 'text-white' : 'text-gray-300'
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link
-                href="/careers"
-                className={`block py-2 text-base font-medium ${
-                  isActive('/careers') ? 'text-white' : 'text-gray-300'
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Careers
-              </Link>
-              <Link
-                href="/news"
-                className={`block py-2 text-base font-medium ${
-                  isActive('/news') ? 'text-white' : 'text-gray-300'
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                News
-              </Link>
-              <Link
-                href="/scholarship-center"
-                className={`block py-2 text-base font-medium ${
-                  isActive('/scholarship-center') ? 'text-white' : 'text-gray-300'
-                }`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Scholarships
-              </Link>
-              <Link
-                href="/contact"
-                className="block mt-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg text-base font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contact Us
-              </Link>
+            <div className="px-4 py-3">
+              <div className="py-2 mb-3 flex flex-col space-y-2">
+                <Link 
+                  href="/Labs"
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>Research</span>
+                  <FiChevronDown />
+                </Link>
+                <Link 
+                  href="/experts"
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>Experts</span>
+                </Link>
+                <Link 
+                  href="/programs"
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>Programs</span>
+                  <FiChevronDown />
+                </Link>
+                <Link 
+                  href="/scholarship-center"
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>Scholarship Center</span>
+                </Link>
+                <Link 
+                  href="/news"
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>News</span>
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

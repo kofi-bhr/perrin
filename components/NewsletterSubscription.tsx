@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FiMail } from 'react-icons/fi';
+import { FiMail, FiSend } from 'react-icons/fi';
 
 export default function NewsletterSubscription() {
   return (
@@ -10,48 +10,49 @@ export default function NewsletterSubscription() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="w-full bg-black py-16"
+      className="w-full bg-white py-16"
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <div className="bg-gradient-to-b from-white/[0.02] to-transparent border border-white/[0.06] rounded-xl p-6 sm:p-8 backdrop-blur-sm shadow-sm">
+        <div className="bg-gradient-to-b from-teal-50 to-white border border-teal-100 rounded-xl p-6 sm:p-8 shadow-lg shadow-teal-100/20">
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Text Section */}
             <div className="flex-1 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 bg-blue-500/5 px-2.5 py-1 rounded-full mb-4">
-                <span className="w-1 h-1 bg-blue-400 rounded-full"></span>
-                <span className="text-blue-400 text-xs font-medium tracking-wide">UPDATES</span>
+              <div className="inline-flex items-center gap-2 bg-teal-500/10 px-2.5 py-1 rounded-full mb-4 border border-teal-200/50">
+                <span className="w-1 h-1 bg-teal-500 rounded-full"></span>
+                <span className="text-teal-700 text-xs font-medium tracking-wide">UPDATES</span>
               </div>
               
-              <h3 className="text-xl font-medium text-white mb-3">
+              <h3 className="text-2xl font-serif font-bold text-gray-900 mb-3">
                 Join our research network
               </h3>
               
-              <p className="text-sm text-white/60 max-w-md">
+              <p className="text-gray-600 max-w-md">
                 Receive the latest policy insights and event invitations directly in your inbox. No spam, just valuable content.
               </p>
             </div>
             
             {/* Form Section */}
             <div className="w-full md:w-auto md:min-w-[300px]">
-              <div className="bg-gradient-to-r from-blue-700/5 via-transparent to-blue-700/5 rounded-lg p-[1px]">
-                <div className="bg-black/30 rounded-lg overflow-hidden">
-                  <iframe 
-                    src="https://embeds.beehiiv.com/a208b3ed-1ed4-4adc-9bd4-668b3341f5fd?slim=true" 
-                    data-test-id="beehiiv-embed" 
-                    height="52" 
-                    frameBorder="0" 
-                    scrolling="no" 
-                    style={{
-                      margin: 0,
-                      borderRadius: '0.375rem',
-                      backgroundColor: 'transparent',
-                      width: '100%'
-                    }}
-                  />
+              <div className="bg-white rounded-lg shadow-sm border border-teal-100 p-4">
+                <div className="flex flex-col space-y-3">
+                  <div className="flex items-center relative">
+                    <div className="absolute left-3 text-teal-400">
+                      <FiMail className="w-5 h-5" />
+                    </div>
+                    <input 
+                      type="email" 
+                      placeholder="Your email address" 
+                      className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-teal-100 rounded-lg text-gray-700 placeholder:text-gray-400 focus:outline-none focus:border-teal-300 focus:ring-1 focus:ring-teal-300"
+                    />
+                  </div>
+                  <button className="w-full bg-gradient-to-r from-teal-500 to-teal-600 text-white font-medium py-3 px-4 rounded-lg hover:from-teal-600 hover:to-teal-700 transition-all duration-300 flex items-center justify-center shadow-sm shadow-teal-200/50">
+                    <span>Subscribe</span>
+                    <FiSend className="ml-2 w-4 h-4" />
+                  </button>
                 </div>
-              </div>
-              <div className="mt-2 text-center text-[10px] text-white/40">
-                Your data privacy is respected. Unsubscribe anytime.
+                <div className="mt-3 text-center text-xs text-gray-500">
+                  Your data privacy is respected. Unsubscribe anytime.
+                </div>
               </div>
             </div>
           </div>

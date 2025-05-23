@@ -17,14 +17,14 @@
 .ql-container {
   min-height: 200px;
   font-size: 1rem;
-  font-family: var(--font-roboto-condensed), system-ui, sans-serif;
+  font-family: var(--font-roboto), system-ui, sans-serif;
 }
 
 .ql-editor {
   min-height: 200px;
   max-height: 500px;
   overflow-y: auto;
-  font-family: var(--font-roboto-condensed), system-ui, sans-serif;
+  font-family: var(--font-roboto), system-ui, sans-serif;
 }
 
 .ql-toolbar {
@@ -46,16 +46,17 @@
 
 @layer base {
   html {
-    font-size: 95%; /* Slightly smaller default font size */
+    font-size: 90%; /* Smaller default font size */
+    scroll-behavior: smooth;
   }
   
   body {
-    @apply bg-black text-white;
-    font-family: var(--font-roboto-condensed), system-ui, sans-serif;
+    @apply bg-white text-gray-900;
+    font-family: var(--font-roboto), system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-roboto-condensed), system-ui, sans-serif;
+    font-family: var(--font-roboto), system-ui, sans-serif;
   }
 }
 
@@ -64,15 +65,15 @@
   width: 6px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(30, 41, 59, 0.5);
+  background: rgba(220, 220, 220, 0.5);
   border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.5);
+  background: rgba(38, 180, 187, 0.5);
   border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(59, 130, 246, 0.7);
+  background: rgba(38, 180, 187, 0.7);
 }
 
 /* Hide scrollbar utility */
@@ -85,7 +86,7 @@
 }
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 51, 51, 51;
   --background-rgb: 255, 255, 255;
 }
 
@@ -107,6 +108,51 @@ main {
   }
 }
 
+/* Modern shadow effects */
+.shadow-glass {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(8px);
+}
+
+.shadow-soft {
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.05);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 15px rgba(38, 180, 187, 0.15);
+}
+
+/* Glassmorphism effects */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* True parallax styles */
+.parallax-section {
+  position: relative;
+  overflow: hidden;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media only screen and (max-device-width: 1366px) {
+  .parallax-section {
+    background-attachment: scroll;
+  }
+}
+
 @layer utilities {
   .animate-shimmer {
     animation: shimmer 3s infinite;
@@ -120,15 +166,35 @@ main {
       background-position: -200% 0;
     }
   }
+
+  .border-gradient {
+    border-image: linear-gradient(to right, theme('colors.teal.400'), theme('colors.teal.200')) 1;
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .clip-path-diagonal {
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  }
+  
+  .gradient-mask-b {
+    mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  }
+  
+  .backdrop-saturate {
+    backdrop-filter: saturate(180%) blur(5px);
+  }
 }
 
 /* Rich text content styles for article display */
 .article-content {
-  color: white !important;
+  color: #333 !important;
 }
 
 .article-content * {
-  color: white !important;
+  color: #333 !important;
 }
 
 .article-content p,
@@ -148,23 +214,23 @@ main {
 .article-content em,
 .article-content code,
 .article-content div {
-  color: white !important;
+  color: #333 !important;
 }
 
 /* Override any inline styles */
 .article-content [style*="color"] {
-  color: white !important;
+  color: #333 !important;
 }
 
 .article-content a {
-  color: #60a5fa !important;
+  color: #26b4bb !important;
   text-decoration: underline;
 }
 
 .article-content blockquote {
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid #26b4bb;
   padding-left: 1rem;
-  color: #e2e8f0 !important;
+  color: #4b5563 !important;
 }
 
 .article-content ul {
@@ -195,7 +261,7 @@ main {
 .ql-editor em,
 .ql-editor code,
 .ql-editor div {
-  color: white !important;
+  color: #333 !important;
 }
 
 /* Specific styling for article display */
@@ -216,5 +282,231 @@ main {
 .prose.prose-invert em,
 .prose.prose-invert code,
 .prose.prose-invert div {
-  color: white !important;
+  color: #333 !important;
+}
+
+/* Modern animations */
+@keyframes float-slow {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, -10px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(38, 180, 187, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(38, 180, 187, 0.3);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes morph {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+}
+
+@keyframes scroll-x {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Animation utility classes */
+.animate-float {
+  animation: float-slow 5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-gradient {
+  animation: gradient-shift 10s ease infinite;
+  background-size: 400% 400%;
+}
+
+.animate-morph {
+  animation: morph 8s ease-in-out infinite;
+}
+
+.animate-scroll-x {
+  animation: scroll-x 30s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+/* Border width utilities */
+.border-3 {
+  border-width: 3px;
+}
+
+/* Custom width/height utilities for loading screen */
+.w-18 {
+  width: 4.5rem;
+}
+
+.h-18 {
+  height: 4.5rem;
+}
+
+.inset-1 {
+  top: 0.25rem;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  left: 0.25rem;
+}
+
+/* Sophisticated loading animations */
+@keyframes pulse-sophisticated {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loading-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-pulse-sophisticated {
+  animation: pulse-sophisticated 2s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out;
+}
+
+.animate-loading-shimmer {
+  animation: loading-shimmer 3s linear infinite;
+  background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.1), transparent);
+  background-size: 200% 100%;
+}
+
+/* Animation delay utilities */
+.animation-delay-1000 {
+  animation-delay: 1s;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-3000 {
+  animation-delay: 3s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Custom colors */
+.from-teal-gradient {
+  --tw-gradient-from: #26b4bb;
+}
+
+.to-teal-light {
+  --tw-gradient-to: #7ee2e5;
+}
+
+.bg-teal-light {
+  background-color: #effcfc;
+}
+
+/* Enhanced focus styles for accessibility */
+.focus-visible:ring {
+  @apply ring-2 ring-teal-500 ring-offset-2 ring-offset-white outline-none;
+}
+
+/* Modern animations */
+@keyframes levitate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+  75% {
+    transform: translateY(5px) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* Animation utility classes */
+.animate-levitate {
+  animation: levitate 6s ease-in-out infinite;
+}
+
+/* 3D transform perspective */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Animation delays for staggered effects */
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animation-delay-1500 {
+  animation-delay: 1.5s;
+}
+
+.animation-delay-2500 {
+  animation-delay: 2.5s;
 } 

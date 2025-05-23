@@ -761,7 +761,7 @@ export default function ExpertsPage() {
   }, [searchTerm, selectedCategory]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
+    <div className="min-h-screen bg-white text-slate-900">
       <Head>
         <title>Expert Directory | The Perrin Institution</title>
         <meta name="description" content="Meet our team of experts at The Perrin Institution - researchers, policy analysts, and leaders dedicated to technology governance and legal innovation." />
@@ -789,39 +789,39 @@ export default function ExpertsPage() {
           }}
         />
       </Head>
-      {/* Tech-inspired Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        {/* Animated background elements */}
+      {/* Hero Section */}
+      <section className="relative py-20 overflow-hidden bg-gradient-to-br from-slate-50 to-white">
+        {/* Background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-slate-200/30 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-slate-300/20 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-slate-200/20 rounded-full blur-3xl"></div>
         </div>
         
         {/* Grid pattern overlay */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.png')] opacity-10"></div>
+        <div className="absolute inset-0 opacity-5 bg-[linear-gradient(rgba(148,163,184,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.05)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
         
-        {/* Animated circuit lines */}
+        {/* Decorative lines */}
         <div className="absolute inset-0">
           <svg className="absolute w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
             <path 
               d="M0,0 L100,0 L100,100 L0,100 Z" 
               fill="none" 
-              stroke="rgba(59, 130, 246, 0.2)" 
+              stroke="rgba(148, 163, 184, 0.1)" 
               strokeWidth="0.1"
               vectorEffect="non-scaling-stroke"
             />
             <path 
               d="M0,50 L100,50" 
               fill="none" 
-              stroke="rgba(59, 130, 246, 0.2)" 
+              stroke="rgba(148, 163, 184, 0.1)" 
               strokeWidth="0.1"
               vectorEffect="non-scaling-stroke"
             />
             <path 
               d="M50,0 L50,100" 
               fill="none" 
-              stroke="rgba(59, 130, 246, 0.2)" 
+              stroke="rgba(148, 163, 184, 0.1)" 
               strokeWidth="0.1"
               vectorEffect="non-scaling-stroke"
             />
@@ -837,14 +837,14 @@ export default function ExpertsPage() {
               className="text-center md:text-left"
             >
               <div className="flex items-center gap-3 mb-4 justify-center md:justify-start">
-                <div className="h-1 w-12 bg-blue-400 rounded-full"></div>
-                <span className="text-blue-400 font-semibold tracking-wider uppercase">
+                <div className="h-1 w-12 bg-slate-400 rounded-full"></div>
+                <span className="text-slate-600 font-semibold tracking-wider uppercase">
                   Our Team
                 </span>
-                <div className="h-1 w-12 bg-blue-400 rounded-full"></div>
+                <div className="h-1 w-12 bg-slate-400 rounded-full"></div>
               </div>
               
-              <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-300 mb-6">
+              <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 leading-tight mb-6">
                 Meet Our Team
               </h1>
               
@@ -853,26 +853,26 @@ export default function ExpertsPage() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="flex items-center justify-center bg-blue-500/20 backdrop-blur-sm p-3 rounded-full border border-blue-500/30"
+                  className="flex items-center justify-center bg-slate-100 p-3 rounded-full border border-slate-200"
                 >
-                  <FiUsers className="text-blue-400 text-xl" />
+                  <FiUsers className="text-slate-700 text-xl" />
                 </motion.div>
                 <motion.p 
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-xl text-blue-100"
+                  className="text-xl text-slate-600"
                 >
-                  <span className="font-bold text-2xl">{totalEmployees}</span> experts shaping the future of public policy
+                  <span className="font-bold text-2xl text-slate-900">{totalEmployees}</span> experts shaping the future of public policy
                 </motion.p>
               </div>
               
-              {/* Tech-inspired decorative element */}
+              {/* Decorative element */}
               <motion.div 
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="mt-10 h-1 w-full max-w-xl mx-auto bg-gradient-to-r from-blue-500 via-indigo-500 to-blue-500 rounded-full origin-left"
+                className="mt-10 h-1 w-full max-w-xl mx-auto bg-gradient-to-r from-slate-400 via-slate-500 to-slate-400 rounded-full origin-left"
               ></motion.div>
             </motion.div>
           </div>
@@ -880,15 +880,15 @@ export default function ExpertsPage() {
       </section>
 
       {/* Search and Filter Section */}
-      <section className="py-6 bg-slate-800/80 backdrop-blur-md sticky top-0 z-20 border-b border-slate-700/50 shadow-lg">
+      <section className="py-6 bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="relative w-full">
-              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300" />
+              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-600" />
               <input
                 type="text"
                 placeholder="Search by name or expertise..."
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-slate-700/50 border border-slate-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-slate-400"
+                className="w-full pl-10 pr-4 py-3 rounded-lg bg-white border border-slate-300 focus:ring-2 focus:ring-slate-400 focus:border-transparent text-slate-900 placeholder-slate-500"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -899,10 +899,10 @@ export default function ExpertsPage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-slate-700 hover:bg-slate-600 rounded-lg transition-colors border border-slate-600"
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-300"
               >
-                <FiFilter className="text-blue-300" />
-                <span>Filters</span>
+                <FiFilter className="text-slate-600" />
+                <span className="text-slate-700">Filters</span>
               </motion.button>
               
               {(selectedCategory || searchTerm) && (
@@ -913,7 +913,7 @@ export default function ExpertsPage() {
                     setSelectedCategory(null);
                     setSearchTerm('');
                   }}
-                  className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-blue-600/20 text-blue-300 hover:bg-blue-600/30 rounded-lg transition-colors border border-blue-500/30"
+                  className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-slate-900 text-white hover:bg-slate-800 rounded-lg transition-colors"
                 >
                   <FiX />
                   <span>Clear</span>
@@ -931,10 +931,10 @@ export default function ExpertsPage() {
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden mt-4"
               >
-                <div className="p-6 bg-slate-700/50 backdrop-blur-md rounded-lg border border-slate-600">
+                <div className="p-6 bg-white rounded-lg border border-slate-200 shadow-sm">
                   <div>
-                    <h3 className="text-lg font-medium text-white mb-3 flex items-center gap-2">
-                      <HiOutlineUserGroup className="text-blue-400" />
+                    <h3 className="text-lg font-medium text-slate-900 mb-3 flex items-center gap-2">
+                      <HiOutlineUserGroup className="text-slate-600" />
                       Filter by Category
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -946,8 +946,8 @@ export default function ExpertsPage() {
                           onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
                           className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
                             selectedCategory === category
-                              ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/20'
-                              : 'bg-slate-800 border border-slate-600 hover:border-blue-400 text-slate-300'
+                              ? 'bg-slate-900 text-white shadow-lg'
+                              : 'bg-slate-100 border border-slate-300 hover:border-slate-400 text-slate-700 hover:bg-slate-200'
                           }`}
                         >
                           {category}
@@ -961,8 +961,8 @@ export default function ExpertsPage() {
           </AnimatePresence>
           
           {/* Results Count */}
-          <div className="mt-4 text-slate-400 text-center md:text-left">
-            Showing <span className="text-blue-400 font-medium">{filteredExperts.length}</span> of <span className="text-blue-400 font-medium">{totalEmployees}</span> team members
+          <div className="mt-4 text-slate-600 text-center md:text-left">
+            Showing <span className="text-slate-900 font-medium">{filteredExperts.length}</span> of <span className="text-slate-900 font-medium">{totalEmployees}</span> team members
           </div>
         </div>
       </section>
@@ -977,15 +977,15 @@ export default function ExpertsPage() {
                 animate={{ opacity: 1 }}
                 className="text-center py-16"
               >
-                <h3 className="text-2xl font-medium text-white mb-2">No results found</h3>
-                <p className="text-slate-400">Try adjusting your search or filters</p>
+                <h3 className="text-2xl font-medium text-slate-900 mb-2">No results found</h3>
+                <p className="text-slate-600">Try adjusting your search or filters</p>
               </motion.div>
             ) : (
               <>
                 {/* Desktop View - Hidden on mobile */}
-                <div className="hidden md:block bg-slate-800/50 backdrop-blur-md rounded-xl border border-slate-700 overflow-hidden">
+                <div className="hidden md:block bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
                   {/* Table Headers */}
-                  <div className="grid grid-cols-12 gap-4 px-6 py-4 bg-slate-800 border-b border-slate-700 text-sm font-medium text-slate-300 uppercase tracking-wider">
+                  <div className="grid grid-cols-12 gap-4 px-6 py-4 bg-slate-50 border-b border-slate-200 text-sm font-medium text-slate-700 uppercase tracking-wider">
                     <div className="col-span-3">Name</div>
                     <div className="col-span-3">Role</div>
                     <div className="col-span-5">Email</div>
@@ -1000,24 +1000,24 @@ export default function ExpertsPage() {
                       animate={{ opacity: 1 }}
                       transition={{ delay: index * 0.03 }}
                       exit={{ opacity: 0 }}
-                      className={`grid grid-cols-12 gap-4 px-6 py-4 items-center border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors ${
-                        index % 2 === 0 ? 'bg-slate-800/20' : 'bg-slate-800/10'
+                      className={`grid grid-cols-12 gap-4 px-6 py-4 items-center border-b border-slate-200 hover:bg-slate-50 transition-colors ${
+                        index % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'
                       }`}
                     >
                       {/* Name Column */}
                       <div className="col-span-3">
                         <div className="flex items-center">
-                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-medium">
+                          <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center text-white font-medium">
                             {expert.name.charAt(0)}
                           </div>
                           <div className="ml-3">
-                            <p className="font-medium text-white">{expert.name}</p>
+                            <p className="font-medium text-slate-900">{expert.name}</p>
                           </div>
                         </div>
                       </div>
                       
                       {/* Role Column */}
-                      <div className="col-span-3 text-slate-300">
+                      <div className="col-span-3 text-slate-600">
                         {expert.role}
                       </div>
                       
@@ -1026,7 +1026,7 @@ export default function ExpertsPage() {
                         {expert.email && (
                           <a 
                             href={`mailto:${expert.email}`}
-                            className="text-blue-400 hover:text-blue-300 transition-colors flex items-center truncate"
+                            className="text-slate-700 hover:text-slate-900 transition-colors flex items-center truncate"
                           >
                             {expert.email}
                           </a>
@@ -1039,7 +1039,7 @@ export default function ExpertsPage() {
                           <motion.div
                             whileHover={{ scale: 1.2, rotate: 5 }}
                             whileTap={{ scale: 0.9 }}
-                            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-900/20 text-blue-400 hover:bg-blue-800/40 transition-colors border border-blue-800/30"
+                            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors border border-slate-200"
                           >
                             <FiChevronRight size={16} />
                           </motion.div>
@@ -1057,41 +1057,41 @@ export default function ExpertsPage() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      className="bg-slate-800/50 backdrop-blur-md rounded-xl border border-slate-700 overflow-hidden p-4"
+                      className="bg-white rounded-xl border border-slate-200 overflow-hidden p-4 shadow-sm"
                     >
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center">
-                          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-medium text-lg">
+                          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center text-white font-medium text-lg">
                             {expert.name.charAt(0)}
                           </div>
                           <div className="ml-3">
-                            <p className="font-medium text-white text-lg">{expert.name}</p>
-                            <p className="text-sm text-blue-300">{expert.category}</p>
+                            <p className="font-medium text-slate-900 text-lg">{expert.name}</p>
+                            <p className="text-sm text-slate-600">{expert.category}</p>
                           </div>
                         </div>
                         <Link href={`/experts/${expert.id}`}>
                           <motion.div
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            className="flex items-center justify-center w-9 h-9 rounded-full bg-blue-900/20 text-blue-400 border border-blue-800/30"
+                            className="flex items-center justify-center w-9 h-9 rounded-full bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200"
                           >
                             <FiChevronRight size={18} />
                           </motion.div>
                         </Link>
                       </div>
                       
-                      <div className="py-2 border-t border-slate-700/50">
+                      <div className="py-2 border-t border-slate-200">
                         <div className="mb-2">
-                          <span className="text-xs text-slate-400 uppercase tracking-wider">Role</span>
-                          <p className="text-slate-300">{expert.role}</p>
+                          <span className="text-xs text-slate-500 uppercase tracking-wider">Role</span>
+                          <p className="text-slate-700">{expert.role}</p>
                         </div>
                         
                         {expert.email && (
                           <div>
-                            <span className="text-xs text-slate-400 uppercase tracking-wider">Email</span>
+                            <span className="text-xs text-slate-500 uppercase tracking-wider">Email</span>
                             <a 
                               href={`mailto:${expert.email}`}
-                              className="text-blue-400 hover:text-blue-300 transition-colors block truncate"
+                              className="text-slate-700 hover:text-slate-900 transition-colors block truncate"
                             >
                               {expert.email}
                             </a>
@@ -1106,27 +1106,6 @@ export default function ExpertsPage() {
           </AnimatePresence>
         </div>
       </section>
-      
-      {/* Tech-inspired decorative elements */}
-      <div className="fixed top-1/4 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-10"></div>
-      <div className="fixed bottom-1/3 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl -z-10"></div>
-      
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(30, 41, 59, 0.5);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(59, 130, 246, 0.5);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(59, 130, 246, 0.7);
-        }
-      `}</style>
     </div>
   )
 } 
