@@ -156,44 +156,45 @@ export default function Home() {
       if (typeof window === 'undefined') return;
       
       try {
-        // Temporarily disable articles to test if Spline is the issue
-        console.log('Skipping articles import to test...');
+        console.log('Attempting to import articles library...');
         
-        // Mock some articles for testing
-        const mockArticles = [
-          {
-            id: '1',
-            title: 'Test Article 1',
-            subtitle: 'Test subtitle',
-            excerpt: 'Test excerpt for the article',
-            category: 'AI',
-            type: 'news' as const,
-            authorName: 'Test Author',
-            authorPosition: 'Researcher',
-            date: '2023-01-01',
-            image: '/uva-stock-3.jpg',
-            featured: true
-          },
-          {
-            id: '2', 
-            title: 'Test Article 2',
-            subtitle: 'Test subtitle 2',
-            excerpt: 'Test excerpt for the second article',
-            category: 'Policy',
-            type: 'opinion' as const,
-            authorName: 'Test Author 2',
-            authorPosition: 'Senior Researcher',
-            date: '2023-01-02',
-            image: '/uva-stock-3.jpg',
-            featured: true
+        // Use a more defensive dynamic import approach
+        const articlesModule = await import('@/lib/articles').catch(err => {
+          console.error('Failed to import articles module:', err);
+          return null;
+        });
+        
+        if (!articlesModule) {
+          throw new Error('Articles module failed to load');
+        }
+        
+        console.log('Articles library imported successfully');
+        const { getArticles } = articlesModule;
+        
+        const fetchedArticles = await getArticles().catch(err => {
+          console.error('Failed to fetch articles:', err);
+          return [];
+        });
+        
+        console.log('Articles fetched successfully:', fetchedArticles.length);
+        setArticles(fetchedArticles)
+        
+        if (fetchedArticles && fetchedArticles.length > 0) {
+          // Find featured articles first
+          const featured = fetchedArticles.filter((article: Article) => article.featured);
+          
+          // If we have featured articles, use those, otherwise use the most recent
+          if (featured.length > 0) {
+            setFeaturedArticles(featured.slice(0, 4));
+            setRegularArticles(fetchedArticles.filter((a: Article) => !featured.slice(0, 4).some((f: Article) => f.id === a.id)));
+          } else {
+            // Just use the most recent articles as featured
+            setFeaturedArticles(fetchedArticles.slice(0, 4));
+            setRegularArticles(fetchedArticles.slice(4));
           }
-        ];
-        
-        setArticles(mockArticles);
-        setFeaturedArticles(mockArticles);
-        setRegularArticles([]);
-        
-        console.log('Mock articles set successfully');
+        } else {
+          setError("No articles available");
+        }
         
       } catch (error) {
         console.error('Error in fetchArticles:', error);
@@ -269,8 +270,8 @@ export default function Home() {
             </div>
           }>
             <div className="w-full h-full relative">
-              {/* Temporarily disable Spline to test for errors */}
-              {false && typeof window !== 'undefined' && (
+              {/* Re-enable Spline component */}
+              {typeof window !== 'undefined' && (
                 <Spline 
                   scene="https://prod.spline.design/N-7Bwb97Q2XUmz3O/scene.splinecode"
                   onLoad={onSplineLoad}

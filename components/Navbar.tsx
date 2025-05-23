@@ -117,11 +117,31 @@ export default function Navbar() {
       if (typeof window === 'undefined') return;
       
       try {
-        // Temporarily disable to test for errors
-        console.log('Skipping Navbar articles import to test...');
-        setArticles([])
+        console.log('Attempting to import articles library in Navbar...');
+        
+        // Use a more defensive dynamic import approach
+        const articlesModule = await import('../lib/articles').catch(err => {
+          console.error('Failed to import articles module in Navbar:', err);
+          return null;
+        });
+        
+        if (!articlesModule) {
+          throw new Error('Articles module failed to load in Navbar');
+        }
+        
+        console.log('Articles library imported successfully in Navbar');
+        const { getArticles } = articlesModule;
+        
+        const fetchedArticles = await getArticles().catch(err => {
+          console.error('Failed to fetch articles in Navbar:', err);
+          return [];
+        });
+        
+        console.log('Articles fetched successfully in Navbar:', fetchedArticles.length);
+        setArticles(fetchedArticles);
+        
       } catch (error) {
-        console.error('Error fetching articles:', error);
+        console.error('Error fetching articles in Navbar:', error);
         setArticles([])
       }
     }
