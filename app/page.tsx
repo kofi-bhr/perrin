@@ -670,22 +670,6 @@ export default function Home() {
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-50 to-transparent pointer-events-none z-10"></div>
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent pointer-events-none z-10"></div>
           </motion.div>
-          
-          {/* Call to action */}
-          <motion.div 
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-            className="text-center mt-12"
-          >
-            <Link 
-              href="/research-request" 
-              className="inline-flex items-center px-8 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-all duration-300 shadow-lg hover:shadow-xl font-roboto"
-            >
-              Request Policy Analysis
-              <FiArrowRight className="ml-2 w-4 h-4" />
-            </Link>
-          </motion.div>
         </div>
       </section>
 
@@ -819,31 +803,6 @@ export default function Home() {
               </a>
             </motion.div>
           </div>
-          
-          {/* Call to Actions */}
-          <motion.div 
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-            className="text-center"
-          >
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-3 sm:space-y-0 sm:space-x-6">
-              <Link 
-                href="/news" 
-                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-all duration-300 shadow-lg hover:shadow-xl font-roboto text-sm sm:text-base"
-              >
-                View Media Coverage
-                <FiArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-              <Link 
-                href="/about" 
-                className="inline-flex items-center justify-center w-full sm:w-auto px-6 sm:px-8 py-3 border border-slate-300 text-slate-700 rounded-lg font-medium hover:border-slate-400 hover:bg-slate-50 transition-all duration-300 font-roboto text-sm sm:text-base"
-              >
-                Our Story
-                <FiArrowRight className="ml-2 w-4 h-4" />
-              </Link>
-            </div>
-          </motion.div>
         </div>
       </section>
 
@@ -973,16 +932,8 @@ export default function Home() {
                 Our scholars generate strategic ideas and independent analysis to help inform countries, institutions, and leaders as they take on the most difficult global problems.
               </p>
               
-              <Link 
-                href="/research" 
-                className="inline-flex items-center justify-center sm:justify-start border border-slate-900 text-slate-900 px-6 py-3 rounded-lg font-medium hover:bg-slate-50 transition-colors self-stretch sm:self-start mb-8 sm:mb-10 font-roboto text-sm sm:text-base"
-              >
-                See our research
-                <FiArrowRight className="ml-2" />
-              </Link>
-              
-              {/* Research items directly below button */}
-              <div className="space-y-6 sm:space-y-8 mt-2">
+              {/* Research items */}
+              <div className="space-y-6 sm:space-y-8">
                 <div className="flex flex-col">
                   <span className="text-xs sm:text-sm text-slate-700 font-medium mb-1 font-roboto">Report</span>
                   <h3 className="text-lg sm:text-xl font-medium mb-2 font-roboto text-slate-900 leading-tight">Rethinking a Political Approach to Nuclear Abolition</h3>
