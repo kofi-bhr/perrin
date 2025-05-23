@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiChevronDown, FiChevronUp, FiExternalLink, FiSearch, FiMenu, FiX, FiFileText, FiLayers, FiBook, FiArrowRight } from 'react-icons/fi'
 import { getArticles, Article } from '../lib/articles'
-import { LABS_DATA } from '../app/data/labs'
 
 // Define search result types
 interface SearchResult {
@@ -18,6 +17,27 @@ interface SearchResult {
   description?: string
   category?: string
 }
+
+// Simple lab data for navbar (avoid importing the full labs.ts with React components)
+const NAVBAR_LABS = [
+  { id: "ai-governance", title: "AI Governance" },
+  { id: "inclusive-policy", title: "Inclusive Policy" },
+  { id: "climate-technology", title: "Climate Technology" },
+  { id: "deliberative-democracy", title: "Deliberative Democracy" }
+]
+
+// All labs data for search (simplified)
+const ALL_LABS = [
+  { id: "ai-governance", title: "AI Governance", description: "Researching policy frameworks and governance models to ensure artificial intelligence development remains ethical, safe, and beneficial to society." },
+  { id: "inclusive-policy", title: "Inclusive Policy", description: "Designing and evaluating policies that promote equity, inclusion, and representation across diverse communities and demographics." },
+  { id: "climate-technology", title: "Climate Technology", description: "Researching technological solutions to climate challenges and the policy frameworks needed to accelerate their development and deployment." },
+  { id: "deliberative-democracy", title: "Deliberative Democracy", description: "Exploring innovative democratic processes that enhance public deliberation, citizen participation, and collective decision-making on complex policy issues." },
+  { id: "special-projects", title: "Special Projects", description: "Cross-cutting research initiatives that address emerging policy challenges requiring interdisciplinary approaches." },
+  { id: "foreign-affairs", title: "Foreign Affairs", description: "Analyzing international relations, diplomacy, and global governance structures in an interconnected world." },
+  { id: "economic-policy", title: "Economic Policy", description: "Examining macroeconomic trends, fiscal policy, and the intersection of economics with technology and society." },
+  { id: "legal-research", title: "Legal Research", description: "Investigating legal frameworks for emerging technologies and evolving societal needs." },
+  { id: "policy-entrepreneurship", title: "Policy Entrepreneurship", description: "Fostering innovation in policy design and implementation through entrepreneurial approaches." }
+]
 
 // Define static pages for search
 const STATIC_PAGES: SearchResult[] = [
@@ -147,7 +167,7 @@ export default function Navbar() {
     })
 
     // Search labs
-    const matchingLabs = LABS_DATA.filter(lab =>
+    const matchingLabs = ALL_LABS.filter(lab =>
       lab.title.toLowerCase().includes(query) ||
       lab.description.toLowerCase().includes(query)
     ).slice(0, 3) // Limit to 3 results
@@ -267,7 +287,7 @@ export default function Navbar() {
                       className="absolute left-0 mt-2 w-64 bg-white border border-gray-100 rounded-xl shadow-soft py-2 z-50"
                     >
                       <div className="py-1 px-3 text-xs text-gray-500 font-medium uppercase border-b border-gray-100 mb-1">Labs</div>
-                      {LABS_DATA.slice(0, 4).map((lab) => (
+                      {NAVBAR_LABS.map((lab) => (
                         <Link 
                           key={lab.id}
                           href={`/Labs/${lab.id}`} 
