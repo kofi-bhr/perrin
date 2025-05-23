@@ -270,8 +270,8 @@ export default function Home() {
             </div>
           }>
             <div className="w-full h-full relative">
-              {/* Temporarily disable Spline to isolate the error source */}
-              {false && typeof window !== 'undefined' && (
+              {/* Re-enable Spline component after Next.js upgrade */}
+              {typeof window !== 'undefined' && (
                 <Spline 
                   scene="https://prod.spline.design/N-7Bwb97Q2XUmz3O/scene.splinecode"
                   onLoad={onSplineLoad}
