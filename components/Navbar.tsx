@@ -117,10 +117,9 @@ export default function Navbar() {
       if (typeof window === 'undefined') return;
       
       try {
-        // Dynamic import to avoid SSR issues
-        const { getArticles } = await import('../lib/articles');
-        const fetchedArticles = await getArticles()
-        setArticles(fetchedArticles)
+        // Temporarily disable to test for errors
+        console.log('Skipping Navbar articles import to test...');
+        setArticles([])
       } catch (error) {
         console.error('Error fetching articles:', error);
         setArticles([])
