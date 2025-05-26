@@ -395,17 +395,17 @@ export default function Home() {
                     <div className="flex items-center justify-between mb-2 sm:mb-3">
                       <div className="flex items-center space-x-1 sm:space-x-2">
                         <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-green-500"></div>
-                        <span className="text-xs font-medium text-slate-900">Research Analytics</span>
+                        <span className="text-xs font-medium text-slate-900">Research Labs</span>
                       </div>
-                      <div className="text-xs text-slate-500">Live</div>
+                      <div className="text-xs text-slate-500">Active</div>
                     </div>
                     <div className="space-y-1 sm:space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-xs text-slate-600">Impact Score</span>
-                        <span className="text-xs sm:text-sm font-semibold text-slate-900">94.7%</span>
+                        <span className="text-xs text-slate-600">Labs Active</span>
+                        <span className="text-xs sm:text-sm font-semibold text-slate-900">10</span>
                       </div>
                       <div className="w-full bg-slate-200 rounded-full h-1 sm:h-1.5">
-                        <div className="bg-slate-600 h-1 sm:h-1.5 rounded-full w-[94.7%]"></div>
+                        <div className="bg-slate-600 h-1 sm:h-1.5 rounded-full w-full"></div>
                       </div>
                     </div>
                   </div>
@@ -417,36 +417,26 @@ export default function Home() {
                         <div className="w-2 sm:w-3 h-2 sm:h-3 bg-white rounded-sm"></div>
                       </div>
                       <div>
-                        <h3 className="text-xs font-medium text-slate-900">Research Engine</h3>
-                        <p className="text-xs text-slate-600">Policy Analysis</p>
+                        <h3 className="text-xs font-medium text-slate-900">Research Output</h3>
+                        <p className="text-xs text-slate-600">2023-2024</p>
                       </div>
                     </div>
                     <div className="grid grid-cols-3 gap-2 sm:gap-3">
                       <div className="text-center">
-                        <div className="text-xs sm:text-sm font-semibold text-slate-900">127</div>
-                        <div className="text-xs text-slate-600">Papers</div>
+                        <div className="text-xs sm:text-sm font-semibold text-slate-900">20</div>
+                        <div className="text-xs text-slate-600">Articles</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-xs sm:text-sm font-semibold text-slate-900">15K</div>
-                        <div className="text-xs text-slate-600">Citations</div>
+                        <div className="text-xs sm:text-sm font-semibold text-slate-900">250+</div>
+                        <div className="text-xs text-slate-600">Researchers</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-xs sm:text-sm font-semibold text-slate-900">98%</div>
-                        <div className="text-xs text-slate-600">Accuracy</div>
+                        <div className="text-xs sm:text-sm font-semibold text-slate-900">6</div>
+                        <div className="text-xs text-slate-600">Agencies</div>
                       </div>
                     </div>
                   </div>
-                  
-                  {/* Minimal Status Indicator - Mobile optimized */}
-                  <div className="absolute top-1/2 -right-2 sm:-right-3 transform -translate-y-1/2 bg-white/95 backdrop-blur-lg rounded-lg shadow-md border border-slate-200 p-2 sm:p-3">
-                    <div className="text-center space-y-1">
-                      <div className="w-5 sm:w-6 h-5 sm:h-6 rounded-full bg-slate-900 flex items-center justify-center mx-auto">
-                        <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white rounded-full"></div>
-                      </div>
-                      <div className="text-xs font-medium text-slate-900">AI</div>
-                      <div className="text-xs text-green-600">Online</div>
-                    </div>
-                  </div>
+
                   
                   {/* Subtle corner accents */}
                   <div className="absolute -top-1 -right-1 w-6 sm:w-8 h-6 sm:h-8">
@@ -462,7 +452,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Federal Agencies Partnership Carousel */}
+              {/* Government Agencies Policy Advisory Carousel */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
@@ -473,14 +463,14 @@ export default function Home() {
           >
             <motion.div variants={itemVariants} className="flex items-center justify-center mb-3 sm:mb-4">
               <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent via-slate-400 to-transparent"></div>
-              <span className="text-xs sm:text-sm uppercase tracking-wide text-slate-600 font-medium px-4 sm:px-6">Federal Partnerships</span>
+              <span className="text-xs sm:text-sm uppercase tracking-wide text-slate-600 font-medium px-4 sm:px-6">Policy Advisory</span>
               <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent via-slate-400 to-transparent"></div>
             </motion.div>
             <motion.h2 variants={itemVariants} className="text-2xl sm:text-3xl md:text-4xl font-light text-slate-900 mb-3 sm:mb-4 font-roboto">
               Trusted by Leading Agencies
             </motion.h2>
             <motion.p variants={itemVariants} className="text-base sm:text-lg text-slate-600 font-light max-w-2xl mx-auto px-4 sm:px-0">
-              We've provided strategic policy recommendations and research to key federal departments
+              We've suggested strategic policy recommendations and research to key government departments
             </motion.p>
           </motion.div>
           
