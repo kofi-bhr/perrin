@@ -555,14 +555,14 @@ export default function Home() {
                   <div className="mb-3 sm:mb-4 p-3 sm:p-4 rounded-full bg-slate-50 group-hover:bg-slate-100 transition-colors">
                     <Image
                       src="/Federal-Bureau-of-Investigation-Logo.png"
-                      alt="Federal Bureau of Investigation"
+                      alt="US Department of Justice"
                       width={64}
                       height={64}
                       className="h-10 sm:h-12 lg:h-16 w-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-300"
                     />
                   </div>
-                  <h3 className="text-xs sm:text-sm font-medium text-slate-900 text-center mb-1">Federal Bureau of Investigation</h3>
-                  <p className="text-xs text-slate-500 text-center">Cybersecurity Frameworks</p>
+                  <h3 className="text-xs sm:text-sm font-medium text-slate-900 text-center mb-1">Department of Justice</h3>
+                  <p className="text-xs text-slate-500 text-center">Legal Framework Analysis</p>
                 </motion.div>
                 
                 <motion.div variants={itemVariants} className="group flex-shrink-0 flex flex-col items-center bg-white rounded-xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 w-36 sm:w-44 lg:w-48">
@@ -640,14 +640,14 @@ export default function Home() {
                   <div className="mb-3 sm:mb-4 p-3 sm:p-4 rounded-full bg-slate-50 group-hover:bg-slate-100 transition-colors">
                     <Image
                       src="/Federal-Bureau-of-Investigation-Logo.png"
-                      alt="Federal Bureau of Investigation"
+                      alt="US Department of Justice"
                       width={64}
                       height={64}
                       className="h-10 sm:h-12 lg:h-16 w-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-300"
                     />
                   </div>
-                  <h3 className="text-xs sm:text-sm font-medium text-slate-900 text-center mb-1">Federal Bureau of Investigation</h3>
-                  <p className="text-xs text-slate-500 text-center">Cybersecurity Frameworks</p>
+                  <h3 className="text-xs sm:text-sm font-medium text-slate-900 text-center mb-1">Department of Justice</h3>
+                  <p className="text-xs text-slate-500 text-center">Legal Framework Analysis</p>
                 </motion.div>
                 
                 <motion.div variants={itemVariants} className="group flex-shrink-0 flex flex-col items-center bg-white rounded-xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 w-36 sm:w-44 lg:w-48">
@@ -918,6 +918,117 @@ export default function Home() {
         </div>
       </section>
       
+      {/* Key Metrics Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-white border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="text-center mb-12 sm:mb-16"
+          >
+            <motion.div variants={itemVariants} className="flex items-center justify-center mb-3 sm:mb-4">
+              <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent via-slate-400 to-transparent"></div>
+              <span className="text-xs sm:text-sm uppercase tracking-wide text-slate-600 font-medium px-4 sm:px-6">Impact by the Numbers</span>
+              <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent via-slate-400 to-transparent"></div>
+            </motion.div>
+            <motion.h2 variants={itemVariants} className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-slate-900 mb-4 sm:mb-6 font-roboto leading-tight">
+              Driving Real Impact
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-base sm:text-lg lg:text-xl text-slate-600 font-light max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
+              Our work extends beyond research to create tangible opportunities and build engaged communities
+            </motion.p>
+          </motion.div>
+          
+          {/* Metrics Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            
+            {/* Scholarship Metric */}
+            <motion.div 
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              className="group bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:shadow-lg hover:border-slate-300 transition-all duration-300"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-md bg-slate-600"></div>
+                </div>
+                <div className="text-xs text-slate-500 font-medium tracking-wide">SCHOLARSHIPS</div>
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-4xl sm:text-5xl font-light text-slate-900 font-roboto tracking-tight">$3M</h3>
+                <p className="text-base font-medium text-slate-700 font-roboto">Scholarships Secured</p>
+                <p className="text-sm text-slate-600 font-light leading-relaxed font-roboto">
+                  Through our comprehensive scholarship center, connecting students with opportunities
+                </p>
+              </div>
+            </motion.div>
+            
+            {/* TikTok Followers Metric */}
+            <motion.div 
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              className="group bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:shadow-lg hover:border-slate-300 transition-all duration-300"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-md bg-slate-600"></div>
+                </div>
+                <div className="text-xs text-slate-500 font-medium tracking-wide">SOCIAL REACH</div>
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-4xl sm:text-5xl font-light text-slate-900 font-roboto tracking-tight">48K</h3>
+                <p className="text-base font-medium text-slate-700 font-roboto">TikTok Followers</p>
+                <p className="text-sm text-slate-600 font-light leading-relaxed font-roboto">
+                  Engaging young audiences with accessible policy content and insights
+                </p>
+              </div>
+            </motion.div>
+            
+            {/* Policy Researchers Metric */}
+            <motion.div 
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              className="group bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 hover:shadow-lg hover:border-slate-300 transition-all duration-300"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+                  <div className="w-6 h-6 rounded-md bg-slate-600"></div>
+                </div>
+                <div className="text-xs text-slate-500 font-medium tracking-wide">NETWORK</div>
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-4xl sm:text-5xl font-light text-slate-900 font-roboto tracking-tight">250+</h3>
+                <p className="text-base font-medium text-slate-700 font-roboto">Policy Researchers</p>
+                <p className="text-sm text-slate-600 font-light leading-relaxed font-roboto">
+                  Expert network contributing to cutting-edge policy analysis and solutions
+                </p>
+              </div>
+            </motion.div>
+            
+          </div>
+          
+          {/* Refined CTA */}
+          <motion.div 
+            variants={itemVariants}
+            initial="hidden"
+            animate="visible"
+            className="text-center mt-12 sm:mt-16"
+          >
+            <Link 
+              href="/scholarship-center"
+              className="inline-flex items-center px-6 sm:px-8 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-all duration-200 text-sm sm:text-base font-roboto shadow-sm hover:shadow-md"
+            >
+              Explore Scholarship Opportunities
+              <FiArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+      
       {/* Research Publication Section - Refined Design */}
       <section className="py-12 sm:py-16 bg-white border-t border-slate-200">
         <div className="container mx-auto px-4 md:px-8">
@@ -934,30 +1045,30 @@ export default function Home() {
               
               {/* Research items */}
               <div className="space-y-6 sm:space-y-8">
-                <div className="flex flex-col">
-                  <span className="text-xs sm:text-sm text-slate-700 font-medium mb-1 font-roboto">Report</span>
-                  <h3 className="text-lg sm:text-xl font-medium mb-2 font-roboto text-slate-900 leading-tight">Rethinking a Political Approach to Nuclear Abolition</h3>
-                  <div className="flex items-center gap-2">
-                    <div className="flex -space-x-2">
-                      <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-slate-300 flex items-center justify-center text-slate-700 font-medium ring-1 ring-white text-xs">GP</div>
-                      <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-slate-300 flex items-center justify-center text-slate-700 font-medium ring-1 ring-white text-xs">FY</div>
-                      <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-slate-300 flex items-center justify-center text-slate-700 font-medium ring-1 ring-white text-xs">MN</div>
+                {articles.slice(0, 2).map((article, index) => (
+                  <Link 
+                    key={article.id} 
+                    href={`/news/${article.id}`}
+                    className="flex flex-col group cursor-pointer transition-all duration-200 hover:bg-slate-50 p-3 -m-3 rounded-lg"
+                  >
+                    <span className="text-xs sm:text-sm text-slate-700 font-medium mb-1 font-roboto">
+                      {article.type === 'opinion' ? 'Commentary' : 'Report'}
+                    </span>
+                    <h3 className="text-lg sm:text-xl font-medium mb-2 font-roboto text-slate-900 leading-tight group-hover:text-slate-700 transition-colors">
+                      {article.title}
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <div className="flex -space-x-2">
+                        <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-slate-300 flex items-center justify-center text-slate-700 font-medium ring-1 ring-white text-xs">
+                          {article.authorName ? article.authorName.split(' ').map(name => name.charAt(0)).join('').slice(0, 2) : 'PR'}
+                        </div>
+                      </div>
+                      <span className="text-xs sm:text-sm text-slate-600 font-roboto">
+                        {article.authorName || 'Perrin Researcher'}
+                      </span>
                     </div>
-                    <span className="text-xs sm:text-sm text-slate-600 font-roboto">George Perkovich, Fumihiko Yoshida, Michiru Nishida</span>
-                  </div>
-                </div>
-                
-                <div className="flex flex-col">
-                  <span className="text-xs sm:text-sm text-slate-700 font-medium mb-1 font-roboto">Paper</span>
-                  <h3 className="text-lg sm:text-xl font-medium mb-2 font-roboto text-slate-900 leading-tight">Democratic Recovery After Significant Backsliding</h3>
-                  <div className="flex items-center gap-2">
-                    <div className="flex -space-x-2">
-                      <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-slate-300 flex items-center justify-center text-slate-700 font-medium ring-1 ring-white text-xs">TC</div>
-                      <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-slate-300 flex items-center justify-center text-slate-700 font-medium ring-1 ring-white text-xs">MC</div>
-                    </div>
-                    <span className="text-xs sm:text-sm text-slate-600 font-roboto">Thomas Carothers, McKenzie Carrier</span>
-                  </div>
-                </div>
+                  </Link>
+                ))}
               </div>
             </div>
             

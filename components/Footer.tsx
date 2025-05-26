@@ -40,7 +40,7 @@ export default function Footer() {
               <div className="text-xs font-mono text-slate-500 px-2 py-1 bg-slate-200/50 rounded-full">EST. 2023</div>
             </div>
             <p className="text-slate-600 text-sm max-w-md mb-5 font-roboto leading-relaxed">
-              A student-led think tank at the University of Virginia dedicated to advancing 
+              A think tank at the University of Virginia dedicated to advancing 
               innovative solutions for complex policy challenges in AI governance and technology policy.
             </p>
             
