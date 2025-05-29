@@ -7,14 +7,14 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = params.id;
-    
-    // Connect to MongoDB
+    console.log(`Articles API: Fetching article with ID: ${params.id}`);
     const client = await clientPromise;
     const db = client.db("perrindb");
     
-    // Find the article by ID
-    const article = await db.collection("articles").findOne({ id });
+    // Get specific article by ID, including all fields
+    const article = await db
+      .collection("articles")
+      .findOne({ id: params.id });
     
     if (!article) {
       return NextResponse.json(
@@ -23,11 +23,12 @@ export async function GET(
       );
     }
     
+    console.log(`Articles API: Successfully retrieved article: ${article.title}`);
     return NextResponse.json(article);
   } catch (error) {
     console.error('Error retrieving article:', error);
     return NextResponse.json(
-      { message: 'Error retrieving article' },
+      { message: 'Error retrieving article', error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

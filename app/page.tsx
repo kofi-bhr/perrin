@@ -818,93 +818,107 @@ export default function Home() {
             </Link>
           </div>
           
-          {/* Error state */}
-          {error && !isLoading && (
-            <div className="bg-red-50 border border-red-200 text-red-800 rounded-lg p-4 sm:p-6 mb-6 sm:mb-8">
-              <p className="font-roboto text-sm sm:text-base">{error}</p>
+          {/* Featured Articles Section with better error handling */}
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200">
+                  <div className="animate-pulse">
+                    <div className="aspect-[16/9] bg-slate-200"></div>
+                    <div className="p-4 sm:p-6">
+                      <div className="h-4 bg-slate-200 rounded mb-3"></div>
+                      <div className="h-6 bg-slate-200 rounded mb-2"></div>
+                      <div className="h-4 bg-slate-200 rounded w-3/4"></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <p className="text-slate-600 mb-4">{error}</p>
               <button 
                 onClick={retryFetchArticles}
-                className="mt-2 sm:mt-3 text-sm font-medium text-red-600 hover:text-red-800 underline font-roboto"
+                className="inline-flex items-center px-4 py-2 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
               >
-                Retry
+                Retry Loading Articles
+              </button>
+            </div>
+          ) : featuredArticles.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {/* Article 1 - Large feature (left) */}
+              <Link 
+                href={`/news/${featuredArticles[0].id}`}
+                className="block bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200 transition-shadow hover:shadow-md group"
+              >
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  <Image
+                    src={featuredArticles[0].image || "/uva-stock-3.jpg"}
+                    alt={featuredArticles[0].title || "Featured article"}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-4 sm:p-6">
+                  <div className="mb-3 sm:mb-4">
+                    <span className="bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-lg font-roboto">
+                      {featuredArticles[0].category || "Paper"}
+                    </span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 group-hover:text-slate-700 transition-colors font-roboto leading-tight">
+                    {featuredArticles[0].title}
+                  </h3>
+                  <p className="text-sm sm:text-base text-slate-600 mb-4 line-clamp-2 font-roboto font-light">
+                    {featuredArticles[0].subtitle || featuredArticles[0].excerpt}
+                  </p>
+                  <div className="flex items-center">
+                    <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 mr-3 font-roboto text-sm">
+                      {featuredArticles[0].authorName ? featuredArticles[0].authorName.charAt(0) : 'P'}
+                    </div>
+                    <span className="text-xs sm:text-sm text-slate-500 font-roboto">{featuredArticles[0].authorName || "Perrin Researcher"}</span>
+                  </div>
+                </div>
+              </Link>
+              
+              {/* Articles right column */}
+              <div className="space-y-4 sm:space-y-6">
+                {featuredArticles.slice(1, 4).map((article, index) => (
+                  <Link 
+                    key={article.id}
+                    href={`/news/${article.id}`}
+                    className="block bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200 transition-shadow hover:shadow-md group"
+                  >
+                    <div className="p-4 sm:p-6">
+                      <div className="mb-3 sm:mb-4">
+                        <span className="bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-lg font-roboto">
+                          {article.category || (index % 2 === 0 ? "Commentary" : "Paper")}
+                        </span>
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 group-hover:text-slate-700 transition-colors font-roboto leading-tight">
+                        {article.title}
+                      </h3>
+                      <div className="flex items-center">
+                        <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 mr-3 font-roboto text-sm">
+                          {article.authorName ? article.authorName.charAt(0) : 'P'}
+                        </div>
+                        <span className="text-xs sm:text-sm text-slate-500 font-roboto">{article.authorName || "Perrin Researcher"}</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-slate-600 mb-4">No articles available at the moment.</p>
+              <button 
+                onClick={retryFetchArticles}
+                className="inline-flex items-center px-4 py-2 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
+              >
+                Try Again
               </button>
             </div>
           )}
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {/* Article 1 - Large feature (left) */}
-            <Link 
-              href={featuredArticles[0] ? `/news/${featuredArticles[0].id}` : "#"}
-              className="block bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200 transition-shadow hover:shadow-md group"
-            >
-              <div className="relative aspect-[16/9] overflow-hidden">
-                <Image
-                  src={featuredArticles[0]?.image || "/uva-stock-3.jpg"}
-                  alt={featuredArticles[0]?.title || "Featured article"}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-4 sm:p-6">
-                <div className="mb-3 sm:mb-4">
-                  <span className="bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-lg font-roboto">
-                    Paper
-                  </span>
-                </div>
-                <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 group-hover:text-slate-700 transition-colors font-roboto leading-tight">
-                  {featuredArticles[0]?.title || "The Key to AI Governance: A Balanced Approach"}
-                </h3>
-                <p className="text-sm sm:text-base text-slate-600 mb-4 line-clamp-2 font-roboto font-light">
-                  {featuredArticles[0]?.subtitle || featuredArticles[0]?.excerpt || "A comprehensive framework for approaching AI governance that balances innovation with necessary regulation."}
-                </p>
-                <div className="flex items-center">
-                  <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 mr-3 font-roboto text-sm">
-                    {featuredArticles[0]?.authorName ? featuredArticles[0]?.authorName.charAt(0) : 'P'}
-                  </div>
-                  <span className="text-xs sm:text-sm text-slate-500 font-roboto">{featuredArticles[0]?.authorName || "Perrin Researcher"}</span>
-                </div>
-              </div>
-            </Link>
-            
-            {/* Articles right column */}
-            <div className="space-y-4 sm:space-y-6">
-              {featuredArticles.slice(1, 4).map((article, index) => (
-                <Link 
-                  key={article.id || index}
-                  href={article ? `/news/${article.id}` : "#"}
-                  className="block bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200 transition-shadow hover:shadow-md group"
-                >
-                  <div className="p-4 sm:p-6">
-                    <div className="mb-3 sm:mb-4">
-                      <span className="bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-lg font-roboto">
-                        {index % 2 === 0 ? "Commentary" : "Paper"}
-                      </span>
-                    </div>
-                    <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 group-hover:text-slate-700 transition-colors font-roboto leading-tight">
-                      {article.title}
-                    </h3>
-                    <div className="flex items-center">
-                      <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 mr-3 font-roboto text-sm">
-                        {article.authorName ? article.authorName.charAt(0) : 'P'}
-                      </div>
-                      <span className="text-xs sm:text-sm text-slate-500 font-roboto">{article.authorName || "Perrin Researcher"}</span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-          
-          {/* Mobile view all button */}
-          <div className="md:hidden mt-8 sm:mt-10 text-center">
-            <Link 
-              href="/news" 
-              className="inline-flex items-center justify-center w-full px-6 py-3 bg-white border border-slate-300 text-slate-700 rounded-lg font-medium hover:bg-slate-50 transition-colors font-roboto text-sm sm:text-base"
-            >
-              View all articles
-              <FiArrowRight className="ml-2" />
-            </Link>
-          </div>
         </div>
       </section>
       

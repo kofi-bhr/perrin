@@ -5,16 +5,22 @@ import { Article } from '../../../lib/articles';
 // GET handler for retrieving articles
 export async function GET(request: NextRequest) {
   try {
+    console.log('Articles API: Starting to fetch articles...');
     const client = await clientPromise;
     const db = client.db("perrindb");
     
     // Get all articles from MongoDB, sorted by newest first
+    // Exclude the 'content' field to reduce response size for listings
     const articles = await db
       .collection("articles")
       .find({})
+      .project({
+        content: 0  // Exclude content field for better performance
+      })
       .sort({ _id: -1 })
       .toArray();
     
+    console.log(`Articles API: Successfully retrieved ${articles.length} articles`);
     return NextResponse.json(articles);
   } catch (error) {
     console.error('Error retrieving articles:', error);
