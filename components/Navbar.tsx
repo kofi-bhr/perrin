@@ -94,6 +94,14 @@ const STATIC_PAGES: SearchResult[] = [
     type: 'page',
     url: '/news',
     description: 'Stay updated with the latest news, research findings, and policy insights from the Perrin Institute.'
+  },
+  {
+    id: 'careers',
+    title: 'Careers',
+    subtitle: 'Join our team',
+    type: 'page',
+    url: '/careers',
+    description: 'Explore career opportunities and join our team of policy researchers and experts.'
   }
 ]
 
@@ -435,6 +443,20 @@ export default function Navbar() {
                 News
               </Link>
 
+              {/* Careers */}
+              <Link 
+                href="/careers" 
+                className={`font-medium transition-colors ${
+                  pathname.includes('/careers') 
+                    ? 'text-teal-600' 
+                    : isScrolled 
+                      ? 'text-gray-800 hover:text-teal-600' 
+                      : 'text-gray-800 hover:text-teal-500'
+                }`}
+              >
+                Careers
+              </Link>
+
               {/* Search */}
               <div className="relative" ref={searchRef}>
                 <button 
@@ -731,6 +753,13 @@ export default function Navbar() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <span>News</span>
+                </Link>
+                <Link 
+                  href="/careers"
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>Careers</span>
                 </Link>
               </div>
             </div>

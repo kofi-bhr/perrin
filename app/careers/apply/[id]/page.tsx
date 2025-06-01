@@ -48,17 +48,59 @@ const getJobById = (id: string) => {
   const jobs = [
     {
       id: '1',
-      title: 'Marketing Specialist',
+      title: 'Senior Policy Research Analyst',
       type: 'Full-time',
-      location: 'Charlottesville, VA / Remote',
-      department: 'Marketing'
+      location: 'Charlottesville, VA / Hybrid',
+      department: 'Research',
+      salaryRange: '$75,000 - $95,000'
     },
     {
       id: '2',
-      title: 'Graphic Designer',
+      title: 'Data Scientist - Policy Analytics',
       type: 'Full-time',
+      location: 'Charlottesville, VA / Remote',
+      department: 'Research',
+      salaryRange: '$80,000 - $110,000'
+    },
+    {
+      id: '3',
+      title: 'Communications and Outreach Coordinator',
+      type: 'Full-time',
+      location: 'Charlottesville, VA / Hybrid',
+      department: 'Communications',
+      salaryRange: '$55,000 - $70,000'
+    },
+    {
+      id: '4',
+      title: 'Research Associate - International Policy',
+      type: 'Full-time',
+      location: 'Charlottesville, VA / Hybrid',
+      department: 'International Studies',
+      salaryRange: '$65,000 - $80,000'
+    },
+    {
+      id: '5',
+      title: 'Marketing Specialist',
+      type: 'Full-time',
+      location: 'Charlottesville, VA / Remote',
+      department: 'Marketing',
+      salaryRange: '$50,000 - $65,000'
+    },
+    {
+      id: '6',
+      title: 'UI/UX Designer',
+      type: 'Contract',
       location: 'Remote',
-      department: 'Creative'
+      department: 'Technology',
+      salaryRange: '$60 - $80/hour'
+    },
+    {
+      id: '7',
+      title: 'Legislative Affairs Coordinator',
+      type: 'Full-time',
+      location: 'Washington, DC / Hybrid',
+      department: 'Government Relations',
+      salaryRange: '$70,000 - $90,000'
     }
   ];
   
@@ -212,7 +254,7 @@ export default function CareerApplicationPage() {
   }
   
   return (
-    <div className="min-h-screen bg-black text-white pt-32 pb-20 px-4">
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 pt-32 pb-20 px-4">
       <motion.div 
         initial="hidden"
         animate="visible"
@@ -221,29 +263,29 @@ export default function CareerApplicationPage() {
       >
         {/* Header section */}
         <motion.div variants={itemVariants} className="mb-12">
-          <Link href="/careers" className="inline-flex items-center text-blue-400 hover:text-blue-300 mb-6 group">
+          <Link href="/careers" className="inline-flex items-center text-teal-600 hover:text-teal-700 mb-6 group font-roboto">
             <FiArrowLeft className="mr-2 transition-transform group-hover:-translate-x-1" />
             <span>Back to Career Listings</span>
           </Link>
           
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">Apply for {job.title}</h1>
-          <div className="flex flex-wrap items-center gap-4 text-white/70 mt-2 mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-light mb-4 text-slate-900 font-roboto">Apply for {job.title}</h1>
+          <div className="flex flex-wrap items-center gap-4 text-slate-600 mt-2 mb-6 font-roboto">
             <div className="inline-flex items-center">
-              <FiBriefcase className="mr-2 text-blue-400" />
+              <FiBriefcase className="mr-2 text-teal-600" />
               {job.type}
             </div>
             <div className="inline-flex items-center">
-              <FiMapPin className="mr-2 text-blue-400" />
+              <FiMapPin className="mr-2 text-teal-600" />
               {job.location}
             </div>
             <div className="inline-flex items-center">
-              <FiUser className="mr-2 text-blue-400" />
+              <FiUser className="mr-2 text-teal-600" />
               {job.department}
             </div>
           </div>
-          <div className="h-1 w-24 bg-blue-500 mb-8 rounded-full"></div>
+          <div className="h-1 w-24 bg-teal-600 mb-8 rounded-full"></div>
           
-          <p className="text-xl text-gray-300 leading-relaxed max-w-3xl">
+          <p className="text-xl text-slate-600 leading-relaxed max-w-3xl font-roboto font-light">
             We're excited about your interest in joining the Perrin Institute team! 
             Please complete this application form with your qualifications and experience.
           </p>
@@ -252,13 +294,13 @@ export default function CareerApplicationPage() {
         {/* Tips panel */}
         <motion.div 
           variants={itemVariants}
-          className="bg-blue-900/20 border border-blue-500/20 rounded-lg p-6 mb-8"
+          className="bg-teal-50 border border-teal-200 rounded-lg p-6 mb-8"
         >
           <div className="flex items-start">
-            <FiInfo className="text-blue-400 text-xl mt-1 mr-4 flex-shrink-0" />
+            <FiInfo className="text-teal-600 text-xl mt-1 mr-4 flex-shrink-0" />
             <div>
-              <h3 className="text-lg font-semibold mb-2">Application Tips</h3>
-              <ul className="text-gray-300 text-sm leading-relaxed space-y-2">
+              <h3 className="text-lg font-semibold mb-2 text-slate-900 font-roboto">Application Tips</h3>
+              <ul className="text-slate-700 text-sm leading-relaxed space-y-2 font-roboto font-light">
                 <li>• Ensure your résumé is up-to-date and clearly highlights relevant experience</li>
                 <li>• Tailor your cover letter to explain why you're interested in this specific role</li>
                 <li>• Include specific examples of past work that demonstrate your capabilities</li>
@@ -271,20 +313,20 @@ export default function CareerApplicationPage() {
         {/* Main form */}
         <motion.div 
           variants={itemVariants}
-          className="bg-gradient-to-br from-gray-900/80 to-gray-900/60 rounded-xl p-8 shadow-xl border border-gray-800/40"
+          className="bg-white rounded-xl p-8 shadow-lg border border-slate-200"
         >
           {submitError ? (
-            <div className="bg-red-900/20 border border-red-500/30 rounded-lg p-6 mb-8">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-8">
               <div className="flex items-start">
-                <FiAlertTriangle className="text-red-400 text-xl mt-1 mr-4 flex-shrink-0" />
+                <FiAlertTriangle className="text-red-600 text-xl mt-1 mr-4 flex-shrink-0" />
                 <div>
-                  <h3 className="text-lg font-semibold text-red-400 mb-2">Submission Error</h3>
-                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                  <h3 className="text-lg font-semibold text-red-800 mb-2 font-roboto">Submission Error</h3>
+                  <p className="text-slate-700 text-sm leading-relaxed mb-4 font-roboto font-light">
                     We encountered an error while processing your application. Please try again or contact our recruiting team directly.
                   </p>
                   <button 
                     onClick={() => setSubmitError(false)}
-                    className="px-4 py-2 bg-red-600/30 hover:bg-red-600/50 text-white rounded-lg transition-colors duration-300 text-sm"
+                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-300 text-sm font-roboto"
                   >
                     Try Again
                   </button>
@@ -295,12 +337,12 @@ export default function CareerApplicationPage() {
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Personal Information */}
               <div>
-                <h3 className="text-xl font-semibold mb-6 text-white">Personal Information</h3>
+                <h3 className="text-xl font-semibold mb-6 text-slate-900 font-roboto">Personal Information</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-2">
-                      First Name <span className="text-red-400">*</span>
+                    <label htmlFor="firstName" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
+                      First Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -309,14 +351,14 @@ export default function CareerApplicationPage() {
                       required
                       value={formData.firstName}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-black/40 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-slate-900 transition-all duration-300 font-roboto"
                       placeholder="Enter your first name"
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-2">
-                      Last Name <span className="text-red-400">*</span>
+                    <label htmlFor="lastName" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
+                      Last Name <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -325,7 +367,7 @@ export default function CareerApplicationPage() {
                       required
                       value={formData.lastName}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-black/40 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-slate-900 transition-all duration-300 font-roboto"
                       placeholder="Enter your last name"
                     />
                   </div>
@@ -334,12 +376,12 @@ export default function CareerApplicationPage() {
               
               {/* Contact Information */}
               <div>
-                <h3 className="text-xl font-semibold mb-6 text-white">Contact Information</h3>
+                <h3 className="text-xl font-semibold mb-6 text-slate-900 font-roboto">Contact Information</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                      Email Address <span className="text-red-400">*</span>
+                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
+                      Email Address <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="email"
@@ -348,14 +390,14 @@ export default function CareerApplicationPage() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-black/40 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-slate-900 transition-all duration-300 font-roboto"
                       placeholder="your@email.com"
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
-                      Phone Number <span className="text-red-400">*</span>
+                    <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
+                      Phone Number <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="tel"
@@ -364,7 +406,7 @@ export default function CareerApplicationPage() {
                       required
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-black/40 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-slate-900 transition-all duration-300 font-roboto"
                       placeholder="(123) 456-7890"
                     />
                   </div>
@@ -372,7 +414,7 @@ export default function CareerApplicationPage() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="linkedIn" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="linkedIn" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
                       LinkedIn Profile
                     </label>
                     <input
@@ -381,13 +423,13 @@ export default function CareerApplicationPage() {
                       name="linkedIn"
                       value={formData.linkedIn}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-black/40 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-slate-900 transition-all duration-300 font-roboto"
                       placeholder="https://linkedin.com/in/yourprofile"
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="portfolio" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="portfolio" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
                       Portfolio/Website
                     </label>
                     <input
@@ -396,7 +438,7 @@ export default function CareerApplicationPage() {
                       name="portfolio"
                       value={formData.portfolio}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-black/40 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-slate-900 transition-all duration-300 font-roboto"
                       placeholder="https://yourportfolio.com"
                     />
                   </div>
@@ -405,11 +447,11 @@ export default function CareerApplicationPage() {
               
               {/* Application Details */}
               <div>
-                <h3 className="text-xl font-semibold mb-6 text-white">Application Details</h3>
+                <h3 className="text-xl font-semibold mb-6 text-slate-900 font-roboto">Application Details</h3>
                 
                 <div className="mb-6">
-                  <label htmlFor="coverletter" className="block text-sm font-medium text-gray-300 mb-2">
-                    Cover Letter <span className="text-red-400">*</span>
+                  <label htmlFor="coverletter" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
+                    Cover Letter <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     id="coverletter"
@@ -418,15 +460,15 @@ export default function CareerApplicationPage() {
                     required
                     value={formData.coverletter}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-black/40 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all duration-300"
+                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-slate-900 transition-all duration-300 font-roboto"
                     placeholder="Tell us why you're interested in this position and how your experience makes you a great fit..."
                   ></textarea>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   <div>
-                    <label htmlFor="startDate" className="block text-sm font-medium text-gray-300 mb-2">
-                      Earliest Start Date <span className="text-red-400">*</span>
+                    <label htmlFor="startDate" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
+                      Earliest Start Date <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="date"
@@ -435,13 +477,13 @@ export default function CareerApplicationPage() {
                       required
                       value={formData.startDate}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-black/40 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-slate-900 transition-all duration-300 font-roboto"
                     />
                   </div>
                   
                   <div>
-                    <label htmlFor="hearAbout" className="block text-sm font-medium text-gray-300 mb-2">
-                      How did you hear about us? <span className="text-red-400">*</span>
+                    <label htmlFor="hearAbout" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
+                      How did you hear about us? <span className="text-red-500">*</span>
                     </label>
                     <select
                       id="hearAbout"
@@ -449,7 +491,7 @@ export default function CareerApplicationPage() {
                       required
                       value={formData.hearAbout}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 bg-black/40 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white transition-all duration-300"
+                      className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-slate-900 transition-all duration-300 font-roboto"
                     >
                       <option value="">Please select</option>
                       <option value="linkedin">LinkedIn</option>
@@ -464,10 +506,10 @@ export default function CareerApplicationPage() {
                 
                 {/* Resume upload */}
                 <div className="mb-6">
-                  <label htmlFor="resume" className="block text-sm font-medium text-gray-300 mb-2">
-                    Resume/CV <span className="text-red-400">*</span>
+                  <label htmlFor="resume" className="block text-sm font-medium text-slate-700 mb-2 font-roboto">
+                    Resume/CV <span className="text-red-500">*</span>
                   </label>
-                  <div className="relative border-2 border-dashed border-gray-700 rounded-lg p-8 transition-all duration-300 hover:border-blue-500/50 group">
+                  <div className="relative border-2 border-dashed border-slate-300 rounded-lg p-8 transition-all duration-300 hover:border-teal-400 group">
                     <input
                       type="file"
                       id="resume"
@@ -476,15 +518,15 @@ export default function CareerApplicationPage() {
                       required
                     />
                     <div className="text-center">
-                      <FiUpload className="mx-auto h-12 w-12 text-gray-500 group-hover:text-blue-400 transition-colors duration-300" />
-                      <p className="mt-4 text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                      <FiUpload className="mx-auto h-12 w-12 text-slate-400 group-hover:text-teal-500 transition-colors duration-300" />
+                      <p className="mt-4 text-sm text-slate-600 group-hover:text-slate-700 transition-colors duration-300 font-roboto">
                         {resume ? (
-                          <span className="text-blue-400">{resume.name}</span>
+                          <span className="text-teal-600 font-medium">{resume.name}</span>
                         ) : (
                           <span>Drag and drop your resume or click to browse</span>
                         )}
                       </p>
-                      <p className="mt-2 text-xs text-gray-500">
+                      <p className="mt-2 text-xs text-slate-500 font-roboto">
                         PDF, DOC, or DOCX up to 5MB
                       </p>
                     </div>
@@ -493,9 +535,9 @@ export default function CareerApplicationPage() {
               </div>
               
               {/* Equal Opportunity section */}
-              <div className="bg-blue-900/10 p-6 rounded-lg border border-blue-900/20">
-                <h3 className="text-lg font-semibold mb-4 text-white">Equal Opportunity Employer</h3>
-                <p className="text-sm text-gray-300 mb-4">
+              <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
+                <h3 className="text-lg font-semibold mb-4 text-slate-900 font-roboto">Equal Opportunity Employer</h3>
+                <p className="text-sm text-slate-700 mb-4 font-roboto font-light">
                   The Perrin Institute is an equal opportunity employer committed to diversity and inclusion in the workplace. 
                   All qualified applicants will receive consideration for employment without regard to race, color, religion, 
                   gender, gender identity or expression, sexual orientation, national origin, genetics, disability, age, or veteran status.
@@ -510,20 +552,20 @@ export default function CareerApplicationPage() {
                   name="agreeToTerms"
                   checked={formData.agreeToTerms}
                   onChange={handleChange}
-                  className="mt-1"
+                  className="mt-1 w-4 h-4 text-teal-600 bg-white border-slate-300 rounded focus:ring-teal-500"
                   required
                 />
-                <label htmlFor="agreeToTerms" className="text-sm text-gray-300">
+                <label htmlFor="agreeToTerms" className="text-sm text-slate-700 font-roboto font-light">
                   I certify that all information provided in this application is true and complete to the best of my knowledge. 
                   I understand that any false information or omission may disqualify me from further consideration for employment 
-                  and may result in dismissal if discovered at a later date. <span className="text-red-400">*</span>
+                  and may result in dismissal if discovered at a later date. <span className="text-red-500">*</span>
                 </label>
               </div>
               
               {/* Security notice */}
-              <div className="flex items-center space-x-3 border-t border-gray-800 pt-6">
-                <FiLock className="text-gray-400" />
-                <p className="text-xs text-gray-400">
+              <div className="flex items-center space-x-3 border-t border-slate-200 pt-6">
+                <FiLock className="text-slate-400" />
+                <p className="text-xs text-slate-500 font-roboto">
                   Your information is securely stored and only accessible to our HR team and hiring managers.
                 </p>
               </div>
@@ -533,7 +575,7 @@ export default function CareerApplicationPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed flex items-center"
+                  className="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed flex items-center font-roboto"
                 >
                   {isSubmitting ? (
                     <>
@@ -556,14 +598,14 @@ export default function CareerApplicationPage() {
           variants={itemVariants}
           className="mt-12 text-center"
         >
-          <p className="text-gray-400 text-sm">
+          <p className="text-slate-500 text-sm font-roboto">
             Having trouble with the application? Contact our recruiting team at{' '}
-            <a href="admin@perrininstitute.org" className="text-blue-400 hover:underline">
+            <a href="mailto:admin@perrininstitute.org" className="text-teal-600 hover:underline">
             admin@perrininstitute.org
             </a>
           </p>
         </motion.div>
       </motion.div>
-    </div>
+    </main>
   );
 } 
