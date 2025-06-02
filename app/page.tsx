@@ -115,6 +115,8 @@ export default function Home() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [splineLoaded, setSplineLoaded] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [showMainContent, setShowMainContent] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   
   // Refs for scroll-driven animations
   const heroRef = useRef(null);
@@ -137,7 +139,71 @@ export default function Home() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
-  
+
+  // Enhanced loading sequence with minimum time and progress simulation
+  useEffect(() => {
+    const startTime = Date.now();
+    const minLoadingTime = 1500; // Reduced to 1.5 seconds
+    
+    const initializeApp = async () => {
+      try {
+        // Load articles
+        if (typeof window !== 'undefined') {
+          try {
+            const articlesModule = await import('@/lib/articles').catch(err => {
+              console.error('Failed to import articles module:', err);
+              return null;
+            });
+            
+            if (articlesModule) {
+              const { getArticles } = articlesModule;
+              const fetchedArticles = await getArticles().catch(err => {
+                console.error('Failed to fetch articles:', err);
+                return [];
+              });
+              
+              setArticles(fetchedArticles);
+              
+              if (fetchedArticles && fetchedArticles.length > 0) {
+                const featured = fetchedArticles.filter((article: Article) => article.featured);
+                
+                if (featured.length > 0) {
+                  setFeaturedArticles(featured.slice(0, 4));
+                  setRegularArticles(fetchedArticles.filter((a: Article) => !featured.slice(0, 4).some((f: Article) => f.id === a.id)));
+                } else {
+                  setFeaturedArticles(fetchedArticles.slice(0, 4));
+                  setRegularArticles(fetchedArticles.slice(4));
+                }
+              }
+            }
+          } catch (error) {
+            console.error('Error in fetchArticles:', error);
+            setError("Failed to load articles");
+            setFeaturedArticles([]);
+            setRegularArticles([]);
+          }
+        }
+        
+        // Ensure minimum loading time has passed
+        const elapsedTime = Date.now() - startTime;
+        if (elapsedTime < minLoadingTime) {
+          await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsedTime));
+        }
+        
+        // Show content
+        setIsLoading(false);
+        setTimeout(() => setShowMainContent(true), 200);
+        
+      } catch (error) {
+        console.error('Error during initialization:', error);
+        setIsLoading(false);
+        setShowMainContent(true);
+      }
+    };
+
+    initializeApp();
+  }, []);
+
   // Function to handle slide changing
   const nextSlide = () => {
     if (featuredArticles.length > 0) {
@@ -155,103 +221,34 @@ export default function Home() {
     
     return () => clearInterval(slideInterval);
   }, [featuredArticles]);
-  
-  // Fetch articles when component mounts
-  useEffect(() => {
-    async function fetchArticles() {
-      // Only fetch articles on the client side
-      if (typeof window === 'undefined') return;
-      
-      try {
-        console.log('Attempting to import articles library...');
-        
-        // Use a more defensive dynamic import approach
-        const articlesModule = await import('@/lib/articles').catch(err => {
-          console.error('Failed to import articles module:', err);
-          return null;
-        });
-        
-        if (!articlesModule) {
-          throw new Error('Articles module failed to load');
-        }
-        
-        console.log('Articles library imported successfully');
-        const { getArticles } = articlesModule;
-        
-        const fetchedArticles = await getArticles().catch(err => {
-          console.error('Failed to fetch articles:', err);
-          return [];
-        });
-        
-        console.log('Articles fetched successfully:', fetchedArticles.length);
-        setArticles(fetchedArticles)
-        
-        if (fetchedArticles && fetchedArticles.length > 0) {
-          // Find featured articles first
-          const featured = fetchedArticles.filter((article: Article) => article.featured);
-          
-          // If we have featured articles, use those, otherwise use the most recent
-          if (featured.length > 0) {
-            setFeaturedArticles(featured.slice(0, 4));
-            setRegularArticles(fetchedArticles.filter((a: Article) => !featured.slice(0, 4).some((f: Article) => f.id === a.id)));
-          } else {
-            // Just use the most recent articles as featured
-            setFeaturedArticles(fetchedArticles.slice(0, 4));
-            setRegularArticles(fetchedArticles.slice(4));
-          }
-        } else {
-          setError("No articles available");
-        }
-        
-      } catch (error) {
-        console.error('Error in fetchArticles:', error);
-        setError("Failed to load articles");
-        // Don't let article loading errors break the page
-        setFeaturedArticles([]);
-        setRegularArticles([]);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    
-    fetchArticles()
-  }, [])
 
   // Retry function for error state
   const retryFetchArticles = async () => {
-    setIsLoading(true);
-    setError(null);
-    
-    // Only fetch articles on the client side
+    // Simplified retry without loading state
     if (typeof window === 'undefined') return;
     
     try {
-      // Dynamic import to avoid SSR issues
       const { getArticles } = await import('@/lib/articles');
       const fetchedArticles = await getArticles()
       setArticles(fetchedArticles)
       
       if (fetchedArticles && fetchedArticles.length > 0) {
-        // Find featured articles first
         const featured = fetchedArticles.filter((article: Article) => article.featured);
         
-        // If we have featured articles, use those, otherwise use the most recent
         if (featured.length > 0) {
           setFeaturedArticles(featured.slice(0, 4));
           setRegularArticles(fetchedArticles.filter((a: Article) => !featured.slice(0, 4).some((f: Article) => f.id === a.id)));
         } else {
-          // Just use the most recent articles as featured
           setFeaturedArticles(fetchedArticles.slice(0, 4));
           setRegularArticles(fetchedArticles.slice(4));
         }
+        setError(null);
       } else {
         setError("No articles available");
       }
     } catch (error) {
       console.error('Error fetching articles:', error);
       setError("Failed to load articles");
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -259,8 +256,108 @@ export default function Home() {
     setSplineLoaded(true);
   };
 
+  // Modern FAANG-style loading screen with better UI
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 bg-white flex items-center justify-center">
+        <div className="text-center max-w-sm mx-auto px-8">
+          {/* Logo container with subtle shadow */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ 
+              duration: 0.7, 
+              ease: [0.25, 0.46, 0.45, 0.94],
+              delay: 0.1 
+            }}
+            className="mb-12 relative"
+          >
+            <div className="w-24 h-24 mx-auto mb-6 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center p-4">
+              <Image
+                src="/moretechperrin-removebg-preview.png"
+                alt="Perrin Institute"
+                width={80}
+                height={80}
+                className="w-full h-full object-contain"
+                priority
+              />
+            </div>
+          </motion.div>
+          
+          {/* Enhanced typography section */}
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ 
+              duration: 0.6, 
+              ease: [0.25, 0.46, 0.45, 0.94],
+              delay: 0.3 
+            }}
+            className="space-y-6"
+          >
+            {/* Main title */}
+            <div className="space-y-2">
+              <h1 className="text-2xl font-medium text-gray-900 tracking-tight leading-tight">
+                Perrin Institute
+              </h1>
+              <p className="text-sm text-gray-500 font-normal">
+                Advanced Policy Research
+              </p>
+            </div>
+            
+            {/* Elegant progress bar */}
+            <div className="space-y-4">
+              <div className="w-48 h-1 bg-gray-100 rounded-full mx-auto overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{
+                    duration: 1.5,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                  className="h-full bg-gradient-to-r from-gray-800 to-gray-600 rounded-full"
+                />
+              </div>
+              
+              {/* Loading text */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="text-xs text-gray-400 font-normal tracking-wide"
+              >
+                Loading experience...
+              </motion.p>
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Subtle corner branding */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.5 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        >
+          <div className="flex items-center space-x-2 text-xs text-gray-300">
+            <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+            <span>Powered by AI</span>
+            <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50">
+    <motion.main 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: showMainContent ? 1 : 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50"
+    >
       {/* Old Money Tech Prestige Hero Section */}
       <section 
         ref={heroRef}
@@ -272,12 +369,7 @@ export default function Home() {
             {/* Only render Spline after component is mounted to prevent hydration errors */}
             {isMounted && (
               <Suspense fallback={
-                <div className="absolute inset-0 flex items-center justify-center bg-white">
-                  <div className="text-center">
-                    <div className="w-8 h-8 border border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-3"></div>
-                    <p className="text-gray-400 text-sm">Loading 3D Scene</p>
-                  </div>
-                </div>
+                <div className="absolute inset-0 bg-white"></div>
               }>
                 <Spline 
                   scene="https://prod.spline.design/N-7Bwb97Q2XUmz3O/scene.splinecode"
@@ -685,112 +777,108 @@ export default function Home() {
             </motion.p>
           </motion.div>
           
-          {/* Horizontal Four-Element Layout - Mobile Responsive */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-10 gap-6 sm:gap-8 mb-12 sm:mb-16">
+          {/* Multi-level Layout with More Space */}
+          <div className="space-y-8 sm:space-y-12">
             
-            {/* 1. Van Hollen Letter Image */}
+            {/* First Level - Senate Recognition (Full Width with More Space) */}
             <motion.div 
               variants={itemVariants}
               initial="hidden"
               animate="visible"
-              className="sm:col-span-1 lg:col-span-2 bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-500"
+              className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8"
             >
-              <div className="relative h-64 sm:h-72 lg:h-80">
-                <Image
-                  src="/download (2).jpg"
-                  alt="Letter from Senator Van Hollen"
-                  fill
-                  className="object-cover object-center hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent"></div>
-              </div>
-            </motion.div>
-
-            {/* 2. Van Hollen Quote */}
-            <motion.div 
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              className="sm:col-span-1 lg:col-span-3 bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-500 flex flex-col justify-center h-64 sm:h-72 lg:h-80"
-            >
-              <div className="flex items-center mb-3 sm:mb-4">
-                <div className="rounded-full bg-slate-100 p-2 sm:p-3 shadow-sm mr-3 sm:mr-4 border border-slate-200">
+              {/* Van Hollen Letter Image */}
+              <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-500">
+                <div className="relative h-72 sm:h-80 lg:h-96">
                   <Image
-                    src="/US-Senate-Logo.png"
-                    alt="U.S. Senate"
-                    width={24}
-                    height={24}
-                    className="sm:w-8 sm:h-8"
+                    src="/download (2).jpg"
+                    alt="Letter from Senator Van Hollen"
+                    fill
+                    className="object-cover object-center hover:scale-105 transition-transform duration-700"
                   />
-                </div>
-                <div>
-                  <h3 className="text-sm sm:text-base font-medium text-slate-900 font-roboto">U.S. Senate Recognition</h3>
-                  <p className="text-slate-600 font-light text-xs sm:text-sm">Senator Chris Van Hollen</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent"></div>
                 </div>
               </div>
-              
-              <blockquote className="text-sm sm:text-base italic text-slate-700 font-light leading-relaxed mb-3 sm:mb-4 border-l-4 border-slate-300 pl-3 sm:pl-4">
-                "...your initiative sets a powerful example of how passion and purpose can drive meaningful change..."
-              </blockquote>
-              
-              <div className="text-xs sm:text-sm text-slate-500 font-medium">
-                Official Letter of Commendation
+
+              {/* Van Hollen Quote - Expanded */}
+              <div className="lg:col-span-3 bg-white rounded-2xl shadow-lg border border-slate-200 p-6 sm:p-8 hover:shadow-xl transition-all duration-500 flex flex-col justify-center">
+                <div className="flex items-center mb-4 sm:mb-6">
+                  <div className="rounded-full bg-slate-100 p-3 sm:p-4 shadow-sm mr-4 sm:mr-6 border border-slate-200">
+                    <Image
+                      src="/US-Senate-Logo.png"
+                      alt="U.S. Senate"
+                      width={32}
+                      height={32}
+                      className="sm:w-10 sm:h-10"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-medium text-slate-900 font-roboto">U.S. Senate Recognition</h3>
+                    <p className="text-slate-600 font-light text-sm sm:text-base">Senator Chris Van Hollen</p>
+                  </div>
+                </div>
+                
+                <blockquote className="text-base sm:text-lg lg:text-xl italic text-slate-700 font-light leading-relaxed mb-4 sm:mb-6 border-l-4 border-slate-300 pl-4 sm:pl-6">
+                  "...your initiative sets a powerful example of how passion and purpose can drive meaningful change..."
+                </blockquote>
+                
+                <div className="text-sm sm:text-base text-slate-500 font-medium">
+                  Official Letter of Commendation
+                </div>
               </div>
             </motion.div>
 
-            {/* 3. BBC Interview Video - Slightly Wider */}
+            {/* Second Level - BBC Feature (Full Width with More Space) */}
             <motion.div 
               variants={itemVariants}
               initial="hidden"
               animate="visible"
-              className="sm:col-span-2 lg:col-span-3 bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-500"
+              className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8"
             >
-              <div className="relative h-64 sm:h-72 lg:h-80">
-                <iframe
-                  src="https://www.youtube.com/embed/xS_3pUX3Qvg?autoplay=1&mute=1&controls=1&rel=0&showinfo=0"
-                  title="BBC Interview - Inclusive Policy Lab Director"
-                  className="w-full h-full"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
+              {/* BBC Interview Video - Larger */}
+              <div className="lg:col-span-3 bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-all duration-500">
+                <div className="relative h-72 sm:h-80 lg:h-96">
+                  <iframe
+                    src="https://www.youtube.com/embed/xS_3pUX3Qvg?autoplay=1&mute=1&controls=1&rel=0&showinfo=0"
+                    title="BBC Interview - Inclusive Policy Lab Director"
+                    className="w-full h-full"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
               </div>
-            </motion.div>
 
-            {/* 4. BBC Interview Text */}
-            <motion.div 
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
-              className="sm:col-span-2 lg:col-span-2 bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6 hover:shadow-xl transition-all duration-500 flex flex-col justify-center h-64 sm:h-72 lg:h-80"
-            >
-              <div className="flex items-center mb-3 sm:mb-4">
-                <div className="rounded-lg bg-red-600 p-2 sm:p-3 shadow-sm mr-3 sm:mr-4">
-                  <span className="text-white font-bold text-xs sm:text-sm">BBC</span>
+              {/* BBC Interview Text - Expanded */}
+              <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg border border-slate-200 p-6 sm:p-8 hover:shadow-xl transition-all duration-500 flex flex-col justify-center">
+                <div className="flex items-center mb-4 sm:mb-6">
+                  <div className="rounded-lg bg-red-600 p-3 sm:p-4 shadow-sm mr-4 sm:mr-6">
+                    <span className="text-white font-bold text-sm sm:text-base">BBC</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-medium text-slate-900 font-roboto">BBC International</h3>
+                    <p className="text-slate-600 font-light text-sm sm:text-base">Global Coverage</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm sm:text-base font-medium text-slate-900 font-roboto">BBC International</h3>
-                  <p className="text-slate-600 font-light text-xs sm:text-sm">Global Coverage</p>
-                </div>
+                
+                <h4 className="text-base sm:text-lg font-medium text-slate-900 mb-3 sm:mb-4 font-roboto leading-tight">
+                  Policy Expert Interview
+                </h4>
+                
+                <p className="text-sm sm:text-base text-slate-600 font-light leading-relaxed mb-4 sm:mb-6">
+                  Our Inclusive Policy Lab Director featured in BBC's international coverage, discussing innovative governance approaches and policy solutions.
+                </p>
+                
+                <a 
+                  href="https://www.youtube.com/watch?list=TLGGGfHfzVOPgocyMzA1MjAyNQ&v=xS_3pUX3Qvg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-slate-700 hover:text-slate-900 font-medium transition-colors font-roboto group text-sm sm:text-base"
+                >
+                  <span>Watch Full Interview</span>
+                  <FiExternalLink className="ml-2 w-4 h-4" />
+                </a>
               </div>
-              
-              <h4 className="text-sm sm:text-base font-medium text-slate-900 mb-2 sm:mb-3 font-roboto leading-tight">
-                Policy Expert Interview
-              </h4>
-              
-              <p className="text-xs sm:text-sm text-slate-600 font-light leading-relaxed mb-3 sm:mb-4">
-                Our Inclusive Policy Lab Director featured in BBC's international coverage, discussing innovative governance approaches.
-              </p>
-              
-              <a 
-                href="https://www.youtube.com/watch?list=TLGGGfHfzVOPgocyMzA1MjAyNQ&v=xS_3pUX3Qvg"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center text-slate-700 hover:text-slate-900 font-medium transition-colors font-roboto group text-xs sm:text-sm"
-              >
-                <span>Watch Full Interview</span>
-                <FiExternalLink className="ml-2 w-3 sm:w-4 h-3 sm:h-4" />
-              </a>
             </motion.div>
           </div>
         </div>
@@ -819,22 +907,7 @@ export default function Home() {
           </div>
           
           {/* Featured Articles Section with better error handling */}
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200">
-                  <div className="animate-pulse">
-                    <div className="aspect-[16/9] bg-slate-200"></div>
-                    <div className="p-4 sm:p-6">
-                      <div className="h-4 bg-slate-200 rounded mb-3"></div>
-                      <div className="h-6 bg-slate-200 rounded mb-2"></div>
-                      <div className="h-4 bg-slate-200 rounded w-3/4"></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : error ? (
+          {error ? (
             <div className="text-center py-12">
               <p className="text-slate-600 mb-4">{error}</p>
               <button 
@@ -1091,7 +1164,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </main>
+    </motion.main>
   );
 }
 
