@@ -717,14 +717,53 @@ export default function Navbar() {
           >
             <div className="px-4 py-3">
               <div className="py-2 mb-3 flex flex-col space-y-2">
-                <Link 
-                  href="/Labs"
-                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span>Research</span>
-                  <FiChevronDown />
-                </Link>
+                
+                {/* Research Dropdown */}
+                <div>
+                  <button 
+                    onClick={() => toggleDropdown('mobile-research')}
+                    className="w-full flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  >
+                    <span>Research</span>
+                    {activeDropdown === 'mobile-research' ? (
+                      <FiChevronUp />
+                    ) : (
+                      <FiChevronDown />
+                    )}
+                  </button>
+                  
+                  <AnimatePresence>
+                    {activeDropdown === 'mobile-research' && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="ml-4 mt-2 space-y-1 overflow-hidden"
+                      >
+                        {NAVBAR_LABS.map((lab) => (
+                          <Link 
+                            key={lab.id}
+                            href={`/Labs/${lab.id}`} 
+                            className="block py-2 px-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-teal-600 rounded-md transition-colors"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {lab.title}
+                          </Link>
+                        ))}
+                        <Link 
+                          href="/Labs" 
+                          className="block py-2 px-3 text-sm text-teal-600 font-medium hover:bg-gray-50 rounded-md transition-colors"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          See all research areas
+                        </Link>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* Experts */}
                 <Link 
                   href="/experts"
                   className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
@@ -732,14 +771,57 @@ export default function Navbar() {
                 >
                   <span>Experts</span>
                 </Link>
-                <Link 
-                  href="/programs"
-                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span>Programs</span>
-                  <FiChevronDown />
-                </Link>
+
+                {/* Programs Dropdown */}
+                <div>
+                  <button 
+                    onClick={() => toggleDropdown('mobile-programs')}
+                    className="w-full flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  >
+                    <span>Programs</span>
+                    {activeDropdown === 'mobile-programs' ? (
+                      <FiChevronUp />
+                    ) : (
+                      <FiChevronDown />
+                    )}
+                  </button>
+                  
+                  <AnimatePresence>
+                    {activeDropdown === 'mobile-programs' && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="ml-4 mt-2 space-y-1 overflow-hidden"
+                      >
+                        <Link 
+                          href="/application" 
+                          className="block py-2 px-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-teal-600 rounded-md transition-colors"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Application
+                        </Link>
+                        <Link 
+                          href="/scholarship-center" 
+                          className="block py-2 px-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-teal-600 rounded-md transition-colors"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Scholarship Center
+                        </Link>
+                        <Link 
+                          href="/events" 
+                          className="block py-2 px-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-teal-600 rounded-md transition-colors"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Events
+                        </Link>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+                
+                {/* Scholarship Center */}
                 <Link 
                   href="/scholarship-center"
                   className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
@@ -747,6 +829,8 @@ export default function Navbar() {
                 >
                   <span>Scholarship Center</span>
                 </Link>
+
+                {/* News */}
                 <Link 
                   href="/news"
                   className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
@@ -754,6 +838,8 @@ export default function Navbar() {
                 >
                   <span>News</span>
                 </Link>
+
+                {/* Careers */}
                 <Link 
                   href="/careers"
                   className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
