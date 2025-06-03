@@ -151,4 +151,51 @@ export async function PUT(
       { status: 500 }
     );
   }
+}
+
+// DELETE handler for deleting an article by ID
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const id = params.id;
+    console.log(`Articles API: Deleting article with ID: ${id}`);
+    
+    // Connect to MongoDB
+    const client = await clientPromise;
+    const db = client.db("perrindb");
+    
+    // Check if article exists first
+    const existingArticle = await db.collection("articles").findOne({ id });
+    
+    if (!existingArticle) {
+      return NextResponse.json(
+        { message: 'Article not found', id },
+        { status: 404 }
+      );
+    }
+    
+    // Delete the article
+    const deleteResult = await db.collection("articles").deleteOne({ id });
+    
+    if (deleteResult.deletedCount === 0) {
+      return NextResponse.json(
+        { message: 'Failed to delete article', id },
+        { status: 500 }
+      );
+    }
+    
+    console.log(`Articles API: Successfully deleted article: ${existingArticle.title}`);
+    return NextResponse.json(
+      { message: 'Article deleted successfully', id, title: existingArticle.title },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error deleting article:', error);
+    return NextResponse.json(
+      { message: 'Error deleting article', error: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 }
+    );
+  }
 } 

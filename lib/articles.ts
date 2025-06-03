@@ -118,4 +118,25 @@ export async function getArticlesByCategory(category: string): Promise<Article[]
     console.error('Error fetching articles by category:', error);
     return [];
   }
+}
+
+// Client-side function to delete an article
+export async function deleteArticle(id: string): Promise<boolean> {
+  try {
+    const response = await fetch(`/api/articles/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to delete article');
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('Error deleting article:', error);
+    return false;
+  }
 } 

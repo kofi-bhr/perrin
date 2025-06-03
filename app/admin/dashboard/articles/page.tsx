@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getArticles, updateArticle, Article } from "../../../../lib/articles";
+import { getArticles, updateArticle, deleteArticle, Article } from "../../../../lib/articles";
 import dynamic from "next/dynamic";
 
 // Dynamically import React Quill to avoid SSR issues
@@ -63,6 +63,8 @@ export default function ArticlesManagement() {
   const [isUploading, setIsUploading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [deleteConfirm, setDeleteConfirm] = useState<{articleId: string, articleTitle: string} | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -225,6 +227,45 @@ export default function ArticlesManagement() {
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleDeleteArticle = async (id: string, title: string) => {
+    setDeleteConfirm({ articleId: id, articleTitle: title });
+  };
+
+  const confirmDelete = async () => {
+    if (!deleteConfirm) return;
+    
+    setIsDeleting(true);
+    setError("");
+    
+    try {
+      const success = await deleteArticle(deleteConfirm.articleId);
+      
+      if (success) {
+        setIsSuccess(true);
+        setSuccessMessage(`Article "${deleteConfirm.articleTitle}" deleted successfully!`);
+        fetchArticles(); // Refresh the articles list
+        
+        // Reset success message after some time
+        setTimeout(() => {
+          setIsSuccess(false);
+          setSuccessMessage("");
+        }, 3000);
+      } else {
+        setError("Failed to delete article");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setError("Failed to delete article");
+    } finally {
+      setIsDeleting(false);
+      setDeleteConfirm(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setDeleteConfirm(null);
   };
 
   if (loading) {
@@ -411,6 +452,34 @@ export default function ArticlesManagement() {
                   </div>
                 )}
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Author Name {selectedArticle.type === "opinion" && <span className="text-red-500">*</span>}
+                    </label>
+                    <input
+                      type="text"
+                      value={selectedArticle.authorName || ""}
+                      onChange={(e) => setSelectedArticle({...selectedArticle, authorName: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                      placeholder="Enter author name (optional for news articles)"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Author Position {selectedArticle.type === "opinion" && <span className="text-red-500">*</span>}
+                    </label>
+                    <input
+                      type="text"
+                      value={selectedArticle.authorPosition || ""}
+                      onChange={(e) => setSelectedArticle({...selectedArticle, authorPosition: e.target.value})}
+                      className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                      placeholder="Enter author position/title (optional for news articles)"
+                    />
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
                     Featured Image
@@ -537,6 +606,42 @@ export default function ArticlesManagement() {
             </div>
           )}
 
+          {/* Delete Confirmation Modal */}
+          {deleteConfirm && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-gray-900 rounded-lg p-6 border border-gray-800 shadow-xl max-w-md w-full mx-4">
+                <h3 className="text-xl font-bold text-white mb-4">Confirm Delete</h3>
+                <p className="text-gray-300 mb-6">
+                  Are you sure you want to delete the article "{deleteConfirm.articleTitle}"? This action cannot be undone.
+                </p>
+                <div className="flex justify-end space-x-4">
+                  <button
+                    onClick={cancelDelete}
+                    className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-md text-sm font-medium transition-colors"
+                    disabled={isDeleting}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={confirmDelete}
+                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md text-sm font-medium transition-colors"
+                    disabled={isDeleting}
+                  >
+                    {isDeleting ? (
+                      <span className="flex items-center">
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Deleting...
+                      </span>
+                    ) : "Delete Article"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800 shadow-xl">
             <h2 className="text-xl font-semibold text-white p-6 bg-gray-900 border-b border-gray-800">
               Articles ({articles.length})
@@ -622,6 +727,12 @@ export default function ArticlesManagement() {
                           >
                             View
                           </Link>
+                          <button
+                            onClick={() => handleDeleteArticle(article.id, article.title)}
+                            className="text-red-400 hover:text-red-300 ml-3 transition-colors"
+                          >
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     ))}
