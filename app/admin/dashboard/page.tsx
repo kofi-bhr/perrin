@@ -561,39 +561,110 @@ export default function AdminDashboard() {
                         placeholder="Write your article content here..."
                       />
                       <style jsx global>{`
+                        /* Toolbar styling */
                         .ql-toolbar {
-                          background-color: #1f2937;
+                          background-color: #1f2937 !important;
                           border-color: #374151 !important;
                         }
+                        
+                        /* Editor container */
                         .ql-container {
-                          background-color: #1f2937;
+                          background-color: #1f2937 !important;
                           border-color: #374151 !important;
                         }
+                        
+                        /* Editor content area - make sure all text is white */
                         .ql-editor {
-                          color: white;
-                          background-color: #1f2937;
+                          color: white !important;
+                          background-color: #1f2937 !important;
                         }
+                        
+                        /* All text elements in editor should be white */
+                        .ql-editor * {
+                          color: white !important;
+                        }
+                        
+                        /* Specific text elements */
+                        .ql-editor p,
+                        .ql-editor span,
+                        .ql-editor div,
+                        .ql-editor h1,
+                        .ql-editor h2,
+                        .ql-editor h3,
+                        .ql-editor h4,
+                        .ql-editor h5,
+                        .ql-editor h6,
+                        .ql-editor li,
+                        .ql-editor blockquote,
+                        .ql-editor strong,
+                        .ql-editor em,
+                        .ql-editor u {
+                          color: white !important;
+                        }
+                        
+                        /* Placeholder text */
                         .ql-editor.ql-blank::before {
-                          color: #9ca3af;
+                          color: #9ca3af !important;
+                          font-style: italic;
                         }
+                        
+                        /* Toolbar elements */
                         .ql-toolbar .ql-picker-label {
-                          color: white;
+                          color: white !important;
                         }
+                        
                         .ql-toolbar .ql-picker-options {
-                          background-color: #1f2937;
+                          background-color: #1f2937 !important;
+                          border: 1px solid #374151 !important;
                         }
+                        
                         .ql-toolbar .ql-picker-item {
-                          color: white;
+                          color: white !important;
                         }
+                        
+                        .ql-toolbar .ql-picker-item:hover {
+                          background-color: #374151 !important;
+                        }
+                        
+                        /* Toolbar buttons */
+                        .ql-toolbar button {
+                          color: white !important;
+                        }
+                        
+                        .ql-toolbar button:hover {
+                          background-color: #374151 !important;
+                        }
+                        
                         .ql-toolbar button svg {
-                          fill: white;
-                          stroke: white;
+                          fill: white !important;
+                          stroke: white !important;
                         }
+                        
+                        /* Quill snow theme overrides */
                         .ql-snow .ql-stroke {
-                          stroke: white;
+                          stroke: white !important;
                         }
+                        
                         .ql-snow .ql-fill {
-                          fill: white;
+                          fill: white !important;
+                        }
+                        
+                        /* Dropdown menus */
+                        .ql-snow .ql-tooltip {
+                          background-color: #1f2937 !important;
+                          border: 1px solid #374151 !important;
+                          color: white !important;
+                        }
+                        
+                        .ql-snow .ql-tooltip input {
+                          background-color: #374151 !important;
+                          border: 1px solid #4b5563 !important;
+                          color: white !important;
+                        }
+                        
+                        /* Links in editor should still be white when editing */
+                        .ql-editor a {
+                          color: #60a5fa !important;
                         }
                       `}</style>
                     </div>
