@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cleanup-categories": "node scripts/cleanup-categories.js"
   },
   "dependencies": {
     "@splinetool/react-spline": "4.0.0",

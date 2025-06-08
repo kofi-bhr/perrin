@@ -12,13 +12,15 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 // Define categories matching the news page
 const ARTICLE_CATEGORIES = [
-  "Foreign Policy", 
-  "AI", 
-  "Startups", 
+  "International Affairs",
+  "Economics", 
+  "Climate",
+  "AI",
+  "Domestic Affairs",
   "Technology",
   "Education",
-  "Economics",
-  "Climate Action"
+  "Legal",
+  "Commerce"
 ];
 
 // Quill editor formats
@@ -55,7 +57,7 @@ export default function AdminDashboard() {
   const [articleTitle, setArticleTitle] = useState("");
   const [articleSubtitle, setArticleSubtitle] = useState("");
   const [articleContent, setArticleContent] = useState("");
-  const [articleCategory, setArticleCategory] = useState(ARTICLE_CATEGORIES[0]);
+  const [articleCategories, setArticleCategories] = useState<string[]>([ARTICLE_CATEGORIES[0]]);
   const [articleType, setArticleType] = useState("news"); // "news" or "opinion"
   const [authorName, setAuthorName] = useState("");
   const [authorPosition, setAuthorPosition] = useState("");
@@ -138,12 +140,12 @@ export default function AdminDashboard() {
     e.preventDefault();
     
     // Validate form
-    if (!articleTitle.trim() || !articleContent.trim()) {
-      setError("Please fill in all required fields");
+    if (!articleTitle.trim() || !articleContent.trim() || articleCategories.length === 0) {
+      setError("Please fill in all required fields and select at least one category");
       return;
     }
     
-    if (articleType === "opinion" && (!authorName.trim() || !authorPosition.trim())) {
+    if (articleType === "opinion" && (!authorName?.trim() || !authorPosition?.trim())) {
       setError("Please provide author information for opinion articles");
       return;
     }
@@ -173,10 +175,10 @@ export default function AdminDashboard() {
         title: articleTitle,
         subtitle: articleSubtitle,
         content: articleContent,
-        category: articleCategory,
+        category: articleCategories,
         type: articleType as 'news' | 'opinion',
-        authorName: authorName.trim() || undefined,
-        authorPosition: authorPosition.trim() || undefined,
+        authorName: authorName?.trim() || undefined,
+        authorPosition: authorPosition?.trim() || undefined,
         excerpt,
         date: formattedDate,
         image: finalImageUrl,
@@ -198,7 +200,7 @@ export default function AdminDashboard() {
         setArticleTitle("");
         setArticleSubtitle("");
         setArticleContent("");
-        setArticleCategory(ARTICLE_CATEGORIES[0]);
+        setArticleCategories([ARTICLE_CATEGORIES[0]]);
         setArticleType("news");
         setAuthorName("");
         setAuthorPosition("");
@@ -374,23 +376,37 @@ export default function AdminDashboard() {
                 </p>
               </div>
               
-              {/* Category */}
+              {/* Categories */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Category <span className="text-red-500">*</span>
+                  Categories <span className="text-red-500">*</span>
+                  <span className="ml-2 text-xs text-gray-400">Select one or more categories</span>
                 </label>
-                <select
-                  value={articleCategory}
-                  onChange={(e) => setArticleCategory(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                  required
-                >
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
                   {ARTICLE_CATEGORIES.map((category) => (
-                    <option key={category} value={category}>
-                      {category}
-                    </option>
+                    <label
+                      key={category}
+                      className="flex items-center space-x-2 cursor-pointer hover:bg-gray-700/50 p-2 rounded transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={articleCategories.includes(category)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setArticleCategories([...articleCategories, category]);
+                          } else {
+                            setArticleCategories(articleCategories.filter(c => c !== category));
+                          }
+                        }}
+                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500 focus:ring-2"
+                      />
+                      <span className="text-sm text-gray-300">{category}</span>
+                    </label>
                   ))}
-                </select>
+                </div>
+                {articleCategories.length === 0 && (
+                  <p className="mt-2 text-sm text-red-400">Please select at least one category</p>
+                )}
               </div>
               
               {/* Author Info (for all article types) */}

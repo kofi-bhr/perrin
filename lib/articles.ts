@@ -4,7 +4,7 @@ export interface Article {
   subtitle: string;
   content: string;
   excerpt: string;
-  category: string;
+  category: string | string[]; // Support both single and multiple categories for backward compatibility
   type: 'news' | 'opinion';
   authorName?: string;
   authorPosition?: string;

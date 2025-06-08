@@ -140,9 +140,22 @@ export default function ArticlePage() {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="flex items-center mb-6 border-b border-gray-200 pb-3"
             >
-              <Link href="/news" className="text-blue-600 hover:text-blue-800 uppercase text-sm font-medium">
-                {article.category}
-              </Link>
+              <div className="flex flex-wrap gap-2">
+                {(() => {
+                  const categories = Array.isArray(article.category) 
+                    ? article.category 
+                    : [article.category];
+                  return categories.map((cat, index) => (
+                    <Link 
+                      key={index}
+                      href="/news" 
+                      className="text-blue-600 hover:text-blue-800 uppercase text-sm font-medium"
+                    >
+                      {cat}
+                    </Link>
+                  ));
+                })()}
+              </div>
               <span className="mx-2 text-gray-400">|</span>
               <span className="text-gray-600 uppercase text-sm font-medium">
                 {article.type === 'opinion' ? 'OPINION' : 'ANALYSIS'}

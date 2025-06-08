@@ -20,7 +20,7 @@ interface Article {
   title: string;
   subtitle?: string;
   excerpt: string;
-  category: string;
+  category: string | string[];
   type: 'news' | 'opinion';
   authorName?: string;
   authorPosition?: string;
@@ -933,10 +933,20 @@ export default function Home() {
                   />
                 </div>
                 <div className="p-4 sm:p-6">
-                  <div className="mb-3 sm:mb-4">
-                    <span className="bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-lg font-roboto">
-                      {featuredArticles[0].category || "Paper"}
-                    </span>
+                  <div className="mb-3 sm:mb-4 flex flex-wrap gap-2">
+                    {(() => {
+                      const categories = Array.isArray(featuredArticles[0].category) 
+                        ? featuredArticles[0].category 
+                        : [featuredArticles[0].category || "Paper"];
+                      return categories.map((cat, index) => (
+                        <span 
+                          key={index}
+                          className="bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-lg font-roboto"
+                        >
+                          {cat}
+                        </span>
+                      ));
+                    })()}
                   </div>
                   <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 group-hover:text-slate-700 transition-colors font-roboto leading-tight">
                     {featuredArticles[0].title}
@@ -962,10 +972,20 @@ export default function Home() {
                     className="block bg-white rounded-lg overflow-hidden shadow-sm border border-slate-200 transition-shadow hover:shadow-md group"
                   >
                     <div className="p-4 sm:p-6">
-                      <div className="mb-3 sm:mb-4">
-                        <span className="bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-lg font-roboto">
-                          {article.category || (index % 2 === 0 ? "Commentary" : "Paper")}
-                        </span>
+                      <div className="mb-3 sm:mb-4 flex flex-wrap gap-2">
+                        {(() => {
+                          const categories = Array.isArray(article.category) 
+                            ? article.category 
+                            : [article.category || (index % 2 === 0 ? "Commentary" : "Paper")];
+                          return categories.map((cat, index) => (
+                            <span 
+                              key={index}
+                              className="bg-slate-100 text-slate-700 text-xs font-medium px-3 py-1 rounded-lg font-roboto"
+                            >
+                              {cat}
+                            </span>
+                          ));
+                        })()}
                       </div>
                       <h3 className="text-lg sm:text-xl font-medium text-slate-900 mb-3 group-hover:text-slate-700 transition-colors font-roboto leading-tight">
                         {article.title}

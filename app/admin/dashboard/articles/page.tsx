@@ -42,13 +42,15 @@ const formats = [
 
 // Define categories matching the news page
 const ARTICLE_CATEGORIES = [
-  "Foreign Policy", 
-  "AI", 
-  "Startups", 
+  "International Affairs",
+  "Economics", 
+  "Climate",
+  "AI",
+  "Domestic Affairs",
   "Technology",
   "Education",
-  "Economics",
-  "Climate Action"
+  "Legal",
+  "Commerce"
 ];
 
 export default function ArticlesManagement() {
@@ -65,6 +67,7 @@ export default function ArticlesManagement() {
   const [successMessage, setSuccessMessage] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState<{articleId: string, articleTitle: string} | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [quillContent, setQuillContent] = useState("");
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -86,6 +89,14 @@ export default function ArticlesManagement() {
   useEffect(() => {
     fetchArticles();
   }, []);
+
+  // Sync quill content when selectedArticle changes
+  useEffect(() => {
+    if (selectedArticle && isEditing) {
+      console.log("Setting quill content:", selectedArticle.content); // Debug log
+      setQuillContent(selectedArticle.content || "");
+    }
+  }, [selectedArticle, isEditing]);
 
   const fetchArticles = async () => {
     try {
@@ -155,26 +166,57 @@ export default function ArticlesManagement() {
     }
   };
 
-  const handleEditArticle = (article: Article) => {
-    setSelectedArticle(article);
-    setIsEditing(true);
-    setError("");
-    setIsSuccess(false);
-    setSuccessMessage("");
-    window.scrollTo(0, 0);
+  const handleEditArticle = async (article: Article) => {
+    console.log("Editing article:", article); // Debug log
+    console.log("Article content before fetch:", article.content); // Debug log
+    
+    try {
+      // Fetch the complete article with content from the API
+      const response = await fetch(`/api/articles/${article.id}`, {
+        method: 'GET',
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch article details');
+      }
+      
+      const fullArticle = await response.json();
+      console.log("Full article with content:", fullArticle); // Debug log
+      console.log("Full article content:", fullArticle.content); // Debug log
+      
+      setSelectedArticle(fullArticle);
+      setIsEditing(true);
+      setError("");
+      setIsSuccess(false);
+      setSuccessMessage("");
+      setUploadedImage(null); // Reset uploaded image state
+      window.scrollTo(0, 0);
+    } catch (err) {
+      console.error("Error fetching article details:", err);
+      setError("Failed to load article for editing");
+    }
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
     setSelectedArticle(null);
+    setQuillContent("");
+    setUploadedImage(null);
   };
 
   const handleSaveArticle = async () => {
     if (!selectedArticle) return;
     
     // Validate form
-    if (!selectedArticle.title.trim() || !selectedArticle.content.trim()) {
-      setError("Please fill in all required fields");
+    const selectedCategories = Array.isArray(selectedArticle.category) 
+      ? selectedArticle.category 
+      : [selectedArticle.category];
+    
+    if (!selectedArticle.title?.trim() || !selectedArticle.content?.trim() || selectedCategories.length === 0) {
+      setError("Please fill in all required fields and select at least one category");
       return;
     }
     
@@ -368,7 +410,7 @@ export default function ArticlesManagement() {
                   </label>
                   <input
                     type="text"
-                    value={selectedArticle.title}
+                    value={selectedArticle.title || ""}
                     onChange={(e) => setSelectedArticle({...selectedArticle, title: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                     required
@@ -381,45 +423,80 @@ export default function ArticlesManagement() {
                   </label>
                   <input
                     type="text"
-                    value={selectedArticle.subtitle}
+                    value={selectedArticle.subtitle || ""}
                     onChange={(e) => setSelectedArticle({...selectedArticle, subtitle: e.target.value})}
                     className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Category <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      value={selectedArticle.category}
-                      onChange={(e) => setSelectedArticle({...selectedArticle, category: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                      required
-                    >
-                      {ARTICLE_CATEGORIES.map((category) => (
-                        <option key={category} value={category}>
-                          {category}
-                        </option>
-                      ))}
-                    </select>
+                {/* Categories */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Categories <span className="text-red-500">*</span>
+                    <span className="ml-2 text-xs text-gray-400">Select one or more categories</span>
+                  </label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+                    {ARTICLE_CATEGORIES.map((category) => {
+                      const selectedCategories = Array.isArray(selectedArticle.category) 
+                        ? selectedArticle.category 
+                        : [selectedArticle.category];
+                      
+                      return (
+                        <label
+                          key={category}
+                          className="flex items-center space-x-2 cursor-pointer hover:bg-gray-700/50 p-2 rounded transition-colors"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedCategories.includes(category)}
+                            onChange={(e) => {
+                              const currentCategories = Array.isArray(selectedArticle.category) 
+                                ? selectedArticle.category 
+                                : [selectedArticle.category];
+                              
+                              if (e.target.checked) {
+                                setSelectedArticle({
+                                  ...selectedArticle, 
+                                  category: [...currentCategories, category]
+                                });
+                              } else {
+                                setSelectedArticle({
+                                  ...selectedArticle, 
+                                  category: currentCategories.filter(c => c !== category)
+                                });
+                              }
+                            }}
+                            className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500 focus:ring-2"
+                          />
+                          <span className="text-sm text-gray-300">{category}</span>
+                        </label>
+                      );
+                    })}
                   </div>
+                  {(() => {
+                    const selectedCategories = Array.isArray(selectedArticle.category) 
+                      ? selectedArticle.category 
+                      : [selectedArticle.category];
+                    return selectedCategories.length === 0 && (
+                      <p className="mt-2 text-sm text-red-400">Please select at least one category</p>
+                    );
+                  })()}
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Type <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      value={selectedArticle.type}
-                      onChange={(e) => setSelectedArticle({...selectedArticle, type: e.target.value as 'news' | 'opinion'})}
-                      className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                      required
-                    >
-                      <option value="news">News</option>
-                      <option value="opinion">Opinion</option>
-                    </select>
-                  </div>
+                {/* Article Type */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Type <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={selectedArticle.type}
+                    onChange={(e) => setSelectedArticle({...selectedArticle, type: e.target.value as 'news' | 'opinion'})}
+                    className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                    required
+                  >
+                    <option value="news">News</option>
+                    <option value="opinion">Opinion</option>
+                  </select>
                 </div>
 
                 {selectedArticle.type === "opinion" && (
@@ -452,33 +529,36 @@ export default function ArticlesManagement() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Author Name {selectedArticle.type === "opinion" && <span className="text-red-500">*</span>}
-                    </label>
-                    <input
-                      type="text"
-                      value={selectedArticle.authorName || ""}
-                      onChange={(e) => setSelectedArticle({...selectedArticle, authorName: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                      placeholder="Enter author name (optional for news articles)"
-                    />
-                  </div>
+                {/* Author fields for news articles */}
+                {selectedArticle.type === "news" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Author Name
+                      </label>
+                      <input
+                        type="text"
+                        value={selectedArticle.authorName || ""}
+                        onChange={(e) => setSelectedArticle({...selectedArticle, authorName: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                        placeholder="Enter author name (optional for news articles)"
+                      />
+                    </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Author Position {selectedArticle.type === "opinion" && <span className="text-red-500">*</span>}
-                    </label>
-                    <input
-                      type="text"
-                      value={selectedArticle.authorPosition || ""}
-                      onChange={(e) => setSelectedArticle({...selectedArticle, authorPosition: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
-                      placeholder="Enter author position/title (optional for news articles)"
-                    />
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Author Position
+                      </label>
+                      <input
+                        type="text"
+                        value={selectedArticle.authorPosition || ""}
+                        onChange={(e) => setSelectedArticle({...selectedArticle, authorPosition: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                        placeholder="Enter author position/title (optional for news articles)"
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -529,9 +609,14 @@ export default function ArticlesManagement() {
                     <div>
                       <div className="bg-gray-800 rounded-md overflow-hidden mb-2">
                         <ReactQuill
+                          key={selectedArticle.id}
                           theme="snow"
-                          value={selectedArticle.content}
-                          onChange={(content) => setSelectedArticle({...selectedArticle, content})}
+                          value={quillContent}
+                          onChange={(content) => {
+                            console.log("Quill content changed:", content); // Debug log
+                            setQuillContent(content);
+                            setSelectedArticle({...selectedArticle, content});
+                          }}
                           modules={modules}
                           formats={formats}
                           className="h-80"
@@ -546,8 +631,26 @@ export default function ArticlesManagement() {
                             border-color: #374151 !important;
                           }
                           .ql-editor {
-                            color: white;
+                            color: white !important;
                             background-color: #1f2937;
+                          }
+                          .ql-editor * {
+                            color: white !important;
+                          }
+                          .ql-editor p,
+                          .ql-editor h1,
+                          .ql-editor h2,
+                          .ql-editor h3,
+                          .ql-editor h4,
+                          .ql-editor h5,
+                          .ql-editor h6,
+                          .ql-editor span,
+                          .ql-editor div,
+                          .ql-editor li,
+                          .ql-editor strong,
+                          .ql-editor em,
+                          .ql-editor u {
+                            color: white !important;
                           }
                           .ql-editor.ql-blank::before {
                             color: #9ca3af;
@@ -697,9 +800,21 @@ export default function ArticlesManagement() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <span className="px-2 py-1 text-xs rounded-full bg-blue-900/50 text-blue-400 border border-blue-800/50">
-                            {article.category}
-                          </span>
+                          <div className="flex flex-wrap gap-1">
+                            {(() => {
+                              const categories = Array.isArray(article.category) 
+                                ? article.category 
+                                : [article.category];
+                              return categories.map((cat, index) => (
+                                <span 
+                                  key={index}
+                                  className="px-2 py-1 text-xs rounded-full bg-blue-900/50 text-blue-400 border border-blue-800/50"
+                                >
+                                  {cat}
+                                </span>
+                              ));
+                            })()}
+                          </div>
                         </td>
                         <td className="px-6 py-4">
                           <span className={`px-2 py-1 text-xs rounded-full ${

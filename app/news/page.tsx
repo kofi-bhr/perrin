@@ -383,10 +383,14 @@ export default function News() {
     }
   };
   
-  const categories = ["All", "Foreign Policy", "AI", "Startups", "Technology", "Education", "Economics", "Climate Action"];
+  const categories = ["All", "International Affairs", "Economics", "Climate", "AI", "Domestic Affairs", "Technology", "Education", "Legal", "Commerce"];
 
   const filteredNews = activeCategory && activeCategory !== "All" 
-    ? recentNews.filter(news => news.category === activeCategory)
+    ? recentNews.filter(news => {
+        // Handle both single category (string) and multiple categories (array)
+        const categories = Array.isArray(news.category) ? news.category : [news.category];
+        return categories.includes(activeCategory);
+      })
     : recentNews;
 
   // Featured articles (excluding the main featured news)
@@ -586,8 +590,20 @@ export default function News() {
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                  <div className="absolute top-0 right-0 bg-slate-900 text-white text-xs font-medium px-3 py-1.5 m-3 sm:m-4 rounded-lg shadow-lg font-roboto">
-                    {featuredNews.category}
+                  <div className="absolute top-0 right-0 m-3 sm:m-4 flex flex-wrap gap-1">
+                    {(() => {
+                      const categories = Array.isArray(featuredNews.category) 
+                        ? featuredNews.category 
+                        : [featuredNews.category];
+                      return categories.map((cat, index) => (
+                        <span 
+                          key={index}
+                          className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg font-roboto"
+                        >
+                          {cat}
+                        </span>
+                      ));
+                    })()}
                   </div>
                   <div className="absolute bottom-0 left-0 p-4 sm:p-6">
                     <span className="flex items-center text-xs text-white/90 mb-2 font-roboto">
@@ -641,8 +657,20 @@ export default function News() {
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div className="absolute top-0 right-0 bg-slate-900 text-white text-xs font-medium px-2 py-1 m-2 rounded-md font-roboto">
-                          {news.category}
+                        <div className="absolute top-0 right-0 m-2 flex flex-wrap gap-1">
+                          {(() => {
+                            const categories = Array.isArray(news.category) 
+                              ? news.category 
+                              : [news.category];
+                            return categories.map((cat, index) => (
+                              <span 
+                                key={index}
+                                className="bg-slate-900 text-white text-xs font-medium px-2 py-1 rounded-md font-roboto"
+                              >
+                                {cat}
+                              </span>
+                            ));
+                          })()}
                         </div>
                         <div className="absolute bottom-0 left-0 p-3 sm:p-4">
                           <span className="flex items-center text-xs text-white/90 mb-1 font-roboto">
@@ -787,8 +815,20 @@ export default function News() {
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div className="absolute top-0 right-0 bg-slate-900 text-white text-xs font-medium px-2 py-1 m-2 rounded-md font-roboto">
-                          {article.category}
+                        <div className="absolute top-0 right-0 m-2 flex flex-wrap gap-1">
+                          {(() => {
+                            const categories = Array.isArray(article.category) 
+                              ? article.category 
+                              : [article.category];
+                            return categories.map((cat, index) => (
+                              <span 
+                                key={index}
+                                className="bg-slate-900 text-white text-xs font-medium px-2 py-1 rounded-md font-roboto"
+                              >
+                                {cat}
+                              </span>
+                            ));
+                          })()}
                         </div>
                       </div>
                       <h4 className="font-bold text-slate-900 group-hover:text-slate-700 transition-colors mb-1 font-roboto">
