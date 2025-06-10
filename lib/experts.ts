@@ -1020,11 +1020,12 @@ export const EXPERTS: Expert[] = [
   {
     id: 94,
     name: "Majdi Alameddine",
-    role: "Research Associate",
-    bio: "Research Associate contributing to policy analysis and research initiatives.",
+    role: "Editor of Economic Policy and Development",
+    bio: "Majdi Alameddine is Editor of Economic Policy and Development at the Perrin Institute, where he leads research on economic policy frameworks and development strategies. He specializes in analyzing fiscal policy, international development, and economic governance structures. His work focuses on examining how economic policies impact growth, equity, and sustainability across different regions and development contexts. He is particularly interested in the intersection of economic policy and social development outcomes.",
     image: "",
-    category: "Research Associates",
-    interests: ["Policy Analysis", "Research"],
+    email: "majdi@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Economic Policy", "Development Economics", "Fiscal Policy", "International Development"],
     affiliations: {
       organizations: ["Perrin Institute"]
     }
