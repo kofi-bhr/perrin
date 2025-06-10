@@ -929,12 +929,12 @@ export const EXPERTS: Expert[] = [
   {
     id: 87,
     name: "Emily Gorodetskiy",
-    role: "Education Policy Correspondent",
-    bio: "Education Policy Correspondent focused on educational systems and policy innovation.",
+    role: "Economic Policy Correspondent",
+    bio: "Emily Gurb is Economic Policy Correspondent at the Perrin Institute, where she covers economic policy developments and fiscal governance issues. She specializes in analyzing monetary policy, fiscal frameworks, and economic regulatory changes at national and international levels. Her reporting focuses on translating complex economic policy decisions into accessible analysis for diverse audiences. She is particularly interested in how economic policies impact different sectors and communities.",
     image: "",
     email: "emily@perrinlabs.org",
     category: "Editorial",
-    interests: ["Education Policy", "Educational Innovation", "Academic Research"],
+    interests: ["Economic Policy", "Fiscal Policy", "Monetary Policy", "Economic Analysis"],
     affiliations: {
       organizations: ["Perrin Institute"]
     }
