@@ -57,35 +57,36 @@ export default function ExpertsPage() {
         // Executive Leadership
         'Founder & President': 1,
         'Co-Founder & Chief Technology Officer': 2,
-        'Chief Marketing Officer': 3,
-        'Chief of Staff': 4,
-        'Chief Information Security Officer': 5,
-        'Chief Information Officer': 6,
-        'Chief Compliance Officer': 7,
-        'Editor-In-Chief': 8,
-        'Chief Design Officer': 9,
+        'Chief Operating Officer & Executive Editor': 3,
+        'Chief Marketing Officer': 4,
+        'Chief of Staff': 5,
+        'Chief Information Security Officer': 6,
+        'Chief Information Officer': 7,
+        'Chief Compliance Officer': 8,
+        'Editor-In-Chief': 9,
+        'Chief Design Officer': 10,
         
         // Senior Leadership
-        'Vice President of Marketing': 10,
-        'Director of Technology': 11,
-        'Director of Communications': 12,
+        'Vice President of Marketing': 11,
+        'Director of Technology': 12,
+        'Director of Communications': 13,
         
         // Co-Presidents and Chapter Leadership
-        'Co-President': 13,
-        'Treasurer': 14,
-        'Secretary': 15,
+        'Co-President': 14,
+        'Treasurer': 15,
+        'Secretary': 16,
         
         // Research and Academic Roles
-        'Policy Researcher': 16,
-        'Editorial Board Researcher': 17,
-        'Research Fellow': 18,
-        'Research Associate': 19,
+        'Policy Researcher': 17,
+        'Editorial Board Researcher': 18,
+        'Research Fellow': 19,
+        'Research Associate': 20,
         
         // Technical Roles
-        'Software Engineer': 20,
+        'Software Engineer': 21,
         
         // General Members
-        'Member': 21
+        'Member': 22
       };
       
       result.sort((a, b) => {
