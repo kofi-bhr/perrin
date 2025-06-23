@@ -678,11 +678,11 @@ export const EXPERTS: Expert[] = [
   {
     id: 63,
     name: "Daniel Neuner",
-    role: "Research Associate",
+    role: "Chief Strategy Officer & Executive Editor",
     bio: "Research Associate focused on policy development and analysis.",
     image: "",
     email: "dxneuner08@gmail.com",
-    category: "Research Associates"
+    category: "Leadership",
   },
   {
     id: 64,
