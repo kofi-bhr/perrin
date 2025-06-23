@@ -102,6 +102,7 @@ export async function PUT(
       category: any;
       type: any;
       image: any;
+      imageSource?: string;
       featured: boolean;
       date: any;
       authorName?: string;
@@ -121,6 +122,7 @@ export async function PUT(
     // Add optional fields only if they exist in the request
     if (body.authorName !== undefined) updateFields.authorName = body.authorName;
     if (body.authorPosition !== undefined) updateFields.authorPosition = body.authorPosition;
+    if (body.imageSource !== undefined) updateFields.imageSource = body.imageSource;
     
     // Save the updated article with specific fields to update
     try {

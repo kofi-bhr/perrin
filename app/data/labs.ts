@@ -282,56 +282,6 @@ export const LABS_DATA: Lab[] = [
     contactEmail: "admin@perrininstitute.org"
   },
   {
-    id: "special-projects",
-    title: "Special Projects Lab",
-    iconName: "FiBox",
-    color: "bg-red-700",
-    textColor: "text-white",
-    description: "Conducting interdisciplinary research on emerging issues that require rapid response and innovative methodological approaches.",
-    longDescription: "The Special Projects lab serves as an incubator for time-sensitive research on emerging policy challenges. Our flexible team adapts quickly to address urgent issues, experiment with novel methodologies, and generate preliminary insights that can inform more sustained research efforts.",
-    stats: [],
-    image: "/images/special-lab.jpg",
-    defaultImage: "/images/default-lab.jpg",
-    members: [
-      {
-        name: "Dr. Eliza Cortez",
-        role: "Lab Director",
-        image: "/images/team/placeholder.jpg",
-        bio: "Versatile researcher with background in crisis response policy and rapid methodology development."
-      },
-      {
-        name: "Dr. Kwame Osei",
-        role: "Research Methodologist",
-        image: "/images/team/placeholder.jpg",
-        bio: "Specializes in developing adaptive research designs for complex and time-sensitive research questions."
-      },
-      {
-        name: "Taylor Schmidt",
-        role: "Policy Analyst",
-        image: "/images/team/placeholder.jpg",
-        bio: "Expert in synthesizing diverse evidence sources for rapid policy response in crisis situations."
-      }
-    ],
-    publications: [
-      {
-        title: "Rapid Response Research: Methodological Framework for Crisis Policy Development",
-        authors: ["Eliza Cortez", "Kwame Osei"],
-        date: "March 2024",
-        abstract: "A proposed framework for maintaining research rigor while significantly accelerating the research-to-policy pipeline during crises.",
-        link: "#"
-      },
-      {
-        title: "Emerging Technologies and Social Impacts: Early Warning System",
-        authors: ["Taylor Schmidt", "Eliza Cortez", "Jason Lee"],
-        date: "November 2023",
-        abstract: "Development of an early warning system to identify and assess emerging technologies with significant potential social and policy implications.",
-        link: "#"
-      }
-    ],
-    methodology: "Our lab takes a highly adaptive approach, developing bespoke methodologies for each project based on its specific context and constraints. We emphasize rapid iteration, cross-disciplinary collaboration, and pragmatic application while maintaining methodological rigor.",
-    contactEmail: "admin@perrininstitute.org"
-  },
-  {
     id: "foreign-affairs",
     title: "Foreign Affairs Lab",
     iconName: "FiFlag",

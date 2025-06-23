@@ -225,7 +225,7 @@ export default function ArticlePage() {
                 />
               </div>
               <div className="mt-2 text-xs text-gray-500 flex justify-between">
-                <span>Photo: The Perrin Institution</span>
+                <span>{article.imageSource || "Photo: The Perrin Institution"}</span>
                 <span className="text-xs text-gray-400 italic">{article.date}</span>
               </div>
             </motion.div>

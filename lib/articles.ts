@@ -10,6 +10,7 @@ export interface Article {
   authorPosition?: string;
   date: string;
   image: string;
+  imageSource?: string; // Credit for the image source
   featured: boolean;
 }
 

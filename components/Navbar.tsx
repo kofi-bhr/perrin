@@ -23,7 +23,7 @@ interface Article {
   title: string;
   subtitle?: string;
   excerpt: string;
-  category: string;
+  category: string | string[];
   type: 'news' | 'opinion';
   authorName?: string;
   authorPosition?: string;
@@ -46,7 +46,6 @@ const ALL_LABS = [
   { id: "inclusive-policy", title: "Inclusive Policy", description: "Designing and evaluating policies that promote equity, inclusion, and representation across diverse communities and demographics." },
   { id: "climate-technology", title: "Climate Technology", description: "Researching technological solutions to climate challenges and the policy frameworks needed to accelerate their development and deployment." },
   { id: "deliberative-democracy", title: "Deliberative Democracy", description: "Exploring innovative democratic processes that enhance public deliberation, citizen participation, and collective decision-making on complex policy issues." },
-  { id: "special-projects", title: "Special Projects", description: "Cross-cutting research initiatives that address emerging policy challenges requiring interdisciplinary approaches." },
   { id: "foreign-affairs", title: "Foreign Affairs", description: "Analyzing international relations, diplomacy, and global governance structures in an interconnected world." },
   { id: "economic-policy", title: "Economic Policy", description: "Examining macroeconomic trends, fiscal policy, and the intersection of economics with technology and society." },
   { id: "legal-research", title: "Legal Research", description: "Investigating legal frameworks for emerging technologies and evolving societal needs." },
@@ -94,6 +93,14 @@ const STATIC_PAGES: SearchResult[] = [
     type: 'page',
     url: '/news',
     description: 'Stay updated with the latest news, research findings, and policy insights from the Perrin Institute.'
+  },
+  {
+    id: 'special-projects',
+    title: 'Special Projects',
+    subtitle: 'Strategic initiatives and partnerships',
+    type: 'page',
+    url: '/special-projects',
+    description: 'Explore our sponsored projects and strategic initiatives that advance policy research and democratic innovation.'
   },
   {
     id: 'careers',
@@ -198,14 +205,22 @@ export default function Navbar() {
     const results: SearchResult[] = []
 
     // Search articles
-    const matchingArticles = articles.filter(article => 
-      article.title.toLowerCase().includes(query) ||
-      article.subtitle?.toLowerCase().includes(query) ||
-      article.excerpt.toLowerCase().includes(query) ||
-      article.category.toLowerCase().includes(query)
-    ).slice(0, 3) // Limit to 3 results
+    const matchingArticles = articles.filter(article => {
+      const categoryText = Array.isArray(article.category) 
+        ? article.category.join(' ').toLowerCase() 
+        : article.category.toLowerCase()
+      
+      return article.title.toLowerCase().includes(query) ||
+        article.subtitle?.toLowerCase().includes(query) ||
+        article.excerpt.toLowerCase().includes(query) ||
+        categoryText.includes(query)
+    }).slice(0, 3) // Limit to 3 results
 
     matchingArticles.forEach(article => {
+      const categoryDisplay = Array.isArray(article.category) 
+        ? article.category[0] 
+        : article.category
+        
       results.push({
         id: article.id,
         title: article.title,
@@ -213,7 +228,7 @@ export default function Navbar() {
         type: 'article',
         url: `/news/${article.id}`,
         description: article.excerpt,
-        category: article.category
+        category: categoryDisplay
       })
     })
 
@@ -441,6 +456,20 @@ export default function Navbar() {
                 }`}
               >
                 News
+              </Link>
+
+              {/* Special Projects */}
+              <Link 
+                href="/special-projects" 
+                className={`font-medium transition-colors ${
+                  pathname.includes('/special-projects') 
+                    ? 'text-teal-600' 
+                    : isScrolled 
+                      ? 'text-gray-800 hover:text-teal-600' 
+                      : 'text-gray-800 hover:text-teal-500'
+                }`}
+              >
+                Special Projects
               </Link>
 
               {/* Careers */}
@@ -837,6 +866,15 @@ export default function Navbar() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <span>News</span>
+                </Link>
+
+                {/* Special Projects */}
+                <Link 
+                  href="/special-projects"
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>Special Projects</span>
                 </Link>
 
                 {/* Careers */}

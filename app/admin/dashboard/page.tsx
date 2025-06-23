@@ -20,7 +20,8 @@ const ARTICLE_CATEGORIES = [
   "Technology",
   "Education",
   "Legal",
-  "Commerce"
+  "Commerce",
+  "Health"
 ];
 
 // Quill editor formats
@@ -62,6 +63,7 @@ export default function AdminDashboard() {
   const [authorName, setAuthorName] = useState("");
   const [authorPosition, setAuthorPosition] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [imageSource, setImageSource] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
@@ -182,6 +184,7 @@ export default function AdminDashboard() {
         excerpt,
         date: formattedDate,
         image: finalImageUrl,
+        imageSource: imageSource?.trim() || undefined,
         featured: false
       };
       
@@ -205,6 +208,7 @@ export default function AdminDashboard() {
         setAuthorName("");
         setAuthorPosition("");
         setImageUrl("");
+        setImageSource("");
         setUploadedImage(null);
         setIsSuccess(false);
         
@@ -528,6 +532,7 @@ export default function AdminDashboard() {
                     onClick={() => {
                       setUploadedImage(null);
                       setImageUrl("");
+                      setImageSource("");
                       if (fileInputRef.current) {
                         fileInputRef.current.value = "";
                       }
@@ -540,6 +545,24 @@ export default function AdminDashboard() {
                     Clear image selection
                   </button>
                 )}
+              </div>
+              
+              {/* Image Source Credit */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Image Source Credit
+                  <span className="ml-2 text-xs text-gray-400">Optional: Credit the photographer, website, or organization</span>
+                </label>
+                <input
+                  type="text"
+                  value={imageSource}
+                  onChange={(e) => setImageSource(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
+                  placeholder="e.g., Photo by John Doe, Unsplash, Getty Images, etc."
+                />
+                <p className="mt-1 text-xs text-gray-400">
+                  This will be displayed as a small credit below the article image
+                </p>
               </div>
               
               {/* Article Content */}

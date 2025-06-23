@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, subtitle, content, excerpt, category, type, authorName, authorPosition, date, image, featured } = body;
+    const { title, subtitle, content, excerpt, category, type, authorName, authorPosition, date, image, imageSource, featured } = body;
     
     // Validate required fields
     if (!title || !content || !category || !type || !subtitle) {
@@ -72,6 +72,7 @@ export async function POST(request: NextRequest) {
       authorPosition,
       date,
       image: image || "/news/placeholder-thumb-1.jpg",
+      imageSource,
       featured: featured || false
     };
     
@@ -116,6 +117,7 @@ export async function init() {
           excerpt: "The Perrin Institution's comprehensive AI governance framework has received endorsements from policymakers and tech leaders across multiple countries, representing a major step forward in establishing global standards for artificial intelligence development and deployment.",
           content: "<p>The Perrin Institution's comprehensive AI governance framework has received endorsements from policymakers and tech leaders across multiple countries, representing a major step forward in establishing global standards for artificial intelligence development and deployment.</p><p>The framework, which emphasizes transparency, accountability, and human oversight, was developed through a collaborative process involving experts from academia, industry, and civil society organizations.</p><p>Key recommendations include establishing independent audit mechanisms, mandating impact assessments for high-risk AI systems, and creating international coordination bodies to address cross-border challenges.</p>",
           image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&h=700&q=80",
+          imageSource: "Photo by Unsplash",
           category: "AI",
           type: "news",
           featured: true,
@@ -130,6 +132,7 @@ export async function init() {
           excerpt: "A new direct air capture method developed by researchers at the Perrin Institution demonstrates significantly improved efficiency at lower costs, potentially accelerating climate mitigation efforts globally.",
           content: "<p>A new direct air capture method developed by researchers at the Perrin Institution demonstrates significantly improved efficiency at lower costs, potentially accelerating climate mitigation efforts globally.</p><p>The technology, which uses novel materials and an optimized capture process, reduces energy requirements while increasing carbon dioxide absorption rates by approximately 40% compared to current commercial solutions.</p><p>Initial testing has shown promising results, with the system capable of capturing up to 2 metric tons of CO₂ per day at pilot scale. Researchers are now focused on scaling the technology and reducing manufacturing costs further to enable widespread deployment.</p>",
           image: "https://images.unsplash.com/photo-1569097293280-36d13ba6eb24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1800&h=700&q=80",
+          imageSource: "Photo by Unsplash",
           category: "Climate Action",
           type: "news",
           featured: true,

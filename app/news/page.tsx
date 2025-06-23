@@ -383,7 +383,7 @@ export default function News() {
     }
   };
   
-  const categories = ["All", "International Affairs", "Economics", "Climate", "AI", "Domestic Affairs", "Technology", "Education", "Legal", "Commerce"];
+  const categories = ["All", "International Affairs", "Economics", "Climate", "AI", "Domestic Affairs", "Technology", "Education", "Legal", "Commerce", "Health"];
 
   const filteredNews = activeCategory && activeCategory !== "All" 
     ? recentNews.filter(news => {
