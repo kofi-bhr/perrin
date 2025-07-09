@@ -712,15 +712,6 @@ export const EXPERTS: Expert[] = [
     category: "Research Associates"
   },
   {
-    id: 67,
-    name: "Jared Rodnick",
-    role: "Research Associate",
-    bio: "Research Associate specializing in policy analysis and research.",
-    image: "",
-    email: "jaredrodnick@gmail.com",
-    category: "Research Associates"
-  },
-  {
     id: 68,
     name: "Samarth Pandey",
     role: "Research Associate",
@@ -1052,6 +1043,175 @@ export const EXPERTS: Expert[] = [
     email: "shaivisharma@perrinlabs.org",
     category: "Editorial",
     interests: ["Education Policy", "Educational Research", "Policy Development"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 97,
+    name: "Ayushmaan Mukherjee",
+    role: "International Policy Correspondent",
+    bio: "Ayushmaan Mukherjee is International Policy Correspondent at the Perrin Institute, where he covers global policy developments and international governance issues. He specializes in analyzing foreign policy initiatives, international relations, and cross-border regulatory frameworks. His reporting focuses on translating complex international policy developments into accessible analysis for diverse audiences. He is particularly interested in how international policies impact domestic governance and global cooperation.",
+    image: "",
+    email: "ayushmaanmukherjee@perrinlabs.org",
+    category: "Editorial",
+    interests: ["International Policy", "Foreign Policy", "Global Governance", "International Relations"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 98,
+    name: "Ava Havidic",
+    role: "Senior Editor on International Policy",
+    bio: "Ava Havidic is Senior Editor on International Policy at the Perrin Institute, where she leads research on global policy frameworks and international governance systems. She specializes in analyzing multilateral agreements, international law, and cross-border policy coordination. Her work focuses on developing comprehensive analysis of international policy trends and their implications for global governance. She is committed to advancing understanding of complex international policy challenges through rigorous research and analysis.",
+    image: "",
+    email: "avahavidic@perrinlabs.org",
+    category: "Editorial",
+    interests: ["International Policy", "Global Governance", "International Law", "Multilateral Agreements"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 99,
+    name: "Isabella Deng",
+    role: "Digital Content Strategist Intern",
+    bio: "Isabella Deng is Digital Content Strategist Intern at the Perrin Institute, where she supports digital content development and strategic communications initiatives. She specializes in creating engaging content across digital platforms and analyzing content performance metrics. Her work focuses on enhancing the Institute's digital presence and ensuring effective communication of research findings to diverse audiences. She brings fresh perspectives on digital engagement and content strategy.",
+    image: "",
+    email: "isabelladeng@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Digital Content Strategy", "Communications", "Social Media", "Content Creation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 100,
+    name: "Jeanette Trinidad",
+    role: "Climate Action Correspondent",
+    bio: "Jeanette Trinidad is Climate Action Correspondent at the Perrin Institute, where she covers environmental policy developments and climate governance issues. She specializes in analyzing climate legislation, environmental regulations, and sustainability initiatives at local, national, and international levels. Her reporting focuses on translating complex climate policy decisions into accessible analysis for diverse audiences. She is particularly interested in how climate policies impact communities and the intersection of environmental justice with climate action.",
+    image: "",
+    email: "jeanettetrinidad@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Climate Action", "Environmental Policy", "Sustainability", "Environmental Justice"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 101,
+    name: "Saniya Yamin",
+    role: "Domestic Affairs Correspondent",
+    bio: "Saniya Yamin is Domestic Affairs Correspondent at the Perrin Institute, where she covers national policy developments and domestic governance issues. She specializes in analyzing federal policy initiatives, congressional legislation, and executive actions across multiple policy domains. Her reporting focuses on translating complex domestic policy developments into accessible analysis for diverse audiences. She is particularly interested in how federal policies impact state and local governance structures and community outcomes.",
+    image: "",
+    email: "saniyayamin@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Domestic Affairs", "National Policy", "Congressional Legislation", "Federal Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 102,
+    name: "Emma Johnson",
+    role: "Domestic Affairs Correspondent, Policy Insights Division",
+    bio: "Emma Johnson is Domestic Affairs Correspondent in the Policy Insights Division at the Perrin Institute, where she covers national policy developments with a focus on policy analysis and insights. She specializes in analyzing federal policy initiatives, congressional legislation, and their real-world impacts on communities. Her reporting focuses on providing in-depth policy insights and translating complex domestic policy developments into actionable intelligence for policymakers and stakeholders.",
+    image: "",
+    email: "emmajohnson@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Domestic Affairs", "Policy Analysis", "Congressional Legislation", "Policy Insights"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 103,
+    name: "Storey Kuo",
+    role: "Economic Policy Correspondent",
+    bio: "Storey Kuo is Economic Policy Correspondent at the Perrin Institute, where she covers economic policy developments and fiscal governance issues. She specializes in analyzing monetary policy, fiscal frameworks, and economic regulatory changes at national and international levels. Her reporting focuses on translating complex economic policy decisions into accessible analysis for diverse audiences. She is particularly interested in how economic policies impact different sectors, communities, and market dynamics.",
+    image: "",
+    email: "storeykuo@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Economic Policy", "Fiscal Policy", "Monetary Policy", "Economic Analysis", "Market Regulation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 104,
+    name: "Vrinda Shah",
+    role: "Technological Development Correspondent",
+    bio: "Vrinda Shah is Technological Development Correspondent at the Perrin Institute, where she covers emerging technologies and their policy implications. She specializes in analyzing technological innovation, regulatory frameworks for emerging technologies, and the intersection of technology and governance. Her reporting focuses on translating complex technological developments into accessible policy analysis for diverse audiences. She is particularly interested in how technological advancement impacts society and the regulatory challenges of emerging technologies.",
+    image: "",
+    email: "vrindashah@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Technological Development", "Emerging Technologies", "Technology Policy", "Innovation Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 105,
+    name: "Precious Ojo",
+    role: "Health Policy Correspondent",
+    bio: "Precious Ojo is Health Policy Correspondent at the Perrin Institute, where she covers healthcare policy developments and health governance issues. She specializes in analyzing healthcare legislation, public health initiatives, and health system reforms at local, national, and international levels. Her reporting focuses on translating complex health policy decisions into accessible analysis for diverse audiences. She is particularly interested in health equity, healthcare access, and the intersection of public health with social policy.",
+    image: "",
+    email: "preciousojo@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Health Policy", "Public Health", "Healthcare Reform", "Health Equity"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 106,
+    name: "Anousha Mozammel",
+    role: "Policy Content Analyst",
+    bio: "Anousha Mozammel is Policy Content Analyst at the Perrin Institute, where she specializes in analyzing and developing policy-focused content across various domains. She conducts comprehensive research on policy issues and transforms complex policy information into accessible written content. Her work focuses on creating analytical pieces that bridge the gap between policy research and public understanding. She is particularly skilled at synthesizing policy developments into clear, engaging narratives for diverse audiences.",
+    image: "",
+    email: "anoushamozammel@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Policy Analysis", "Content Development", "Research Writing", "Policy Communication"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 107,
+    name: "Saathvik Valvekar",
+    role: "AI Governance Correspondent",
+    bio: "Saathvik Valvekar is AI Governance Correspondent at the Perrin Institute, where he covers artificial intelligence policy and governance frameworks. He specializes in analyzing the regulatory challenges posed by AI technologies and developing comprehensive policy recommendations for AI governance. His reporting focuses on balancing innovation with ethical considerations and public safety. He examines AI governance models across jurisdictions to identify best practices for responsible AI development and implementation.",
+    image: "",
+    email: "saathvikvalvekar@perrinlabs.org",
+    category: "Editorial",
+    interests: ["AI Governance", "Artificial Intelligence Policy", "Technology Ethics", "Regulatory Innovation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 108,
+    name: "Thavisha Ponnamperuma",
+    role: "Executive Director II of Special Projects",
+    bio: "Thavisha Ponnamperuma is Executive Director II of Special Projects at the Perrin Institute, where he leads strategic initiatives and oversees the development of innovative special projects. He specializes in project management, strategic planning, and cross-functional collaboration to deliver high-impact initiatives. His work focuses on identifying emerging opportunities and developing comprehensive project frameworks that align with the Institute's mission. He brings extensive experience in executive leadership and project execution to drive the Institute's special initiatives forward.",
+    image: "",
+    email: "thavishaponnamperuma@perrinlabs.org",
+    category: "Leadership",
+    interests: ["Strategic Planning", "Project Management", "Innovation Leadership", "Executive Strategy"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 109,
+    name: "Aanandi Thakur",
+    role: "Senior Health Editor",
+    bio: "Aanandi Thakur is Senior Health Editor at the Perrin Institute, where she leads editorial initiatives on health policy and healthcare governance. She specializes in analyzing healthcare legislation, public health policy, and health system reforms at national and international levels. Her editorial work focuses on translating complex health policy developments into accessible analysis for diverse audiences. She is particularly dedicated to covering health equity, healthcare access, and the intersection of public health with social and economic policy.",
+    image: "",
+    email: "aanandithakur@perrinlabs.org",
+    category: "Editorial",
+    interests: ["Health Policy", "Public Health", "Healthcare Reform", "Health Equity", "Healthcare Governance"],
     affiliations: {
       organizations: ["Perrin Institute"]
     }

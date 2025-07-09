@@ -88,11 +88,11 @@ const STATIC_PAGES: SearchResult[] = [
   },
   {
     id: 'news',
-    title: 'News',
-    subtitle: 'Latest updates and insights',
+    title: 'Insights',
+    subtitle: 'Latest research and policy insights',
     type: 'page',
     url: '/news',
-    description: 'Stay updated with the latest news, research findings, and policy insights from the Perrin Institute.'
+    description: 'Explore our latest insights, analysis, and policy research from the Perrin Institute.'
   },
   {
     id: 'special-projects',
@@ -109,6 +109,14 @@ const STATIC_PAGES: SearchResult[] = [
     type: 'page',
     url: '/careers',
     description: 'Explore career opportunities and join our team of policy researchers and experts.'
+  },
+  {
+    id: 'admin',
+    title: 'Employee Login',
+    subtitle: 'Employee portal access',
+    type: 'page',
+    url: '/admin',
+    description: 'Staff and employee login portal for content management and administrative access.'
   }
 ]
 
@@ -430,21 +438,7 @@ export default function Navbar() {
                 </AnimatePresence>
               </div>
 
-              {/* Scholarship Center */}
-              <Link 
-                href="/scholarship-center" 
-                className={`font-medium transition-colors ${
-                  pathname.includes('/scholarship-center') 
-                    ? 'text-teal-600' 
-                    : isScrolled 
-                      ? 'text-gray-800 hover:text-teal-600' 
-                      : 'text-gray-800 hover:text-teal-500'
-                }`}
-              >
-                Scholarship Center
-              </Link>
-
-              {/* News */}
+              {/* Intelligence */}
               <Link 
                 href="/news" 
                 className={`font-medium transition-colors ${
@@ -455,7 +449,7 @@ export default function Navbar() {
                       : 'text-gray-800 hover:text-teal-500'
                 }`}
               >
-                News
+                Intelligence
               </Link>
 
               {/* Special Projects */}
@@ -486,6 +480,17 @@ export default function Navbar() {
                 Careers
               </Link>
 
+              {/* Employee Login */}
+              <Link 
+                href="/admin" 
+                className="flex items-center space-x-1.5 text-gray-700 hover:text-teal-600 font-medium transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-gray-50"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span className="text-sm">Employee Login</span>
+              </Link>
+
               {/* Search */}
               <div className="relative" ref={searchRef}>
                 <button 
@@ -512,7 +517,7 @@ export default function Navbar() {
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search articles, labs, and pages..."
+                            placeholder="Search intelligence, labs, and pages..."
                             className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-sm"
                             autoFocus
                           />
@@ -597,7 +602,7 @@ export default function Navbar() {
                         <div className="px-4 py-6 text-center border-t border-gray-100">
                           <FiSearch className="h-8 w-8 text-gray-300 mx-auto mb-2" />
                           <p className="text-sm text-gray-500">Start typing to search</p>
-                          <p className="text-xs text-gray-400 mt-1">Articles, labs, and pages</p>
+                          <p className="text-xs text-gray-400 mt-1">Intelligence, labs, and pages</p>
                         </div>
                       )}
                     </motion.div>
@@ -660,7 +665,7 @@ export default function Navbar() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search articles, labs, and pages..."
+                    placeholder="Search intelligence, labs, and pages..."
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
                     autoFocus
                   />
@@ -726,7 +731,7 @@ export default function Navbar() {
                 <div className="text-center py-8">
                   <FiSearch className="h-12 w-12 text-gray-300 mx-auto mb-3" />
                   <p className="text-gray-500">Start typing to search</p>
-                  <p className="text-sm text-gray-400 mt-1">Articles, labs, and pages</p>
+                  <p className="text-sm text-gray-400 mt-1">Intelligence, labs, and pages</p>
                 </div>
               )}
             </div>
@@ -849,23 +854,14 @@ export default function Navbar() {
                     )}
                   </AnimatePresence>
                 </div>
-                
-                {/* Scholarship Center */}
-                <Link 
-                  href="/scholarship-center"
-                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span>Scholarship Center</span>
-                </Link>
 
-                {/* News */}
+                {/* Intelligence */}
                 <Link 
                   href="/news"
                   className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <span>News</span>
+                  <span>Intelligence</span>
                 </Link>
 
                 {/* Special Projects */}
@@ -884,6 +880,15 @@ export default function Navbar() {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <span>Careers</span>
+                </Link>
+
+                {/* Employee Login */}
+                <Link 
+                  href="/admin"
+                  className="flex items-center justify-between py-3 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-teal-600 font-medium transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span>Employee Login</span>
                 </Link>
               </div>
             </div>

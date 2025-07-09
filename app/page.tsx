@@ -440,18 +440,18 @@ export default function Home() {
                   className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6 justify-center lg:justify-start"
                 >
                   <Link 
-                    href="/Labs" 
+                    href="/news" 
                     className="inline-flex items-center justify-center px-6 sm:px-8 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-all duration-200 text-sm sm:text-base"
                   >
-                    Explore research labs
+                    View our intelligence
                     <FiArrowRight className="ml-2 w-4 h-4" />
                   </Link>
                   
                   <Link 
-                    href="/news" 
+                    href="/Labs" 
                     className="inline-flex items-center justify-center px-6 sm:px-8 py-3 border border-slate-300 text-slate-700 rounded-lg font-medium hover:border-slate-400 hover:bg-slate-50 transition-all duration-200 text-sm sm:text-base"
                   >
-                    View articles
+                    Explore research labs
                   </Link>
                 </motion.div>
               </motion.div>

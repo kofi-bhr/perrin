@@ -398,16 +398,16 @@ export default function News() {
   
   // Use the first featured article as main featured, or first article if none are featured
   const featuredNews = featuredArticles.length > 0 
-    ? featuredArticles[0] 
+          ? featuredArticles[0] 
     : recentNews.length > 0 ? recentNews[0] : {
         id: "0",
-        title: "No articles available",
-        subtitle: "Check back later for news updates",
+        title: "No intelligence available",
+        subtitle: "Check back later for intelligence updates",
         date: "Today",
         excerpt: "Check back later for new content.",
         content: "No content available.",
         image: "/news/placeholder-thumb-1.jpg",
-        category: "News",
+        category: "Intelligence",
         type: "news" as const,
         featured: false
       };
@@ -430,7 +430,7 @@ export default function News() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-4xl font-bold text-slate-900 font-roboto"
               >
-                Global News
+                Global Intelligence
               </motion.h1>
               <motion.p 
                 initial={{ opacity: 0 }}
@@ -438,7 +438,7 @@ export default function News() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="text-slate-600 text-sm mt-1 font-roboto"
               >
-                Analysis and reporting on global policy and technology trends
+                Strategic intelligence and analysis on global policy and technology developments
               </motion.p>
             </div>
             <motion.div 
@@ -450,7 +450,7 @@ export default function News() {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Search news..."
+                  placeholder="Search intelligence..."
                   className="pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-500 text-sm text-slate-700 placeholder-slate-400 font-roboto"
                 />
                 <FiSearch className="absolute left-3 top-2.5 text-slate-500" />
@@ -630,7 +630,7 @@ export default function News() {
             {/* News grid - Professional light theme with mobile improvements */}
             <motion.div variants={fadeInUp}>
               <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 pb-2 border-b border-slate-200 font-roboto">
-                Latest Articles
+                Latest Intelligence
               </h2>
               <motion.div 
                 variants={staggerContainer}
@@ -707,7 +707,7 @@ export default function News() {
                   whileTap={{ scale: 0.95 }}
                   className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 border border-slate-300 shadow-sm text-sm sm:text-base font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-colors font-roboto"
                 >
-                  Load more articles
+                  Load more intelligence
                 </motion.button>
               </motion.div>
             </motion.div>
@@ -802,7 +802,7 @@ export default function News() {
                 className="mb-8"
               >
                 <h3 className="text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-200 font-roboto">
-                  Featured Articles
+                  Featured Intelligence
                 </h3>
                 {featuredArticles.map((article) => (
                   <div key={article.id} className="mb-5 pb-5 border-b border-slate-200 last:border-0 last:pb-0">

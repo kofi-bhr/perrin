@@ -3,61 +3,105 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { FiExternalLink, FiArrowRight } from "react-icons/fi";
+import { FiExternalLink, FiArrowRight, FiZap, FiTrendingUp, FiUsers, FiTarget } from "react-icons/fi";
 
-// Animation variants
+// Animation variants - Apple-style subtle animations
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
+      staggerChildren: 0.08,
+      delayChildren: 0.1
     }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
     y: 0,
     transition: {
-      duration: 0.8,
+      duration: 0.6,
       ease: [0.25, 0.46, 0.45, 0.94]
     }
   }
 };
 
 const slideInLeft = {
-  hidden: { opacity: 0, x: -50 },
+  hidden: { opacity: 0, x: -30 },
   visible: { 
     opacity: 1, 
     x: 0,
     transition: {
-      duration: 0.8,
+      duration: 0.6,
       ease: [0.25, 0.46, 0.45, 0.94]
     }
   }
 };
 
 const slideInRight = {
-  hidden: { opacity: 0, x: 50 },
+  hidden: { opacity: 0, x: 30 },
   visible: { 
     opacity: 1, 
     x: 0,
     transition: {
-      duration: 0.8,
+      duration: 0.6,
       ease: [0.25, 0.46, 0.45, 0.94]
     }
   }
 };
 
+const scaleUp = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.46, 0.45, 0.94]
+    }
+  }
+};
+
+// Partnership data with teal theme
+const partnerships = [
+  {
+    name: "Learn4Lanka",
+    category: "Education Technology",
+    description: "Transforming education in Sri Lankan schools through direct resource delivery and community partnerships.",
+    impact: {
+      students: "5k+",
+      schools: "50+",
+      communities: "20+"
+    },
+    image: "/learn4lanka.avif",
+    website: "https://learn4lanka.org/",
+    color: "teal",
+    gradient: "from-teal-500 to-cyan-500"
+  },
+  {
+    name: "WikiJobs",
+    category: "Career Platform",
+    description: "AI-powered platform helping professionals return to work with personalized job matching and career guidance.",
+    impact: {
+      reach: "500K+",
+      success: "94%",
+      placements: "15K+"
+    },
+    image: null,
+    website: "https://wikijob.org/",
+    color: "cyan",
+    gradient: "from-cyan-500 to-blue-500"
+  }
+];
+
 export default function SpecialProjects() {
   return (
     <div className="min-h-screen bg-white">
-      {/* FAANG-style Hero */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+      {/* Hero Section - Apple-style minimal */}
+      <section className="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <motion.div 
             initial="hidden"
@@ -65,172 +109,156 @@ export default function SpecialProjects() {
             variants={containerVariants}
             className="text-center"
           >
-            <motion.div variants={itemVariants} className="mb-6">
-              <span className="text-sm font-medium text-slate-500 tracking-wide uppercase">
-                Strategic Partnerships
-              </span>
+            <motion.div variants={itemVariants} className="mb-12">
+              <div className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full">
+                <FiZap className="h-4 w-4 text-teal-600 mr-2" />
+                <span className="text-sm font-medium text-gray-700">
+                  Strategic Partnerships
+                </span>
+              </div>
             </motion.div>
             
             <motion.h1 
               variants={itemVariants}
-              className="text-6xl sm:text-7xl lg:text-8xl font-light text-slate-900 mb-8 tracking-tight leading-none"
+              className="text-6xl sm:text-7xl lg:text-8xl font-thin text-gray-900 mb-6 tracking-tight leading-[0.9]"
             >
               Special Projects
             </motion.h1>
             
             <motion.p 
               variants={itemVariants}
-              className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed"
+              className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-16 font-light"
             >
-              Organizations we support and collaborate with to drive innovation and impact
+              We partner with innovative organizations that share our vision of advancing 
+              policy research and democratic innovation.
             </motion.p>
+
+            <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-12 text-sm text-gray-500">
+              <div className="flex items-center">
+                <FiUsers className="h-4 w-4 mr-2 text-teal-600" />
+                <span>500K+ People Reached</span>
+              </div>
+              <div className="flex items-center">
+                <FiTarget className="h-4 w-4 mr-2 text-teal-600" />
+                <span>70+ Schools Supported</span>
+              </div>
+              <div className="flex items-center">
+                <FiTrendingUp className="h-4 w-4 mr-2 text-teal-600" />
+                <span>15K+ Career Placements</span>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Learn4Lanka - Apple-style layout */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50/30">
+      {/* Partnership Cards - Apple-style clean layout */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={containerVariants}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center"
+            className="space-y-40"
           >
-            {/* Content */}
-            <motion.div variants={slideInLeft} className="space-y-8">
-              <div className="space-y-4">
-                <div className="inline-block">
-                  <span className="text-sm font-semibold text-blue-600 uppercase tracking-wider">
-                    Education
-                  </span>
-                </div>
-                
-                <h2 className="text-5xl sm:text-6xl font-light text-slate-900 leading-tight">
-                  Learn4Lanka
-                </h2>
-                
-                <p className="text-xl text-slate-600 leading-relaxed max-w-lg">
-                  A youth-led initiative transforming education in Sri Lankan schools through 
-                  direct resource delivery and community partnerships.
-                </p>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-8">
-                  <div>
-                    <div className="text-3xl font-light text-slate-900 mb-1">140+</div>
-                    <div className="text-sm text-slate-500 uppercase tracking-wide">Students Supported</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-light text-slate-900 mb-1">50+</div>
-                    <div className="text-sm text-slate-500 uppercase tracking-wide">Schools Reached</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <a 
-                  href="https://learn4lanka.org/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center group text-blue-600 hover:text-blue-700 transition-colors"
+            {partnerships.map((partnership, index) => (
+              <motion.div
+                key={partnership.name}
+                variants={itemVariants}
+                className={`grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center ${
+                  index % 2 === 0 ? "" : "lg:grid-flow-col-dense"
+                }`}
+              >
+                {/* Content */}
+                <motion.div 
+                  variants={slideInLeft}
+                  className={`space-y-8 ${
+                    index % 2 === 0 ? "" : "lg:order-2"
+                  }`}
                 >
-                  <span className="text-lg font-medium mr-3">Learn more</span>
-                  <FiExternalLink className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                </a>
-              </div>
-            </motion.div>
-            
-            {/* Visual */}
-            <motion.div variants={slideInRight} className="relative">
-              <div className="relative z-10 bg-white p-12 rounded-3xl shadow-2xl shadow-blue-500/10">
-                <Image
-                  src="/learn4lanka.avif"
-                  alt="Learn4Lanka"
-                  width={300}
-                  height={150}
-                  className="w-full h-auto object-contain"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl transform rotate-3 scale-105 -z-10"></div>
-            </motion.div>
+                  <div className="space-y-6">
+                    <div className="inline-block">
+                      <div className="px-3 py-1 bg-gray-100 rounded-full">
+                        <span className="text-sm font-medium text-gray-700">
+                          {partnership.category}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <h2 className="text-5xl sm:text-6xl font-thin text-gray-900 leading-tight tracking-tight">
+                      {partnership.name}
+                    </h2>
+                    
+                    <p className="text-xl text-gray-600 leading-relaxed font-light">
+                      {partnership.description}
+                    </p>
+                  </div>
+                  
+                  {/* Impact Metrics - Apple-style minimal */}
+                  <div className="grid grid-cols-3 gap-8 pt-8">
+                    {Object.entries(partnership.impact).map(([key, value]) => (
+                      <div key={key}>
+                        <div className="text-4xl font-thin text-gray-900 mb-2">
+                          {value}
+                        </div>
+                        <div className="text-sm text-gray-500 font-medium">
+                          {key.replace(/([A-Z])/g, ' $1').trim()}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="pt-8">
+                    <a 
+                      href={partnership.website}
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition-all duration-300 font-medium group"
+                    >
+                      <span className="mr-3">Learn More</span>
+                      <FiExternalLink className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                    </a>
+                  </div>
+                </motion.div>
+                
+                {/* Visual - Apple-style clean cards */}
+                <motion.div 
+                  variants={slideInRight}
+                  className={`relative ${
+                    index % 2 === 0 ? "" : "lg:order-1"
+                  }`}
+                >
+                  <div className="relative">
+                    <div className="bg-gray-50 p-16 rounded-3xl shadow-sm border border-gray-100">
+                      {partnership.image ? (
+                        <Image
+                          src={partnership.image}
+                          alt={partnership.name}
+                          width={400}
+                          height={200}
+                          className="w-full h-auto object-contain"
+                        />
+                      ) : (
+                        <div className="text-center">
+                          <div className="text-8xl font-thin text-teal-600 mb-4">
+                            {partnership.name.split('').slice(0, 2).join('')}
+                          </div>
+                          <div className="text-2xl font-light text-gray-700">
+                            {partnership.name}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </section>
 
-      {/* WikiJobs - Google-style layout */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center"
-          >
-            {/* Visual */}
-            <motion.div variants={slideInLeft} className="relative order-2 lg:order-1">
-              <div className="relative z-10 bg-gradient-to-br from-emerald-50 to-teal-50 p-16 rounded-3xl shadow-2xl shadow-emerald-500/10">
-                <div className="text-center">
-                  <div className="text-6xl font-light text-emerald-600 mb-4">WJ</div>
-                  <div className="text-lg font-medium text-emerald-700">WikiJobs</div>
-                </div>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-3xl transform -rotate-3 scale-105 -z-10"></div>
-            </motion.div>
-            
-            {/* Content */}
-            <motion.div variants={slideInRight} className="space-y-8 order-1 lg:order-2">
-              <div className="space-y-4">
-                <div className="inline-block">
-                  <span className="text-sm font-semibold text-emerald-600 uppercase tracking-wider">
-                    Career Platform
-                  </span>
-                </div>
-                
-                <h2 className="text-5xl sm:text-6xl font-light text-slate-900 leading-tight">
-                  WikiJobs
-                </h2>
-                
-                <p className="text-xl text-slate-600 leading-relaxed max-w-lg">
-                  AI-powered platform helping professionals return to work with 
-                  personalized job matching and career guidance.
-                </p>
-              </div>
-              
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-8">
-                  <div>
-                    <div className="text-3xl font-light text-slate-900 mb-1">10M+</div>
-                    <div className="text-sm text-slate-500 uppercase tracking-wide">People Reached</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-light text-slate-900 mb-1">94%</div>
-                    <div className="text-sm text-slate-500 uppercase tracking-wide">Success Rate</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <a 
-                  href="https://wikijob.org/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center group text-emerald-600 hover:text-emerald-700 transition-colors"
-                >
-                  <span className="text-lg font-medium mr-3">Learn more</span>
-                  <FiExternalLink className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                </a>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA - Subtle FAANG style */}
-      <section className="py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-slate-50">
+      {/* CTA Section - Apple-style minimal */}
+      <section className="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div 
             initial="hidden"
@@ -239,27 +267,36 @@ export default function SpecialProjects() {
             variants={containerVariants}
             className="space-y-8"
           >
+            <motion.div variants={scaleUp} className="mb-12">
+              <div className="inline-flex items-center px-4 py-2 bg-white rounded-full shadow-sm">
+                <FiTarget className="h-4 w-4 text-teal-600 mr-2" />
+                <span className="text-sm font-medium text-gray-700">
+                  Partnership Opportunities
+                </span>
+              </div>
+            </motion.div>
+            
             <motion.h2 
               variants={itemVariants}
-              className="text-4xl sm:text-5xl font-light text-slate-900 leading-tight"
+              className="text-5xl sm:text-6xl font-thin text-gray-900 leading-tight tracking-tight"
             >
               Ready to partner with us?
             </motion.h2>
             
             <motion.p 
               variants={itemVariants}
-              className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed"
+              className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed font-light"
             >
-              We're always seeking innovative organizations that share our commitment 
+              We're seeking innovative organizations that share our commitment 
               to advancing policy research and democratic innovation.
             </motion.p>
             
-            <motion.div variants={itemVariants} className="pt-4">
+            <motion.div variants={itemVariants} className="pt-8">
               <a 
                 href="mailto:admin@perrininstitute.org" 
-                className="inline-flex items-center px-8 py-4 border border-slate-300 text-slate-700 rounded-full hover:border-slate-400 hover:text-slate-900 transition-all duration-300 font-medium text-lg group"
+                className="inline-flex items-center px-8 py-4 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition-all duration-300 font-medium text-lg group"
               >
-                <span className="mr-3">Get in touch</span>
+                <span className="mr-3">Get in Touch</span>
                 <FiArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
               </a>
             </motion.div>
