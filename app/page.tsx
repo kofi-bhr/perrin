@@ -482,8 +482,8 @@ export default function Home() {
                   
                   {/* Refined floating elements - smaller and more elegant */}
                   
-                  {/* Compact Analytics Card - Mobile optimized */}
-                  <div className="absolute -top-2 sm:-top-4 -left-2 sm:-left-4 bg-white/95 backdrop-blur-lg rounded-xl shadow-lg border border-slate-200 p-3 sm:p-4 w-44 sm:w-56">
+                  {/* Compact Analytics Card - Hidden on mobile to prevent overlap */}
+                  <div className="hidden sm:block absolute -top-2 sm:-top-4 -left-2 sm:-left-4 bg-white/95 backdrop-blur-lg rounded-xl shadow-lg border border-slate-200 p-3 sm:p-4 w-44 sm:w-56">
                     <div className="flex items-center justify-between mb-2 sm:mb-3">
                       <div className="flex items-center space-x-1 sm:space-x-2">
                         <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-green-500"></div>
@@ -502,8 +502,8 @@ export default function Home() {
                     </div>
                   </div>
                   
-                  {/* Compact Insights Panel - Mobile optimized */}
-                  <div className="absolute -bottom-2 sm:-bottom-4 -right-2 sm:-right-4 bg-white/95 backdrop-blur-lg rounded-xl shadow-lg border border-slate-200 p-3 sm:p-4 w-48 sm:w-60">
+                  {/* Compact Insights Panel - Hidden on mobile to prevent overlap */}
+                  <div className="hidden sm:block absolute -bottom-2 sm:-bottom-4 -right-2 sm:-right-4 bg-white/95 backdrop-blur-lg rounded-xl shadow-lg border border-slate-200 p-3 sm:p-4 w-48 sm:w-60">
                     <div className="flex items-center space-x-2 mb-2 sm:mb-3">
                       <div className="w-5 sm:w-6 h-5 sm:h-6 rounded-lg bg-slate-900 flex items-center justify-center">
                         <div className="w-2 sm:w-3 h-2 sm:h-3 bg-white rounded-sm"></div>
@@ -515,7 +515,7 @@ export default function Home() {
                     </div>
                     <div className="grid grid-cols-3 gap-2 sm:gap-3">
                       <div className="text-center">
-                        <div className="text-xs sm:text-sm font-semibold text-slate-900">20</div>
+                        <div className="text-xs sm:text-sm font-semibold text-slate-900">100+</div>
                         <div className="text-xs text-slate-600">Articles</div>
                       </div>
                       <div className="text-center">

@@ -223,7 +223,7 @@ export const EXPERTS: Expert[] = [
     id: 16,
     name: "Yiren Jing",
     role: "Policy Researcher",
-    bio: "Yiren Jing is a Policy Researcher at the Perrin Institute specializing in comprehensive policy analysis and strategic development. She conducts rigorous research across multiple policy domains, focusing on creating evidence-based recommendations for complex governance challenges. Her work involves analyzing policy implementation frameworks and their effectiveness in achieving intended outcomes. She is committed to advancing data-driven policy solutions through systematic research methodologies.",
+    bio: "Yiren Jing is a Policy Researcher at the Perrin Institute specializing in comprehensive policy analysis and strategic development. He conducts rigorous research across multiple policy domains, focusing on creating evidence-based recommendations for complex governance challenges. His work involves analyzing policy implementation frameworks and their effectiveness in achieving intended outcomes. He is committed to advancing data-driven policy solutions through systematic research methodologies.",
     image: "",
     email: "jingyiren345@gmail.com",
     category: "Research",
@@ -1212,6 +1212,54 @@ export const EXPERTS: Expert[] = [
     email: "aanandithakur@perrinlabs.org",
     category: "Editorial",
     interests: ["Health Policy", "Public Health", "Healthcare Reform", "Health Equity", "Healthcare Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 110,
+    name: "Anirudh Venkatesan",
+    role: "Economic Policy Correspondent",
+    bio: "Anirudh Venkatesan is Economic Policy Correspondent at the Perrin Institute, where he covers economic policy developments and fiscal governance issues. He specializes in analyzing monetary policy, fiscal frameworks, and economic regulatory changes at national and international levels. His reporting focuses on translating complex economic policy decisions into accessible analysis for diverse audiences. He is particularly interested in how economic policies impact different sectors, communities, and market dynamics.",
+    image: "",
+    category: "Editorial",
+    interests: ["Economic Policy", "Fiscal Policy", "Monetary Policy", "Economic Analysis", "Market Regulation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 111,
+    name: "Vikram Ranganath",
+    role: "International Policy Correspondent",
+    bio: "Vikram Ranganath is International Policy Correspondent at the Perrin Institute, where he covers global policy developments and international governance issues. He specializes in analyzing foreign policy initiatives, international relations, and cross-border regulatory frameworks. His reporting focuses on translating complex international policy developments into accessible analysis for diverse audiences. He is particularly interested in how international policies impact domestic governance and global cooperation.",
+    image: "",
+    category: "Editorial",
+    interests: ["International Policy", "Foreign Policy", "Global Governance", "International Relations"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 112,
+    name: "Abhinav Kokkula",
+    role: "PID Correspondent",
+    bio: "Abhinav Kokkula is PID Correspondent at the Perrin Institute, where he covers policy developments with a focus on policy analysis and insights. He specializes in analyzing policy initiatives and their real-world impacts on communities. His reporting focuses on providing in-depth policy insights and translating complex policy developments into actionable intelligence for policymakers and stakeholders.",
+    image: "",
+    category: "Editorial",
+    interests: ["Policy Analysis", "Policy Insights", "Government Policy", "Policy Communication"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 113,
+    name: "Mihika Sakharpe",
+    role: "AI Governance Correspondent",
+    bio: "Mihika Sakharpe is AI Governance Correspondent at the Perrin Institute, where she covers artificial intelligence policy and governance frameworks. She specializes in analyzing the regulatory challenges posed by AI technologies and developing comprehensive policy recommendations for AI governance. Her reporting focuses on balancing innovation with ethical considerations and public safety. She examines AI governance models across jurisdictions to identify best practices for responsible AI development and implementation.",
+    image: "",
+    category: "Editorial",
+    interests: ["AI Governance", "Artificial Intelligence Policy", "Technology Ethics", "Regulatory Innovation"],
     affiliations: {
       organizations: ["Perrin Institute"]
     }

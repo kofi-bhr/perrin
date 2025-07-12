@@ -94,6 +94,20 @@ const partnerships = [
     website: "https://wikijob.org/",
     color: "cyan",
     gradient: "from-cyan-500 to-blue-500"
+  },
+  {
+    name: "Menstrual Equity Initiative (MĚI)",
+    category: "Women's Health & Research",
+    description: "Menstrual Equity Initiative (MĚI) is an all-female-led organization dedicated to advancing research and policy for girls, women, and people who undergo the menstrual cycle and reproductive processes. MĚI was created to help educate and support women and girls as they navigate the different physical and cerebral conditions, stages, and challenges that they experience.",
+    impact: {
+      research: "10+",
+      advocacy: "25+",
+      education: "1000+"
+    },
+    image: "/menstral.png",
+    website: undefined,
+    color: "purple",
+    gradient: "from-purple-500 to-pink-500"
   }
 ];
 
@@ -208,17 +222,19 @@ export default function SpecialProjects() {
                     ))}
                   </div>
                   
-                  <div className="pt-8">
-                    <a 
-                      href={partnership.website}
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition-all duration-300 font-medium group"
-                    >
-                      <span className="mr-3">Learn More</span>
-                      <FiExternalLink className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
-                    </a>
-                  </div>
+                  {partnership.website && (
+                    <div className="pt-8">
+                      <a 
+                        href={partnership.website}
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition-all duration-300 font-medium group"
+                      >
+                        <span className="mr-3">Learn More</span>
+                        <FiExternalLink className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                      </a>
+                    </div>
+                  )}
                 </motion.div>
                 
                 {/* Visual - Apple-style clean cards */}
