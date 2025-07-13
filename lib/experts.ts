@@ -1263,5 +1263,17 @@ export const EXPERTS: Expert[] = [
     affiliations: {
       organizations: ["Perrin Institute"]
     }
+  },
+  {
+    id: 114,
+    name: "Raymond Chen",
+    role: "Senior Climate Action Editor",
+    bio: "Raymond Chen is Senior Climate Action Editor at the Perrin Institute, where he leads climate policy editorial initiatives from Taiwan. He specializes in analyzing climate legislation, environmental regulations, and sustainability policies across the Asia-Pacific region and internationally. His work focuses on translating complex climate policy developments into accessible analysis for diverse audiences. Based in Taiwan, he brings valuable regional perspective to global climate governance discussions and contributes to advancing evidence-based climate action through rigorous policy analysis.",
+    image: "",
+    category: "Editorial",
+    interests: ["Climate Action", "Environmental Policy", "Sustainability", "Asia-Pacific Climate Policy", "Climate Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
   }
 ] 
