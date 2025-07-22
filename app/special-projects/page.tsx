@@ -108,6 +108,48 @@ const partnerships = [
     website: undefined,
     color: "purple",
     gradient: "from-purple-500 to-pink-500"
+  },
+  {
+    name: "OutsideConnection",
+    category: "Second-Chance Job Platform",
+    description: "The leading second-chance job platform helping reentrants find success after returning from prison through nationwide fair-chance employment opportunities.",
+    impact: {
+      reentrants: "10K+",
+      states: "50",
+      cities: "126"
+    },
+    image: null,
+    website: "https://www.outsideconnection.org/",
+    color: "orange",
+    gradient: "from-orange-500 to-red-500"
+  },
+  {
+    name: "TechPals",
+    category: "Digital Literacy Education",
+    description: "Empowering seniors with practical digital literacy skills through comprehensive programs, volunteer support, and partnerships that bridge the digital divide.",
+    impact: {
+      participants: "5K+",
+      programs: "8+",
+      volunteers: "100+"
+    },
+    image: null,
+    website: "https://www.techpals.io/",
+    color: "blue",
+    gradient: "from-blue-500 to-indigo-500"
+  },
+  {
+    name: "VenturEd",
+    category: "Tech Fellowship & Education",
+    description: "Providing free Silicon Valley startup internships for high school students through an 8-week fellowship program that connects high-potential students with real-world tech opportunities.",
+    impact: {
+      diversity: "+27.4%",
+      weeks: "8",
+      partners: "Y Combinator"
+    },
+    image: null,
+    website: "https://www.venturedglobal.org/",
+    color: "emerald",
+    gradient: "from-emerald-500 to-teal-500"
   }
 ];
 

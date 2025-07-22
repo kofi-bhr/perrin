@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { FiUsers, FiFileText, FiMail, FiArrowLeft, FiArrowRight, FiExternalLink, FiCalendar, FiMapPin, FiClock, FiInfo, FiMessageCircle, FiLinkedin, FiTwitter, FiCheckCircle, FiCamera } from "react-icons/fi";
+import { FiUsers, FiFileText, FiMail, FiArrowLeft, FiArrowRight, FiExternalLink, FiCalendar, FiMapPin, FiClock, FiInfo, FiMessageCircle, FiLinkedin, FiTwitter, FiCheckCircle, FiCamera, FiUser } from "react-icons/fi";
 
 // Define types for event data
 interface Participant {
@@ -45,57 +45,271 @@ interface EventData {
   gallery?: string[];
 }
 
-// Event data for Oxford Meetup
-const eventData: EventData = {
-  slug: "oxford-policy-meetup",
-  title: "Oxford Policy Exchange",
-  date: "May 2023 (Past Event)",
-  location: "Oxford University, UK",
-  type: "Informal Academic Exchange",
-  attendance: "Small delegation",
-  schedule: "3-day informal visit",
-  description: "A casual academic exchange where Perrin Institute researchers met with Oxford faculty to discuss shared interests in policy research.",
-  longDescription: "In May 2023, a small delegation from the Perrin Institute visited Oxford University for a three-day informal academic exchange. The meetup facilitated conversations between our researchers and Oxford faculty on shared research interests, potential collaborations, and the exchange of ideas in policy research.",
-  image: "/images/events/oxford-event.jpg",
-  contactEmail: "admin@perrininstitution.com",
-  participants: [],
-  outcomes: [
-    {
-      title: "Research Insights",
-      description: "Gained valuable perspective on Oxford's approach to policy research and methodology, which will inform our future work."
-    },
-    {
-      title: "Academic Connections",
-      description: "Established informal connections with Oxford faculty that may lead to future collaborative opportunities."
-    },
-    {
-      title: "Knowledge Exchange",
-      description: "Shared Perrin Institute's research focus areas and received feedback from experienced Oxford academics."
-    }
-  ],
-  agenda: [
-    {
-      title: "Day 1: Introductions & Campus Tour",
-      description: "Meet with faculty hosts, tour of research facilities, and initial discussions of shared interests."
-    },
-    {
-      title: "Day 2: Discussion Sessions",
-      description: "Informal roundtable discussions on current research projects and methodologies."
-    },
-    {
-      title: "Day 3: Next Steps & Wrap-up",
-      description: "Exploration of potential future collaborations and closing conversations."
-    }
-  ],
-  about: [
-    "In May 2023, a small delegation from the Perrin Institute visited Oxford University for an informal academic exchange. This was not a formal conference or lecture, but rather a series of casual meetings with faculty members.",
-    "Over three days, our researchers engaged in discussions about current research projects, toured research facilities, and explored areas of mutual interest in policy research. These conversations provided valuable insights into methodological approaches and research priorities.",
-    "The visit focused on building relationships between our institute and Oxford faculty, establishing connections that may lead to future collaborative opportunities. While informal in nature, this meetup represented an important step in expanding our academic network and gaining perspective from respected scholars in our field."
-  ],
-  gallery: [
-    "/IMG_1904.jpg",
-    "/IMG_9339.jpg"
-  ]
+// All event data
+const allEventsData: { [key: string]: EventData } = {
+  "1": {
+    slug: "oxford-policy-meetup",
+    title: "Oxford Policy Exchange",
+    date: "May 2023 (Past Event)",
+    location: "Oxford University, UK",
+    type: "Informal Academic Exchange",
+    attendance: "Small delegation",
+    schedule: "3-day informal visit",
+    description: "A casual academic exchange where Perrin Institute researchers met with Oxford faculty to discuss shared interests in policy research.",
+    longDescription: "In May 2023, a small delegation from the Perrin Institute visited Oxford University for a three-day informal academic exchange. The meetup facilitated conversations between our researchers and Oxford faculty on shared research interests, potential collaborations, and the exchange of ideas in policy research.",
+    image: "/images/events/oxford-event.jpg",
+    contactEmail: "admin@perrininstitute.org",
+    participants: [],
+    outcomes: [
+      {
+        title: "Research Insights",
+        description: "Gained valuable perspective on Oxford's approach to policy research and methodology, which will inform our future work."
+      },
+      {
+        title: "Academic Connections",
+        description: "Established informal connections with Oxford faculty that may lead to future collaborative opportunities."
+      },
+      {
+        title: "Knowledge Exchange",
+        description: "Shared Perrin Institute's research focus areas and received feedback from experienced Oxford academics."
+      }
+    ],
+    agenda: [
+      {
+        title: "Day 1: Introductions & Campus Tour",
+        description: "Meet with faculty hosts, tour of research facilities, and initial discussions of shared interests."
+      },
+      {
+        title: "Day 2: Discussion Sessions",
+        description: "Informal roundtable discussions on current research projects and methodologies."
+      },
+      {
+        title: "Day 3: Next Steps & Wrap-up",
+        description: "Exploration of potential future collaborations and closing conversations."
+      }
+    ],
+    about: [
+      "In May 2023, a small delegation from the Perrin Institute visited Oxford University for an informal academic exchange. This was not a formal conference or lecture, but rather a series of casual meetings with faculty members.",
+      "Over three days, our researchers engaged in discussions about current research projects, toured research facilities, and explored areas of mutual interest in policy research. These conversations provided valuable insights into methodological approaches and research priorities.",
+      "The visit focused on building relationships between our institute and Oxford faculty, establishing connections that may lead to future collaborative opportunities. While informal in nature, this meetup represented an important step in expanding our academic network and gaining perspective from respected scholars in our field."
+    ],
+    gallery: [
+      "/IMG_1904.jpg",
+      "/IMG_9339.jpg"
+    ]
+  },
+  "2": {
+    slug: "kimberly-robinson-education-law",
+    title: "Education Law and Policy with Professor Kimberly Robinson",
+    date: "August 5, 2025",
+    location: "University of Virginia Law School",
+    type: "Speaker Event",
+    attendance: "Open registration",
+    schedule: "6:00 PM - 7:00 PM",
+    description: "Join us for an insightful discussion with Professor Kimberly Robinson, one of the nation's leading education law experts.",
+    longDescription: "Professor Kimberly Robinson will speak about K-20 educational equity, school funding, Title IX, and equal opportunity. As the creator of the Education Rights Institute with $4.9 million in funding, she brings unparalleled expertise to these critical issues.",
+    image: "/uvasignin.jpg",
+    contactEmail: "admin@perrininstitute.org",
+    participants: [
+      {
+        name: "Professor Kimberly Robinson",
+        bio: "One of the nation's leading education law experts. Professor at UVA Law and the School of Education and Human Development. Attended the University of Virginia for undergraduate studies and then Harvard Law School. Creator of the Education Rights Institute in 2023 with $4.9 million in funding.",
+        organization: "University of Virginia"
+      }
+    ],
+    outcomes: [
+      {
+        title: "Educational Equity Insights",
+        description: "Learn about current challenges and solutions in K-20 educational equity and access."
+      },
+      {
+        title: "Policy Framework Understanding",
+        description: "Gain insights into Title IX implementation and equal opportunity policies in education."
+      },
+      {
+        title: "Research Applications",
+        description: "Understand how education law research translates into real-world policy solutions."
+      }
+    ],
+    agenda: [
+      {
+        title: "Opening Remarks",
+        description: "Introduction to Professor Robinson and her work at the Education Rights Institute."
+      },
+      {
+        title: "Educational Equity Discussion",
+        description: "Deep dive into K-20 educational equity, school funding, and access issues."
+      },
+      {
+        title: "Q&A Session",
+        description: "Interactive discussion with attendees on current education law challenges."
+      }
+    ],
+    about: [
+      "Professor Kimberly Robinson is one of the nation's leading education law experts, serving as Professor at UVA Law and the School of Education and Human Development.",
+      "She attended the University of Virginia for undergraduate studies and then Harvard Law School. Her expertise spans K-20 educational equity, school funding, education law, Title IX, and equal opportunity.",
+      "In 2023, Professor Robinson created the Education Rights Institute with $4.9 million in funding, demonstrating her commitment to advancing educational equity through research and policy."
+    ]
+  },
+  "3": {
+    slug: "robert-masri-entrepreneurial-law",
+    title: "Entrepreneurial Law and Venture Capital with Robert Masri",
+    date: "June 17, 2025",
+    location: "University of Virginia Law School",
+    type: "Speaker Event",
+    attendance: "Open registration",
+    schedule: "7:45 PM - 8:45 PM",
+    description: "Explore the intersection of law and entrepreneurship with Robert Masri, who teaches the Entrepreneurial Law Clinic at UVA Law.",
+    longDescription: "Mr. Masri will discuss legal frameworks for startups, venture capital structures, and the practical aspects of entrepreneurial law. As both an attorney and entrepreneur, he brings unique insights to legal practice in the startup ecosystem.",
+    image: "/uvasignin.jpg",
+    contactEmail: "admin@perrininstitute.org",
+    participants: [
+      {
+        name: "Robert Masri",
+        bio: "Teaches Entrepreneurial Law Clinic at UVA Law. Co-teaches Legal Practice and Startup Company: An Inside Look and Law and Finance of Venture Capital-Backed Firms. Attorney and entrepreneur with extensive legal and business experience.",
+        organization: "University of Virginia Law School"
+      }
+    ],
+    outcomes: [
+      {
+        title: "Startup Legal Framework",
+        description: "Understanding essential legal structures and considerations for new ventures."
+      },
+      {
+        title: "Venture Capital Insights",
+        description: "Learn about VC financing structures, term sheets, and legal documentation."
+      },
+      {
+        title: "Practical Applications",
+        description: "Real-world examples from entrepreneurial law practice and business experience."
+      }
+    ],
+    agenda: [
+      {
+        title: "Introduction to Entrepreneurial Law",
+        description: "Overview of legal considerations in startup formation and early-stage operations."
+      },
+      {
+        title: "Venture Capital Structures",
+        description: "Deep dive into VC financing, term sheets, and investor relations."
+      },
+      {
+        title: "Interactive Case Studies",
+        description: "Analysis of real entrepreneurial law scenarios and problem-solving."
+      }
+    ],
+    about: [
+      "Robert Masri teaches the Entrepreneurial Law Clinic at UVA Law and co-teaches courses on Legal Practice and Startup Company and the Law and Finance of Venture Capital-Backed Firms.",
+      "He attended the University of Virginia for both his undergraduate degree and law school, giving him deep connections to the UVA community.",
+      "Mr. Masri is both an attorney and entrepreneur with extensive legal and business experience, providing unique insights into the practical intersection of law and business in the startup ecosystem."
+    ]
+  },
+  "4": {
+    slug: "peter-lyons-corporate-law",
+    title: "Cross-Border M&A and Corporate Law with Peter Lyons",
+    date: "TBD",
+    location: "University of Virginia Law School",
+    type: "Speaker Event",
+    attendance: "Open registration",
+    schedule: "TBD",
+    description: "Learn about complex cross-border mergers and acquisitions from Peter Lyons, Senior Counsel at Freshfields in New York.",
+    longDescription: "Mr. Lyons specializes in US and international public and private M&A transactions and serves on the board of directors of American Axle & Manufacturing, Inc. This session will cover strategic legal considerations in global corporate transactions.",
+    image: "/uvasignin.jpg",
+    contactEmail: "admin@perrininstitute.org",
+    participants: [
+      {
+        name: "Peter Lyons",
+        bio: "Senior counsel in the New York office of Freshfields. His practice is focused on the United States and cross-border public and private mergers and acquisitions. He currently sits on the board of directors of American Axle & Manufacturing, Inc.",
+        organization: "Freshfields Bruckhaus Deringer"
+      }
+    ],
+    outcomes: [
+      {
+        title: "Cross-Border M&A Expertise",
+        description: "Understanding complex international transaction structures and regulatory considerations."
+      },
+      {
+        title: "Corporate Governance Insights",
+        description: "Learn about board responsibilities and corporate decision-making in large transactions."
+      },
+      {
+        title: "Practical Transaction Experience",
+        description: "Real-world examples from major M&A deals and corporate restructuring."
+      }
+    ],
+    agenda: [
+      {
+        title: "Introduction to Cross-Border M&A",
+        description: "Overview of international transaction structures and key considerations."
+      },
+      {
+        title: "Regulatory and Compliance Issues",
+        description: "Navigating international regulatory frameworks in complex transactions."
+      },
+      {
+        title: "Case Study Analysis",
+        description: "Review of major cross-border transactions and lessons learned."
+      }
+    ],
+    about: [
+      "Peter Lyons is Senior Counsel in the New York office of Freshfields Bruckhaus Deringer, where his practice focuses on United States and cross-border public and private mergers and acquisitions.",
+      "He attended the University of Virginia for his undergraduate degree and then Georgetown University for his Juris Doctorate degree.",
+      "Mr. Lyons currently serves on the board of directors of American Axle & Manufacturing, Inc., providing him with extensive experience in corporate governance and strategic decision-making."
+    ]
+  },
+  "5": {
+    slug: "michael-livermore-environmental-law",
+    title: "Environmental Law and Legal Technology with Professor Michael Livermore",
+    date: "June 26, 2025",
+    location: "University of Virginia Law School",
+    type: "Speaker Event",
+    attendance: "Open registration",
+    schedule: "5:00 PM - 6:00 PM",
+    description: "Discover the evolving landscape of environmental law and its intersection with technology with Professor Michael Livermore from UVA Law.",
+    longDescription: "Professor Livermore will discuss environmental regulation, cost-benefit analysis, and the application of data science to legal texts. His research bridges traditional environmental law with cutting-edge legal technology applications.",
+    image: "/uvasignin.jpg",
+    contactEmail: "admin@perrininstitute.org",
+    participants: [
+      {
+        name: "Professor Michael Livermore",
+        bio: "Professor at UVA Law with expertise in Environmental Law. Teaches courses in environmental law, regulation, and legal technology. Has researched environmental law, cost benefits, and how data science has been applied to legal texts.",
+        organization: "University of Virginia Law School"
+      }
+    ],
+    outcomes: [
+      {
+        title: "Environmental Regulation Insights",
+        description: "Understanding current trends and challenges in environmental law and policy."
+      },
+      {
+        title: "Legal Technology Applications",
+        description: "Learn how data science and technology are transforming legal research and practice."
+      },
+      {
+        title: "Cost-Benefit Analysis",
+        description: "Practical approaches to evaluating environmental regulations and their economic impacts."
+      }
+    ],
+    agenda: [
+      {
+        title: "Environmental Law Overview",
+        description: "Current state of environmental regulation and emerging policy challenges."
+      },
+      {
+        title: "Technology in Legal Practice",
+        description: "How data science and AI are being applied to environmental law research."
+      },
+      {
+        title: "Interactive Discussion",
+        description: "Q&A session on the future of environmental law and technology integration."
+      }
+    ],
+    about: [
+      "Professor Michael Livermore is a Professor at UVA Law with expertise in Environmental Law. He attended the University of Albany for his undergraduate degree and New York University School of Law.",
+      "He teaches courses in environmental law, regulation, and legal technology, representing a unique intersection of traditional legal education and modern technological applications.",
+      "Professor Livermore has conducted extensive research on environmental law, cost-benefit analysis, and the application of data science to legal texts, positioning him at the forefront of legal technology innovation."
+    ]
+  }
 };
 
 // Animation variants
@@ -149,7 +363,7 @@ const parallaxY = (y: number) => ({
 export default function EventDetailPage() {
   const { slug } = useParams() as { slug: string };
   const router = useRouter();
-  const [event, setEvent] = useState<EventData>(eventData);
+  const [event, setEvent] = useState<EventData | null>(null);
   const [loading, setLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -163,8 +377,12 @@ export default function EventDetailPage() {
   const parallaxBackground = useTransform(scrollYProgress, [0, 1], [0, 100]);
   
   useEffect(() => {
-    // Simulate loading event data
+    // Load event data based on slug
     const timer = setTimeout(() => {
+      const eventData = allEventsData[slug as string];
+      if (eventData) {
+        setEvent(eventData);
+      }
       setLoading(false);
     }, 800);
     
@@ -278,8 +496,16 @@ export default function EventDetailPage() {
               
               {/* Event tag */}
               <motion.div variants={itemVariants}>
-                <div className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-700 border border-slate-200 mb-4">
-                  PAST EVENT
+                <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border mb-4 ${
+                  event.date?.includes('TBD') ? 
+                    'bg-amber-100 text-amber-700 border-amber-200' :
+                    event.date?.includes('2025') ? 
+                      'bg-emerald-100 text-emerald-700 border-emerald-200' :
+                      'bg-slate-100 text-slate-700 border-slate-200'
+                }`}>
+                  {event.date?.includes('TBD') ? 'DATE TBD' : 
+                   event.date?.includes('2025') ? 'UPCOMING EVENT' : 
+                   'PAST EVENT'}
                 </div>
               </motion.div>
               
@@ -289,21 +515,21 @@ export default function EventDetailPage() {
                 className="space-y-4"
               >
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-light text-slate-900 tracking-tight">
-                  Oxford Policy Exchange
+                  {event.title}
                 </h1>
                 <div className="h-1 w-24 bg-slate-400/50 rounded-full"></div>
                 <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-slate-600">
                   <div className="flex items-center">
                     <FiCalendar className="mr-2 text-slate-500" />
-                    May 2023 (Past Event)
+                    {event.date}
                   </div>
                   <div className="flex items-center">
                     <FiMapPin className="mr-2 text-slate-500" />
-                    Oxford University, UK
+                    {event.location}
                   </div>
                   <div className="flex items-center">
                     <FiUsers className="mr-2 text-slate-500" />
-                    Small delegation
+                    {event.attendance}
                   </div>
                 </div>
               </motion.div>
@@ -313,7 +539,7 @@ export default function EventDetailPage() {
                 variants={itemVariants}
                 className="text-xl md:text-2xl text-slate-600 max-w-3xl font-light leading-relaxed"
               >
-                A casual academic exchange where Perrin Institute researchers met with Oxford faculty to discuss shared interests in policy research.
+                {event.description}
               </motion.p>
             </motion.div>
           </div>
@@ -342,7 +568,9 @@ export default function EventDetailPage() {
               <div className="relative z-10">
                 <div className="flex items-start mb-8">
                   <FiInfo className="text-slate-600 mr-4 text-2xl mt-1" />
-                  <h2 className="text-3xl font-light tracking-tight text-slate-900">About the Meetup</h2>
+                  <h2 className="text-3xl font-light tracking-tight text-slate-900">
+                    {event.type === "Speaker Event" ? "About the Speaker Event" : "About the Meetup"}
+                  </h2>
                 </div>
                 <div className="prose prose-lg max-w-none">
                   <p className="text-slate-700 leading-relaxed text-lg font-light">{event.about[0]}</p>
@@ -371,7 +599,9 @@ export default function EventDetailPage() {
               <div className="relative z-10">
                 <div className="flex items-start mb-8">
                   <FiMessageCircle className="text-slate-600 mr-4 text-2xl mt-1" />
-                  <h2 className="text-3xl font-light tracking-tight text-slate-900">Meetup Outcomes</h2>
+                  <h2 className="text-3xl font-light tracking-tight text-slate-900">
+                    {event.type === "Speaker Event" ? "Expected Learning Outcomes" : "Meetup Outcomes"}
+                  </h2>
                 </div>
                 <div className="space-y-6">
                   {event.outcomes.map((outcome, index) => (
@@ -392,7 +622,7 @@ export default function EventDetailPage() {
           
           {/* Sidebar - 1/3 width */}
           <motion.div variants={containerVariants} className="space-y-10">
-            {/* Photo gallery instead of participants section */}
+            {/* Speaker information for speaker events, photo gallery for others */}
             <motion.section 
               variants={itemVariants}
               className="bg-white rounded-xl p-8 shadow-lg border border-slate-200 relative overflow-hidden"
@@ -401,27 +631,52 @@ export default function EventDetailPage() {
               <div className="absolute top-0 right-0 w-12 h-12 border-t border-r border-slate-300/30"></div>
               
               <div className="relative z-10">
-                <div className="flex items-center mb-6">
-                  <FiCamera className="text-slate-600 mr-3 text-xl" />
-                  <h2 className="text-2xl font-light tracking-tight text-slate-900">Event Photos</h2>
-                </div>
-                
-                <div className="space-y-4">
-                  {event.gallery?.map((image, index) => (
-                    <div key={index} className="bg-slate-50 rounded-lg overflow-hidden border border-slate-200">
-                      <div className="relative h-40 bg-gradient-to-r from-slate-100 to-slate-200">
-                        {image && (
-                          <Image 
-                            src={image} 
-                            alt={`Oxford Visit Photo ${index + 1}`} 
-                            fill
-                            className="object-cover"
-                          />
-                        )}
-                      </div>
+                {event.type === "Speaker Event" ? (
+                  <>
+                    <div className="flex items-center mb-6">
+                      <FiUser className="text-slate-600 mr-3 text-xl" />
+                      <h2 className="text-2xl font-light tracking-tight text-slate-900">Speaker</h2>
                     </div>
-                  ))}
-                </div>
+                    
+                    {event.participants && event.participants.length > 0 && (
+                      <div className="space-y-6">
+                        {event.participants.map((participant, index) => (
+                          <div key={index} className="border border-slate-200 rounded-lg p-6 bg-slate-50">
+                            <h3 className="text-xl font-medium text-slate-900 mb-2">{participant.name}</h3>
+                            {participant.organization && (
+                              <p className="text-slate-600 mb-3 font-medium">{participant.organization}</p>
+                            )}
+                            <p className="text-slate-700 leading-relaxed font-light">{participant.bio}</p>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center mb-6">
+                      <FiCamera className="text-slate-600 mr-3 text-xl" />
+                      <h2 className="text-2xl font-light tracking-tight text-slate-900">Event Photos</h2>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      {event.gallery?.map((image, index) => (
+                        <div key={index} className="bg-slate-50 rounded-lg overflow-hidden border border-slate-200">
+                          <div className="relative h-40 bg-gradient-to-r from-slate-100 to-slate-200">
+                            {image && (
+                              <Image 
+                                src={image} 
+                                alt={`Event Photo ${index + 1}`} 
+                                fill
+                                className="object-cover"
+                              />
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             </motion.section>
             
@@ -467,15 +722,18 @@ export default function EventDetailPage() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                     <span className="text-slate-600">Type</span>
-                    <span className="text-slate-900 font-medium">Informal Academic Exchange</span>
+                    <span className="text-slate-900 font-medium">{event.type}</span>
                   </div>
                   <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                     <span className="text-slate-600">Date</span>
-                    <span className="text-slate-900 font-medium">{event.date} (Past)</span>
+                    <span className="text-slate-900 font-medium">
+                      {event.date}
+                      {event.date?.includes('2023') && ' (Past)'}
+                    </span>
                   </div>
                   <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                     <span className="text-slate-600">Schedule</span>
-                    <span className="text-slate-900 font-medium">Various sessions</span>
+                    <span className="text-slate-900 font-medium">{event.schedule}</span>
                   </div>
                   <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                     <span className="text-slate-600">Location</span>

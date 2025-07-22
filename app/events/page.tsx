@@ -132,15 +132,109 @@ export default function EventsPage() {
         }
       ],
       isUpcoming: false
+    },
+    {
+      id: '2',
+      title: 'Education Law and Policy with Professor Kimberly Robinson',
+      type: 'Speaker Event',
+      date: 'August 5, 2025',
+      time: '6:00 PM - 7:00 PM',
+      location: 'University of Virginia Law School',
+      description: "Join us for an insightful discussion with Professor Kimberly Robinson, one of the nation's leading education law experts. Professor Robinson will speak about K-20 educational equity, school funding, Title IX, and equal opportunity. As the creator of the Education Rights Institute with $4.9 million in funding, she brings unparalleled expertise to these critical issues.",
+      capacity: 'Open registration',
+      registration: 'Registration confirmed',
+      category: 'speaker',
+      icon: FiMic,
+      bgColor: 'from-blue-100 to-indigo-200',
+      tags: ['Education Law', 'Policy', 'Title IX', 'Educational Equity'],
+      featured: true,
+      participants: [
+        { 
+          name: 'Professor Kimberly Robinson', 
+          title: 'UVA Law & School of Education and Human Development' 
+        }
+      ],
+      isUpcoming: true
+    },
+    {
+      id: '3',
+      title: 'Entrepreneurial Law and Venture Capital with Robert Masri',
+      type: 'Speaker Event',
+      date: 'June 17, 2025',
+      time: '7:45 PM - 8:45 PM',
+      location: 'University of Virginia Law School',
+      description: "Explore the intersection of law and entrepreneurship with Robert Masri, who teaches the Entrepreneurial Law Clinic at UVA Law. Mr. Masri will discuss legal frameworks for startups, venture capital structures, and the practical aspects of entrepreneurial law. As both an attorney and entrepreneur, he brings unique insights to legal practice in the startup ecosystem.",
+      capacity: 'Open registration',
+      registration: 'Registration confirmed',
+      category: 'speaker',
+      icon: FiCode,
+      bgColor: 'from-green-100 to-emerald-200',
+      tags: ['Entrepreneurial Law', 'Venture Capital', 'Startups', 'Legal Practice'],
+      participants: [
+        { 
+          name: 'Robert Masri', 
+          title: 'UVA Law Entrepreneurial Law Clinic' 
+        }
+      ],
+      isUpcoming: true
+    },
+    {
+      id: '4',
+      title: 'Cross-Border M&A and Corporate Law with Peter Lyons',
+      type: 'Speaker Event',
+      date: 'TBD',
+      time: 'TBD',
+      location: 'University of Virginia Law School',
+      description: "Learn about complex cross-border mergers and acquisitions from Peter Lyons, Senior Counsel at Freshfields in New York. Mr. Lyons specializes in US and international public and private M&A transactions and serves on the board of directors of American Axle & Manufacturing, Inc. This session will cover strategic legal considerations in global corporate transactions.",
+      capacity: 'Open registration',
+      registration: 'Date to be determined',
+      category: 'speaker',
+      icon: FiLayers,
+      bgColor: 'from-purple-100 to-violet-200',
+      tags: ['Corporate Law', 'Mergers & Acquisitions', 'International Law', 'Board Governance'],
+      participants: [
+        { 
+          name: 'Peter Lyons', 
+          title: 'Senior Counsel, Freshfields Bruckhaus Deringer' 
+        }
+      ],
+      isUpcoming: true
+    },
+    {
+      id: '5',
+      title: 'Environmental Law and Legal Technology with Professor Michael Livermore',
+      type: 'Speaker Event',
+      date: 'June 26, 2025',
+      time: '5:00 PM - 6:00 PM',
+      location: 'University of Virginia Law School',
+      description: "Discover the evolving landscape of environmental law and its intersection with technology with Professor Michael Livermore from UVA Law. Professor Livermore will discuss environmental regulation, cost-benefit analysis, and the application of data science to legal texts. His research bridges traditional environmental law with cutting-edge legal technology applications.",
+      capacity: 'Open registration',
+      registration: 'Registration confirmed',
+      category: 'speaker',
+      icon: FiAward,
+      bgColor: 'from-teal-100 to-cyan-200',
+      tags: ['Environmental Law', 'Legal Technology', 'Data Science', 'Regulation'],
+      participants: [
+        { 
+          name: 'Professor Michael Livermore', 
+          title: 'UVA Law - Environmental Law Expert' 
+        }
+      ],
+      isUpcoming: true
     }
   ];
 
-  // Group categories for filter display - simplified since only one category
-  const categories = ['all'];
+  // Group categories for filter display
+  const categories = ['all', 'speaker', 'oxford'];
 
-  // Filter events based on search only
+  // Filter events based on category and search
   const filteredEvents = events.filter(event => {
-    // Only filter by search query
+    // Filter by category
+    if (activeTab !== 'all' && event.category !== activeTab) {
+      return false;
+    }
+    
+    // Filter by search query
     if (searchQuery && !event.title.toLowerCase().includes(searchQuery.toLowerCase()) && 
         !event.description.toLowerCase().includes(searchQuery.toLowerCase())) {
       return false;
