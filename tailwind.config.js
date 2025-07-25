@@ -28,6 +28,8 @@ module.exports = {
         mono: ['monospace'],
         display: ['var(--font-roboto)', 'system-ui', 'sans-serif'],
         body: ['var(--font-roboto)', 'system-ui', 'sans-serif'],
+        lato: ['Lato', 'sans-serif'],
+        oswald: ['Oswald', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
