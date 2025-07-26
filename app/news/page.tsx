@@ -455,7 +455,7 @@ export default function News() {
               {/* <h2 className="text-2xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 pb-2 border-b border-slate-200 font-[Inter,sans-serif]">
                 Recommended
               </h2> */}
-              {filteredNews.slice(1).map((news, index) => (
+              {filteredNews.slice(1,31).map((news, index) => (
                 <motion.div
                   key={news.id}
                   variants={fadeInUp}
