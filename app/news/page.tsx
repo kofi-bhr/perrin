@@ -123,258 +123,7 @@ export default function News() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // // Fetch market data
-  // useEffect(() => {
-  //   const fetchMarketData = async () => {
-  //     try {
-  //       // Set loading state
-  //       setMarketData([
-  //         { name: "Loading...", value: "--", change: "--", isPositive: true },
-  //         { name: "Loading...", value: "--", change: "--", isPositive: true },
-  //         { name: "Loading...", value: "--", change: "--", isPositive: true },
-  //         { name: "Loading...", value: "--", change: "--", isPositive: true },
-  //         { name: "Loading...", value: "--", change: "--", isPositive: true },
-  //         { name: "Loading...", value: "--", change: "--", isPositive: true }
-  //       ]);
-
-  //       // Define the Finnhub API key provided by the user
-  //       const finnhubApiKey = "d0c2ro1r01qs9fjk87s0d0c2ro1r01qs9fjk87sg";
-        
-  //       // Create a new array to hold our successful market data
-  //       const marketItems: MarketDataItem[] = [];
-        
-  //       // If any of our API calls succeed, this will be set to true
-  //       let anyApiSuccess = false;
-        
-  //       // Finnhub API for stocks (AAPL)
-  //       try {
-  //         const appleResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=AAPL&token=${finnhubApiKey}`);
-          
-  //         if (appleResponse.ok) {
-  //           const appleData = await appleResponse.json();
-  //           console.log('Apple data:', appleData);
-            
-  //           if (appleData && appleData.c) {
-  //             const price = appleData.c;
-  //             const prevClose = appleData.pc;
-  //             const changePercent = ((price - prevClose) / prevClose) * 100;
-              
-  //             marketItems.push({
-  //               name: "Apple Inc.",
-  //               value: `$${price.toLocaleString(undefined, {
-  //                 minimumFractionDigits: 2,
-  //                 maximumFractionDigits: 2
-  //               })}`,
-  //               change: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
-  //               isPositive: changePercent >= 0
-  //             });
-              
-  //             anyApiSuccess = true;
-  //           }
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching Apple stock:", error);
-  //       }
-        
-  //       // Finnhub API for stocks (MSFT)
-  //       try {
-  //         const msftResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=MSFT&token=${finnhubApiKey}`);
-          
-  //         if (msftResponse.ok) {
-  //           const msftData = await msftResponse.json();
-  //           console.log('Microsoft data:', msftData);
-            
-  //           if (msftData && msftData.c) {
-  //             const price = msftData.c;
-  //             const prevClose = msftData.pc;
-  //             const changePercent = ((price - prevClose) / prevClose) * 100;
-              
-  //             marketItems.push({
-  //               name: "Microsoft",
-  //               value: `$${price.toLocaleString(undefined, {
-  //                 minimumFractionDigits: 2,
-  //                 maximumFractionDigits: 2
-  //               })}`,
-  //               change: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
-  //               isPositive: changePercent >= 0
-  //             });
-  //           }
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching Microsoft stock:", error);
-  //       }
-        
-  //       // Finnhub API for stocks (AMZN)
-  //       try {
-  //         const amznResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=AMZN&token=${finnhubApiKey}`);
-          
-  //         if (amznResponse.ok) {
-  //           const amznData = await amznResponse.json();
-  //           console.log('Amazon data:', amznData);
-            
-  //           if (amznData && amznData.c) {
-  //             const price = amznData.c;
-  //             const prevClose = amznData.pc;
-  //             const changePercent = ((price - prevClose) / prevClose) * 100;
-              
-  //             marketItems.push({
-  //               name: "Amazon",
-  //               value: `$${price.toLocaleString(undefined, {
-  //                 minimumFractionDigits: 2,
-  //                 maximumFractionDigits: 2
-  //               })}`,
-  //               change: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
-  //               isPositive: changePercent >= 0
-  //             });
-  //           }
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching Amazon stock:", error);
-  //       }
-        
-  //       // Finnhub API for stocks (GOOGL)
-  //       try {
-  //         const googlResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=GOOGL&token=${finnhubApiKey}`);
-          
-  //         if (googlResponse.ok) {
-  //           const googlData = await googlResponse.json();
-  //           console.log('Google data:', googlData);
-            
-  //           if (googlData && googlData.c) {
-  //             const price = googlData.c;
-  //             const prevClose = googlData.pc;
-  //             const changePercent = ((price - prevClose) / prevClose) * 100;
-              
-  //             marketItems.push({
-  //               name: "Alphabet",
-  //               value: `$${price.toLocaleString(undefined, {
-  //                 minimumFractionDigits: 2,
-  //                 maximumFractionDigits: 2
-  //               })}`,
-  //               change: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
-  //               isPositive: changePercent >= 0
-  //             });
-  //           }
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching Google stock:", error);
-  //       }
-        
-  //       // Get NVIDIA stock data instead of Tesla
-  //       try {
-  //         const nvdaResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=NVDA&token=${finnhubApiKey}`);
-          
-  //         if (nvdaResponse.ok) {
-  //           const nvdaData = await nvdaResponse.json();
-  //           console.log('NVIDIA data:', nvdaData);
-            
-  //           if (nvdaData && nvdaData.c) {
-  //             const price = nvdaData.c;
-  //             const prevClose = nvdaData.pc;
-  //             const changePercent = ((price - prevClose) / prevClose) * 100;
-              
-  //             marketItems.push({
-  //               name: "NVIDIA",
-  //               value: `$${price.toLocaleString(undefined, {
-  //                 minimumFractionDigits: 2,
-  //                 maximumFractionDigits: 2
-  //               })}`,
-  //               change: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
-  //               isPositive: changePercent >= 0
-  //             });
-  //           }
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching NVIDIA stock:", error);
-  //       }
-        
-  //       // Try to get S&P 500 ETF data
-  //       try {
-  //         const spyResponse = await fetch(`https://finnhub.io/api/v1/quote?symbol=SPY&token=${finnhubApiKey}`);
-          
-  //         if (spyResponse.ok) {
-  //           const spyData = await spyResponse.json();
-  //           console.log('S&P 500 ETF data:', spyData);
-            
-  //           if (spyData && spyData.c) {
-  //             const price = spyData.c;
-  //             const prevClose = spyData.pc;
-  //             const changePercent = ((price - prevClose) / prevClose) * 100;
-              
-  //             marketItems.push({
-  //               name: "S&P 500",
-  //               value: `$${price.toLocaleString(undefined, {
-  //                 minimumFractionDigits: 2,
-  //                 maximumFractionDigits: 2
-  //               })}`,
-  //               change: `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%`,
-  //               isPositive: changePercent >= 0
-  //             });
-  //           }
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching S&P 500 ETF:", error);
-  //       }
-        
-  //       // If we have at least one successful API call
-  //       if (marketItems.length > 0) {
-  //         anyApiSuccess = true;
-  //       }
-        
-  //       if (anyApiSuccess) {
-  //         // Only take up to 6 items
-  //         const finalData = marketItems.slice(0, 6);
-          
-  //         // Fill any remaining slots with API unavailable if needed
-  //         while (finalData.length < 6) {
-  //           finalData.push({ 
-  //             name: "API unavailable", 
-  //             value: "--", 
-  //             change: "--", 
-  //             isPositive: true 
-  //           });
-  //         }
-          
-  //         setMarketData(finalData);
-          
-  //         // Set last updated time
-  //         const now = new Date();
-  //         setLastUpdated(`${now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} ET`);
-  //       } else {
-  //         // If all API calls failed, show unavailable state
-  //         setMarketData([
-  //           { name: "API unavailable", value: "--", change: "--", isPositive: true },
-  //           { name: "API unavailable", value: "--", change: "--", isPositive: true },
-  //           { name: "API unavailable", value: "--", change: "--", isPositive: true },
-  //           { name: "API unavailable", value: "--", change: "--", isPositive: true },
-  //           { name: "API unavailable", value: "--", change: "--", isPositive: true },
-  //           { name: "API unavailable", value: "--", change: "--", isPositive: true }
-  //         ]);
-  //         setLastUpdated('API data unavailable');
-  //       }
-  //     } catch (error) {
-  //       console.error('Error in market data fetching:', error);
-  //       setMarketData([
-  //         { name: "API error", value: "--", change: "--", isPositive: true },
-  //         { name: "API error", value: "--", change: "--", isPositive: true },
-  //         { name: "API error", value: "--", change: "--", isPositive: true },
-  //         { name: "API error", value: "--", change: "--", isPositive: true },
-  //         { name: "API error", value: "--", change: "--", isPositive: true },
-  //         { name: "API error", value: "--", change: "--", isPositive: true }
-  //       ]);
-  //       setLastUpdated('API error - Retry later');
-  //     }
-  //   };
-
-  //   // Initial fetch
-  //   fetchMarketData();
-    
-  //   // Refresh every 5 minutes to avoid hitting API limits
-  //   const intervalId = setInterval(fetchMarketData, 5 * 60 * 1000);
-    
-  //   // Clean up interval on unmount
-  //   return () => clearInterval(intervalId);
-  // }, []);
+  
 
   // Scroll to newsletter section
   const scrollToNewsletter = () => {
@@ -386,31 +135,31 @@ export default function News() {
     }
   };
   
-  const categories = ["ALL", "INTERNATIONAL AFFAIR", "ECONOMICS", "CLIMATE", "AI", "DOMESTIC AFFAIRS", "TECHNOLOGY", "EDUCATION", "LEGAL", "COMMERCE", "HEALTH"];
+  const categories = ["ALL", "INTERNATIONAL AFFAIRS", "ECONOMICS", "CLIMATE", "AI", "DOMESTIC AFFAIRS", "TECHNOLOGY", "EDUCATION", "LEGAL", "COMMERCE", "HEALTH"];
 
-  const filteredNews = activeCategory && activeCategory !== "All" 
+  const filteredNews = activeCategory && activeCategory !== "ALL" 
     ? recentNews.filter(news => {
         // Handle both single category (string) and multiple categories (array)
         const categories = Array.isArray(news.category) ? news.category : [news.category];
-        return categories.includes(activeCategory);
+        return categories.some(cat => cat.toLowerCase() === activeCategory.toLowerCase());
       })
     : recentNews;
 
   // Featured articles (excluding the main featured news)
   const featuredArticles = recentNews.filter(news => news.featured);
   
-  // Use the first featured article as main featured, or first article if none are featured
+  // Use the first featured article as main featured, or first article if none are featured, or first article in category if filetered
   const featuredNews = featuredArticles.length > 0 
           ? featuredArticles[0] 
-    : recentNews.length > 0 ? recentNews[0] : {
+    : recentNews.length > 0 ? filteredNews[0] : {
         id: "0",
-        title: "No intelligence available",
+        title: "",
         subtitle: "Check back later for intelligence updates",
         date: "Today",
         excerpt: "Check back later for new content.",
         content: "No content available.",
         image: "/news/placeholder-thumb-1.jpg",
-        category: "Intelligence",
+        category: "",
         type: "news" as const,
         featured: false
       };
@@ -425,7 +174,7 @@ export default function News() {
         className="border-b border-slate-200"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center space-x-24">
+          <div className="flex items-center space-x-40">
             <div>
               <motion.h1 
                 style={{ fontFamily: 'Oswald, sans-serif'}}
@@ -434,14 +183,14 @@ export default function News() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-8xl font-bold text-slate-900"
               >
-                GLOBAL INTELLIGENCE
+                global intelligence
               </motion.h1>
               <motion.p 
                 style={{ fontFamily: 'Oswald, sans-serif' }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-slate-600 text-lg mt-1 font-lato ml-2"
+                className="text-slate-600 text-lg mt-3 font-lato ml-2"
               >
                 on the policy and technology of now
               </motion.p>
@@ -505,69 +254,11 @@ export default function News() {
                 <FaTwitter className="w-5 h-5" color="blue" />
               </motion.a>
             </div>
-{/* <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="hidden md:flex items-center space-x-4"
-            >
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search intelligence..."
-                  className="pl-9 pr-4 py-2 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-1 focus:ring-slate-500 text-sm text-slate-700 placeholder-slate-400 font-lato"
-                />
-                <FiSearch className="absolute left-3 top-2.5 text-slate-500" />
-              </div>
-              <button 
-                onClick={scrollToNewsletter}
-                className="bg-slate-900 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-slate-800 transition-colors flex items-center font-lato"
-              >
-                <FiMail className="mr-1.5" size={14} />
-                Subscribe
-              </button>
-            </motion.div> */}
           </div>
         </div>
       </motion.div>
 
-      {/* Market data ticker - Light theme with mobile improvements
-      <motion.div 
-        initial="hidden"
-        animate="visible"
-        variants={fadeInUp}
-        className="border-b border-slate-200 bg-slate-50"
-      >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2">
-          <div className="overflow-x-auto -mx-3 px-3 custom-stocks-scrollbar">
-            <div className="flex space-x-4 sm:space-x-6 py-1 min-w-max">
-              {marketData.map((item, index) => (
-                <div 
-                  key={index} 
-                  className="flex items-center space-x-1.5 group bg-white rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-slate-200 shadow-sm"
-                >
-                  <span className="text-xs sm:text-sm font-medium text-slate-700 truncate font-lato" style={{ maxWidth: '80px' }}>{item.name}</span>
-                  <span className="text-xs sm:text-sm font-bold text-slate-900 font-lato">{item.value}</span>
-                  <span className={`text-xs flex items-center font-lato ${item.isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                    {item.isPositive ? <FiTrendingUp className="mr-0.5" size={10} /> : <FiTrendingDown className="mr-0.5" size={10} />}
-                    {item.change}
-                  </span>
-                </div>
-              ))}
-              <a 
-                href="https://www.google.com/finance/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="flex items-center cursor-pointer group bg-slate-900 rounded-lg px-2.5 py-1.5 sm:px-3 sm:py-2 border border-slate-800 shadow-sm"
-              >
-                <span className="text-xs text-slate-100 group-hover:text-white font-lato">More</span>
-                <FiExternalLink className="ml-1 h-3 w-3 text-slate-100 group-hover:text-white" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </motion.div> */}
-
+      
       {/* Add custom scrollbar styles - Light theme */}
       <style jsx global>{`
         /* Professional light theme scrollbar styles */
@@ -594,48 +285,31 @@ export default function News() {
         }
       `}</style>
 
-      {/* Category navigation - Professional light theme tabs
-      <motion.div 
+      {/* Navbar */}
+      <motion.div
         initial="hidden"
         animate="visible"
         variants={fadeInUp}
         className="border-b border-slate-200 bg-white shadow-sm sticky top-0 z-20"
       >
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <nav className="flex space-x-4 sm:space-x-8 overflow-x-auto scrollbar-hide" aria-label="Categories">
-            {categories.map((category) => (
+          <nav className="flex items-center font-oswald flex-wrap gap-x-2 sm:gap-x-3 text-black text-sm sm:text-base uppercase tracking-wide" aria-label="Categories">
+          {categories.map((category, idx) => (
+            <React.Fragment key={category}>
+              {idx > 0 && <span className="text-black text-5xl">/</span>}
               <button
-                key={category}
                 onClick={() => setActiveCategory(category === "All" ? null : category)}
-                className={`whitespace-nowrap py-3 sm:py-4 px-1 border-b-2 font-medium text-xs sm:text-sm font-lato ${
-                  (category === "All" && activeCategory === null) || category === activeCategory
-                    ? "border-slate-900 text-slate-900"
-                    : "border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300"
-                } transition-colors duration-200`}
+                className="relative px-1 py-2 transition-colors duration-200 group text-black text-4xl"
               >
-                {category}
+                <span className="relative z-10">{category.toLowerCase()}</span>
+                {/* Marker hover effect */}
+                <span className="absolute left-0 bottom-1 h-7 w-full bg-yellow-300 opacity-0 group-hover:opacity-60 transition duration-200 z-0 rounded-sm -skew-x-6"></span>
               </button>
-            ))}
+            </React.Fragment>
+          ))}
           </nav>
         </div>
-      </motion.div> */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        <nav className="flex items-center font-oswald flex-wrap gap-x-2 sm:gap-x-3 text-black text-sm sm:text-base uppercase tracking-wide">
-        {categories.map((category, idx) => (
-          <React.Fragment key={category}>
-            {idx > 0 && <span className="text-black text-7xl">/</span>}
-            <button
-              onClick={() => setActiveCategory(category === "All" ? null : category)}
-              className="relative px-1 py-2 transition-colors duration-200 group text-black text-5xl"
-            >
-              <span className="relative z-10">{category}</span>
-              {/* Marker hover effect */}
-              <span className="absolute left-0 bottom-1 h-10 w-full bg-yellow-300 opacity-0 group-hover:opacity-60 transition duration-200 z-0 rounded-sm -skew-x-6"></span>
-            </button>
-          </React.Fragment>
-        ))}
-        </nav>
-      </div>
+      </motion.div>
 
 
       {/* Main content - improved for mobile */}
@@ -657,125 +331,195 @@ export default function News() {
             {/* Featured story - Professional light theme with mobile improvements */}
             <motion.div 
               variants={scaleUp}
-              className="mb-8 sm:mb-12"
+              className="relative w-full max-w-4xl mt-5 mb-6"
             >
               <Link href={`/news/${featuredNews.id}`} className="group">
-                <motion.div 
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative aspect-[16/9] sm:aspect-[21/9] overflow-hidden rounded-xl mb-4 sm:mb-6 shadow-lg"
-                >
+                <div className="relative">
                   <Image
                     src={featuredNews.image}
                     alt={featuredNews.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="relative aspect-[12/9] object-cover transition duration-300 ease-in-out group-hover:brightness-110"
+                    width={900}
+                    height={1000}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-                  <div className="absolute top-0 right-0 m-3 sm:m-4 flex flex-wrap gap-1">
+                  <div className="absolute top-0 left-0 m-4 sm:m-4 flex flex-wrap">
                     {(() => {
                       const categories = Array.isArray(featuredNews.category) 
                         ? featuredNews.category 
                         : [featuredNews.category];
                       return categories.map((cat, index) => (
-                        <span 
-                          key={index}
-                          className="bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg shadow-lg font-lato"
-                        >
-                          {cat}
-                        </span>
+                       <div className="relative overflow-hidden">
+                          {/* highlighted background */}
+                          <span className="absolute inset-0 -skew-y-1 h-2 mt-2 bg-blue-800 z-0 mx-2"></span>
+
+                          {/* text */}
+                          <span 
+                            key={index}
+                            className="relative z-10 text-white text-xs font-medium px-3 py-1.5 shadow-lg font-[Inter,sans-serif]"
+                          >
+                            {cat.toLowerCase()}
+                          </span>
+                        </div>
                       ));
                     })()}
                   </div>
-                  <div className="absolute bottom-0 left-0 p-4 sm:p-6">
+                  {/* <div className="absolute top-80 left-0 p-4 sm:p-6">
                     <span className="flex items-center text-xs text-white/90 mb-2 font-lato">
-                      <FiCalendar className="mr-2" size={14} />
+                      <FiCalendar className="relative mr-2" size={14} />
+                      {featuredNews.date}
+                    </span>
+                  </div> */}
+                  {featuredNews.title && (
+                    <h1 className="font-bold z-10 tracking-wide font-[Inter,sans-serif] text-black mt-4 text-4xl mb-3 mr-20 w-full group-hover:text-blue-500">
+                        {featuredNews.title.toLowerCase()} 
+                    </h1>
+                  )}
+                  <p className="text-2xl text-black sm:text-2xl mt-7 mb-5 font-[Inter,sans-serif]">
+                    {featuredNews.subtitle.toLowerCase()}
+                  </p>
+                  <h3 className="text-xl text-black underline sm:text-md mt-5 mb-5 font-[Inter,sans-serif]">
+                    {featuredNews.authorName?.toLowerCase()}
+                  </h3>
+                  <div>
+                    <span className="text-md text-black/50 font-[Inter,sans-serif]">
+                      {/* <FiCalendar className="mr-1" size={12} /> */}
                       {featuredNews.date}
                     </span>
                   </div>
-                </motion.div>
-                {featuredNews.subtitle && (
-                  <p className="text-slate-700 mb-3 leading-relaxed text-sm sm:text-xl font-lato">
-                    {featuredNews.subtitle}
-                  </p>
-                )}
-                <p className="text-slate-600 mb-4 leading-relaxed text-sm sm:text-lg line-clamp-3 sm:line-clamp-none font-lato">
-                  {featuredNews.excerpt}
-                </p>
-                <div className="inline-flex items-center text-slate-900 font-medium group-hover:text-slate-700 transition-colors text-sm sm:text-base font-lato">
-                  Continue reading
-                  <FiArrowRight className="ml-2" />
+                  {/* <div className="inline-flex items-center text-slate-900 font-medium group-hover:text-slate-700 transition-colors text-sm sm:text-base font-lato">
+                    Continue reading
+                    <FiArrowRight className="ml-2" />
+                  </div> */}
                 </div>
               </Link>
             </motion.div>
+          </div>
+          {/* Sidebar - Professional light theme */}
+          <motion.div 
+            variants={fadeInUp}
+            className="col-span-1"
+          >
+            <div className="sticky top-36">
+              <motion.div 
+                // whileHover={{ y: -1 }}
+                // transition={{ duration: 0.1 }}
+                className="bg-white pl-20 pt-5 mb-8 "
+              >
+                <div className="flex items-center mb-4 pb-2">
+                  <h2 className="text-xl font-[Inter,sans-serif] text-blue-800 tracking-tight">top opinions</h2>
+                </div>
+                <div className="space-y-5">
+                  {opinionPieces.map((piece) => (
+                    <div key={piece.id} className="pb-5 border-b border-slate-300 last:border-0 last:pb-0">
+                      <Link href={piece.link} className="group">
+                        <h4 className="font-[Inter,sans-serif] font-bold text-black text-xl sm:text-2xl tracking-tighter">
+                          {piece.title.toLowerCase()}
+                        </h4>
+                        <div className="flex items-center text-xs text-slate-500 font-lato pt-2">
+                          <span className="text-[14px] font-[Inter,sans-serif] text-blue-800 tracking-tighter">
+                            {piece.author.toLowerCase()}
+                          </span>
+                          <span className="mx-1.5">•</span>
+                          <span className="text-slate-500 font-[Inter,sans-serif]">{piece.position}</span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-2 font-[Inter,sans-serif]">
+                          {piece.date}
+                        </p>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 pt-2 border-t border-slate-100">
+                  <Link href="/opinions" className="text-sm hover:text-slate-700 transition-colors flex items-center font-[Inter,sans-serif] text-blue-700">
+                    View all voices
+                    <FiArrowRight className="ml-1 h-3 w-3" />
+                  </Link>
+                </div>
+              </motion.div>
+
+            </div>
+          </motion.div>
+        </motion.div>
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="relative z-10 mt-10"
+        >
 
             {/* News grid - Professional light theme with mobile improvements */}
-            <motion.div variants={fadeInUp}>
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 pb-2 border-b border-slate-200 font-lato">
-                Latest Intelligence
-              </h2>
-              <motion.div 
-                variants={staggerContainer}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8"
-              >
-                {filteredNews.map((news, index) => (
-                  <motion.div
-                    key={news.id}
-                    variants={fadeInUp}
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.3 }}
-                    className="group"
-                  >
-                    <Link href={`/news/${news.id}`} className="block">
-                      <motion.div 
-                        whileHover={{ scale: 1.05 }}
-                        transition={{ duration: 0.3 }}
-                        className="relative aspect-[4/3] overflow-hidden rounded-lg mb-3 sm:mb-4 shadow-md"
-                      >
-                        <Image
-                          src={news.image}
-                          alt={news.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div className="absolute top-0 right-0 m-2 flex flex-wrap gap-1">
-                          {(() => {
-                            const categories = Array.isArray(news.category) 
-                              ? news.category 
-                              : [news.category];
-                            return categories.map((cat, index) => (
+            <motion.div 
+              variants={fadeInUp}
+              className="grid grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-11"
+            >
+              {/* <h2 className="text-2xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 pb-2 border-b border-slate-200 font-[Inter,sans-serif]">
+                Recommended
+              </h2> */}
+              {filteredNews.slice(1).map((news, index) => (
+                <motion.div
+                  key={news.id}
+                  variants={fadeInUp}
+                  // whileHover={{ y: -5 }}
+                  // transition={{ duration: 0.3 }}
+                  className="group"
+                >
+                  <Link href={`/news/${news.id}`} className="block mt-9">
+                    <motion.div 
+                      // whileHover={{ scale: 1.05 }}
+                      // transition={{ duration: 0.3 }}
+                      className="w-full relative aspect-[12/10] object-cover transition duration-300 ease-in-out group-hover:brightness-110"
+                    >
+                      <Image
+                        src={news.image}
+                        alt={news.title}
+                        fill
+                        className="object-cover transition-transform duration-500"
+                      />
+                      <div className="absolute top-0 left-0 m-3 flex flex-wrap">
+                        {(() => {
+                          const categories = Array.isArray(news.category) 
+                            ? news.category 
+                            : [news.category];
+                          return categories.map((cat, index) => (
+                            <div className="relative overflow-hidden">
+                              {/* highlighted background */}
+                              <span className="absolute inset-0 -skew-y-1 h-2 mt-2 bg-blue-800 z-0 mx-2"></span>
+
+                              {/* text */}
                               <span 
                                 key={index}
-                                className="bg-slate-900 text-white text-xs font-medium px-2 py-1 rounded-md font-lato"
+                                className="relative z-10 text-white text-xs font-medium px-3 py-1.5 shadow-lg font-[Inter,sans-serif]"
                               >
                                 {cat}
                               </span>
-                            ));
-                          })()}
-                        </div>
-                        <div className="absolute bottom-0 left-0 p-3 sm:p-4">
-                          <span className="flex items-center text-xs text-white/90 mb-1 font-lato">
-                            <FiCalendar className="mr-1" size={12} />
-                            {news.date}
-                          </span>
-                        </div>
-                      </motion.div>
-                      <h3 className="font-bold text-base sm:text-lg text-slate-900 mb-2 group-hover:text-slate-700 transition-colors line-clamp-2 font-lato">
-                        {news.title}
-                      </h3>
-                      {news.subtitle && (
-                        <p className="text-slate-700 text-xs sm:text-sm mb-2 leading-relaxed line-clamp-2 font-lato">
-                          {news.subtitle}
-                        </p>
-                      )}
-                      <p className="text-slate-600 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 font-lato">
-                        {news.excerpt}
+                            </div>
+                          ));
+                        })()}
+                      </div>
+                    </motion.div>
+                    <h3 className="font-semibold text-base tracking-tighter sm:text-2xl mt-3 text-slate-900 mb-2 group-hover:text-blue-500 transition-colors font-[Inter,sans-serif]">
+                      {news.title.toLowerCase()}
+                    </h3>
+                    {news.subtitle && (
+                      <p className="text-xl text-black sm:text-xl mt-5 mb-5 font-[Inter,sans-serif]">
+                        {news.subtitle.toLowerCase()}
                       </p>
-                    </Link>
-                  </motion.div>
-                ))}
-              </motion.div>
+                    )}
+                    <h3 className="text-xl text-black underline sm:text-md mt-5 mb-5 font-[Inter,sans-serif]">
+                      {news.authorName?.toLowerCase()}
+                    </h3>
+                    <div>
+                      <span className="text-md text-black/50 font-[Inter,sans-serif]">
+                        {/* <FiCalendar className="mr-1" size={12} /> */}
+                        {news.date}
+                      </span>
+                    </div>
+                    {/* <p className="text-slate-600 text-xs sm:text-sm line-clamp-2 sm:line-clamp-3 font-lato">
+                      {news.excerpt}
+                    </p> */}
+                  </Link>
+                </motion.div>
+              ))}
               
               {/* Load more button - Professional light theme with mobile improvements */}
               <motion.div 
@@ -793,144 +537,7 @@ export default function News() {
                 </motion.button>
               </motion.div>
             </motion.div>
-          </div>
-
-          {/* Sidebar - Professional light theme */}
-          <motion.div 
-            variants={fadeInUp}
-            className="col-span-1"
-          >
-            <div className="sticky top-36">
-              {/* Market summary
-              <motion.div 
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white rounded-xl p-6 mb-8 border border-slate-200 shadow-lg"
-              >
-                <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-200">
-                  <h3 className="text-lg font-bold text-slate-900 font-lato">Market Summary</h3>
-                  <span className="text-xs text-slate-500 font-lato">Last updated: {lastUpdated}</span>
-                </div>
-                <div className="space-y-4">
-                  {marketData.slice(0, 4).map((item, index) => (
-                    <div key={index} className="flex items-center justify-between pb-2 border-b border-slate-100 last:border-0 last:pb-0">
-                      <div>
-                        <div className="text-slate-900 font-medium font-lato">{item.name}</div>
-                        <div className="text-sm text-slate-600 font-lato">{item.value}</div>
-                      </div>
-                      <div className={`flex items-center ${item.isPositive ? 'text-green-600' : 'text-red-600'} font-medium font-lato`}>
-                        {item.isPositive ? <FiTrendingUp className="mr-1.5" size={16} /> : <FiTrendingDown className="mr-1.5" size={16} />}
-                        {item.change}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 pt-2 border-t border-slate-100">
-                  <Link href="#" className="text-slate-900 text-sm hover:text-slate-700 transition-colors flex items-center font-lato">
-                    View all markets
-                    <FiArrowRight className="ml-1 h-3 w-3" />
-                  </Link>
-                </div>
-              </motion.div> */}
-
-              {/* Opinion section - replacing What's Trending
-              <motion.div 
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white rounded-xl p-6 mb-8 border border-slate-200 shadow-lg"
-              >
-                <div className="flex items-center mb-4 pb-2 border-b border-slate-200">
-                  <h3 className="text-lg font-bold text-slate-900 font-lato">Opinion</h3>
-                  <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-slate-100 text-slate-700 border border-slate-200 font-lato">
-                    Perspectives
-                  </span>
-                </div>
-                <div className="space-y-5">
-                  {opinionPieces.map((piece) => (
-                    <div key={piece.id} className="pb-5 border-b border-slate-100 last:border-0 last:pb-0">
-                      <Link href={piece.link} className="group">
-                        <h4 className="font-bold text-slate-900 group-hover:text-slate-700 transition-colors mb-1 font-lato">
-                          {piece.title}
-                        </h4>
-                        <p className="text-slate-600 text-sm mb-1.5 font-lato">
-                          {piece.excerpt}
-                        </p>
-                        <div className="flex items-center text-xs text-slate-500 font-lato">
-                          <span className="font-medium text-slate-700">
-                            {piece.author}
-                          </span>
-                          <span className="mx-1.5">•</span>
-                          <span className="text-slate-500">{piece.position}</span>
-                        </div>
-                        <p className="text-xs text-slate-500 mt-1 font-lato">
-                          {piece.date}
-                        </p>
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 pt-2 border-t border-slate-100">
-                  <Link href="/opinions" className="text-slate-900 text-sm hover:text-slate-700 transition-colors flex items-center font-lato">
-                    View all opinions
-                    <FiArrowRight className="ml-1 h-3 w-3" />
-                  </Link>
-                </div>
-              </motion.div> */}
-
-              {/* Featured articles
-              <motion.div 
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-                className="mb-8"
-              >
-                <h3 className="text-lg font-bold text-slate-900 mb-4 pb-2 border-b border-slate-200 font-lato">
-                  Featured Intelligence
-                </h3>
-                {featuredArticles.map((article) => (
-                  <div key={article.id} className="mb-5 pb-5 border-b border-slate-200 last:border-0 last:pb-0">
-                    <Link href={`/news/${article.id}`} className="group">
-                      <div className="relative aspect-[16/9] overflow-hidden rounded-lg mb-3 shadow-md">
-                        <Image
-                          src={article.image}
-                          alt={article.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                        <div className="absolute top-0 right-0 m-2 flex flex-wrap gap-1">
-                          {(() => {
-                            const categories = Array.isArray(article.category) 
-                              ? article.category 
-                              : [article.category];
-                            return categories.map((cat, index) => (
-                              <span 
-                                key={index}
-                                className="bg-slate-900 text-white text-xs font-medium px-2 py-1 rounded-md font-lato"
-                              >
-                                {cat}
-                              </span>
-                            ));
-                          })()}
-                        </div>
-                      </div>
-                      <h4 className="font-bold text-slate-900 group-hover:text-slate-700 transition-colors mb-1 font-lato">
-                        {article.title}
-                      </h4>
-                      {article.subtitle && (
-                        <p className="text-slate-700 text-sm mb-1 font-lato">
-                          {article.subtitle}
-                        </p>
-                      )}
-                      <span className="flex items-center text-xs text-slate-500 font-lato">
-                        <FiCalendar className="mr-1" size={12} />
-                        {article.date}
-                      </span>
-                    </Link>
-                  </div>
-                ))}
-              </motion.div> */}
-            </div>
-          </motion.div>
+          
         </motion.div>
       </div>
 

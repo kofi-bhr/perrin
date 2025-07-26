@@ -15,7 +15,7 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: 'The Perrin Institution | AI-Powered Policy Research Lab at UVA',
+  title: 'The Perrin Institution',
   description: 'The Perrin Institution is a contracted research organization at the University of Virginia dedicated to shaping policy through data-driven research and technology governance.',
   keywords: 'Perrin Institution, Perrin Institute, policy research, AI policy, technology governance, UVA research, data-driven policy',
   authors: [{ name: 'Perrin Institution' }],
@@ -100,6 +100,10 @@ export default function RootLayout({
           href="/uva-stock-3.jpg"
           as="image"
           type="image/jpeg"
+        />
+        <link
+          rel='icon'
+          href='/perrinlogo.ico'
         />
       </head>
       <body className={`${roboto.className} font-sans antialiased text-gray-900 bg-white text-sm`}>

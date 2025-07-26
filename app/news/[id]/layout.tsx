@@ -1,5 +1,4 @@
-import './font.css';
-import '@fontsource/oswald'
+
 
 
 export default function ArticleLayout({
