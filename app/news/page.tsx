@@ -174,7 +174,7 @@ export default function News() {
         className="border-b border-slate-200"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center space-x-40">
+          <div className="flex items-center space-x-24">
             <div>
               <motion.h1 
                 style={{ fontFamily: 'Oswald, sans-serif'}}
@@ -183,14 +183,14 @@ export default function News() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-8xl font-bold text-slate-900"
               >
-                global intelligence
+              GLOBAL INTELLIGENCE
               </motion.h1>
               <motion.p 
                 style={{ fontFamily: 'Oswald, sans-serif' }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-slate-600 text-lg mt-3 font-lato ml-2"
+                className="text-slate-600 text-lg mt-1 font-lato ml-2"
               >
                 on the policy and technology of now
               </motion.p>
@@ -301,7 +301,7 @@ export default function News() {
                 onClick={() => setActiveCategory(category === "All" ? null : category)}
                 className="relative px-1 py-2 transition-colors duration-200 group text-black text-4xl"
               >
-                <span className="relative z-10">{category.toLowerCase()}</span>
+                <span className="relative z-10">{category}</span>
                 {/* Marker hover effect */}
                 <span className="absolute left-0 bottom-1 h-7 w-full bg-yellow-300 opacity-0 group-hover:opacity-60 transition duration-200 z-0 rounded-sm -skew-x-6"></span>
               </button>
@@ -348,16 +348,15 @@ export default function News() {
                         ? featuredNews.category 
                         : [featuredNews.category];
                       return categories.map((cat, index) => (
-                       <div className="relative overflow-hidden">
+                       <div className="relative overflow-hidden" key={index}>
                           {/* highlighted background */}
-                          <span className="absolute inset-0 -skew-y-1 h-2 mt-2 bg-blue-800 z-0 mx-2"></span>
+                          <span className="absolute inset-0 -skew-y-1 h-4 mt-1 bg-blue-800 z-0 mx-2"></span>
 
                           {/* text */}
                           <span 
-                            key={index}
                             className="relative z-10 text-white text-xs font-medium px-3 py-1.5 shadow-lg font-[Inter,sans-serif]"
                           >
-                            {cat.toLowerCase()}
+                            {cat}
                           </span>
                         </div>
                       ));
@@ -370,15 +369,15 @@ export default function News() {
                     </span>
                   </div> */}
                   {featuredNews.title && (
-                    <h1 className="font-bold z-10 tracking-wide font-[Inter,sans-serif] text-black mt-4 text-4xl mb-3 mr-20 w-full group-hover:text-blue-500">
-                        {featuredNews.title.toLowerCase()} 
+                    <h1 className="font-bold z-10 tracking-wide font-[Bradford,sans-serif] text-black mt-4 text-4xl mb-3 mr-20 w-full group-hover:text-blue-500">
+                        {featuredNews.title} 
                     </h1>
                   )}
-                  <p className="text-2xl text-black sm:text-2xl mt-7 mb-5 font-[Inter,sans-serif]">
-                    {featuredNews.subtitle.toLowerCase()}
+                  <p className="text-2xl text-black sm:text-2xl mt-7 mb-5 font-[Georgia,serif]">
+                    {featuredNews.subtitle}
                   </p>
                   <h3 className="text-xl text-black underline sm:text-md mt-5 mb-5 font-[Inter,sans-serif]">
-                    {featuredNews.authorName?.toLowerCase()}
+                    {featuredNews.authorName}
                   </h3>
                   <div>
                     <span className="text-md text-black/50 font-[Inter,sans-serif]">
@@ -406,18 +405,18 @@ export default function News() {
                 className="bg-white pl-20 pt-5 mb-8 "
               >
                 <div className="flex items-center mb-4 pb-2">
-                  <h2 className="text-xl font-[Inter,sans-serif] text-blue-800 tracking-tight">top opinions</h2>
+                  <h2 className="text-xl font-[Inter,sans-serif] text-blue-800 tracking-tight">Top Voices</h2>
                 </div>
                 <div className="space-y-5">
                   {opinionPieces.map((piece) => (
                     <div key={piece.id} className="pb-5 border-b border-slate-300 last:border-0 last:pb-0">
                       <Link href={piece.link} className="group">
                         <h4 className="font-[Inter,sans-serif] font-bold text-black text-xl sm:text-2xl tracking-tighter">
-                          {piece.title.toLowerCase()}
+                          {piece.title}
                         </h4>
                         <div className="flex items-center text-xs text-slate-500 font-lato pt-2">
                           <span className="text-[14px] font-[Inter,sans-serif] text-blue-800 tracking-tighter">
-                            {piece.author.toLowerCase()}
+                            {piece.author.toUpperCase()}
                           </span>
                           <span className="mx-1.5">•</span>
                           <span className="text-slate-500 font-[Inter,sans-serif]">{piece.position}</span>
@@ -483,7 +482,7 @@ export default function News() {
                           return categories.map((cat, index) => (
                             <div className="relative overflow-hidden">
                               {/* highlighted background */}
-                              <span className="absolute inset-0 -skew-y-1 h-2 mt-2 bg-blue-800 z-0 mx-2"></span>
+                              <span className="absolute inset-0 -skew-y-1 h-4 mt-1 bg-blue-800 z-0 mx-2"></span>
 
                               {/* text */}
                               <span 
@@ -498,15 +497,15 @@ export default function News() {
                       </div>
                     </motion.div>
                     <h3 className="font-semibold text-base tracking-tighter sm:text-2xl mt-3 text-slate-900 mb-2 group-hover:text-blue-500 transition-colors font-[Inter,sans-serif]">
-                      {news.title.toLowerCase()}
+                      {news.title}
                     </h3>
                     {news.subtitle && (
                       <p className="text-xl text-black sm:text-xl mt-5 mb-5 font-[Inter,sans-serif]">
-                        {news.subtitle.toLowerCase()}
+                        {news.subtitle}
                       </p>
                     )}
                     <h3 className="text-xl text-black underline sm:text-md mt-5 mb-5 font-[Inter,sans-serif]">
-                      {news.authorName?.toLowerCase()}
+                      {news.authorName}
                     </h3>
                     <div>
                       <span className="text-md text-black/50 font-[Inter,sans-serif]">
