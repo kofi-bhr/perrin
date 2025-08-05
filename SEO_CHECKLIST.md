@@ -1,26 +1,31 @@
 # SEO Optimization Checklist for Perrin Institution Website
 
-## Completed Items
+## Completed Items ✅
 
 - [x] Enhanced metadata in layout.tsx with proper title, description, and keywords
 - [x] Added OpenGraph and Twitter card metadata for better social sharing
-- [x] Added JSON-LD structured data for organization
-- [x] Created sitemap.xml for search engine indexing
+- [x] Added JSON-LD structured data for organization with comprehensive details
+- [x] Created sitemap.xml for search engine indexing with all major pages
 - [x] Added robots.txt file with proper directives
 - [x] Enhanced experts directory page with proper SEO metadata
+- [x] **FIXED CRITICAL DOMAIN ISSUE**: Updated all URLs from perrininstitution.com to perrininstitution.org
+- [x] Added page-specific metadata for News, Events, and Experts pages
+- [x] Implemented canonical URLs for major pages
+- [x] Added Google Search Console verification meta tag (placeholder)
+- [x] Enhanced structured data with founders, contact info, and comprehensive organization details
+- [x] Updated sitemap with current dates and additional pages
 
-## To-Do Items
+## To-Do Items (Next Steps)
 
-- [ ] Register site with Google Search Console
+- [ ] **URGENT**: Register site with Google Search Console using the verification tag
 - [ ] Set up Google Analytics 4
-- [ ] Optimize all page titles to include 'Perrin Institution'
-- [ ] Add alt text to all images
-- [ ] Implement canonical URLs for all pages
+- [ ] Add alt text to all images across the site
 - [ ] Optimize page loading speed (compress images, minimize CSS/JS)
 - [ ] Create blog content focused on keywords related to policy research
 - [ ] Build quality backlinks from academic and policy institutions
 - [ ] Implement FAQ schema for common questions
 - [ ] Create 301 redirects for any old URLs
+- [ ] Replace Google verification placeholder with actual verification code
 
 ## Regular Maintenance
 

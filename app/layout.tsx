@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'The Perrin Institution | AI-Powered Policy Research',
     description: 'Shaping the future of technology governance and legal innovation through data-driven research at UVA',
-    url: 'https://perrininstitution.com',
+    url: 'https://perrininstitution.org',
     siteName: 'The Perrin Institution',
     images: [
       {
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     images: ['/moretechperrin-removebg-preview.png'],
   },
   alternates: {
-    canonical: 'https://perrininstitution.com',
+    canonical: 'https://perrininstitution.org',
   },
   robots: {
     index: true,
@@ -69,6 +69,9 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         
+        {/* Google Search Console Verification */}
+        <meta name="google-site-verification" content="your-google-site-verification-code" />
+        
         {/* Structured data for SEO */}
         <script
           type="application/ld+json"
@@ -77,13 +80,60 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "The Perrin Institution",
-              "alternateName": "Perrin Institute",
-              "url": "https://perrininstitution.com",
-              "logo": "https://perrininstitution.com/moretechperrin-removebg-preview.png",
+              "alternateName": ["Perrin Institute", "Perrin Research Institution"],
+              "url": "https://perrininstitution.org",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://perrininstitution.org/moretechperrin-removebg-preview.png",
+                "width": 1200,
+                "height": 630
+              },
+              "image": "https://perrininstitution.org/moretechperrin-removebg-preview.png",
+              "description": "The Perrin Institution is a contracted research organization based at the University of Virginia, dedicated to shaping the future of technology governance and legal innovation through data-driven research.",
+              "foundingDate": "2023",
+              "founders": [
+                {
+                  "@type": "Person",
+                  "name": "Finn Järvi",
+                  "jobTitle": "Founder & President"
+                },
+                {
+                  "@type": "Person", 
+                  "name": "Cash Hilinski",
+                  "jobTitle": "Co-Founder & Chief Technology Officer"
+                }
+              ],
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Charlottesville",
+                "addressRegion": "Virginia",
+                "addressCountry": "United States",
+                "postalCode": "22904"
+              },
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "general inquiry",
+                "url": "https://perrininstitution.org/research-request"
+              },
+              "memberOf": {
+                "@type": "Organization",
+                "name": "University of Virginia",
+                "url": "https://www.virginia.edu"
+              },
+              "areaServed": "United States",
+              "knowsAbout": [
+                "AI Policy",
+                "Technology Governance", 
+                "Data-Driven Research",
+                "Legal Innovation",
+                "Policy Research",
+                "Educational Policy",
+                "Environmental Law",
+                "Corporate Law"
+              ],
               "sameAs": [
                 "https://www.tiktok.com/@theperrininstitution"
-              ],
-              "description": "The Perrin Institution is a contracted research organization based at the University of Virginia, dedicated to shaping the future of technology governance and legal innovation."
+              ]
             })
           }}
         />

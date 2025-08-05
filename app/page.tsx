@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useRef, Suspense, lazy, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -10,6 +10,7 @@ import MorphingShape from '@/components/MorphingShape';
 import FloatingElement from '@/components/FloatingElement';
 import Parallax from '@/components/Parallax';
 import Transform3D from '@/components/Transform3D';
+import { useGlobalLoading } from '@/lib/hooks/useGlobalLoading';
 
 // React.lazy import for Spline (was working before)
 const Spline = lazy(() => import('@splinetool/react-spline'));
@@ -107,16 +108,14 @@ const CategoryIcon = ({ name }: { name: string }) => {
 };
 
 export default function Home() {
+  const globalLoading = useGlobalLoading();
   const [articles, setArticles] = useState<Article[]>([]);
   const [featuredArticles, setFeaturedArticles] = useState<Article[]>([]);
   const [regularArticles, setRegularArticles] = useState<Article[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const [splineLoaded, setSplineLoaded] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [showMainContent, setShowMainContent] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
   
   // Refs for scroll-driven animations
   const heroRef = useRef(null);
@@ -140,14 +139,10 @@ export default function Home() {
     setIsMounted(true);
   }, []);
 
-  // Enhanced loading sequence with minimum time and progress simulation
+  // Load articles data
   useEffect(() => {
-    const startTime = Date.now();
-    const minLoadingTime = 1500; // Reduced to 1.5 seconds
-    
-    const initializeApp = async () => {
+    const loadArticles = async () => {
       try {
-        // Load articles
         if (typeof window !== 'undefined') {
           try {
             const articlesModule = await import('@/lib/articles').catch(err => {
@@ -184,24 +179,16 @@ export default function Home() {
           }
         }
         
-        // Ensure minimum loading time has passed
-        const elapsedTime = Date.now() - startTime;
-        if (elapsedTime < minLoadingTime) {
-          await new Promise(resolve => setTimeout(resolve, minLoadingTime - elapsedTime));
-        }
-        
-        // Show content
-        setIsLoading(false);
-        setTimeout(() => setShowMainContent(true), 200);
+        // Show content immediately since GlobalLoading handles the loading screen
+        setShowMainContent(true);
         
       } catch (error) {
         console.error('Error during initialization:', error);
-        setIsLoading(false);
         setShowMainContent(true);
       }
     };
 
-    initializeApp();
+    loadArticles();
   }, []);
 
   // Function to handle slide changing
@@ -253,108 +240,16 @@ export default function Home() {
   }
 
   const onSplineLoad = () => {
-    setSplineLoaded(true);
+    console.log('Spline loaded!');
+    globalLoading.setSplineLoaded(true);
   };
 
-  // Modern FAANG-style loading screen with better UI
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 z-50 bg-white flex items-center justify-center">
-        <div className="text-center max-w-sm mx-auto px-8">
-          {/* Logo container with subtle shadow */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ 
-              duration: 0.7, 
-              ease: [0.25, 0.46, 0.45, 0.94],
-              delay: 0.1 
-            }}
-            className="mb-12 relative"
-          >
-            <div className="w-24 h-24 mx-auto mb-6 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center p-4">
-              <Image
-                src="/moretechperrin-removebg-preview.png"
-                alt="Perrin Institute"
-                width={80}
-                height={80}
-                className="w-full h-full object-contain"
-                priority
-              />
-            </div>
-          </motion.div>
-          
-          {/* Enhanced typography section */}
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ 
-              duration: 0.6, 
-              ease: [0.25, 0.46, 0.45, 0.94],
-              delay: 0.3 
-            }}
-            className="space-y-6"
-          >
-            {/* Main title */}
-            <div className="space-y-2">
-              <h1 className="text-2xl font-medium text-gray-900 tracking-tight leading-tight">
-                Perrin Institute
-              </h1>
-              <p className="text-sm text-gray-500 font-normal">
-                Advanced Policy Research
-              </p>
-            </div>
-            
-            {/* Elegant progress bar */}
-            <div className="space-y-4">
-              <div className="w-48 h-1 bg-gray-100 rounded-full mx-auto overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{
-                    duration: 1.5,
-                    ease: [0.25, 0.46, 0.45, 0.94],
-                    repeat: Infinity,
-                    repeatType: "reverse"
-                  }}
-                  className="h-full bg-gradient-to-r from-gray-800 to-gray-600 rounded-full"
-                />
-              </div>
-              
-              {/* Loading text */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-                className="text-xs text-gray-400 font-normal tracking-wide"
-              >
-                Loading experience...
-              </motion.p>
-            </div>
-          </motion.div>
-        </div>
-        
-        {/* Subtle corner branding */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.5 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        >
-          <div className="flex items-center space-x-2 text-xs text-gray-300">
-            <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-            <span>Powered by AI</span>
-            <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
+  // Using GlobalLoading component instead of page-specific loading
 
   return (
     <motion.main 
       initial={{ opacity: 0 }}
-      animate={{ opacity: showMainContent ? 1 : 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50"
     >
