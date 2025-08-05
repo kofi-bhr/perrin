@@ -660,11 +660,12 @@ export const EXPERTS: Expert[] = [
   {
     id: 61,
     name: "Eva Dubey",
-    role: "Research Associate",
-    bio: "Research Associate specializing in policy research and evaluation.",
+    role: "Research Associate & Domestic Affairs Editor",
+    bio: "Research Associate and Domestic Affairs Editor specializing in policy research, evaluation, and domestic policy analysis.",
     image: "",
     email: "evasalt92@Gmail.com",
-    category: "Research Associates"
+    category: "Research Associates",
+    interests: ["Policy Research", "Domestic Affairs", "Policy Evaluation"]
   },
   {
     id: 62,
@@ -828,12 +829,12 @@ export const EXPERTS: Expert[] = [
   {
     id: 80,
     name: "Nathaniel Nadler",
-    role: "Commercial Innovation Correspondent",
-    bio: "Nathaniel Nadler is Commercial Innovation Correspondent at the Perrin Institute and a student at Don Bosco Prep in New Jersey. He specializes in analyzing the intersection of technology, finance, and business innovation. With a strong foundation in mathematics and computer science, he examines how emerging technologies are transforming commercial sectors and regulatory landscapes. His research focuses on identifying innovative business models and their policy implications.",
+    role: "Vice President of Intelligent Earth Systems",
+    bio: "Nathaniel Nadler is Vice President of Intelligent Earth Systems at the Perrin Institute and a student at Don Bosco Prep in New Jersey. He specializes in analyzing the intersection of technology, finance, and business innovation with a focus on intelligent earth systems and environmental technologies. With a strong foundation in mathematics and computer science, he examines how emerging technologies are transforming commercial sectors and regulatory landscapes. His research focuses on identifying innovative business models and their policy implications in the context of intelligent earth systems.",
     image: "",
     email: "nathanielnadler@perrinlabs.org",
-    category: "Editorial",
-    interests: ["Mathematics", "Computer Science", "Finance", "Commercial Innovation"],
+    category: "Leadership",
+    interests: ["Mathematics", "Computer Science", "Finance", "Commercial Innovation", "Intelligent Earth Systems"],
     affiliations: {
       organizations: ["Perrin Institute"],
       education: ["Don Bosco Prep"]
@@ -1272,6 +1273,451 @@ export const EXPERTS: Expert[] = [
     image: "",
     category: "Editorial",
     interests: ["Climate Action", "Environmental Policy", "Sustainability", "Asia-Pacific Climate Policy", "Climate Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 115,
+    name: "Aadyant Singh Harnwal",
+    role: "Economic Policy Correspondent",
+    bio: "Aadyant Singh Harnwal is Economic Policy Correspondent at the Perrin Institute, where he covers economic policy developments and fiscal governance issues. He specializes in analyzing monetary policy, fiscal frameworks, and economic regulatory changes at national and international levels. His reporting focuses on translating complex economic policy decisions into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Economic Policy", "Fiscal Policy", "Monetary Policy"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 116,
+    name: "Elias Eid",
+    role: "Research Associate",
+    bio: "Elias Eid is a Research Associate at the Perrin Institute, where he conducts comprehensive policy research and analysis across multiple domains. He specializes in developing evidence-based policy recommendations and examining the real-world impacts of policy implementation. His work focuses on creating rigorous research frameworks that inform effective policy development.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Policy Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 117,
+    name: "Oz Susskind",
+    role: "Senior Education Policy Editor",
+    bio: "Oz Susskind is Senior Education Policy Editor at the Perrin Institute, where he leads editorial initiatives on education policy and educational governance. He specializes in analyzing educational legislation, institutional reforms, and policy implementation across different educational levels. His editorial work focuses on translating complex education policy developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Education Policy", "Educational Reform", "Policy Implementation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 118,
+    name: "Anisha Arvind",
+    role: "Research Associate",
+    bio: "Anisha Arvind is a Research Associate at the Perrin Institute, where she contributes to policy research and analysis initiatives. She specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. Her work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 119,
+    name: "Shaveni",
+    role: "Research Intern",
+    bio: "Shaveni is a Research Intern at the Perrin Institute, where she supports research initiatives and contributes to policy analysis projects. She specializes in conducting background research and assisting with data collection and analysis. Her work focuses on supporting the Institute's research objectives and developing foundational research skills.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Collection", "Research Support"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 120,
+    name: "Emlyn Joseph",
+    role: "Research Associate",
+    bio: "Emlyn Joseph is a Research Associate at the Perrin Institute, where he contributes to policy research and analysis initiatives. He specializes in examining policy frameworks and their effectiveness in addressing contemporary challenges. His work focuses on developing evidence-based recommendations for policy improvement and implementation.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Analysis", "Research Methods", "Policy Development"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 121,
+    name: "Parin Chanana",
+    role: "Senior Commercial Innovation Editor",
+    bio: "Parin Chanana is Senior Commercial Innovation Editor at the Perrin Institute, where he leads editorial initiatives on commercial innovation and business policy. He specializes in analyzing the intersection of technology, finance, and business innovation, examining how emerging technologies are transforming commercial sectors and regulatory landscapes. His editorial work focuses on identifying innovative business models and their policy implications.",
+    image: "",
+    category: "Editorial",
+    interests: ["Commercial Innovation", "Business Policy", "Technology Innovation", "Finance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 122,
+    name: "Videep Agarwal",
+    role: "International Policy Correspondent and Research Associate",
+    bio: "Videep Agarwal is International Policy Correspondent and Research Associate at the Perrin Institute, where he covers global policy developments and conducts research on international governance issues. He specializes in analyzing foreign policy initiatives, international relations, and cross-border regulatory frameworks. His work focuses on translating complex international policy developments into accessible analysis while conducting in-depth research on global governance challenges.",
+    image: "",
+    category: "Editorial",
+    interests: ["International Policy", "Foreign Policy", "Global Governance", "International Relations"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 123,
+    name: "Sanjana Bellur",
+    role: "Economic Policy Correspondent",
+    bio: "Sanjana Bellur is Economic Policy Correspondent at the Perrin Institute, where she covers economic policy developments and fiscal governance issues. She specializes in analyzing monetary policy, fiscal frameworks, and economic regulatory changes at national and international levels. Her reporting focuses on translating complex economic policy decisions into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Economic Policy", "Fiscal Policy", "Monetary Policy", "Economic Analysis"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 124,
+    name: "Stanley Zhou",
+    role: "Economic Policy Correspondent",
+    bio: "Stanley Zhou is Economic Policy Correspondent at the Perrin Institute, where he covers economic policy developments and fiscal governance issues. He specializes in analyzing monetary policy, fiscal frameworks, and economic regulatory changes at national and international levels. His reporting focuses on translating complex economic policy decisions into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Economic Policy", "Fiscal Policy", "Monetary Policy", "Economic Analysis"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 125,
+    name: "Divyansha Nashine",
+    role: "Technological Development Senior Editor",
+    bio: "Divyansha Nashine is Technological Development Senior Editor at the Perrin Institute, where she leads editorial initiatives on technology policy and innovation governance. She specializes in analyzing how emerging technologies impact society and developing evidence-based policy recommendations. Her work focuses on creating frameworks that balance technological advancement with public interest considerations and examining the regulatory challenges posed by rapid technological change.",
+    image: "",
+    category: "Editorial",
+    interests: ["Technological Development", "Technology Policy", "Innovation Governance", "Tech Regulation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 126,
+    name: "Adhithi Uppalapati",
+    role: "Research Associate",
+    bio: "Adhithi Uppalapati is a Research Associate at the Perrin Institute, where she contributes to policy research and analysis initiatives. She specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. Her work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 127,
+    name: "Livia Kam",
+    role: "AI Governance Correspondent",
+    bio: "Livia Kam is AI Governance Correspondent at the Perrin Institute, where she covers artificial intelligence policy and governance frameworks. She specializes in analyzing the regulatory challenges posed by AI technologies and developing comprehensive policy recommendations for AI governance. Her reporting focuses on balancing innovation with ethical considerations and public safety while examining AI governance models across jurisdictions.",
+    image: "",
+    category: "Editorial",
+    interests: ["AI Governance", "Artificial Intelligence Policy", "Technology Ethics", "Regulatory Innovation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 128,
+    name: "Elaine Liu",
+    role: "Senior Education Policy Editor",
+    bio: "Elaine Liu is Senior Education Policy Editor at the Perrin Institute, where she leads editorial initiatives on education policy and educational governance. She specializes in analyzing educational legislation, institutional reforms, and policy implementation across different educational levels. Her editorial work focuses on translating complex education policy developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Education Policy", "Educational Reform", "Policy Implementation", "Educational Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 129,
+    name: "Kevin Lopez Cruz",
+    role: "Legal Correspondent",
+    bio: "Kevin Lopez Cruz is Legal Correspondent at the Perrin Institute, where he covers legal policy developments and judicial research. He specializes in analyzing legal frameworks, constitutional issues, and judicial decisions that impact policy development. His reporting focuses on translating complex legal developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Legal Policy", "Constitutional Law", "Judicial Research", "Legal Analysis"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 130,
+    name: "Natalie Nguyen",
+    role: "Research Associate",
+    bio: "Natalie Nguyen is a Research Associate at the Perrin Institute, where she contributes to policy research and analysis initiatives. She specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. Her work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 131,
+    name: "Keya Choudhary",
+    role: "Research Associate",
+    bio: "Keya Choudhary is a Research Associate at the Perrin Institute, where she contributes to policy research and analysis initiatives. She specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. Her work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 132,
+    name: "Nathan Beck",
+    role: "Research Associate",
+    bio: "Nathan Beck is a Research Associate at the Perrin Institute, where he contributes to policy research and analysis initiatives. He specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. His work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 133,
+    name: "Joelle Watanabe",
+    role: "Research Associate",
+    bio: "Joelle Watanabe is a Research Associate at the Perrin Institute, where she contributes to policy research and analysis initiatives. She specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. Her work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 134,
+    name: "Isabelle Qi",
+    role: "Senior Legal Editor",
+    bio: "Isabelle Qi is Senior Legal Editor at the Perrin Institute, where she leads editorial initiatives on legal policy and judicial research. She specializes in analyzing legal frameworks, constitutional issues, and judicial decisions that impact policy development. Her editorial work focuses on translating complex legal developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Legal Policy", "Constitutional Law", "Judicial Research", "Legal Analysis"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 135,
+    name: "Chase Phua",
+    role: "AI Governance Correspondent",
+    bio: "Chase Phua is AI Governance Correspondent at the Perrin Institute, where he covers artificial intelligence policy and governance frameworks. He specializes in analyzing the regulatory challenges posed by AI technologies and developing comprehensive policy recommendations for AI governance. His reporting focuses on balancing innovation with ethical considerations and public safety while examining AI governance models across jurisdictions.",
+    image: "",
+    category: "Editorial",
+    interests: ["AI Governance", "Artificial Intelligence Policy", "Technology Ethics", "Regulatory Innovation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 136,
+    name: "Hannah You",
+    role: "Health Correspondent",
+    bio: "Hannah You is Health Correspondent at the Perrin Institute, where she covers healthcare policy developments and health governance issues. She specializes in analyzing healthcare legislation, public health initiatives, and health system reforms at local, national, and international levels. Her reporting focuses on translating complex health policy decisions into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Health Policy", "Public Health", "Healthcare Reform", "Health Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 137,
+    name: "Vihaan Nayak",
+    role: "Research Associate",
+    bio: "Vihaan Nayak is a Research Associate at the Perrin Institute, where he contributes to policy research and analysis initiatives. He specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. His work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 138,
+    name: "Hansika Yakkala",
+    role: "Research Associate",
+    bio: "Hansika Yakkala is a Research Associate at the Perrin Institute, where she contributes to policy research and analysis initiatives. She specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. Her work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 139,
+    name: "Claire Yang",
+    role: "Senior Economic Policy Editor",
+    bio: "Claire Yang is Senior Economic Policy Editor at the Perrin Institute, where she leads editorial initiatives on economic policy and fiscal governance. She specializes in analyzing monetary policy, fiscal frameworks, and economic regulatory changes at national and international levels. Her editorial work focuses on translating complex economic policy developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Economic Policy", "Fiscal Policy", "Monetary Policy", "Economic Analysis"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 140,
+    name: "Paritosh Bhole",
+    role: "Research Associate",
+    bio: "Paritosh Bhole is a Research Associate at the Perrin Institute, where he contributes to policy research and analysis initiatives. He specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. His work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 141,
+    name: "Dara Mohd",
+    role: "Senior Research Fellow, AI & Ethics",
+    bio: "Dara Mohd is Senior Research Fellow for AI & Ethics at the Perrin Institute, where she leads research on artificial intelligence policy with a focus on ethical considerations and responsible AI development. She specializes in analyzing the intersection of AI technology and ethical frameworks, developing comprehensive policy recommendations that balance innovation with ethical considerations and public safety. Her work focuses on creating guidelines for responsible AI governance across different sectors.",
+    image: "",
+    email: "dara.a.mohd@gmail.com",
+    category: "Research Fellow",
+    interests: ["AI Ethics", "Artificial Intelligence Policy", "Technology Ethics", "Responsible AI", "AI Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 142,
+    name: "Anvitaa Rudharraju",
+    role: "Research Associate",
+    bio: "Anvitaa Rudharraju is a Research Associate at the Perrin Institute, where she contributes to policy research and analysis initiatives. She specializes in conducting comprehensive research on policy issues and developing actionable recommendations for policymakers. Her work focuses on examining policy trends and their implications for effective governance.",
+    image: "",
+    category: "Research Associates",
+    interests: ["Policy Research", "Data Analysis", "Research Methods"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 143,
+    name: "Austin Stegerwald",
+    role: "International Policy Correspondent",
+    bio: "Austin Stegerwald is International Policy Correspondent at the Perrin Institute, where he covers global policy developments and international governance issues. He specializes in analyzing foreign policy initiatives, international relations, and cross-border regulatory frameworks. His reporting focuses on translating complex international policy developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["International Policy", "Foreign Policy", "Global Governance", "International Relations"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 144,
+    name: "Sharmili Karthik",
+    role: "Economic Policy Correspondent",
+    bio: "Sharmili Karthik is Economic Policy Correspondent at the Perrin Institute, where she covers economic policy developments and fiscal governance issues. She specializes in analyzing monetary policy, fiscal frameworks, and economic regulatory changes at national and international levels. Her reporting focuses on translating complex economic policy decisions into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Economic Policy", "Fiscal Policy", "Monetary Policy", "Economic Analysis"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 145,
+    name: "Austin Cheng",
+    role: "Domestic Affairs Correspondent",
+    bio: "Austin Cheng is Domestic Affairs Correspondent at the Perrin Institute, where he covers national policy developments and domestic governance issues. He specializes in analyzing federal policy initiatives, congressional legislation, and executive actions across multiple policy domains. His reporting focuses on translating complex domestic policy developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Domestic Affairs", "National Policy", "Congressional Legislation", "Federal Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 146,
+    name: "Zahra Abdul Razaq",
+    role: "Legal Correspondent",
+    bio: "Zahra Abdul Razaq is Legal Correspondent at the Perrin Institute, where she covers legal policy developments and judicial research. She specializes in analyzing legal frameworks, constitutional issues, and judicial decisions that impact policy development. Her reporting focuses on translating complex legal developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Legal Policy", "Constitutional Law", "Judicial Research", "Legal Analysis"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 147,
+    name: "Arpit Ahuja",
+    role: "Web Developer",
+    bio: "Arpit Ahuja is a Web Developer at the Perrin Institute, where he contributes to the technical development and maintenance of the Institute's digital platforms. He specializes in web development technologies and creating user-friendly interfaces that enhance the Institute's online presence and research accessibility. His work focuses on implementing technical solutions that support the Institute's mission and improve user experience.",
+    image: "",
+    category: "Engineering",
+    interests: ["Web Development", "Frontend Development", "User Experience", "Technical Innovation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 148,
+    name: "Elijah Daniel",
+    role: "Domestic Affairs Correspondent",
+    bio: "Elijah Daniel is Domestic Affairs Correspondent at the Perrin Institute, where he covers national policy developments and domestic governance issues. He specializes in analyzing federal policy initiatives, congressional legislation, and executive actions across multiple policy domains. His reporting focuses on translating complex domestic policy developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Domestic Affairs", "National Policy", "Congressional Legislation", "Federal Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 149,
+    name: "Akash Arun Kumar Soumya",
+    role: "AI Governance Correspondent",
+    bio: "Akash Arun Kumar Soumya is AI Governance Correspondent at the Perrin Institute, where he covers artificial intelligence policy and governance frameworks. He specializes in analyzing the regulatory challenges posed by AI technologies and developing comprehensive policy recommendations for AI governance. His reporting focuses on balancing innovation with ethical considerations and public safety while examining AI governance models across jurisdictions.",
+    image: "",
+    category: "Editorial",
+    interests: ["AI Governance", "Artificial Intelligence Policy", "Technology Ethics", "Regulatory Innovation"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 150,
+    name: "Ayisha Ong",
+    role: "Climate Action Correspondent",
+    bio: "Ayisha Ong is Climate Action Correspondent at the Perrin Institute, where she covers environmental policy developments and climate governance issues. She specializes in analyzing climate legislation, environmental regulations, and sustainability initiatives at local, national, and international levels. Her reporting focuses on translating complex climate policy decisions into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["Climate Action", "Environmental Policy", "Sustainability", "Climate Governance"],
+    affiliations: {
+      organizations: ["Perrin Institute"]
+    }
+  },
+  {
+    id: 151,
+    name: "Michelle Alinndra Annabeth Chandra",
+    role: "International Policy Correspondent",
+    bio: "Michelle Alinndra Annabeth Chandra is International Policy Correspondent at the Perrin Institute, where she covers global policy developments and international governance issues. She specializes in analyzing foreign policy initiatives, international relations, and cross-border regulatory frameworks. Her reporting focuses on translating complex international policy developments into accessible analysis for diverse audiences.",
+    image: "",
+    category: "Editorial",
+    interests: ["International Policy", "Foreign Policy", "Global Governance", "International Relations"],
     affiliations: {
       organizations: ["Perrin Institute"]
     }
