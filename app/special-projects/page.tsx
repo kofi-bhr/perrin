@@ -1,366 +1,245 @@
-"use client";
-
+"use client"
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { FiExternalLink, FiArrowRight, FiZap, FiTrendingUp, FiUsers, FiTarget } from "react-icons/fi";
+import { FiExternalLink, FiArrowRight, FiZap, FiTrendingUp, FiUsers, FiTarget, FiBarChart2, FiGlobe } from "react-icons/fi";
 
-// Animation variants - Apple-style subtle animations
+
 const containerVariants = {
-  hidden: { opacity: 0 },
+  hidden: {opacity : 0},
   visible: {
-    opacity: 1,
+    opacity : 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.1
+      staggerChildren : 0.1,
+      delayChildren: 0.2
     }
   }
-};
+}
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
+  hidden :  {opacity:0, y:30},
+  visible : {
+    opacity : 1,
+    y:0,
     transition: {
-      duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94]
+      duration : 0.8,
+            ease: [0.25, 0.46, 0.45, 0.94]
+
     }
   }
-};
+}
 
-const slideInLeft = {
-  hidden: { opacity: 0, x: -30 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
+const slideInVariants = {
+  hidden : {opacity : 0, x:-50},
+  visible : {
+    opacity : 1,
+    x:0,
     transition: {
-      duration: 0.6,
+      duration : 0.8,
       ease: [0.25, 0.46, 0.45, 0.94]
     }
-  }
-};
+  }}
 
-const slideInRight = {
-  hidden: { opacity: 0, x: 30 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94]
-    }
-  }
-};
 
-const scaleUp = {
-  hidden: { opacity: 0, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
-    scale: 1,
-    transition: {
-      duration: 0.6,
-      ease: [0.25, 0.46, 0.45, 0.94]
-    }
-  }
-};
-
-// Partnership data with teal theme
+  // Partnership data with professional metrics
 const partnerships = [
   {
     name: "Learn4Lanka",
     category: "Education Technology",
-    description: "Transforming education in Sri Lankan schools through direct resource delivery and community partnerships.",
-    impact: {
-      students: "5k+",
-      schools: "50+",
-      communities: "20+"
-    },
+    description: "Transforming education infrastructure in Sri Lankan schools through direct resource delivery and strategic community partnerships.",
+    metrics: [
+      { label: "Students Reached", value: "5,000+", icon: FiUsers },
+      { label: "Schools Partnered", value: "50+", icon: FiTarget },
+      { label: "Communities Served", value: "20+", icon: FiGlobe }
+    ],
     image: "/learn4lanka.avif",
     website: "https://learn4lanka.org/",
-    color: "teal",
-    gradient: "from-teal-500 to-cyan-500"
+    status: "Active Partnership"
   },
   {
     name: "WikiJobs",
-    category: "Career Platform",
-    description: "AI-powered platform helping professionals return to work with personalized job matching and career guidance.",
-    impact: {
-      reach: "500K+",
-      success: "94%",
-      placements: "15K+"
-    },
+    category: "Career Intelligence Platform",
+    description: "AI-powered career reentry platform providing personalized job matching and strategic career guidance for returning professionals.",
+    metrics: [
+      { label: "Platform Reach", value: "500K+", icon: FiBarChart2 },
+      { label: "Success Rate", value: "94%", icon: FiTrendingUp },
+      { label: "Career Placements", value: "15K+", icon: FiTarget }
+    ],
     image: null,
     website: "https://wikijob.org/",
-    color: "cyan",
-    gradient: "from-cyan-500 to-blue-500"
+    status: "Strategic Alliance"
   },
   {
-    name: "Menstrual Equity Initiative (MĚI)",
-    category: "Women's Health & Research",
-    description: "Menstrual Equity Initiative (MĚI) is an all-female-led organization dedicated to advancing research and policy for girls, women, and people who undergo the menstrual cycle and reproductive processes. MĚI was created to help educate and support women and girls as they navigate the different physical and cerebral conditions, stages, and challenges that they experience.",
-    impact: {
-      research: "10+",
-      advocacy: "25+",
-      education: "1000+"
-    },
+    name: "Menstrual Equity Initiative",
+    category: "Health Research & Policy",
+    description: "All-female-led research organization advancing evidence-based policy for menstrual health and reproductive equity through comprehensive research initiatives.",
+    metrics: [
+      { label: "Research Studies", value: "10+", icon: FiBarChart2 },
+      { label: "Policy Initiatives", value: "25+", icon: FiTarget },
+      { label: "Educational Outreach", value: "1,000+", icon: FiUsers }
+    ],
     image: "/menstral.png",
     website: undefined,
-    color: "purple",
-    gradient: "from-purple-500 to-pink-500"
+    status: "Research Partnership"
   },
   {
     name: "OutsideConnection",
-    category: "Second-Chance Job Platform",
-    description: "The leading second-chance job platform helping reentrants find success after returning from prison through nationwide fair-chance employment opportunities.",
-    impact: {
-      reentrants: "10K+",
-      states: "50",
-      cities: "126"
-    },
+    category: "Reentry Employment Platform",
+    description: "Leading second-chance employment platform facilitating successful workforce reintegration through nationwide fair-chance opportunities.",
+    metrics: [
+      { label: "Reentrants Served", value: "10K+", icon: FiUsers },
+      { label: "States Covered", value: "50", icon: FiGlobe },
+      { label: "Cities Active", value: "126", icon: FiTarget }
+    ],
     image: null,
     website: "https://www.outsideconnection.org/",
-    color: "orange",
-    gradient: "from-orange-500 to-red-500"
+    status: "Impact Partnership"
   },
   {
     name: "TechPals",
-    category: "Digital Literacy Education",
-    description: "Empowering seniors with practical digital literacy skills through comprehensive programs, volunteer support, and partnerships that bridge the digital divide.",
-    impact: {
-      participants: "5K+",
-      programs: "8+",
-      volunteers: "100+"
-    },
+    category: "Digital Literacy Initiative",
+    description: "Comprehensive digital literacy program bridging generational technology gaps through structured education and volunteer mentorship.",
+    metrics: [
+      { label: "Program Participants", value: "5K+", icon: FiUsers },
+      { label: "Training Programs", value: "8+", icon: FiBarChart2 },
+      { label: "Volunteer Network", value: "100+", icon: FiTarget }
+    ],
     image: null,
     website: "https://www.techpals.io/",
-    color: "blue",
-    gradient: "from-blue-500 to-indigo-500"
+    status: "Educational Alliance"
   },
   {
     name: "VenturEd",
-    category: "Tech Fellowship & Education",
-    description: "Providing free Silicon Valley startup internships for high school students through an 8-week fellowship program that connects high-potential students with real-world tech opportunities.",
-    impact: {
-      diversity: "+27.4%",
-      weeks: "8",
-      partners: "Y Combinator"
-    },
+    category: "Tech Fellowship Program",
+    description: "Elite 8-week Silicon Valley startup fellowship connecting high-potential students with Y Combinator partners and real-world technology opportunities.",
+    metrics: [
+      { label: "Diversity Increase", value: "+27.4%", icon: FiTrendingUp },
+      { label: "Program Duration", value: "8 Weeks", icon: FiTarget },
+      { label: "Partner Network", value: "YC Alumni", icon: FiGlobe }
+    ],
     image: null,
     website: "https://www.venturedglobal.org/",
-    color: "emerald",
-    gradient: "from-emerald-500 to-teal-500"
+    status: "Fellowship Partnership"
   }
 ];
 
-export default function SpecialProjects() {
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section - Apple-style minimal */}
-      <section className="relative pt-32 pb-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <motion.div 
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="text-center"
-          >
-            <motion.div variants={itemVariants} className="mb-12">
-              <div className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full">
-                <FiZap className="h-4 w-4 text-teal-600 mr-2" />
-                <span className="text-sm font-medium text-gray-700">
-                  Strategic Partnerships
-                </span>
-              </div>
-            </motion.div>
-            
-            <motion.h1 
+export default function SpecialProjectsPage() {
+
+  return(
+    <div className = "min-h-screen bg-white text-gray-900">
+      {/*Hero Section*/}
+
+      <section className = "relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className = "absolute inset-0 bg-gradient-to-b from-gray-50/50 to-white">
+        </div>
+
+        <div className = "relative max-w-7xl mx-auto">
+          <motion.div initial = "hidden" animate = "visible" variants = {containerVariants} className = "text-center">
+            <div className = "inline-flex items-center px-4 py-2 bg-gray-100 border-gray-200 rounded-full">
+              <FiZap className = "h-4 w-4 text-blue-600 mr-2" />
+              <span className = "text-sm font-medium text-gray-700">
+                Strategic Partnerships
+              </span>
+            </div>
+
+          </motion.div>
+
+           <motion.h1
               variants={itemVariants}
-              className="text-6xl sm:text-7xl lg:text-8xl font-thin text-gray-900 mb-6 tracking-tight leading-[0.9]"
+              className="text-5xl sm:text-6xl lg:text-7xl font-light text-gray-900 mb-6 tracking-tight leading-tight"
             >
               Special Projects
             </motion.h1>
             
-            <motion.p 
+            <motion.p
               variants={itemVariants}
-              className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-16 font-light"
+              className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-16 font-light"
             >
-              We partner with innovative organizations that share our vision of advancing 
-              policy research and democratic innovation.
+              Strategic alliances with innovative organizations advancing policy research, 
+              democratic innovation, and systemic change through data-driven solutions.
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-12 text-sm text-gray-500">
-              <div className="flex items-center">
-                <FiUsers className="h-4 w-4 mr-2 text-teal-600" />
-                <span>500K+ People Reached</span>
+
+
+            <motion.div variants = {itemVariants} className = "grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto" >
+
+            <div className="text-center p-6 bg-gray-50 border border-gray-200 rounded-xl">
+                <FiUsers className="h-8 w-8 text-blue-600 mx-auto mb-3" />
+                <div className="text-3xl font-light text-gray-900 mb-1">500K+</div>
+                <div className="text-sm text-gray-600">People Reached</div>
               </div>
-              <div className="flex items-center">
-                <FiTarget className="h-4 w-4 mr-2 text-teal-600" />
-                <span>70+ Schools Supported</span>
+              <div className="text-center p-6 bg-gray-50 border border-gray-200 rounded-xl">
+                <FiTarget className="h-8 w-8 text-blue-600 mx-auto mb-3" />
+                <div className="text-3xl font-light text-gray-900 mb-1">70+</div>
+                <div className="text-sm text-gray-600">Institutions Supported</div>
               </div>
-              <div className="flex items-center">
-                <FiTrendingUp className="h-4 w-4 mr-2 text-teal-600" />
-                <span>15K+ Career Placements</span>
+              <div className="text-center p-6 bg-gray-50 border border-gray-200 rounded-xl">
+                <FiTrendingUp className="h-8 w-8 text-blue-600 mx-auto mb-3" />
+                <div className="text-3xl font-light text-gray-900 mb-1">15K+</div>
+                <div className="text-sm text-gray-600">Career Placements</div>
               </div>
             </motion.div>
-          </motion.div>
         </div>
       </section>
 
-      {/* Partnership Cards - Apple-style clean layout */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-            className="space-y-40"
-          >
-            {partnerships.map((partnership, index) => (
-              <motion.div
-                key={partnership.name}
-                variants={itemVariants}
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center ${
-                  index % 2 === 0 ? "" : "lg:grid-flow-col-dense"
-                }`}
-              >
-                {/* Content */}
-                <motion.div 
-                  variants={slideInLeft}
-                  className={`space-y-8 ${
-                    index % 2 === 0 ? "" : "lg:order-2"
-                  }`}
-                >
-                  <div className="space-y-6">
-                    <div className="inline-block">
-                      <div className="px-3 py-1 bg-gray-100 rounded-full">
-                        <span className="text-sm font-medium text-gray-700">
-                          {partnership.category}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <h2 className="text-5xl sm:text-6xl font-thin text-gray-900 leading-tight tracking-tight">
-                      {partnership.name}
-                    </h2>
-                    
-                    <p className="text-xl text-gray-600 leading-relaxed font-light">
-                      {partnership.description}
-                    </p>
-                  </div>
-                  
-                  {/* Impact Metrics - Apple-style minimal */}
-                  <div className="grid grid-cols-3 gap-8 pt-8">
-                    {Object.entries(partnership.impact).map(([key, value]) => (
-                      <div key={key}>
-                        <div className="text-4xl font-thin text-gray-900 mb-2">
-                          {value}
-                        </div>
-                        <div className="text-sm text-gray-500 font-medium">
-                          {key.replace(/([A-Z])/g, ' $1').trim()}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {partnership.website && (
-                    <div className="pt-8">
-                      <a 
-                        href={partnership.website}
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition-all duration-300 font-medium group"
-                      >
-                        <span className="mr-3">Learn More</span>
-                        <FiExternalLink className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
-                      </a>
-                    </div>
-                  )}
-                </motion.div>
-                
-                {/* Visual - Apple-style clean cards */}
-                <motion.div 
-                  variants={slideInRight}
-                  className={`relative ${
-                    index % 2 === 0 ? "" : "lg:order-1"
-                  }`}
-                >
-                  <div className="relative">
-                    <div className="bg-gray-50 p-16 rounded-3xl shadow-sm border border-gray-100">
-                      {partnership.image ? (
-                        <Image
-                          src={partnership.image}
-                          alt={partnership.name}
-                          width={400}
-                          height={200}
-                          className="w-full h-auto object-contain"
-                        />
-                      ) : (
-                        <div className="text-center">
-                          <div className="text-8xl font-thin text-teal-600 mb-4">
-                            {partnership.name.split('').slice(0, 2).join('')}
-                          </div>
-                          <div className="text-2xl font-light text-gray-700">
-                            {partnership.name}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+      {/*Partnerships Section*/}
+      <section className = "py-20 px-4 sm:px-6 lg:px-8">
+        <div className = "max-w-7xl mx-auto">
 
-      {/* CTA Section - Apple-style minimal */}
-      <section className="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={containerVariants}
-            className="space-y-8"
-          >
-            <motion.div variants={scaleUp} className="mb-12">
-              <div className="inline-flex items-center px-4 py-2 bg-white rounded-full shadow-sm">
-                <FiTarget className="h-4 w-4 text-teal-600 mr-2" />
-                <span className="text-sm font-medium text-gray-700">
-                  Partnership Opportunities
-                </span>
-              </div>
-            </motion.div>
-            
-            <motion.h2 
-              variants={itemVariants}
-              className="text-5xl sm:text-6xl font-thin text-gray-900 leading-tight tracking-tight"
+          <motion.div
+            initial = "hidden"
+            animate = "visible"
+            variants = {containerVariants}
+            className = "space-y-16"
+            viewport={{ once: true, margin:"-100px" }}
             >
-              Ready to partner with us?
-            </motion.h2>
-            
-            <motion.p 
-              variants={itemVariants}
-              className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed font-light"
-            >
-              We're seeking innovative organizations that share our commitment 
-              to advancing policy research and democratic innovation.
-            </motion.p>
-            
-            <motion.div variants={itemVariants} className="pt-8">
-              <a 
-                href="mailto:admin@perrininstitute.org" 
-                className="inline-flex items-center px-8 py-4 bg-teal-600 text-white rounded-full hover:bg-teal-700 transition-all duration-300 font-medium text-lg group"
-              >
-                <span className="mr-3">Get in Touch</span>
-                <FiArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </a>
+              {partnerships.map((partnership, index) => (
+                <motion.div
+                  key={partnership.name}
+                  variants={itemVariants}
+                  className = "group"
+                >
+                <div className = "bg-white border border-gray-200 rounded-2xl p-8 lg:p-12 shadown-sm hover:shadow-md transition-all duration-500">
+                  <div className = "grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+                    {/*Content*/}
+
+                    <div className = "lg:col-span-2 space-y-8">
+                      <div className = 'space-y-6'>
+                        <div className = "flex items-center justify-between">
+                          <div className = "inline-flex items-center px-3 py-1 bg-gray-100 border-gray-200 rounded-full">
+                            <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
+                              {partnership.category}
+                            </span>
+                          </div>
+                          <div className = "px-3 py-1 bg-blue-50 border border-blue-200 rounded-full">
+                            <span className = "text-xs font-medium text-blue-600">
+                              {partnership.status}  
+                            </span>
+
+                          </div>
+                          
+                        </div>
+                        <h2 className="text-3xl sm:text-4xl font-light text-gray-900 leading-tight tracking-tight">
+                          {partnership.name}
+                        </h2>
+
+                        <p className="text-lg text-gray-600 leading-relaxed font-light">
+                          {partnership.description}
+                        </p>
+                      </div>
+
+                      {/*Metrics*/}
+                      
+                    </div>
+                  </div>
+                </div>
+                </motion.div>
+              ))}
             </motion.div>
-          </motion.div>
-        </div>
+
+
+          </div>
       </section>
     </div>
-  );
+  )
 }
