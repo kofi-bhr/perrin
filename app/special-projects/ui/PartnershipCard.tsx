@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { ChevronRight, ExternalLink, ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronRight, ExternalLink } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const colorClasses = {
   blue: 'from-blue-500 to-blue-600 text-white',
@@ -130,19 +130,42 @@ const PartnershipCard = ({ partnership, index }: { partnership: any, index: numb
                 }`} />
               </button>
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-4 pt-4">
-                {partnership.website && (
-                  <a
-                    href={partnership.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center px-6 py-3 bg-gradient-to-r ${colorClasses[partnership.color as keyof typeof colorClasses]} rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-1`}
-                  >
-                    Visit Website
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </a>
-                )}
-                <button className="inline-flex items-center px-6 py-3 bg-gray-100/80 hover:bg-gray-200/80 text-gray-700 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm hover:-translate-y-1 hover:scale-105">
+              <div className="flex flex-wrap gap-4 pt-4" style={{ pointerEvents: 'auto', zIndex: 10 }}>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    console.log('Button clicked! Website:', partnership.website);
+                    if (partnership.website) {
+                      window.open(partnership.website, '_blank', 'noopener,noreferrer');
+                    } else {
+                      alert('No website available for this partnership');
+                    }
+                  }}
+                  style={{ 
+                    pointerEvents: 'auto',
+                    zIndex: 999,
+                    cursor: 'pointer'
+                  }}
+                  className={`inline-flex items-center px-6 py-3 bg-gradient-to-r ${
+                    partnership.website 
+                      ? colorClasses[partnership.color as keyof typeof colorClasses] 
+                      : 'from-gray-400 to-gray-500 text-white'
+                  } rounded-xl font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 hover:-translate-y-1 cursor-pointer`}
+                >
+                  {partnership.website ? 'Visit Website' : 'No Website'}
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </button>
+                
+                <button 
+                  type="button"
+                  onClick={() => alert('View Details clicked!')}
+                  style={{ 
+                    pointerEvents: 'auto',
+                    zIndex: 999,
+                    cursor: 'pointer'
+                  }}
+                  className="inline-flex items-center px-6 py-3 bg-gray-100/80 hover:bg-gray-200/80 text-gray-700 rounded-xl font-semibold transition-all duration-300 backdrop-blur-sm hover:-translate-y-1 hover:scale-105"
+                >
                   View Details
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </button>

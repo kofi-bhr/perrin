@@ -55,7 +55,7 @@ const partnerships = [
     metrics: [
       { label: "Research Studies", value: "10+", icon: BarChart2 },
       { label: "Policy Initiatives", value: "25+", icon: Target },
-      { label: "Educational Outreach", value: "1,000+", icon: Users }
+      { label: "Educational Outreach", value: "UN General Assembly Presence", icon: Users }
     ],
     image: "https://images.pexels.com/photos/6823568/pexels-photo-6823568.jpeg?auto=compress&cs=tinysrgb&w=800",
     website: undefined,
@@ -243,8 +243,8 @@ export default function SpecialProjectsPage() {
               </div>
               <div className="text-center p-8 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300">
                 <TrendingUp className="h-10 w-10 text-emerald-600 mx-auto mb-4" />
-                <div className="text-4xl font-light text-gray-900 mb-2">15K+</div>
-                <div className="text-sm text-gray-600 font-medium tracking-wide">Career Placements</div>
+                <div className="text-4xl font-light text-gray-900 mb-2">48K+</div>
+                <div className="text-sm text-gray-600 font-medium tracking-wide">Educated Globally</div>
               </div>
             </div>
           </div>
