@@ -116,7 +116,15 @@ export default function SpecialProjectsPage() {
   const [isHeroVisible, setIsHeroVisible] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  const filters = ["All", "Education", "Technology", "Health", "Employment"];
+  // Create logical category groups for better organization
+  const categoryMap: { [key: string]: string[] } = {
+    "All": [],
+    "Education": ["Education Technology", "Tech Fellowship Program", "Digital Literacy Initiative"],
+    "Employment": ["Career Intelligence Platform", "Reentry Employment Platform"],
+    "Health & Policy": ["Health Research & Policy"]
+  };
+
+  const filters = Object.keys(categoryMap);
 
   // Simple search filter
   const filteredPartnerships = useMemo(() => {
@@ -134,8 +142,9 @@ export default function SpecialProjectsPage() {
 
     // Apply category filter
     if (activeFilter !== "All") {
+      const allowedCategories = categoryMap[activeFilter];
       results = results.filter(partnership => 
-        partnership.category.toLowerCase().includes(activeFilter.toLowerCase())
+        allowedCategories.includes(partnership.category)
       );
     }
 
