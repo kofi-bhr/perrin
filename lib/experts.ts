@@ -243,8 +243,8 @@ export const EXPERTS: Expert[] = [
   {
     id: 18,
     name: "Kashaf Alvi",
-    role: "Policy Researcher",
-    bio: "Policy Researcher conducting research on various policy areas.",
+    role: "Senior Lab Director",
+    bio: "Senior Lab Director conducting research on various policy areas.",
     image: "",
     category: "Research"
   },
