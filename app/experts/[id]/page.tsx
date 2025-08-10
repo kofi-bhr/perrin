@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { FiArrowLeft, FiMail, FiPhone, FiLinkedin, FiGlobe, FiInstagram, FiMapPin, FiUsers, FiBookOpen, FiAward } from 'react-icons/fi'
@@ -74,9 +75,11 @@ export default function ExpertProfilePage({ params }: ExpertProfilePageProps) {
             <div className="flex-shrink-0">
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-2xl bg-gray-200 flex items-center justify-center overflow-hidden">
                 {expert.image && expert.image !== "" ? (
-                  <img 
-                    src={expert.image} 
+                  <Image
+                    src={expert.image}
                     alt={expert.name}
+                    width={320}
+                    height={320}
                     className="w-full h-full object-cover"
                   />
                 ) : (

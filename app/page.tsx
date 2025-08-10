@@ -12,8 +12,36 @@ import Parallax from '@/components/Parallax';
 import Transform3D from '@/components/Transform3D';
 import { useGlobalLoading } from '@/lib/hooks/useGlobalLoading';
 
-// React.lazy import for Spline (was working before)
+// React.lazy import for Spline (kept, but will be deferred)
 const Spline = lazy(() => import('@splinetool/react-spline'));
+
+// Lightweight wrapper to defer Spline execution until browser is idle/after a short delay
+function DeferredSpline({ onLoad }: { onLoad: () => void }) {
+  const [shouldRender, setShouldRender] = useState(false);
+  useEffect(() => {
+    let timeoutId: number | undefined;
+    // Try requestIdleCallback if available
+    const schedule = () => {
+      if (typeof (window as any).requestIdleCallback === 'function') {
+        (window as any).requestIdleCallback(() => setShouldRender(true), { timeout: 2000 });
+      } else {
+        timeoutId = window.setTimeout(() => setShouldRender(true), 1200);
+      }
+    };
+    schedule();
+    return () => {
+      if (timeoutId) window.clearTimeout(timeoutId);
+    };
+  }, []);
+  if (!shouldRender) return null;
+  return (
+    <Spline
+      scene="https://prod.spline.design/N-7Bwb97Q2XUmz3O/scene.splinecode"
+      onLoad={onLoad}
+      style={{ width: '100%', height: '100%', background: 'transparent', position: 'absolute', inset: 0 }}
+    />
+  );
+}
 
 // Article interface (copied locally to avoid import issues)
 interface Article {
@@ -258,28 +286,27 @@ export default function Home() {
         ref={heroRef}
         className="relative min-h-screen flex items-center overflow-hidden bg-white"
       >
-        {/* Spline 3D Scene - Using React.lazy with Suspense */}
+        {/* Background layer: fast poster image first, then defer Spline */}
         <div className="absolute inset-0 z-5">
           <div className="w-full h-full relative">
-            {/* Only render Spline after component is mounted to prevent hydration errors */}
+            {/* Poster image for immediate paint */}
+            <Image
+              src="/news/hero-background.jpg"
+              alt="Background"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
+            />
+            {/* Defer Spline until after mount + idle to avoid blocking LCP */}
             {isMounted && (
-              <Suspense fallback={
-                <div className="absolute inset-0 bg-white"></div>
-              }>
-                <Spline 
-                  scene="https://prod.spline.design/N-7Bwb97Q2XUmz3O/scene.splinecode"
-                  onLoad={onSplineLoad}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    background: 'transparent'
-                  }}
-                />
+              <Suspense fallback={null}>
+                <DeferredSpline onLoad={onSplineLoad} />
               </Suspense>
             )}
-            {/* White box to cover Spline watermark */}
-            <div className="absolute bottom-1 right-1 w-48 h-16 bg-white z-10"></div>
-            {/* Lighter overlay - more refined, less blurry */}
+            {/* White block to cover Spline watermark */}
+            <div className="absolute bottom-5 right-1 w-44 h-12 bg-white z-20 pointer-events-none"></div>
+            {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/75 via-white/65 to-white/80"></div>
           </div>
         </div>

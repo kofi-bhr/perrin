@@ -58,7 +58,7 @@ export default function ArticlePage() {
               .replace(/<strong>/g, '<strong class="font-semibold text-gray-900">')
               .replace(/<em>/g, '<em class="italic text-gray-700">')
               .replace(/<a /g, '<a class="text-blue-600 hover:text-blue-800 underline" ')
-              .replace(/<img /g, '<img class="my-6 rounded-md shadow-md max-w-full h-auto" ');
+              .replace(/<img /g, '<img class="my-6 rounded-md shadow-md max-w-full h-auto" loading="lazy" decoding="async" ');
               
             setProcessedContent(enhancedContent);
           }

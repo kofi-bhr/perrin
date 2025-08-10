@@ -31,8 +31,8 @@ export default function GlobalLoading({ children }: { children: React.ReactNode 
       localStorage.setItem('perrin-visited', 'true');
     }
 
-    // Different loading times based on visit status - made longer and more sophisticated
-    const minimumTime = firstVisit ? 6200 : 1000;  // 6.2s minimum for first, 1s for returning
+    // Keep a very short minimum to allow a brief fade without blocking LCP
+    const minimumTime = firstVisit ? 300 : 0;
     
     console.log('GlobalLoading initialized:', { firstVisit, minimumTime, isFirstVisit });
 
@@ -41,8 +41,8 @@ export default function GlobalLoading({ children }: { children: React.ReactNode 
       setHasMinimumTimeElapsed(true);
     }, minimumTime);
 
-    // Fallback maximum loading time (in case Spline never loads)
-    const maxLoadingTime = firstVisit ? 10000 : 3000; // 10s max for first visit, 3s for returning
+    // Fallback maximum loading time (in case something hangs)
+    const maxLoadingTime = firstVisit ? 2000 : 1000;
     const maxTimer = setTimeout(() => {
       setIsLoading(false);
     }, maxLoadingTime);
@@ -53,29 +53,17 @@ export default function GlobalLoading({ children }: { children: React.ReactNode 
     };
   }, []);
 
-  // Hide loading screen when both conditions are met:
-  // 1. Minimum time has elapsed
-  // 2. Spline has loaded (or we're on a page without Spline)
+  // Hide loading screen as soon as the minimal duration has elapsed.
+  // Do NOT wait for Spline, to avoid delaying LCP.
   useEffect(() => {
-    console.log('Loading state check:', { hasMinimumTimeElapsed, isSplineLoaded, pathname: window.location.pathname });
-    
+    console.log('Loading state check:', { hasMinimumTimeElapsed, pathname: window.location.pathname });
     if (hasMinimumTimeElapsed) {
-      // Check if we're on the homepage (which has Spline)
-      const isHomepage = window.location.pathname === '/';
-      
-      console.log('Minimum time elapsed. Homepage:', isHomepage, 'Spline loaded:', isSplineLoaded);
-      
-      if (!isHomepage || isSplineLoaded) {
-        console.log('Hiding loading screen...');
-        // Small delay to ensure smooth transition
-        const hideTimer = setTimeout(() => {
-          setIsLoading(false);
-        }, 500);
-        
-        return () => clearTimeout(hideTimer);
-      }
+      const hideTimer = setTimeout(() => {
+        setIsLoading(false);
+      }, 150);
+      return () => clearTimeout(hideTimer);
     }
-  }, [hasMinimumTimeElapsed, isSplineLoaded]);
+  }, [hasMinimumTimeElapsed]);
 
   const contextValue: GlobalLoadingContextType = {
     isLoading,
@@ -91,10 +79,8 @@ export default function GlobalLoading({ children }: { children: React.ReactNode 
         {isLoading && <PerrinLoadingScreen key="loading" isFirstVisit={isFirstVisit} />}
       </AnimatePresence>
       
-      {/* Main content - hidden during loading with transition */}
-      <div className={isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-1000 ease-out'}>
-        {children}
-      </div>
+      {/* Always render main content to allow the browser to paint LCP promptly. */}
+      {children}
     </GlobalLoadingContext.Provider>
   );
 } 
