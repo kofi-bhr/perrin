@@ -345,9 +345,9 @@ export default function Home() {
                 className="space-y-6 sm:space-y-8 text-center lg:text-left"
               >
                 {/* Refined institutional badge */}
-                <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start space-x-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
-                  <span className="text-xs sm:text-sm font-medium text-slate-600 tracking-wide">
+                <motion.div variants={itemVariants} className="inline-flex items-center space-x-2 rounded-full bg-slate-100 px-4 py-2">
+                  <div className="h-1.5 w-1.5 rounded-full bg-slate-400"></div>
+                  <span className="text-xs font-medium text-slate-600 tracking-wide sm:text-sm">
                     Accredited by the United Nations
                   </span>
                 </motion.div>
