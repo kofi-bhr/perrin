@@ -146,6 +146,7 @@ export default function Home() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [showMainContent, setShowMainContent] = useState(false);
+  const [isSplineLoaded, setIsSplineLoaded] = useState(false);
   
   // Refs for scroll-driven animations
   const heroRef = useRef(null);
@@ -272,6 +273,7 @@ export default function Home() {
   const onSplineLoad = () => {
     console.log('Spline loaded!');
     globalLoading.setSplineLoaded(true);
+    setIsSplineLoaded(true);
   };
 
   // Using GlobalLoading component instead of page-specific loading
@@ -300,16 +302,33 @@ export default function Home() {
               sizes="100vw"
               className="object-cover"
             />
-            {/* Defer Spline until after mount + idle to avoid blocking LCP */}
+            {/* Defer Spline; hide canvas until fully loaded to avoid placeholder artifact */}
             {isMounted && (
               <Suspense fallback={null}>
-                <DeferredSpline onLoad={onSplineLoad} />
+                <div
+                  className={`absolute inset-0 transition-opacity duration-500 ${isSplineLoaded ? 'opacity-100' : 'opacity-0'}`}
+                  aria-hidden={!isSplineLoaded}
+                  style={{ pointerEvents: 'none' }}
+                >
+                  <DeferredSpline onLoad={onSplineLoad} />
+                </div>
               </Suspense>
             )}
             {/* White block to cover Spline watermark */}
             <div className="absolute bottom-5 right-1 w-44 h-12 bg-white z-20 pointer-events-none"></div>
             {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/75 via-white/65 to-white/80"></div>
+
+            {/* Lightweight loading pill shown only until Spline is loaded */}
+            {!isSplineLoaded && (
+              <div
+                className="absolute bottom-5 left-4 z-30 inline-flex items-center gap-2 px-3 py-2 bg-white/85 backdrop-blur-sm border border-slate-200 rounded-full text-slate-700 text-xs shadow-glass transition-opacity duration-300"
+                aria-live="polite"
+              >
+                <span className="h-3.5 w-3.5 rounded-full border-2 border-slate-300 border-t-slate-700 motion-safe:animate-spin"></span>
+                <span>Loading interactive scene…</span>
+              </div>
+            )}
           </div>
         </div>
         

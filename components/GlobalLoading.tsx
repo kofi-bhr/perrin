@@ -32,7 +32,11 @@ export default function GlobalLoading({ children }: { children: React.ReactNode 
     }
 
     // Keep a very short minimum to allow a brief fade without blocking LCP
-    const minimumTime = firstVisit ? 300 : 0;
+    // On mobile/throttled networks, keep loading a bit longer to mask late hero 3D
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection;
+    const verySlow = connection?.effectiveType === '2g' || connection?.effectiveType === 'slow-2g';
+    const minimumTime = firstVisit ? (isMobile || verySlow ? 1200 : 300) : 0;
     
     console.log('GlobalLoading initialized:', { firstVisit, minimumTime, isFirstVisit });
 
@@ -42,7 +46,7 @@ export default function GlobalLoading({ children }: { children: React.ReactNode 
     }, minimumTime);
 
     // Fallback maximum loading time (in case something hangs)
-    const maxLoadingTime = firstVisit ? 2000 : 1000;
+    const maxLoadingTime = firstVisit ? (isMobile || verySlow ? 3500 : 2000) : 1200;
     const maxTimer = setTimeout(() => {
       setIsLoading(false);
     }, maxLoadingTime);
@@ -53,17 +57,16 @@ export default function GlobalLoading({ children }: { children: React.ReactNode 
     };
   }, []);
 
-  // Hide loading screen as soon as the minimal duration has elapsed.
-  // Do NOT wait for Spline, to avoid delaying LCP.
+  // Hide loading screen only after minimal duration AND Spline is loaded
   useEffect(() => {
-    console.log('Loading state check:', { hasMinimumTimeElapsed, pathname: window.location.pathname });
-    if (hasMinimumTimeElapsed) {
+    console.log('Loading state check:', { hasMinimumTimeElapsed, isSplineLoaded, pathname: window.location.pathname });
+    if (hasMinimumTimeElapsed && isSplineLoaded) {
       const hideTimer = setTimeout(() => {
         setIsLoading(false);
       }, 150);
       return () => clearTimeout(hideTimer);
     }
-  }, [hasMinimumTimeElapsed]);
+  }, [hasMinimumTimeElapsed, isSplineLoaded]);
 
   const contextValue: GlobalLoadingContextType = {
     isLoading,
