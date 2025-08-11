@@ -339,10 +339,10 @@ export default function Home() {
                 className="space-y-6 sm:space-y-8 text-center lg:text-left"
               >
                 {/* Refined institutional badge */}
-                <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start space-x-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
-                  <span className="text-xs sm:text-sm font-medium text-slate-600 tracking-wide">
-                    Advanced Policy Research
+                <motion.div variants={itemVariants} className="inline-flex items-center space-x-2 rounded-full bg-slate-100 px-4 py-2">
+                  <div className="h-1.5 w-1.5 rounded-full bg-slate-400"></div>
+                  <span className="text-xs font-medium text-slate-600 tracking-wide sm:text-sm">
+                    Accredited by the United Nations
                   </span>
                 </motion.div>
                 
@@ -1105,16 +1105,39 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            
-            {/* Right column - Featured publication with full image */}
-            <div className="lg:col-span-7 mt-8 lg:mt-0">
-              <div className="relative flex justify-center lg:justify-end">
-                <Image 
-                  src="/yip_x_perrin_cover_page_option_2.png"
-                  alt="Rethinking a Political Approach to Nuclear Abolition"
-                  width={600}
-                  height={600}
-                  className="w-auto h-auto max-w-full sm:max-w-[500px] lg:max-w-[600px] rounded-lg shadow-lg"
+          </div>
+
+          {/* Featured Publication Section */}
+          <div className="mt-12 sm:mt-16">
+            {/* Publication Abstract */}
+            <div>
+              <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-6 font-roboto">
+                Featured Publication
+              </h3>
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-lg font-semibold text-slate-700 mb-2 font-roboto">The U.S.-China Tech Rivalry</h4>
+                  <p className="text-slate-600 font-roboto text-sm sm:text-base">
+                    The strategy surrounding artificial intelligence semiconductors has drastically altered relations between the U.S. and China, solidifying the technology as a key point, with government intervention playing a significant role in global supply chains. Currently, export controls around semiconductors are the most restricted in history, specifically targeting China’s access to A.I. chips and manufacturing equipment. China has responded with large state-led investments of over $300 billion to become self-sufficient, only further fueling this rivalry with the U.S.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-lg font-semibold text-slate-700 mb-2 font-roboto">International Law and Enforcement</h4>
+                  <p className="text-slate-600 font-roboto text-sm sm:text-base">
+                    International law controls and regulates export controls through a number of mechanisms. These include international treaties, multilateral export control regimes, and resolutions by the United Nations Security Council. However, enforcement has been difficult because of jurisdictional problems, varying national interpretations of new rules, and the constantly unmet need for consistent global standards.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Embedded PDF */}
+            <div className="mt-8 sm:mt-10">
+              <div className="relative w-full h-[600px] sm:h-[750px] lg:h-[800px] rounded-lg shadow-lg overflow-hidden border border-slate-200">
+                <iframe 
+                  src="/papers/YIP_PAPER.pdf#toolbar=0&navpanes=0"
+                  title="YIP Paper"
+                  className="w-full h-full"
+                  frameBorder="0"
                 />
               </div>
             </div>
