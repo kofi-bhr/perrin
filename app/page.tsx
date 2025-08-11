@@ -348,7 +348,7 @@ export default function Home() {
                 <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start space-x-3">
                   <div className="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
                   <span className="text-xs sm:text-sm font-medium text-slate-600 tracking-wide">
-                    Advanced Policy Research
+                    Accredited by the United Nations
                   </span>
                 </motion.div>
                 
