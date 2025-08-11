@@ -1,8 +1,10 @@
 "use client";
+
+// Pre-render the home page at build time to avoid runtime SSR errors on the host
+//
 import React, { useState, useEffect, useRef, Suspense, lazy, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { FiArrowRight, FiArrowUpRight, FiBook, FiGlobe, FiLayers, FiUsers, FiChevronDown, FiArrowDown, FiExternalLink, FiClock, FiPlay } from 'react-icons/fi';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { RESEARCH_CATEGORIES } from '@/lib/constants';
@@ -59,7 +61,7 @@ interface Article {
 }
 
 // Animation variants
-const fadeIn = {
+const fadeIn: any = {
   hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
@@ -71,7 +73,7 @@ const fadeIn = {
   }
 };
 
-const containerVariants = {
+const containerVariants: any = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -83,7 +85,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: any = {
   hidden: { opacity: 0, y: 30 },
   visible: { 
     opacity: 1, 
@@ -95,7 +97,7 @@ const itemVariants = {
   }
 };
 
-const slideInRight = {
+const slideInRight: any = {
   hidden: { opacity: 0, x: 100 },
   visible: { 
     opacity: 1, 
@@ -107,7 +109,7 @@ const slideInRight = {
   }
 };
 
-const scaleUp = {
+const scaleUp: any = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: { 
     opacity: 1, 
