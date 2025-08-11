@@ -78,14 +78,7 @@ const STATIC_PAGES: SearchResult[] = [
     url: '/scholarship-center',
     description: 'Discover scholarship opportunities and educational programs for students and researchers.'
   },
-  {
-    id: 'application',
-    title: 'Application',
-    subtitle: 'Research programs and applications',
-    type: 'page',
-    url: '/application',
-    description: 'Apply to our research programs and academic initiatives.'
-  },
+  // Application removed in favor of Careers
   {
     id: 'news',
     title: 'Insights',
@@ -424,9 +417,7 @@ export default function Navbar() {
                       transition={{ duration: 0.2 }}
                       className="absolute left-0 mt-2 w-64 bg-white border border-gray-100 rounded-xl shadow-soft py-2 z-50"
                     >
-                      <Link href="/application" className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
-                        Application
-                      </Link>
+                      {/* Application removed; keep Scholarship and Events */}
                       <Link href="/scholarship-center" className="block px-4 py-2 text-gray-700 hover:bg-gray-50 hover:text-teal-600">
                         Scholarship Center
                       </Link>
@@ -829,13 +820,7 @@ export default function Navbar() {
                         transition={{ duration: 0.2 }}
                         className="ml-4 mt-2 space-y-1 overflow-hidden"
                       >
-                        <Link 
-                          href="/application" 
-                          className="block py-2 px-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-teal-600 rounded-md transition-colors"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Application
-                        </Link>
+                        {/* Application removed */}
                         <Link 
                           href="/scholarship-center" 
                           className="block py-2 px-3 text-sm text-gray-600 hover:bg-gray-50 hover:text-teal-600 rounded-md transition-colors"

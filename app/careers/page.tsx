@@ -1,16 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiArrowRight, FiMapPin, FiClock, FiChevronDown, FiChevronUp, FiUsers, FiBookOpen, FiTrendingUp } from 'react-icons/fi';
+import { getJobs } from '../../lib/jobs';
 
-interface Job {
+interface JobUI {
   id: string;
   title: string;
   type: string;
   location: string;
   department: string;
-  salaryRange: string;
+  salaryRange?: string;
   description: string;
   requirements: string[];
   benefits: string[];
@@ -23,222 +24,51 @@ export default function CareersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
+  const [jobs, setJobs] = useState<JobUI[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [restored, setRestored] = useState(false);
 
-  const jobs: Job[] = [
-    {
-      id: '1',
-      title: 'Junior Policy Research Assistant',
-      type: 'Full-time',
-      location: 'Charlottesville, VA / Hybrid',
-      department: 'Research',
-      salaryRange: '$35,000 - $45,000',
-      description: "Join our research team to support policy analysis and contribute to meaningful research on technology governance. You'll assist with research projects, help draft reports, and learn from experienced researchers while making a real impact on policy development.",
-      requirements: [
-        "Bachelor's degree in Public Policy, Political Science, Economics, or related field",
-        'Strong interest in technology policy and governance',
-        'Excellent research and analytical skills',
-        'Strong written and verbal communication skills',
-        'Proficiency in Microsoft Office and Google Workspace',
-        'Ability to work independently and as part of a team',
-        'Previous internship or project experience preferred but not required'
-      ],
-      benefits: [
-        'Competitive entry-level salary',
-        'Health and dental insurance',
-        'Professional development opportunities',
-        'Flexible work arrangements',
-        'Mentorship from senior researchers',
-        'Conference attendance opportunities',
-        'Career advancement pathways',
-        'Student loan assistance program'
-      ],
-      postedDate: '2024-04-20',
-      urgency: 'high'
-    },
-    {
-      id: '2',
-      title: 'Data Analyst - Policy Research',
-      type: 'Full-time',
-      location: 'Charlottesville, VA / Remote',
-      department: 'Research',
-      salaryRange: '$40,000 - $55,000',
-      description: "Help us analyze data to inform policy decisions. You'll work with datasets related to technology and governance, create visualizations, and support our research team with data-driven insights. This is a great opportunity for recent graduates interested in data science and policy.",
-      requirements: [
-        "Bachelor's degree in Data Science, Statistics, Economics, or related field",
-        'Experience with Excel, R, or Python (any level)',
-        'Interest in data visualization and analysis',
-        'Basic understanding of statistics',
-        'Strong problem-solving skills',
-        'Willingness to learn new tools and technologies',
-        'Previous coursework or projects in data analysis helpful'
-      ],
-      benefits: [
-        'Competitive salary with growth opportunities',
-        'Training in advanced data tools',
-        'Health and wellness benefits',
-        'Flexible work schedule',
-        'Technology stipend for equipment',
-        'Professional development courses',
-        'Collaborative learning environment',
-        'Opportunity to publish research findings'
-      ],
-      postedDate: '2024-04-18',
-      urgency: 'high'
-    },
-    {
-      id: '3',
-      title: 'Communications and Social Media Coordinator',
-      type: 'Full-time',
-      location: 'Charlottesville, VA / Hybrid',
-      department: 'Communications',
-      salaryRange: '$32,000 - $42,000',
-      description: "Help us share our research and engage with young policy enthusiasts. You'll manage our social media presence, write blog posts, and help develop content that makes policy research accessible to students and young professionals. Perfect for someone passionate about communications and policy.",
-      requirements: [
-        "Bachelor's degree in Communications, Marketing, Journalism, or related field",
-        'Strong writing and editing skills',
-        'Experience with social media platforms',
-        'Basic knowledge of content creation tools',
-        'Interest in policy and current events',
-        'Creative thinking and attention to detail',
-        'Previous internship or project experience in communications helpful'
-      ],
-      benefits: [
-        'Entry-level salary with advancement opportunities',
-        'Health benefits package',
-        'Professional development in digital marketing',
-        'Flexible work arrangements',
-        'Creative freedom in content development',
-        'Networking opportunities with policy experts',
-        'Conference and event attendance',
-        'Skills training and certifications'
-      ],
-      postedDate: '2024-04-15',
-      urgency: 'medium'
-    },
-    {
-      id: '4',
-      title: 'International Studies Research Fellow',
-      type: 'Full-time',
-      location: 'Charlottesville, VA / Hybrid',
-      department: 'International Studies',
-      salaryRange: '$38,000 - $48,000',
-      description: "Support our international policy research by analyzing global technology governance trends. You'll research international best practices, contribute to comparative studies, and help produce reports on global policy developments. Great opportunity for recent graduates interested in international affairs.",
-      requirements: [
-        "Bachelor's degree in International Relations, Political Science, or related field",
-        'Strong interest in international policy and global affairs',
-        'Research and analytical skills',
-        'Foreign language skills preferred but not required',
-        'Strong written communication abilities',
-        'Ability to work with diverse international sources',
-        'Previous coursework in international studies helpful'
-      ],
-      benefits: [
-        'Competitive salary for early-career professionals',
-        'Opportunities for international conferences',
-        'Language learning support',
-        'Health and retirement benefits',
-        'Flexible work arrangements',
-        'Access to global research networks',
-        'Professional development in international affairs',
-        'Mentorship opportunities'
-      ],
-      postedDate: '2024-04-12',
-      urgency: 'medium'
-    },
-    {
-      id: '5',
-      title: 'Marketing and Outreach Assistant',
-      type: 'Part-time',
-      location: 'Charlottesville, VA / Remote',
-      department: 'Marketing',
-      salaryRange: '$18 - $22/hour',
-      description: "Join our marketing team to help promote our policy research and engage with student communities. You'll help develop social media content, support event planning, and create materials that connect with young policy enthusiasts. Perfect for students or recent graduates.",
-      requirements: [
-        "Current student or recent graduate in Marketing, Communications, or related field",
-        'Basic understanding of social media marketing',
-        'Creative thinking and design skills',
-        'Strong communication skills',
-        'Interest in policy and public affairs',
-        'Ability to work 15-20 hours per week',
-        'Previous internship or project experience helpful'
-      ],
-      benefits: [
-        'Flexible part-time schedule',
-        'Valuable work experience',
-        'Mentorship and skill development',
-        'Opportunity to build professional network',
-        'Possible transition to full-time role',
-        'Access to professional development resources',
-        'Letter of recommendation opportunities',
-        'Skills training in digital marketing'
-      ],
-      postedDate: '2024-04-15',
-      urgency: 'low'
-    },
-    {
-      id: '6',
-      title: 'Student Web Developer',
-      type: 'Contract',
-      location: 'Remote',
-      department: 'Technology',
-      salaryRange: '$25 - $35/hour',
-      description: "Help us improve our website and develop digital tools for policy research. You'll work on front-end development, help maintain our online presence, and contribute to projects that make our research more accessible. Great opportunity for students studying computer science or web development.",
-      requirements: [
-        'Current student or recent graduate in Computer Science, Web Development, or related field',
-        'Basic knowledge of HTML, CSS, and JavaScript',
-        'Interest in web development and design',
-        'Willingness to learn new technologies',
-        'Strong problem-solving skills',
-        'Portfolio of personal or academic projects',
-        'Familiarity with version control (Git) helpful'
-      ],
-      benefits: [
-        'Competitive hourly rate for students',
-        'Flexible project timeline',
-        'Remote work opportunity',
-        'Real-world development experience',
-        'Mentorship from experienced developers',
-        'Portfolio building opportunities',
-        'Access to modern development tools',
-        'Possible ongoing collaboration'
-      ],
-      postedDate: '2024-04-10',
-      urgency: 'low'
-    },
-    {
-      id: '7',
-      title: 'Policy Advocacy Intern',
-      type: 'Part-time',
-      location: 'Washington, DC / Hybrid',
-      department: 'Government Relations',
-      salaryRange: '$15 - $18/hour',
-      description: "Learn about government relations and policy advocacy while supporting our efforts to engage with policymakers. You'll help research legislative developments, support briefing preparations, and gain firsthand experience in policy advocacy. Perfect for students interested in government and public service.",
-      requirements: [
-        'Current student in Political Science, Public Policy, or related field',
-        'Strong interest in government and policy advocacy',
-        'Excellent research and communication skills',
-        'Ability to work in Washington, DC area',
-        'Professional demeanor and strong work ethic',
-        'Previous internship experience helpful but not required',
-        'Ability to work 15-20 hours per week during school year'
-      ],
-      benefits: [
-        'Valuable government relations experience',
-        'Networking opportunities in Washington, DC',
-        'Mentorship from policy professionals',
-        'Flexible schedule for students',
-        'Professional development opportunities',
-        'Exposure to high-level policy discussions',
-        'Letter of recommendation',
-        'Possible transition to full-time role after graduation'
-      ],
-      postedDate: '2024-04-08',
-      urgency: 'high'
-    }
-  ];
+  useEffect(() => {
+    // Try restore from sessionStorage to avoid pop-in on back navigation
+    try {
+      const cached = sessionStorage.getItem('careers-jobs');
+      const ui = sessionStorage.getItem('careers-ui');
+      if (cached) {
+        const parsed: JobUI[] = JSON.parse(cached);
+        setJobs(parsed);
+        setLoading(false);
+        setRestored(true);
+      }
+      if (ui) {
+        const parsedUi = JSON.parse(ui);
+        if (typeof parsedUi.searchQuery === 'string') setSearchQuery(parsedUi.searchQuery);
+        if (parsedUi.selectedType === null || typeof parsedUi.selectedType === 'string') setSelectedType(parsedUi.selectedType);
+        if (parsedUi.selectedDepartment === null || typeof parsedUi.selectedDepartment === 'string') setSelectedDepartment(parsedUi.selectedDepartment);
+      }
+    } catch {}
 
-  const jobTypes = ['All', 'Full-time', 'Part-time', 'Contract'];
-  const departments = ['All', 'Research', 'Communications', 'International Studies', 'Marketing', 'Technology', 'Government Relations'];
+    (async () => {
+      try {
+        const data = await getJobs();
+        const active = data.filter((j) => j.active);
+        setJobs(active);
+        // Cache latest
+        try { sessionStorage.setItem('careers-jobs', JSON.stringify(active)); } catch {}
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  // Persist UI state
+  useEffect(() => {
+    try {
+      sessionStorage.setItem('careers-ui', JSON.stringify({ searchQuery, selectedType, selectedDepartment }));
+    } catch {}
+  }, [searchQuery, selectedType, selectedDepartment]);
+
+  const jobTypes = ['All', 'Full-time', 'Part-time', 'Contract', 'Internship', 'Fellowship'];
+  const departments = ['All', ...Array.from(new Set(jobs.map((j) => j.department)))];
 
   const filteredJobs = jobs.filter(job => {
     const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -304,49 +134,76 @@ export default function CareersPage() {
           <div className="mb-8 sm:mb-12 space-y-4">
             <div className="flex flex-col lg:flex-row gap-4">
               <div className="flex-1">
-                <input
-                  type="text"
-                  placeholder="Search jobs..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300 font-roboto"
-                />
+                {loading ? (
+                  <div className="h-[44px] w-full bg-slate-100 border border-slate-200 rounded-lg animate-pulse" />
+                ) : (
+                  <input
+                    type="text"
+                    placeholder="Search jobs..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300 font-roboto"
+                  />
+                )}
               </div>
               <div className="flex flex-col sm:flex-row gap-2">
-                <select
-                  value={selectedType || 'All'}
-                  onChange={(e) => setSelectedType(e.target.value === 'All' ? null : e.target.value)}
-                  className="px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-roboto"
-                >
-                  {jobTypes.map((type) => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
-                <select
-                  value={selectedDepartment || 'All'}
-                  onChange={(e) => setSelectedDepartment(e.target.value === 'All' ? null : e.target.value)}
-                  className="px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-roboto"
-                >
-                  {departments.map((dept) => (
-                    <option key={dept} value={dept}>{dept}</option>
-                  ))}
-                </select>
+                {loading ? (
+                  <>
+                    <div className="h-[44px] w-40 bg-slate-100 border border-slate-200 rounded-lg animate-pulse" />
+                    <div className="h-[44px] w-40 bg-slate-100 border border-slate-200 rounded-lg animate-pulse" />
+                  </>
+                ) : (
+                  <>
+                    <select
+                      value={selectedType || 'All'}
+                      onChange={(e) => setSelectedType(e.target.value === 'All' ? null : e.target.value)}
+                      className="px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-roboto"
+                    >
+                      {jobTypes.map((type) => (
+                        <option key={type} value={type}>{type}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={selectedDepartment || 'All'}
+                      onChange={(e) => setSelectedDepartment(e.target.value === 'All' ? null : e.target.value)}
+                      className="px-4 py-3 bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-teal-500 font-roboto"
+                    >
+                      {departments.map((dept) => (
+                        <option key={dept} value={dept}>{dept}</option>
+                      ))}
+                    </select>
+                  </>
+                )}
               </div>
             </div>
-            
-            <div className="text-slate-600 text-sm font-roboto">
-              Showing {filteredJobs.length} of {jobs.length} positions
+            <div className="text-slate-600 text-sm font-roboto min-h-[20px]">
+              {!loading && <span>Showing {filteredJobs.length} of {jobs.length} positions</span>}
             </div>
           </div>
 
           {/* Jobs List */}
-          <div className="space-y-4 sm:space-y-6">
-            {filteredJobs.map((job) => (
+          {loading ? (
+            <div className="space-y-4 sm:space-y-6">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 animate-pulse">
+                  <div className="h-6 w-2/3 bg-slate-100 rounded mb-3" />
+                  <div className="flex gap-4 mb-4">
+                    <div className="h-4 w-24 bg-slate-100 rounded" />
+                    <div className="h-4 w-32 bg-slate-100 rounded" />
+                    <div className="h-4 w-20 bg-slate-100 rounded" />
+                  </div>
+                  <div className="h-4 w-full bg-slate-100 rounded" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-4 sm:space-y-6">
+              {filteredJobs.map((job) => (
               <motion.div
                 key={job.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
+                  initial={restored ? false : { opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: restored ? 0.15 : 0.3, ease: 'easeOut' }}
                 className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-slate-300 hover:shadow-lg transition-all duration-300"
               >
                 <button
@@ -431,8 +288,9 @@ export default function CareersPage() {
                   </div>
                 </motion.div>
               </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {filteredJobs.length === 0 && (
             <div className="text-center py-12">

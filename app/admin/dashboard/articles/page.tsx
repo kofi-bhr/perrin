@@ -364,15 +364,9 @@ export default function ArticlesManagement() {
           
           {/* Page Navigation Tabs */}
           <div className="flex mb-6 text-sm border-b border-gray-800">
-            <Link href="/admin/dashboard" className="px-4 py-2 text-gray-500 hover:text-gray-300 cursor-pointer transition-colors">
-              Create Article
-            </Link>
-            <div className="px-4 py-2 border-b-2 border-blue-500 text-blue-400 font-medium">
-              Manage Articles
-            </div>
-            <Link href="/news" className="px-4 py-2 text-gray-500 hover:text-gray-300 cursor-pointer transition-colors">
-              View Articles
-            </Link>
+            <Link href="/admin/dashboard" className="px-4 py-2 text-gray-500 hover:text-gray-300">Create Article</Link>
+            <div className="px-4 py-2 border-b-2 border-blue-500 text-blue-400 font-medium">Manage Articles</div>
+            <Link href="/admin/dashboard/jobs" className="px-4 py-2 text-gray-500 hover:text-gray-300">Jobs</Link>
           </div>
 
           <div className="mb-6 flex items-center justify-between">

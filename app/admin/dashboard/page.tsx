@@ -265,12 +265,18 @@ export default function AdminDashboard() {
           </div>
           
           {/* Page Navigation Tabs */}
-          <div className="flex mb-6 text-sm border-b border-gray-800">
-            <div className="px-4 py-2 border-b-2 border-blue-500 text-blue-400 font-medium">
-              Create Article
-            </div>
-            <Link href="/news" className="px-4 py-2 text-gray-500 hover:text-gray-300 cursor-pointer transition-colors">
-              View Articles
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <Link href="/admin/dashboard" className="block p-5 rounded-lg bg-gray-900 border border-gray-800 hover:border-gray-700 transition-colors">
+              <div className="text-gray-300 text-sm">Create</div>
+              <div className="text-white text-lg font-semibold">New Article</div>
+            </Link>
+            <Link href="/admin/dashboard/articles" className="block p-5 rounded-lg bg-gray-900 border border-gray-800 hover:border-gray-700 transition-colors">
+              <div className="text-gray-300 text-sm">Manage</div>
+              <div className="text-white text-lg font-semibold">Articles</div>
+            </Link>
+            <Link href="/admin/dashboard/jobs" className="block p-5 rounded-lg bg-gray-900 border border-gray-800 hover:border-gray-700 transition-colors">
+              <div className="text-gray-300 text-sm">Manage</div>
+              <div className="text-white text-lg font-semibold">Jobs & Applications</div>
             </Link>
           </div>
           

@@ -56,20 +56,24 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Check if file is an image
-    if (!file.type.startsWith('image/')) {
+    // Allow images and common document types (PDF/DOC/DOCX) for resumes
+    const isImage = file.type.startsWith('image/')
+    const isDoc = ['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type)
+    if (!isImage && !isDoc) {
       return NextResponse.json(
-        { success: false, message: 'Please upload an image file' },
+        { success: false, message: 'Unsupported file type' },
         { status: 400 }
-      );
+      )
     }
-    
-    // Check file size (limit to 5MB)
+
+    // Check file size (limit to 10MB for docs, 5MB for images)
     if (file.size > 5 * 1024 * 1024) {
+      if (!(isDoc && file.size <= 10 * 1024 * 1024)) {
       return NextResponse.json(
-        { success: false, message: 'File size exceeds 5MB limit' },
+        { success: false, message: 'File too large' },
         { status: 400 }
       );
+      }
     }
     
     try {
@@ -82,13 +86,15 @@ export async function POST(request: NextRequest) {
       const fileType = file.type.split('/')[1];
       const base64FileData = `data:${file.type};base64,${base64Data}`;
       
-      // Upload to Cloudinary
+      // Upload to Cloudinary (use raw for non-images)
       const uploadResult = await new Promise((resolve, reject) => {
         cloudinary.uploader.upload(
           base64FileData, 
           {
-            folder: 'perrin-articles',
-            resource_type: 'image',
+            folder: isImage ? 'perrin-articles' : 'perrin-applications',
+            resource_type: 'auto',
+            use_filename: true,
+            unique_filename: true,
           },
           (error: any, result: any) => {
             if (error) reject(error);
@@ -97,11 +103,14 @@ export async function POST(request: NextRequest) {
         );
       });
       
-      // Return the Cloudinary URL
+      const resultAny = uploadResult as any
+      const url = resultAny.secure_url as string
       return NextResponse.json({
         success: true,
-        url: (uploadResult as any).secure_url,
-        publicId: (uploadResult as any).public_id
+        url,
+        publicId: resultAny.public_id,
+        resourceType: resultAny.resource_type,
+        format: resultAny.format,
       });
     } catch (error) {
       console.error('Error uploading to Cloudinary:', error);

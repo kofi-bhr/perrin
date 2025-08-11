@@ -160,7 +160,7 @@ export default function Footer() {
                     ))}
                   </ul>
                   <ul className="space-y-2">
-                    {['Events', 'Programs', 'Careers', 'Scholarships'].map((item, index) => (
+                    {['Events', 'Careers', 'Scholarships'].map((item, index) => (
                       <motion.li 
                         key={item}
                         initial={{ opacity: 0, x: -10 }}
@@ -169,11 +169,7 @@ export default function Footer() {
                         transition={{ duration: 0.3, delay: 0.45 + 0.05 * index }}
                       >
                         <Link 
-                          href={
-                            item === 'Programs' ? '/application' : 
-                            item === 'Scholarships' ? '/scholarship-center' : 
-                            `/${item.toLowerCase()}`
-                          }
+                          href={ item === 'Scholarships' ? '/scholarship-center' : `/${item.toLowerCase()}` }
                           className="text-slate-600 hover:text-slate-900 transition-colors flex items-center group text-sm font-roboto"
                         >
                           <motion.span 
@@ -187,35 +183,7 @@ export default function Footer() {
                 </div>
               </motion.div>
               
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                <h3 className="text-xs text-slate-700 mb-3 uppercase tracking-wider font-medium font-roboto">Apply</h3>
-                <ul className="space-y-2">
-                  {['Research Fellowship', 'Data Science Program', 'Application FAQ'].map((item, index) => (
-                    <motion.li 
-                      key={item}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: 0.4 + 0.05 * index }}
-                    >
-                      <Link 
-                        href="/application"
-                        className="text-slate-600 hover:text-slate-900 transition-colors flex items-center group text-sm font-roboto"
-                      >
-                        <motion.span 
-                          className="w-0 h-px bg-slate-400 mr-0 group-hover:w-2 group-hover:mr-2 transition-all duration-300"
-                        />
-                        {item}
-                      </Link>
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
+              {/* Removed Application links */}
               
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

@@ -22,15 +22,9 @@ function DeferredSpline({ onLoad }: { onLoad: () => void }) {
   const [shouldRender, setShouldRender] = useState(false);
   useEffect(() => {
     let timeoutId: number | undefined;
-    // Try requestIdleCallback if available
-    const schedule = () => {
-      if (typeof (window as any).requestIdleCallback === 'function') {
-        (window as any).requestIdleCallback(() => setShouldRender(true), { timeout: 2000 });
-      } else {
-        timeoutId = window.setTimeout(() => setShouldRender(true), 1200);
-      }
-    };
-    schedule();
+    // Defer until global loading allows it (longer on mobile)
+    const delay = /Mobi|Android/i.test(navigator.userAgent) ? 2000 : 1200;
+    timeoutId = window.setTimeout(() => setShouldRender(true), delay);
     return () => {
       if (timeoutId) window.clearTimeout(timeoutId);
     };

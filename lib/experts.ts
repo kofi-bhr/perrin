@@ -59,7 +59,7 @@ export const EXPERTS: Expert[] = [
     role: "Chief Operating Officer & Executive Editor",
     bio: "Elise Tao is a Harvard student and 19-year-old entrepreneur, activist, writer, and model from New Jersey. In addition to Perrin, she founded the global digital magazine Synthesis Publications when she was 14 and has appeared in publications including NBC, ABC, CBS, the Walt Disney Networks, The Coca Cola Scholarship press page, The Anthony Quinn Foundation press page, the Josh Gottheimer press page, DIAGRAM, Poetry Online, Double Yolk, and the Eunoia Review. She is involved with Everytown for Gun Safety's Students Demand Action, is the youngest intern for the Harvard Law Review, and is a reporter for The Harvard Crimson. She was named the 2024 Distinguished Young Woman of New Jersey and is signed to top agencies Dancho Models and Latitude Talent in New York City. She has given a TEDx Talk on \"The Art of Oversharing\" and has served as one of few select judges for the 2025 National Scholastic Art and Writing Competition, where she won a Gold Medal for Journalism in her senior year of high school. Elise is passionate about free press, women's rights, putting an end to gun violence, the arts, self-expression, and the power of storytelling.",
     image: "",
-    email: "elisetao@perrinlabs.org",
+    email: "elise@perrininstitution.org",
     category: "Leadership",
     interests: ["Journalism", "Free Press", "Women's Rights", "Gun Violence Prevention", "Creative Writing", "Modeling"],
     affiliations: {
