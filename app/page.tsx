@@ -1018,6 +1018,15 @@ export default function Home() {
                 <p className="text-sm text-slate-600 font-light leading-relaxed font-roboto">
                   Engaging young audiences with accessible policy content and insights
                 </p>
+                <a
+                  href="https://www.tiktok.com/@theperrininstitution"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center mt-4 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-medium hover:bg-slate-200 transition-all duration-200 text-sm font-roboto"
+                >
+                  <FiExternalLink className="mr-2 w-4 h-4" />
+                  Visit TikTok
+                </a>
               </div>
             </motion.div>
             
@@ -1086,9 +1095,17 @@ export default function Home() {
               <p className="text-slate-600 font-roboto text-sm sm:text-base mb-6">
                 The U.S.-China Tech Rivalry: A comprehensive analysis of the strategic implications of the AI semiconductor race.
               </p>
+              <div className="mb-6 h-96 overflow-y-auto rounded-lg border border-slate-300 bg-white">
+                <iframe
+                  src={`/YIP_PAPER.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                  className="w-full h-full"
+                  title="Featured Publication Preview"
+                  // sandbox="allow-scripts allow-same-origin"
+                ></iframe>
+              </div>
               <a 
-                href="/papers/YIP_PAPER.pdf"
-                download
+                href="/YIP_PAPER.pdf"
+                download="YIP_PAPER.pdf"
                 className="inline-flex items-center px-6 sm:px-8 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-all duration-200 text-sm sm:text-base font-roboto shadow-sm hover:shadow-md"
               >
                 <FiDownload className="mr-2 w-4 h-4" />
