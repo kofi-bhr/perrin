@@ -1018,6 +1018,15 @@ export default function Home() {
                 <p className="text-sm text-slate-600 font-light leading-relaxed font-roboto">
                   Engaging young audiences with accessible policy content and insights
                 </p>
+                <a
+                  href="https://www.tiktok.com/@theperrininstitution"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center mt-4 px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-medium hover:bg-slate-200 transition-all duration-200 text-sm font-roboto"
+                >
+                  <FiExternalLink className="mr-2 w-4 h-4" />
+                  Visit TikTok
+                </a>
               </div>
             </motion.div>
             
