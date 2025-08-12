@@ -277,12 +277,12 @@ export default function Home() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50"
+      className="min-h-screen bg-gray-50"
     >
       {/* Old Money Tech Prestige Hero Section */}
       <section 
         ref={heroRef}
-        className="relative min-h-screen flex items-center overflow-hidden bg-white"
+        className="relative min-h-screen flex items-center overflow-hidden"
       >
         {/* Background layer: fast poster image first, then defer Spline */}
         <div className="absolute inset-0 z-5">
@@ -480,6 +480,19 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* CIO-UVA Contract Link */}
+      <div className="relative z-30 -mt-16 sm:-mt-20 mb-12 sm:mb-16 lg:mb-20 px-4 text-center">
+        <a
+          href="/CIO_UVA_Contract.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center text-xs font-medium text-slate-500 transition-colors duration-200 hover:text-slate-900 sm:text-sm"
+        >
+          <span>See our UVA contract</span>
+          <FiExternalLink className="ml-1.5 h-3.5 w-3.5 transform transition-transform group-hover:translate-x-0.5" />
+        </a>
+      </div>
 
               {/* Government Agencies Policy Advisory Carousel */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200">
