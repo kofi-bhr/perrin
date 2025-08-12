@@ -481,6 +481,19 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CIO-UVA Contract Link */}
+      <div className="relative z-30 -mt-16 sm:-mt-20 mb-12 sm:mb-16 lg:mb-20 px-4 text-center">
+        <a
+          href="/CIO_UVA_Contract.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center text-xs font-medium text-slate-500 transition-colors duration-200 hover:text-slate-900 sm:text-sm"
+        >
+          <span>See our UVA contract</span>
+          <FiExternalLink className="ml-1.5 h-3.5 w-3.5 transform transition-transform group-hover:translate-x-0.5" />
+        </a>
+      </div>
+
               {/* Government Agencies Policy Advisory Carousel */}
       <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-slate-50 to-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
